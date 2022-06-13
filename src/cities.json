@@ -1,0 +1,62 @@
+{
+    "warsaw": {
+        "name": "Warszawa",
+        "location": [52.22983098654226, 21.011738084722143],
+        "image": "/img/wtp500.png",
+        "note": "Dane: Miasto Stołeczne Warszawa, mkuran.pl",
+        "api": {
+            "positions": "x",
+            "ws": "x",
+            "trip": "x",
+            "vehicle": "x",
+            "stops": "x",
+            "stop_departures": "x",
+            "routes": "x",
+            "brigades": "x",
+            "brigade_schedule": "x",
+            "bikes": "x",
+            "parkings": "x",
+            "alerts": "x"
+        }
+    },
+    "poznan": {
+        "name": "Poznań",
+        "location": [52.4027541284412, 16.91244334781004],
+        "image": "/img/mpk394.png",
+        "note": "Dane: ZTM Poznań",
+        "api": {
+            "positions": "",
+            "ws": "",
+            "trip": "",
+            "vehicle": "",
+            "stops": "",
+            "stop_departures": "",
+            "routes": "",
+            "brigades": "",
+            "brigade_schedule": "",
+            "bikes": "",
+            "parkings": "",
+            "alerts": ""
+        }
+    },
+    "trojmiasto": {
+        "name": "Trójmiasto",
+        "location": [54.34610966679864, 18.644629872390432],
+        "image": "/img/wtp500.png",
+        "note": "Dane: Otwarte dane ZTM Gdańsk",
+        "api": {
+            "positions": "",
+            "ws": "",
+            "trip": "",
+            "vehicle": "",
+            "stops": "",
+            "stop_departures": "",
+            "routes": "",
+            "brigades": "",
+            "brigade_schedule": "",
+            "bikes": "",
+            "parkings": "",
+            "alerts": ""
+        }
+    }
+}
