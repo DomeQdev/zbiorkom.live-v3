@@ -19,6 +19,15 @@ export default () => {
         main: "#5aa159",
         contrastText: "#fff"
       }
+    },
+    components: {
+      MuiAvatar: {
+        styleOverrides: {
+          root: {
+            backgroundColor: "#5aa159"
+          }
+        }
+      }
     }
   });
 

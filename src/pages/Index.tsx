@@ -44,7 +44,7 @@ export default ({ city }: { city: keyof typeof cities }) => {
                 {cityData.api.bikes && <><Divider />
                 <ListItemButton onClick={() => navigate("bikes")}>
                     <ListItemAvatar>
-                        <Avatar color="info">
+                        <Avatar>
                             <MdDirectionsBike />
                         </Avatar>
                     </ListItemAvatar>
