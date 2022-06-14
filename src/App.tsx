@@ -8,6 +8,7 @@ import cities from "./cities.json";
 
 import Index from "./pages/Index";
 import Error from "./pages/Error";
+import Map from './components/Map';
 
 export default () => {
   const navigate = useNavigate();
@@ -49,6 +50,7 @@ export default () => {
         let cityData = cities[name];
         return <Route path={`${city}`} key={city}>
           <Route index element={<Index city={name} />} />
+          <Route path="map" element={<Map city={name}></Map>} />
           {(cityData.api.stops && cityData.api.stop_departures) && <>
             <Route path="stops" element={<></>} />
             <Route path="stop/:stop" element={<></>} />
