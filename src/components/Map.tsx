@@ -18,8 +18,8 @@ export default ({ city, location, children }: { city: keyof typeof cities, locat
         mapboxAccessToken="pk.eyJ1IjoiZG9tZXEiLCJhIjoiY2t6c2JnZnp5MDExMzJ4bWlpMjcwaDR0dCJ9.v2ONdyf7WN70xFwUOyUuXQ"
         attributionControl={false}
     >
-        <NavigationControl visualizePitch position='bottom-right' />
-        <GeolocateControl trackUserLocation showUserHeading showUserLocation positionOptions={{ enableHighAccuracy: true }} position='bottom-right' />
+        <NavigationControl visualizePitch />
+        <GeolocateControl trackUserLocation showUserHeading showUserLocation positionOptions={{ enableHighAccuracy: true }} />
         {children}
     </Map>
 };
