@@ -16,7 +16,7 @@ export default ({ city, location, children }: { city: keyof typeof cities, locat
         minPitch={10}
         style={{ width: "100%", height: "calc(100vh - 64px)", overflow: "hidden" }}
         mapStyle="mapbox://styles/mapbox/streets-v9"
-        mapboxAccessToken="pk.eyJ1IjoiZG9tZXEiLCJhIjoiY2t6c2JlOWZ3MGx3cjJubW9zNDc5eGpwdiJ9.nUlvFKfUzpxBxJVc4zmAMA" // idk if it's should be here, but who cares :)
+        mapboxAccessToken="pk.eyJ1IjoiZG9tZXEiLCJhIjoiY2t6c2JnZnp5MDExMzJ4bWlpMjcwaDR0dCJ9.v2ONdyf7WN70xFwUOyUuXQ" // idk if it's should be here, but who cares :)
         attributionControl={false}
     >
         <NavigationControl visualizePitch />
