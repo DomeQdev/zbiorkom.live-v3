@@ -5,18 +5,18 @@
         "image": "/img/wtp500.png",
         "note": "Dane: Miasto Stołeczne Warszawa, mkuran.pl",
         "api": {
-            "positions": "x",
-            "ws": "x",
-            "trip": "x",
-            "vehicle": "x",
-            "stops": "x",
-            "stop_departures": "x",
-            "routes": "x",
-            "brigades": "x",
-            "brigade_schedule": "x",
-            "bikes": "x",
-            "parkings": "x",
-            "alerts": "x"
+            "positions": "https://api.zbiorkom.live/warsaw/location",
+            "ws": "wss://ws.matfiu.repl.co/",
+            "trip": "https://api.zbiorkom.live/warsaw/trip?trip={{trip}}",
+            "vehicle": "https://api.zbiorkom.live/warsaw/vehicle?vehicle={{type}}{{tab}}",
+            "stops": "https://api.zbiorkom.live/warsaw/stops",
+            "stop_departures": "https://api.zbiorkom.live/warsaw/stop?id={{stop}}",
+            "routes": "https://api.zbiorkom.live/warsaw/routes",
+            "brigades": "https://api.zbiorkom.live/warsaw/brigade?line={{line}}",
+            "brigade_schedule": "https://api.zbiorkom.live/warsaw/brigade?line={{line}}&brigade={{brigade}}",
+            "bikes": "/api/warsaw/bikes",
+            "parkings": null,
+            "alerts": "/api/warsaw/alerts"
         }
     },
     "poznan": {
@@ -25,18 +25,18 @@
         "image": "/img/mpk394.png",
         "note": "Dane: ZTM Poznań",
         "api": {
-            "positions": "",
-            "ws": "",
-            "trip": "",
-            "vehicle": "",
-            "stops": "",
-            "stop_departures": "",
-            "routes": "",
-            "brigades": "",
-            "brigade_schedule": "",
-            "bikes": "",
-            "parkings": "",
-            "alerts": ""
+            "positions": "https://api.zbiorkom.live/poznan/location",
+            "ws": "wss://poznan-ws.matfiu.repl.co/",
+            "trip": "https://api.zbiorkom.live/poznan/trip?trip={{trip}}",
+            "vehicle": "https://api.zbiorkom.live/poznan/vehicle?vehicle={{tab}}",
+            "stops": "https://api.zbiorkom.live/poznan/stops",
+            "stop_departures": "https://api.zbiorkom.live/poznan/stop?id={{stop}}",
+            "routes": "https://api.zbiorkom.live/poznan/routes",
+            "brigades": "https://api.zbiorkom.live/poznan/brigade?line={{line}}",
+            "brigade_schedule": "https://api.zbiorkom.live/poznan/brigade?line={{line}}&brigade={{brigade}}",
+            "bikes": null,
+            "parkings": "/api/poznan/parkings",
+            "alerts": null
         }
     },
     "trojmiasto": {
@@ -45,18 +45,18 @@
         "image": "/img/wtp500.png",
         "note": "Dane: Otwarte dane ZTM Gdańsk",
         "api": {
-            "positions": "",
-            "ws": "",
-            "trip": "",
-            "vehicle": "",
-            "stops": "",
-            "stop_departures": "",
-            "routes": "",
-            "brigades": "",
-            "brigade_schedule": "",
-            "bikes": "",
-            "parkings": "",
-            "alerts": ""
+            "positions": "/api/trojmiasto/positions",
+            "ws": "wss://gdansk-ws.matfiu.repl.co/",
+            "trip": "/api/trojmiasto/trip?trip={{trip}}",
+            "vehicle": "/api/trojmiasto/vehicle?tab={{tab}}&type={{type}}",
+            "stops": "/api/trojmiasto/stops",
+            "stop_departures": "/api/trojmiasto/stop?id={{stop}}",
+            "routes": "/api/trojmiasto/",
+            "brigades":null,
+            "brigade_schedule": null,
+            "bikes": null,
+            "parkings": "/api/trojmiasto/parkings",
+            "alerts": null
         }
     }
 }
