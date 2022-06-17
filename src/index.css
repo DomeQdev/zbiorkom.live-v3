@@ -8,14 +8,18 @@ body {
   font-family: Roboto, "Helvetica Neue", sans-serif!important;
 }
 
-@media (min-width: 0px) {
-  .mapboxgl-map {
-    height: calc(100vh - 56px)!important;
-  }
+.mapboxgl-ctrl-bottom-left {
+  display: none!important;
 }
 
 @media (min-width: 600px) {
   .mapboxgl-map {
-    height: calc(100vh - 64px)!important;
+    height: calc(100% - 64px)!important;
+  }
+}
+
+@media (max-width: 599px) {
+  .mapboxgl-map {
+    height: calc(100% - 56px)!important;
   }
 }

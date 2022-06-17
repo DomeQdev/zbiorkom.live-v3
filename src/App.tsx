@@ -1,14 +1,16 @@
+import { lazy } from 'react';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { AppBar, Toolbar, IconButton, Typography } from '@mui/material';
 import { FaDiscord } from "react-icons/fa";
 import { IoMdSettings } from 'react-icons/io';
 import { Routes, Route, useNavigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
+import Suspense from './components/Suspense';
 import cities from "./cities.json";
 
-import Index from "./pages/Index";
-import Error from "./pages/Error";
-import Map from './components/Map';
+const Index = lazy(() => import("./pages/Index"));
+const Error = lazy(() => import("./pages/Error"));
+const Map = lazy(() => import("./components/Map"));
 
 export default () => {
   const navigate = useNavigate();
@@ -49,11 +51,11 @@ export default () => {
         let name = city as keyof typeof cities;
         let cityData = cities[name];
         return <Route path={`${city}`} key={city}>
-          <Route index element={<Index city={name} />} />
-          <Route path="map" element={<Map city={name}></Map>} />
+          <Route index element={<Suspense><Index city={name} /></Suspense>} />
+          <Route path="map" element={<Suspense><Map city={name}></Map></Suspense>} />
           {(cityData.api.stops && cityData.api.stop_departures) && <>
             <Route path="stops" element={<></>} />
-            <Route path="stop/:stop" element={<></>} />
+            <Route path="stop/:stopId" element={<></>} />
           </>}
           {(cityData.api.brigades && cityData.api.brigade_schedule) && <>
             <Route path="brigades" element={<></>} />
@@ -61,15 +63,15 @@ export default () => {
           </>}
           {cityData.api.bikes && <>
             <Route path="bikes" element={<></>} />
-            <Route path="bike/:station" element={<></>} />
+            <Route path="bike/:stationId" element={<></>} />
           </>}
           {cityData.api.parkings && <>
             <Route path="parkings" element={<></>} />
-            <Route path="parking/:parking" element={<></>} />
+            <Route path="parking/:parkingId" element={<></>} />
           </>}
           {cityData.api.alerts && <>
             <Route path="alerts" element={<></>} />
-            <Route path="alert/:alert" element={<></>} />
+            <Route path="alert/:alertId" element={<></>} />
           </>}
         </Route>
       })}
