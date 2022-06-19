@@ -1,5 +1,5 @@
 import { Button } from "@mui/material";
-import { FaHome } from "react-icons/fa";
+import { Home } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 
 export default ({ text, message }: { text: string, message?: string }) => {
@@ -9,6 +9,6 @@ export default ({ text, message }: { text: string, message?: string }) => {
         <img src="/img/logo192.png" width="128" height="128" />
         <h1>{text}</h1>
         <p>{message}</p>
-        <Button variant="contained" startIcon={<FaHome />} onClick={() => navigate("/")}>Strona główna</Button>
+        <Button variant="contained" startIcon={<Home />} onClick={() => navigate("/")}>Strona główna</Button>
     </div>;
 };

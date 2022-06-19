@@ -22,4 +22,7 @@ body {
   .mapboxgl-map {
     height: calc(100% - 56px)!important;
   }
+  .brigade_schedule {
+    width: 100%!important;
+  }
 }

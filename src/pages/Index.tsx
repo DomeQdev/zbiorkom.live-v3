@@ -1,7 +1,5 @@
 import { List, ListItemAvatar, ListItemText, Avatar, Box, ListItemButton, Divider } from "@mui/material";
-import { FaMap, FaCalendarAlt } from "react-icons/fa";
-import { MdDepartureBoard, MdDirectionsBike, MdLocalParking } from "react-icons/md";
-import { IoMdAlert } from "react-icons/io";
+import { Map, DepartureBoard, CalendarMonth, DirectionsBike, LocalParking, Error } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import cities from "../cities.json";
 
@@ -18,7 +16,7 @@ export default ({ city }: { city: keyof typeof cities }) => {
                 <ListItemButton onClick={() => navigate("map")}>
                     <ListItemAvatar>
                         <Avatar>
-                            <FaMap />
+                            <Map />
                         </Avatar>
                     </ListItemAvatar>
                     <ListItemText primary="Mapa" />
@@ -27,16 +25,16 @@ export default ({ city }: { city: keyof typeof cities }) => {
                 <ListItemButton onClick={() => navigate("stops")}>
                     <ListItemAvatar>
                         <Avatar>
-                            <MdDepartureBoard />
+                            <DepartureBoard />
                         </Avatar>
                     </ListItemAvatar>
                     <ListItemText primary="Rozkład przystanku" />
                 </ListItemButton></>}
                 {(cityData.api.brigades && cityData.api.brigade_schedule) && <><Divider />
-                <ListItemButton onClick={() => navigate("brigades")}>
+                <ListItemButton onClick={() => navigate("brigade")}>
                     <ListItemAvatar>
                         <Avatar>
-                            <FaCalendarAlt />
+                            <CalendarMonth />
                         </Avatar>
                     </ListItemAvatar>
                     <ListItemText primary="Rozkład brygad" />
@@ -45,7 +43,7 @@ export default ({ city }: { city: keyof typeof cities }) => {
                 <ListItemButton onClick={() => navigate("bikes")}>
                     <ListItemAvatar>
                         <Avatar>
-                            <MdDirectionsBike />
+                            <DirectionsBike />
                         </Avatar>
                     </ListItemAvatar>
                     <ListItemText primary="Rowery miejskie" />
@@ -54,7 +52,7 @@ export default ({ city }: { city: keyof typeof cities }) => {
                 <ListItemButton onClick={() => navigate("parkings")}>
                     <ListItemAvatar>
                         <Avatar>
-                            <MdLocalParking />
+                            <LocalParking />
                         </Avatar>
                     </ListItemAvatar>
                     <ListItemText primary="Parkingi" />
@@ -63,7 +61,7 @@ export default ({ city }: { city: keyof typeof cities }) => {
                 <ListItemButton onClick={() => navigate("alerts")}>
                     <ListItemAvatar>
                         <Avatar>
-                            <IoMdAlert />
+                            <Error />
                         </Avatar>
                     </ListItemAvatar>
                     <ListItemText primary="Utrudnienia" />

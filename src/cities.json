@@ -52,7 +52,7 @@
             "stops": "/api/trojmiasto/stops",
             "stop_departures": "/api/trojmiasto/stop?id={{stop}}",
             "routes": "/api/trojmiasto/",
-            "brigades":null,
+            "brigades": null,
             "brigade_schedule": null,
             "bikes": null,
             "parkings": "/api/trojmiasto/parkings",

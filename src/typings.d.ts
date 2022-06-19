@@ -31,4 +31,19 @@ interface Departure {
     platform?: string
 }
 
-export { VehicleType, Vehicle, Departure };
+interface Route {
+    color: string,
+    line: string,
+    name: string,
+    type: VehicleType
+}
+
+interface BrigadeSchedule {
+    trip: string,
+    headsign: string,
+    start: number,
+    end: number,
+    firstStop: string
+}
+
+export { VehicleType, Vehicle, Departure, Route, BrigadeSchedule };

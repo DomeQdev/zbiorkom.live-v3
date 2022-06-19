@@ -1,16 +1,17 @@
 import { lazy } from 'react';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { AppBar, Toolbar, IconButton, Typography } from '@mui/material';
-import { FaDiscord } from "react-icons/fa";
-import { IoMdSettings } from 'react-icons/io';
 import { Routes, Route, useNavigate } from "react-router-dom";
+import { Suspense } from './components/Suspense';
 import { ToastContainer } from "react-toastify";
-import Suspense from './components/Suspense';
+import { Settings } from "@mui/icons-material";
 import cities from "./cities.json";
 
 const Index = lazy(() => import("./pages/Index"));
 const Error = lazy(() => import("./pages/Error"));
 const Map = lazy(() => import("./components/Map"));
+const Brigades = lazy(() => import("./pages/Brigades"));
+const Brigade = lazy(() => import("./pages/Brigade"));
 
 export default () => {
   const navigate = useNavigate();
@@ -41,8 +42,8 @@ export default () => {
           zbiorkom.live
         </Typography>
         <div>
-          <IconButton href="https://discord.gg/QYRswCH6Gw" target="_blank"><FaDiscord style={{ fill: "white" }} /></IconButton>
-          <IconButton onClick={() => navigate("/settings")}><IoMdSettings style={{ fill: "white" }} /></IconButton>
+          <IconButton href="https://discord.gg/QYRswCH6Gw" target="_blank"><img src="https://i.imgur.com/T06p3rk.png" alt="discord logo" width="24" height="18" /></IconButton>
+          <IconButton onClick={() => navigate("/settings")}><Settings style={{ fill: "white" }} /></IconButton>
         </div>
       </Toolbar>
     </AppBar>
@@ -50,6 +51,7 @@ export default () => {
       {Object.keys(cities).map((city) => {
         let name = city as keyof typeof cities;
         let cityData = cities[name];
+
         return <Route path={`${city}`} key={city}>
           <Route index element={<Suspense><Index city={name} /></Suspense>} />
           <Route path="map" element={<Suspense><Map city={name}></Map></Suspense>} />
@@ -58,8 +60,8 @@ export default () => {
             <Route path="stop/:stopId" element={<></>} />
           </>}
           {(cityData.api.brigades && cityData.api.brigade_schedule) && <>
-            <Route path="brigades" element={<></>} />
-            <Route path="brigade/:line/:brigade" element={<></>} />
+            <Route path="brigade" element={<Suspense><Brigades city={name} /></Suspense>} />
+            <Route path="brigades/:line/:brigade" element={<Suspense><Brigade city={name} /></Suspense>} />
           </>}
           {cityData.api.bikes && <>
             <Route path="bikes" element={<></>} />
@@ -75,7 +77,7 @@ export default () => {
           </>}
         </Route>
       })}
-      <Route path="*" element={<Error text={"404"} message={"Nie znaleziono strony"} />} />
+      <Route path="*" element={<Suspense><Error text={"404"} message={"Nie znaleziono strony"} /></Suspense>} />
     </Routes>
     <ToastContainer
       position="top-left"
