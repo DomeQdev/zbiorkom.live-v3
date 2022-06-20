@@ -54,7 +54,7 @@ export default ({ city }: { city: keyof typeof cities }) => {
                     {selectedBrigades.length ? selectedBrigades.map(brigade => <ToggleButton
                         value={brigade}
                         key={brigade}
-                        onClick={() => navigate(`../brigades/${selected.line}/${brigade}`)}
+                        onClick={() => navigate(`../brigade/${selected.line}/${brigade}`)}
                         style={{ width: 80, height: 50, fontSize: 20, margin: 3, color: selected.color, borderColor: selected.color }}
                     >{brigade}</ToggleButton>) : <h4>Nie mogliśmy znaleźć rozkładu dla tej linii...</h4>}
                 </div> : <Backdrop />}

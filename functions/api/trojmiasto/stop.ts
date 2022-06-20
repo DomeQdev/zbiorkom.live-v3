@@ -1,5 +1,4 @@
 import routes from './util/routes.json';
-import { Stops } from './util/typings';
 
 export const onRequestGet = async ({ request }) => {
     let url = new URL(request.url);

@@ -60,8 +60,8 @@ export default () => {
             <Route path="stop/:stopId" element={<></>} />
           </>}
           {(cityData.api.brigades && cityData.api.brigade_schedule) && <>
-            <Route path="brigade" element={<Suspense><Brigades city={name} /></Suspense>} />
-            <Route path="brigades/:line/:brigade" element={<Suspense><Brigade city={name} /></Suspense>} />
+            <Route path="brigades" element={<Suspense><Brigades city={name} /></Suspense>} />
+            <Route path="brigade/:line/:brigade" element={<Suspense><Brigade city={name} /></Suspense>} />
           </>}
           {cityData.api.bikes && <>
             <Route path="bikes" element={<></>} />

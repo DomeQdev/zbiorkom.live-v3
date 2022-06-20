@@ -28,7 +28,20 @@ export const onRequestGet = async () => {
             id: parking.parkingId,
             name: info?.name,
             location: [info?.location.latitude, info?.location.longitude],
-            availableSpots: parking.availableSpots
+            totalPlaces: {
+                all: null,
+                disabled: null,
+                standard: null,
+                electric: null
+            },
+            freePlaces: {
+                all: parking.availableSpots,
+                disabled: null,
+                standard: null,
+                electric: null
+            },
+            allowedVehicles: [],
+            contact: null
         }
     })), {
         headers: {

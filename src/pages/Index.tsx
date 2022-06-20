@@ -31,7 +31,7 @@ export default ({ city }: { city: keyof typeof cities }) => {
                     <ListItemText primary="Rozkład przystanku" />
                 </ListItemButton></>}
                 {(cityData.api.brigades && cityData.api.brigade_schedule) && <><Divider />
-                <ListItemButton onClick={() => navigate("brigade")}>
+                <ListItemButton onClick={() => navigate("brigades")}>
                     <ListItemAvatar>
                         <Avatar>
                             <CalendarMonth />
