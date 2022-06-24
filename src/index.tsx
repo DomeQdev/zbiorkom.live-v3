@@ -1,6 +1,8 @@
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from "react-router-dom";
 import App from "./App";
+
+import "react-toastify/dist/ReactToastify.css";
 import "./index.css";
 
 console.log('%czbiorkom.live', 'color: #5aa159;font-size:50px;');

@@ -1,4 +1,4 @@
-type VehicleType = "bus" | "tram" | "metro" | "wkd" | "skm" | "km" | "trolley";
+type VehicleType = "bus" | "tram" | "metro" | "wkd" | "skm" | "km" | "train" | "trolley";
 
 interface Vehicle {
     brigade: string,
@@ -38,6 +38,15 @@ interface Route {
     type: VehicleType
 }
 
+interface Stop {
+    id: string,
+    name: string,
+    code?: string,
+    location: [number, number],
+    deg?: number,
+    type?: VehicleType
+}
+
 interface BrigadeSchedule {
     trip: string,
     headsign: string,
@@ -46,4 +55,4 @@ interface BrigadeSchedule {
     firstStop: string
 }
 
-export { VehicleType, Vehicle, Departure, Route, BrigadeSchedule };
+export { VehicleType, Vehicle, Departure, Route, Stop, BrigadeSchedule };

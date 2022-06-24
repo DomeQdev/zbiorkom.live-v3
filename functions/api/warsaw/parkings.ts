@@ -31,11 +31,13 @@ export const onRequestGet = async ({ env }) => {
             name: parking.name,
             location: [Number(parking.latitude), Number(parking.longitude)],
             totalPlaces: {
+                all: parking.total_places.reduce((acc, cur) => acc + cur.disabled, 0) + parking.total_places.reduce((acc, cur) => acc + cur.standard, 0) + parking.total_places.reduce((acc, cur) => acc + cur.electric, 0),
                 disabled: parking.total_places.reduce((acc, cur) => acc + cur.disabled, 0),
                 standard: parking.total_places.reduce((acc, cur) => acc + cur.standard, 0),
                 electric: parking.total_places.reduce((acc, cur) => acc + cur.electric, 0)
             },
             freePlaces: {
+                all: parking.free_places_total.disabled + parking.free_places_total.public + parking.free_places_total.electric,
                 disabled: parking.free_places_total.disabled,
                 standard: parking.free_places_total.public,
                 electric: parking.free_places_total.electric

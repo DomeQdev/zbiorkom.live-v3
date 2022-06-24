@@ -8,13 +8,14 @@
     "@mui/icons-material": "^5.8.4",
     "@mui/material": "^5.8.3",
     "@turf/turf": "^6.5.0",
-    "mapbox-gl": "^2.8.2",
+    "mapbox-gl": "^2.9.1",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
-    "react-map-gl": "^7.0.15",
+    "react-map-gl": "^7.0.16",
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",
     "react-toastify": "^9.0.4",
+    "socket.io-client": "^4.5.1",
     "typescript": "^4.7.3"
   },
   "scripts": {

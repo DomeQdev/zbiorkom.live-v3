@@ -12,7 +12,7 @@ export default ({ city, location, children }: { city: keyof typeof cities, locat
             latitude: _loc[0],
             zoom: 17
         }}
-        minZoom={8}
+        minZoom={6}
         minPitch={10}
         mapStyle="mapbox://styles/mapbox/streets-v9"
         mapboxAccessToken="pk.eyJ1IjoiZG9tZXEiLCJhIjoiY2t6c2JnZnp5MDExMzJ4bWlpMjcwaDR0dCJ9.v2ONdyf7WN70xFwUOyUuXQ"

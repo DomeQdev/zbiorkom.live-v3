@@ -1,17 +1,19 @@
 import { lazy } from 'react';
+import { Suspense } from './components/Suspense';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { AppBar, Toolbar, IconButton, Typography } from '@mui/material';
 import { Routes, Route, useNavigate } from "react-router-dom";
-import { Suspense } from './components/Suspense';
 import { ToastContainer } from "react-toastify";
 import { Settings } from "@mui/icons-material";
 import cities from "./cities.json";
 
 const Index = lazy(() => import("./pages/Index"));
-const Error = lazy(() => import("./pages/Error"));
-const Map = lazy(() => import("./components/Map"));
+const IntMap = lazy(() => import("./pages/IntMap"));
 const Brigades = lazy(() => import("./pages/Brigades"));
 const Brigade = lazy(() => import("./pages/Brigade"));
+const Error = lazy(() => import("./pages/Error"));
+
+const Map = lazy(() => import("./components/Map"));
 
 export default () => {
   const navigate = useNavigate();
@@ -54,7 +56,7 @@ export default () => {
 
         return <Route path={`${city}`} key={city}>
           <Route index element={<Suspense><Index city={name} /></Suspense>} />
-          <Route path="map" element={<Suspense><Map city={name}></Map></Suspense>} />
+          <Route path="map" element={<Suspense><Map city={name}><IntMap city={name} /></Map></Suspense>} />
           {(cityData.api.stops && cityData.api.stop_departures) && <>
             <Route path="stops" element={<></>} />
             <Route path="stop/:stopId" element={<></>} />
