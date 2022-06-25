@@ -1,9 +1,10 @@
 import Map, { GeolocateControl, NavigationControl } from 'react-map-gl';
+import { City } from '../typings';
 import cities from "../cities.json";
 
 import 'mapbox-gl/dist/mapbox-gl.css';
 
-export default ({ city, location, children }: { city: keyof typeof cities, location?: [number, number], children?: JSX.Element | JSX.Element[] }) => {
+export default ({ city, location, children }: { city: City, location?: [number, number], children?: JSX.Element | JSX.Element[] }) => {
     const _loc = location || cities[city].location;
 
     return <Map

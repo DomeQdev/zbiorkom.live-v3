@@ -5,6 +5,7 @@ import { AppBar, Toolbar, IconButton, Typography } from '@mui/material';
 import { Routes, Route, useNavigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import { Settings } from "@mui/icons-material";
+import { City } from './typings';
 import cities from "./cities.json";
 
 const Index = lazy(() => import("./pages/Index"));
@@ -51,7 +52,7 @@ export default () => {
     </AppBar>
     <Routes>
       {Object.keys(cities).map((city) => {
-        let name = city as keyof typeof cities;
+        let name = city as City;
         let cityData = cities[name];
 
         return <Route path={city} key={city}>

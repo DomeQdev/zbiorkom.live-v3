@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { List, ListItemButton, ListItemText, Divider, Button, Typography } from "@mui/material";
 import { ArrowBack } from "@mui/icons-material";
-import { BrigadeSchedule } from "../typings";
+import { BrigadeSchedule, City } from "../typings";
 import { toast } from "react-toastify";
 import { Backdrop } from "../components/Suspense";
 import cities from "../cities.json";
 
-export default ({ city }: { city: keyof typeof cities }) => {
+export default ({ city }: { city: City }) => {
     const cityData = cities[city];
     const navigate = useNavigate();
     const { line, brigade } = useParams();

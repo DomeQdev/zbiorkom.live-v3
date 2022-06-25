@@ -4,11 +4,11 @@ import { Dialog, DialogTitle, DialogContent, ToggleButton, IconButton } from "@m
 import { Close } from "@mui/icons-material";
 import { toast } from "react-toastify";
 import { Backdrop } from "../components/Suspense";
-import { Route } from "../typings";
+import { City, Route } from "../typings";
 import { Icon } from "../components/Icons";
 import cities from "../cities.json";
 
-export default ({ city }: { city: keyof typeof cities }) => {
+export default ({ city }: { city: City }) => {
     const navigate = useNavigate();
     const cityData = cities[city];
     const [routes, setRoutes] = useState<Route[]>();

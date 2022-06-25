@@ -4,13 +4,13 @@ import { toast } from "react-toastify";
 import { useMap } from "react-map-gl";
 import { io } from "socket.io-client";
 import { Suspense } from '../components/Suspense';
-import { Stop, Vehicle } from "../typings";
+import { City, Stop, Vehicle } from "../typings";
 import cities from "../cities.json";
 
 const StopMarker = lazy(() => import("../components/StopMarker"));
 const VehicleMarker = lazy(() => import("../components/VehicleMarker"));
 
-export default ({ city }: { city: keyof typeof cities }) => {
+export default ({ city }: { city: City }) => {
     const { current: map } = useMap();
     const navigate = useNavigate();
     const cityData = cities[city];

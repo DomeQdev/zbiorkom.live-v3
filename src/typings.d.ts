@@ -1,4 +1,8 @@
+import { MapboxGeoJSONLineString } from "mapbox-gl";
+import cities from "./cities.json";
+
 type VehicleType = "bus" | "tram" | "metro" | "skm" | "km" | "train" | "trolley";
+type City = keyof typeof cities;
 
 interface Vehicle {
     brigade: string,
@@ -14,6 +18,26 @@ interface Vehicle {
     isSpecial?: string,
     isEco?: boolean,
     isPredicted?: boolean
+}
+
+interface Trip {
+    color: string,
+    headsign: string,
+    id: string,
+    line: string,
+    shapes: MapboxGeoJSONLineString,
+    stops: TripStop[]
+}
+
+interface TripStop {
+    id: string,
+    arrival: number,
+    departure: number,
+    location: [number, number],
+    name: string,
+    on_request: boolean,
+    distance: number,
+    time: number
 }
 
 interface Departure {
@@ -57,8 +81,8 @@ interface BrigadeSchedule {
 
 declare global {
     interface Window {
-      socket: any
+        socket: any
     }
 }
 
-export { VehicleType, Vehicle, Departure, Route, Stop, BrigadeSchedule };
+export { VehicleType, City, Trip, TripStop, Vehicle, Departure, Route, Stop, BrigadeSchedule, Trip };

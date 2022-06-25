@@ -8,6 +8,19 @@ body {
   font-family: Roboto, "Helvetica Neue", sans-serif!important;
 }
 
+.stop_marker {
+  width: 5px;
+  height: 5px;
+  padding: 5px;
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  justify-content: center;
+  outline: none;
+  border-radius: 18px;
+}
+
 .mapboxgl-ctrl-bottom-left {
   display: none!important;
 }
