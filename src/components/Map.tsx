@@ -14,7 +14,7 @@ export default ({ city, location, children }: { city: keyof typeof cities, locat
         }}
         minZoom={6}
         minPitch={10}
-        mapStyle="mapbox://styles/mapbox/streets-v9"
+        mapStyle="mapbox://styles/domeq/cl4snfed1000w14p634lkox6f"
         mapboxAccessToken="pk.eyJ1IjoiZG9tZXEiLCJhIjoiY2t6c2JnZnp5MDExMzJ4bWlpMjcwaDR0dCJ9.v2ONdyf7WN70xFwUOyUuXQ"
         attributionControl={false}
         style={{ position: "absolute" }}

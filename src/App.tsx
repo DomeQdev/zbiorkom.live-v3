@@ -54,14 +54,14 @@ export default () => {
         let name = city as keyof typeof cities;
         let cityData = cities[name];
 
-        return <Route path={`${city}`} key={city}>
+        return <Route path={city} key={city}>
           <Route index element={<Suspense><Index city={name} /></Suspense>} />
           <Route path="map" element={<Suspense><Map city={name}><IntMap city={name} /></Map></Suspense>} />
-          {(cityData.api.stops && cityData.api.stop_departures) && <>
+          {cityData.api.stops && <>
             <Route path="stops" element={<></>} />
             <Route path="stop/:stopId" element={<></>} />
           </>}
-          {(cityData.api.brigades && cityData.api.brigade_schedule) && <>
+          {cityData.api.brigades && <>
             <Route path="brigades" element={<Suspense><Brigades city={name} /></Suspense>} />
             <Route path="brigade/:line/:brigade" element={<Suspense><Brigade city={name} /></Suspense>} />
           </>}

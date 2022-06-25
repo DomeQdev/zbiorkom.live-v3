@@ -1,4 +1,4 @@
-type VehicleType = "bus" | "tram" | "metro" | "wkd" | "skm" | "km" | "train" | "trolley";
+type VehicleType = "bus" | "tram" | "metro" | "skm" | "km" | "train" | "trolley";
 
 interface Vehicle {
     brigade: string,
@@ -44,7 +44,7 @@ interface Stop {
     code?: string,
     location: [number, number],
     deg?: number,
-    type?: VehicleType
+    type?: VehicleType[]
 }
 
 interface BrigadeSchedule {
@@ -53,6 +53,12 @@ interface BrigadeSchedule {
     start: number,
     end: number,
     firstStop: string
+}
+
+declare global {
+    interface Window {
+      socket: any
+    }
 }
 
 export { VehicleType, Vehicle, Departure, Route, Stop, BrigadeSchedule };

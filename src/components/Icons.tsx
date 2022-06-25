@@ -7,7 +7,6 @@ const Icon = ({ type, style }: { type: VehicleType, style?: React.CSSProperties 
         bus: <DirectionsBus style={style} />,
         tram: <Tram style={style} />,
         metro: <Subway style={style} />,
-        wkd: <DirectionsRailway style={style} />,
         skm: <Train style={style} />,
         km: <Train style={style} />,
         train: <Train style={style} />,
@@ -27,9 +26,8 @@ const Icon = ({ type, style }: { type: VehicleType, style?: React.CSSProperties 
 const Color = (type: VehicleType) => {
     const colors = {
         bus: '#006b47',
-        tram: '#880077',
+        tram: '#007bff',
         metro: '#cf51d4',
-        wkd: '#5aa159',
         skm: '#008d50',
         km: '#543ecc',
         train: '#543ecc',
@@ -39,7 +37,22 @@ const Color = (type: VehicleType) => {
     return colors[type];
 };
 
+const Name = (type: VehicleType) => {
+    const names = {
+        bus: 'Autobus',
+        tram: 'Tramwaj',
+        metro: 'Metro',
+        skm: 'SKM',
+        km: 'KM',
+        train: 'Pociąg',
+        trolley: 'Trolejbus'
+    };
+
+    return names[type];
+};
+
 export {
     Icon,
-    Color
+    Color,
+    Name
 };
