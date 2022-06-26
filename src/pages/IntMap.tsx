@@ -21,9 +21,8 @@ export default ({ city }: { city: City }) => {
     useEffect(() => {
         window.socket = io(cityData.api.ws).on("positions", setVehicles)
         if(cityData.api.stops) fetch(cityData.api.stops).then(res => res.json()).then(setStops).catch(() => toast.error("Nie udało się pobrać przystanków."));
+        map?.on("moveend", () => setBounds(map.getBounds()));
     }, []);
-
-    map?.on("moveend", () => setBounds(map.getBounds()));
 
     return <>
         <Suspense>
