@@ -45,7 +45,7 @@ export default () => {
           zbiorkom.live
         </Typography>
         <div>
-          <IconButton href="https://discord.gg/QYRswCH6Gw" target="_blank"><img src="https://i.imgur.com/T06p3rk.png" alt="discord logo" width="24" height="18" /></IconButton>
+          <IconButton href="https://discord.gg/QYRswCH6Gw" target="_blank"><img src="/img/discord.png" alt="discord logo" width="24" height="18" /></IconButton>
           <IconButton onClick={() => navigate("/settings")}><Settings style={{ fill: "white" }} /></IconButton>
         </div>
       </Toolbar>

@@ -8,21 +8,13 @@ body {
   font-family: Roboto, "Helvetica Neue", sans-serif!important;
 }
 
-.stop_marker {
-  width: 5px;
-  height: 5px;
-  padding: 5px;
-  background-color: #fff;
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-  justify-content: center;
-  outline: none;
-  border-radius: 18px;
-}
-
 .mapboxgl-ctrl-bottom-left {
   display: none!important;
+}
+
+.mapboxgl-popup-content {
+  padding: 0px 10px 10px!important;
+  box-shadow: 0 1px #5aa159!important;
 }
 
 @media (min-width: 600px) {
@@ -34,8 +26,5 @@ body {
 @media (max-width: 599px) {
   .mapboxgl-map {
     height: calc(100% - 56px)!important;
-  }
-  .brigade_schedule {
-    width: 100%!important;
   }
 }

@@ -79,10 +79,4 @@ interface BrigadeSchedule {
     firstStop: string
 }
 
-declare global {
-    interface Window {
-        socket: any
-    }
-}
-
 export { VehicleType, City, Trip, TripStop, Vehicle, Departure, Route, Stop, BrigadeSchedule, Trip };

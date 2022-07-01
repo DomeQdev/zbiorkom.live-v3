@@ -6,6 +6,19 @@ import { BrigadeSchedule, City } from "../typings";
 import { toast } from "react-toastify";
 import { Backdrop } from "../components/Suspense";
 import cities from "../cities.json";
+import styled from "@emotion/styled";
+
+const Schedule = styled.div`
+text-align: center;
+margin-left: auto;
+margin-right: auto;
+@media (max-width: 599px) {
+    width: 100%;
+}
+@media (min-width: 600px) {
+    width: 80%;
+}
+`;
 
 export default ({ city }: { city: City }) => {
     const cityData = cities[city];
@@ -20,7 +33,7 @@ export default ({ city }: { city: City }) => {
         });
     }, [line, brigade]);
 
-    return <div style={{ textAlign: "center", marginLeft: "auto", marginRight: "auto", width: "80%" }} className="brigade_schedule">
+    return <Schedule>
         <h1 style={{ fontWeight: "normal" }}>Rozkład brygady <b>{line}</b>/{brigade}</h1>
 
         <Button variant="outlined" startIcon={<ArrowBack />} onClick={() => window.history.back()}>Wróć</Button>
@@ -29,7 +42,7 @@ export default ({ city }: { city: City }) => {
             <ListItemText primary={<Typography noWrap>{sched.headsign}</Typography>} secondary={<>z przystanku {sched.firstStop}</>} />
             <span>{timeString(sched.start)} - {timeString(sched.end)}</span>
         </ListItemButton>).reduce((prev, curr, i) => [prev, <Divider key={i} textAlign="left" style={{ color: "#9ba1ab", fontSize: 14 }}>{(schedule[i].start - schedule[i - 1]!.end) / 60000 < 60 ? `Postój ${(schedule[i].start - schedule[i - 1]!.end) / 60000} min` : null}</Divider>, curr])}</List> : <h4>Nie mogliśmy znaleźć rozkładu dla tej brygady...</h4>) : <Backdrop />}
-    </div>;
+    </Schedule>;
 };
 
 function timeString(timestamp: number) {

@@ -1,10 +1,25 @@
 import { Layer, Marker, Popup, Source } from "react-map-gl";
-import { Trip, TripStop } from "../typings"
 import { Chip, Tooltip } from "@mui/material";
-import { useState } from "react";
 import { PanTool } from "@mui/icons-material";
+import { useState } from "react";
+import { Trip, TripStop } from "../typings";
+import styled from "@emotion/styled";
 
-export default ({ trip, delay = -5 }: { trip: Trip, delay?: number }) => {
+const StopMarker = styled.button`
+width: 5px;
+height: 5px;
+padding: 5px;
+background-color: #fff;
+display: flex;
+align-items: center;
+cursor: pointer;
+justify-content: center;
+outline: none;
+border: 3px solid ${props => props.color};
+border-radius: 18px;
+`;
+
+export default ({ trip, delay = 0 }: { trip: Trip, delay?: number }) => {
     const [stopPopup, setStopPopup] = useState<TripStop>();
 
     return <>
@@ -32,9 +47,7 @@ export default ({ trip, delay = -5 }: { trip: Trip, delay?: number }) => {
             }}
         >
             <Tooltip title={stop.name} arrow placement="left">
-                <div>
-                    <button className="stop_marker" style={{ border: `3px solid ${trip.color}` }} title={stop.name} />
-                </div>
+                <StopMarker color={trip.color} title={stop.name} />
             </Tooltip>
         </Marker>)}
         {stopPopup && <Popup
@@ -44,10 +57,13 @@ export default ({ trip, delay = -5 }: { trip: Trip, delay?: number }) => {
             onClose={() => setStopPopup(undefined)}
             offset={[1, 8]}
             style={{ textAlign: "center", backgroundColor: "white", zIndex: 10 }}
+            closeButton={false}
         >
-            <h5 style={{ display: "inline" }}>{stopPopup.on_request && <PanTool style={{ width: 12, height: 12 }} />}&nbsp;<b style={{ fontSize: 14 }}>{stopPopup.name}</b></h5><br />
-            za <b style={{ fontSize: 16 }}>{minutesUntil(stopPopup.arrival + (delay || 0))}</b> minut<br />
-            <Chip label={new Date(stopPopup.arrival + (delay || 0)).toLocaleTimeString("pl", { hour12: false, hour: "2-digit", minute: "2-digit" })} variant="outlined" style={{ color: delay ? (delay > 0 ? "red" : "green") : "#000000", fontWeight: delay ? "bold" : "normal" }} />
+            <h5 style={{ display: "inline" }}>{stopPopup.on_request && <PanTool style={{ width: 13, height: 13 }} />}&nbsp; <b style={{ fontSize: 15 }}>{stopPopup.name}</b></h5><br />
+            {stopPopup.departure + delay > Date.now() ? <>
+                za <b style={{ fontSize: 16 }}>{minutesUntil(stopPopup.arrival + delay)}</b> min<br />
+                <Chip label={new Date(stopPopup.arrival + delay).toLocaleTimeString("pl", { hour12: false, hour: "2-digit", minute: "2-digit" })} variant="outlined" style={{ color: delay ? (delay > 0 ? "red" : "green") : "#000000", fontWeight: delay ? "bold" : "normal" }} />
+            </> : <b>Odjechał</b>}
         </Popup>}
     </>;
 };
