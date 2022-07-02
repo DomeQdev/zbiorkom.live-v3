@@ -68,7 +68,7 @@ interface Stop {
     code?: string,
     location: [number, number],
     deg?: number,
-    type?: VehicleType[]
+    type: VehicleType[]
 }
 
 interface BrigadeSchedule {

@@ -47,7 +47,7 @@ export default ({ trip, delay = 0 }: { trip: Trip, delay?: number }) => {
             }}
         >
             <Tooltip title={stop.name} arrow placement="left">
-                <StopMarker color={trip.color} title={stop.name} />
+                <StopMarker color={trip.color} />
             </Tooltip>
         </Marker>)}
         {stopPopup && <Popup

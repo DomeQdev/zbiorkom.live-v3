@@ -30,7 +30,7 @@ const Color = (type: VehicleType) => {
         metro: '#cf51d4',
         skm: '#008d50',
         km: '#543ecc',
-        train: '#543ecc',
+        train: '#0023a3',
         trolley: '#059e00'
     };
 

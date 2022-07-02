@@ -1,8 +1,8 @@
+import { Tooltip } from "@mui/material";
 import { FilterTiltShift, ArrowDropUp } from "@mui/icons-material";
 import { Marker } from "react-map-gl";
 import { Color } from "./Icons";
 import { Stop } from "../typings";
-import { Tooltip } from "@mui/material";
 
 export default ({ stop, onClick }: { stop: Stop, onClick: () => void }) => {
     let colors = stop.type?.map(type => Color(type)) || [Color("bus")];
@@ -17,6 +17,6 @@ export default ({ stop, onClick }: { stop: Stop, onClick: () => void }) => {
         onClick={onClick}
     >
         {stop.deg !== undefined && <ArrowDropUp style={{ position: "absolute", transform: "translate(3.25px, -12px)", width: 19, height: 19, color: colors[0] }} />}
-        <Tooltip title={stop.name + (stop.code ? ` ${stop.code}` : "")} placement="left" arrow><FilterTiltShift style={{ width: 25, height: 25, color: colors[1] || colors[0] }} /></Tooltip>
+        <Tooltip title={stop.name + (stop.code ? ` ${stop.code}` : "")} placement="left" arrow><FilterTiltShift style={{ width: stop.type[0] ===  "train" ? 30 : 25, height: stop.type[0] ===  "train" ? 30 : 25, color: colors[1] || colors[0] }} /></Tooltip>
     </Marker>;
 };
