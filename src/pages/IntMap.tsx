@@ -67,8 +67,8 @@ export default ({ city }: { city: City }) => {
         {!vehicles.length && <Backdrop />}
         <Suspense>
             {(zoom >= 16 && !vehicle) && stops.filter(stop => bounds?.contains({ lat: stop.location[0], lon: stop.location[1] })).map(stop => <StopMarker key={stop.id} stop={stop} onClick={() => toast.info(`${stop.type} ${stop.name} ${stop.code} ${stop.id}`)} />)}
-            {(zoom >= 15 && !vehicle) && vehicles.filter(veh => bounds?.contains({ lat: veh.location[0], lon: veh.location[1] })).map(veh => <VehicleMarker key={veh.type + veh.tab} vehicle={veh} onClick={() => navigate(`?vehicle=${veh.type}/${veh.tab}`)} />)}
-            {vehicle && <Vehicle_ vehicle={vehicle} />}
+            {(zoom >= 15 && !vehicle) && vehicles.filter(veh => bounds?.contains({ lat: veh.location[0], lon: veh.location[1] })).map(veh => <VehicleMarker key={veh.type + veh.tab} vehicle={veh} mapBearing={bearing || 0} onClick={() => navigate(`?vehicle=${veh.type}/${veh.tab}`)} />)}
+            {vehicle && <Vehicle_ vehicle={vehicle} mapBearing={bearing || 0} />}
         </Suspense>
     </>;
 };
