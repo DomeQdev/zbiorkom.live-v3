@@ -1,7 +1,7 @@
 import { MapboxGeoJSONLineString } from "mapbox-gl";
 import cities from "./cities.json";
 
-type VehicleType = "bus" | "tram" | "metro" | "skm" | "km" | "train" | "trolley";
+type VehicleType = "bus" | "tram" | "metro" | "skm" | "km" | "train" | "ferry" | "trolley";
 type City = keyof typeof cities;
 
 interface Vehicle {
@@ -26,7 +26,8 @@ interface Trip {
     id: string,
     line: string,
     shapes: MapboxGeoJSONLineString,
-    stops: TripStop[]
+    stops: TripStop[],
+    error?: string
 }
 
 interface TripStop {

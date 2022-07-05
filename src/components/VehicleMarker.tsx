@@ -32,7 +32,7 @@ export default ({ vehicle, mapBearing, onClick }: { vehicle: Vehicle, mapBearing
         onClick={onClick}
     >
         <VehicleMarker color={Color(vehicle.type)} opacity={vehicle.isPredicted ? 0.8 : 1} backgroundColor={vehicle.isSpecial ? "#F5CF4B" : (vehicle.isEco ? "#83F493" : "#FFF")}>
-            <ArrowUpward style={{ width: 14, height: 14, transform: `rotate(${vehicle.deg - mapBearing}deg)` }} /><Icon type={vehicle.type} style={{ width: 17, height: 17 }} />&nbsp;<b style={{ fontWeight: 700, fontSize: 14 }}>{vehicle.line}</b>{vehicle.brigade && <small>/{vehicle.brigade}</small>}
+            {vehicle.deg && <ArrowUpward style={{ width: 14, height: 14, transform: `rotate(${vehicle.deg - mapBearing}deg)` }} />}<Icon type={vehicle.type} style={{ width: 17, height: 17 }} />&nbsp;<b style={{ fontWeight: 700, fontSize: 14 }}>{vehicle.line}</b>{vehicle.brigade && <small>/{vehicle.brigade}</small>}
         </VehicleMarker>
     </Marker>;
 };

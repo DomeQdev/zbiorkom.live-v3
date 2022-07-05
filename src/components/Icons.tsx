@@ -1,5 +1,5 @@
 import { SvgIcon } from "@mui/material";
-import { DirectionsBus, Tram, Subway, DirectionsRailway, Train } from "@mui/icons-material";
+import { DirectionsBus, Tram, Subway, Train, DirectionsBoat } from "@mui/icons-material";
 import { VehicleType } from "../typings";
 
 const Icon = ({ type, style }: { type: VehicleType, style?: React.CSSProperties }) => {
@@ -10,6 +10,7 @@ const Icon = ({ type, style }: { type: VehicleType, style?: React.CSSProperties 
         skm: <Train style={style} />,
         km: <Train style={style} />,
         train: <Train style={style} />,
+        ferry: <DirectionsBoat style={style} />,
         trolley: <SvgIcon style={style}><svg viewBox="0 0 24 24"><path d="M13.853,4.257l1.722-3.302c0.159-0.307,0.041-0.687-0.267-0.847C15-0.051,14.62,0.067,14.46,0.375
             l-2.003,3.847C12.306,4.22,12.153,4.22,12,4.22c-0.194,0-0.386,0-0.575,0.002l1.703-3.267c0.159-0.307,0.04-0.687-0.267-0.847
             c-0.307-0.159-0.687-0.041-0.846,0.267L9.988,4.263C6.354,4.447,3.66,5.289,3.66,8.389v10.424c0,0.916,0.407,1.74,1.042,2.313v1.855
@@ -31,6 +32,7 @@ const Color = (type: VehicleType) => {
         skm: '#008d50',
         km: '#543ecc',
         train: '#0023a3',
+        ferry: '#5e03fc',
         trolley: '#059e00'
     };
 
@@ -45,6 +47,7 @@ const Name = (type: VehicleType) => {
         skm: 'SKM',
         km: 'KM',
         train: 'Pociąg',
+        ferry: 'Prom',
         trolley: 'Trolejbus'
     };
 
