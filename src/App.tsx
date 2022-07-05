@@ -9,7 +9,7 @@ import { City } from './typings';
 import cities from "./cities.json";
 
 const Index = lazy(() => import("./pages/Index"));
-const IntMap = lazy(() => import("./pages/IntMap"));
+const CityMap = lazy(() => import("./pages/CityMap"));
 const Brigades = lazy(() => import("./pages/Brigades"));
 const Brigade = lazy(() => import("./pages/Brigade"));
 const Error = lazy(() => import("./pages/Error"));
@@ -57,7 +57,7 @@ export default () => {
 
         return <Route path={city} key={city}>
           <Route index element={<Suspense><Index city={name} /></Suspense>} />
-          <Route path="map" element={<Suspense><Map city={name}><IntMap city={name} /></Map></Suspense>} />
+          <Route path="map" element={<Suspense><Map city={name}><CityMap city={name} /></Map></Suspense>} />
           {cityData.api.stops && <>
             <Route path="stops" element={<></>} />
             <Route path="stop/:stopId" element={<></>} />

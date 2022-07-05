@@ -4,6 +4,7 @@ import { register } from './registerSW';
 import App from "./App";
 
 import "react-toastify/dist/ReactToastify.css";
+import "react-spring-bottom-sheet/dist/style.css";
 import "./index.css";
 
 console.log('%czbiorkom.live', 'color: #5aa159;font-size:50px;');

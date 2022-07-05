@@ -16,7 +16,7 @@ export default ({ stop, onClick }: { stop: Stop, onClick: () => void }) => {
         style={{ cursor: "pointer", display: "block", zIndex: 1 }}
         onClick={onClick}
     >
-        {stop.deg !== undefined && <ArrowDropUp style={{ position: "absolute", transform: "translate(3.25px, -12px)", width: 19, height: 19, color: colors[0] }} />}
+        {stop.deg !== null && <ArrowDropUp style={{ position: "absolute", transform: "translate(3.25px, -12px)", width: 19, height: 19, color: colors[0] }} />}
         <Tooltip title={stop.name + (stop.code ? ` ${stop.code}` : "")} placement="left" arrow><FilterTiltShift style={{ width: stop.type[0] ===  "train" ? 30 : 25, height: stop.type[0] ===  "train" ? 30 : 25, color: colors[1] || colors[0] }} /></Tooltip>
     </Marker>;
 };

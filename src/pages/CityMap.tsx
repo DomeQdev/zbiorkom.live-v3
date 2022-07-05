@@ -52,11 +52,10 @@ export default ({ city }: { city: City }) => {
     useEffect(() => {
         if (!veh || !vehicles.length) return setVehicle(undefined);
         let [type, tab] = veh.split("/");
-        let v = vehicles.find(x => x.type === type && x.tab === tab);
-        if (v) {
-            setVehicle(v);
-            map?.flyTo({ center: [v.location[1], v.location[0]] })
-        } else {
+        let v = vehicles.find(x => x.type === type && x.tab === tab.replace(/\s/g, "+"));
+
+        if (v) setVehicle(v);
+        else {
             navigate(".");
             if (vehicle) toast.warn("Stracono połączenie z pojazdem.");
             else toast.error("Nie znaleziono pojazdu.");
@@ -67,7 +66,7 @@ export default ({ city }: { city: City }) => {
         {!vehicles.length && <Backdrop />}
         <Suspense>
             {(zoom >= 16 && !vehicle) && stops.filter(stop => bounds?.contains({ lat: stop.location[0], lon: stop.location[1] })).map(stop => <StopMarker key={stop.id} stop={stop} onClick={() => toast.info(`${stop.type} ${stop.name} ${stop.code} ${stop.id}`)} />)}
-            {(zoom >= 15 && !vehicle) && vehicles.filter(veh => bounds?.contains({ lat: veh.location[0], lon: veh.location[1] })).map(veh => <VehicleMarker key={veh.type + veh.tab} vehicle={veh} mapBearing={bearing || 0} onClick={() => navigate(`?vehicle=${veh.type}/${veh.tab}`)} />)}
+            {(zoom >= 15 && !vehicle) && vehicles.filter(veh => bounds?.contains({ lat: veh._location[1], lon: veh._location[0] })).map(veh => <VehicleMarker key={veh.type + veh.tab} vehicle={veh} mapBearing={bearing || 0} onClick={() => navigate(`?vehicle=${veh.type}/${veh.tab}`)} />)}
             {vehicle && <Vehicle_ city={city} vehicle={vehicle} mapBearing={bearing || 0} />}
         </Suspense>
     </>;
