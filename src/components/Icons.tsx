@@ -1,6 +1,6 @@
 import { SvgIcon } from "@mui/material";
 import { DirectionsBus, Tram, Subway, Train, DirectionsBoat } from "@mui/icons-material";
-import { VehicleType } from "../typings";
+import { VehicleType } from "../util/typings";
 
 const Icon = ({ type, style }: { type: VehicleType, style?: React.CSSProperties }) => {
     const icons = {

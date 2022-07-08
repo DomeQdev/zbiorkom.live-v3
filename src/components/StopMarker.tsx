@@ -2,7 +2,7 @@ import { Tooltip } from "@mui/material";
 import { FilterTiltShift, ArrowDropUp } from "@mui/icons-material";
 import { Marker } from "react-map-gl";
 import { Color } from "./Icons";
-import { Stop } from "../typings";
+import { Stop } from "../util/typings";
 
 export default ({ stop, onClick }: { stop: Stop, onClick: () => void }) => {
     let colors = stop.type?.map(type => Color(type)) || [Color("bus")];

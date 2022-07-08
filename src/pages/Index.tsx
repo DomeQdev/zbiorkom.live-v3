@@ -1,7 +1,7 @@
 import { List, ListItemAvatar, ListItemText, Avatar, Box, ListItemButton, Divider } from "@mui/material";
 import { Map, DepartureBoard, CalendarMonth, DirectionsBike, LocalParking, Error } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
-import { City } from "../typings";
+import { City } from "../util/typings";
 import cities from "../cities.json";
 
 export default ({ city }: { city: City }) => {

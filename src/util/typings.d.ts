@@ -1,5 +1,5 @@
 import { MapboxGeoJSONLineString } from "mapbox-gl";
-import cities from "./cities.json";
+import cities from "../cities.json";
 
 type VehicleType = "bus" | "tram" | "metro" | "skm" | "km" | "train" | "ferry" | "trolley";
 type City = keyof typeof cities;
@@ -38,7 +38,8 @@ interface TripStop {
     name: string,
     on_request: boolean,
     distance: number,
-    time: number
+    time: number,
+    metersToStop: number
 }
 
 interface Departure {

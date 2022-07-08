@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { List, ListItemButton, ListItemText, Divider, Button, Typography } from "@mui/material";
 import { ArrowBack } from "@mui/icons-material";
-import { BrigadeSchedule, City } from "../typings";
+import { BrigadeSchedule, City } from "../util/typings";
 import { toast } from "react-toastify";
 import { Backdrop } from "../components/Suspense";
 import cities from "../cities.json";

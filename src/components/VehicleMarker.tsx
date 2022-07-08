@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { ArrowUpward } from "@mui/icons-material";
 import { Marker } from "react-map-gl";
-import { Vehicle } from "../typings";
+import { Vehicle } from "../util/typings";
 import { Color, Icon } from "./Icons";
 
 const VehicleMarker = styled.span((props: {

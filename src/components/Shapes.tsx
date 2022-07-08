@@ -2,7 +2,7 @@ import { Layer, Marker, Popup, Source } from "react-map-gl";
 import { Chip, Tooltip } from "@mui/material";
 import { PanTool } from "@mui/icons-material";
 import { useState } from "react";
-import { Trip, TripStop } from "../typings";
+import { Trip, TripStop } from "../util/typings";
 import styled from "@emotion/styled";
 
 const StopMarker = styled.button`

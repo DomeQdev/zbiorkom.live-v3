@@ -5,7 +5,7 @@ import { AppBar, Toolbar, IconButton, Typography } from '@mui/material';
 import { Routes, Route, useNavigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import { Settings } from "@mui/icons-material";
-import { City } from './typings';
+import { City } from './util/typings';
 import cities from "./cities.json";
 
 const Index = lazy(() => import("./pages/Index"));

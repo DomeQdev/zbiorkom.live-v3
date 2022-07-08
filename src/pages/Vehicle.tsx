@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { BottomSheet } from "react-spring-bottom-sheet";
 import { toast } from "react-toastify";
 import { useMap } from "react-map-gl";
-import { Trip, City, Vehicle } from "../typings";
+import { realtime } from "../util/realtime";
+import { Trip, City, Vehicle } from "../util/typings";
 import VehicleMarker from "../components/VehicleMarker";
 import Shapes from "../components/Shapes";
 import cities from "../cities.json";
@@ -12,10 +13,13 @@ export default ({ city, vehicle, mapBearing }: { city: City, vehicle: Vehicle, m
     const navigate = useNavigate();
     const { current: map } = useMap();
     const cityData = cities[city];
+
     const [follow, setFollow] = useState<boolean>(true);
     const [trip, setTrip] = useState<Trip>();
 
-    map?.on("movestart", (e) => e.originalEvent && e.originalEvent.type !== "resize" ? setFollow(false) : undefined);
+    useEffect(() => {
+        map?.on("movestart", (e) => e.originalEvent && e.originalEvent.type !== "resize" ? setFollow(false) : undefined);
+    }, []);
 
     useEffect(() => {
         if(!follow) return;
@@ -32,9 +36,16 @@ export default ({ city, vehicle, mapBearing }: { city: City, vehicle: Vehicle, m
         });
     }, [vehicle.trip]);
 
+    const RT = trip ? useMemo(() => realtime({
+        trip,
+        location: vehicle._location,
+        delay: vehicle.delay
+    }), [vehicle]) : null;
+    console.log(RT)
+
     return <>
         <VehicleMarker vehicle={vehicle} mapBearing={mapBearing} />
-        {trip && <Shapes trip={trip} delay={3 * 60000} />}
+        {trip && <Shapes trip={trip} delay={RT?.delay} />}
         <BottomSheet
             open
             onDismiss={() => navigate(".")}

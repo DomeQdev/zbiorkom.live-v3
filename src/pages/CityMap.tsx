@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import { useMap } from "react-map-gl";
 import { io } from "socket.io-client";
 import { Backdrop, Suspense } from '../components/Suspense';
-import { City, Stop, Vehicle } from "../typings";
+import { City, Stop, Vehicle } from "../util/typings";
 import cities from "../cities.json";
 
 const StopMarker = lazy(() => import("../components/StopMarker"));

@@ -4,7 +4,7 @@ import { Dialog, DialogTitle, DialogContent, ToggleButton, IconButton } from "@m
 import { Close } from "@mui/icons-material";
 import { toast } from "react-toastify";
 import { Backdrop } from "../components/Suspense";
-import { City, Route } from "../typings";
+import { City, Route } from "../util/typings";
 import { Icon } from "../components/Icons";
 import cities from "../cities.json";
 

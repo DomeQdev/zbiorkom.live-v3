@@ -1,6 +1,6 @@
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from "react-router-dom";
-import { register } from './registerSW';
+import { register } from './util/registerSW';
 import App from "./App";
 
 import "react-toastify/dist/ReactToastify.css";
