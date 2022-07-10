@@ -3,13 +3,14 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useMap } from "react-map-gl";
 import { io } from "socket.io-client";
+import { FilterList, Star } from "@mui/icons-material";
 import { Backdrop, Suspense } from '../components/Suspense';
 import { City, Stop, Vehicle } from "../util/typings";
 import cities from "../cities.json";
 
 const StopMarker = lazy(() => import("../components/StopMarker"));
 const VehicleMarker = lazy(() => import("../components/VehicleMarker"));
-const Vehicle_ = lazy(() => import("./Vehicle"));
+const VehicleComp = lazy(() => import("./Vehicle"));
 
 export default ({ city }: { city: City }) => {
     const [searchParams] = useSearchParams();
@@ -67,7 +68,13 @@ export default ({ city }: { city: City }) => {
         <Suspense>
             {(zoom >= 16 && !vehicle) && stops.filter(stop => bounds?.contains({ lat: stop.location[0], lon: stop.location[1] })).map(stop => <StopMarker key={stop.id} stop={stop} onClick={() => toast.info(`${stop.type} ${stop.name} ${stop.code} ${stop.id}`)} />)}
             {(zoom >= 15 && !vehicle) && vehicles.filter(veh => bounds?.contains({ lat: veh._location[1], lon: veh._location[0] })).map(veh => <VehicleMarker key={veh.type + veh.tab} vehicle={veh} mapBearing={bearing || 0} onClick={() => navigate(`?vehicle=${veh.type}/${veh.tab}`)} />)}
-            {vehicle && <Vehicle_ city={city} vehicle={vehicle} mapBearing={bearing || 0} />}
+            {vehicle && <VehicleComp city={city} vehicle={vehicle} mapBearing={bearing || 0} />}
         </Suspense>
+        <div className="mapboxgl-ctrl-top-right" style={{ top: 135 }}>
+            <div className="mapboxgl-ctrl mapboxgl-ctrl-group">
+                <button><FilterList sx={{ fontSize: 19, marginTop: "3px" }} /></button>
+                <button><Star sx={{ fontSize: 19, marginTop: "3px" }} /></button>
+            </div>
+        </div>
     </>;
 };

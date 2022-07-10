@@ -42,8 +42,8 @@ export default ({ city, vehicle, mapBearing }: { city: City, vehicle: Vehicle, m
             trip,
             location: vehicle._location,
             delay: vehicle.delay
-        }))
-    }, [vehicle]);
+        }));
+    }, [vehicle, trip]);
 
     return <>
         <VehicleMarker vehicle={vehicle} mapBearing={mapBearing} />

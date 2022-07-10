@@ -23,8 +23,12 @@ function registerValidSW(swUrl: string) {
                 if (!installingWorker) return;
                 installingWorker.onstatechange = () => {
                     if (installingWorker.state === 'installed') {
-                        if (navigator.serviceWorker.controller) toast.info("Nowa wersja zbiorkom.live jest dostępna. Kliknij tutaj aby użyć nowej wersji.", { autoClose: false, onClick: () => window.location.reload() });
-                        else toast.success("Używasz aktualnej wersji zbiorkom.live.");
+                        if (navigator.serviceWorker.controller) toast.info("Nowa wersja zbiorkom.live jest dostępna. Kliknij tutaj aby użyć nowej wersji.", {
+                            autoClose: false, onClick: () => {
+                                registration.installing?.postMessage({ action: 'skipWaiting' });
+                                window.location.reload();
+                            }
+                        });
                     }
                 };
             };

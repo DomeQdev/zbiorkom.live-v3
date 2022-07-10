@@ -16,7 +16,7 @@ const RealTime = ({ trip, location, delay }: {
     let vehicleDistance = nearestPointOnLine(trip.shapes, point(location), { units: 'meters' }).properties.location || 0;
     let stops = trip.stops.map(stop => ({
         ...stop,
-        metersToStop: stop.distance - vehicleDistance
+        metersToStop: nearestPointOnLine(trip.shapes, point([stop.location[1], stop.location[0]]), { units: 'meters' }).properties.location! - vehicleDistance
     }));
 
     let tripStart = Date.now() - stops[0].arrival;
