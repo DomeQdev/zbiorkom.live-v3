@@ -1,0 +1,65 @@
+{
+    "ms": {
+        "id": "ms",
+        "name": "Mapbox Streets",
+        "style": "mapbox://styles/mapbox/streets-v11"
+    },
+    "mo": {
+        "id": "mo",
+        "name": "Mapbox Outdoors",
+        "style": "mapbox://styles/mapbox/outdoors-v11"
+    },
+    "ml": {
+        "id": "ml",
+        "name": "Mapbox Light",
+        "style": "mapbox://styles/mapbox/light-v10"
+    },
+    "md": {
+        "id": "md",
+        "name": "Mapbox Dark",
+        "style": "mapbox://styles/mapbox/dark-v10"
+    },
+    "msa": {
+        "id": "msa",
+        "name": "Mapbox Satellite",
+        "style": "mapbox://styles/mapbox/satellite-v9"
+    },
+    "mss": {
+        "id": "mss",
+        "name": "Mapbox Satellite Streets",
+        "style": "mapbox://styles/mapbox/satellite-streets-v11"
+    },
+    "mnd": {
+        "id": "mnd",
+        "name": "Mapbox Navigation Day",
+        "style": "mapbox://styles/mapbox/navigation-day-v1"
+    },
+    "mnn": {
+        "id": "mnn",
+        "name": "Mapbox Navigation Night",
+        "style": "mapbox://styles/mapbox/navigation-night-v1"
+    },
+    "osm": {
+        "name": "OpenStreetMap (beta)",
+        "id": "osm",
+        "style": {
+            "version": 8,
+            "sources": {
+                "osm": {
+                    "type": "raster",
+                    "tiles": [
+                        "https://c.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                    ],
+                    "tileSize": 256
+                }
+            },
+            "layers": [
+                {
+                    "id": "osm",
+                    "type": "raster",
+                    "source": "osm"
+                }
+            ]
+        }
+    }
+}
