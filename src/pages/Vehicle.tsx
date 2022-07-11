@@ -37,7 +37,7 @@ export default ({ city, vehicle, mapBearing }: { city: City, vehicle: Vehicle, m
     }, [vehicle.trip]);
 
     useEffect(() => {
-        if (!trip) return;
+        if (!trip || trip.error) return;
         setRealTime(RealTime({
             trip,
             location: vehicle._location,
@@ -47,13 +47,13 @@ export default ({ city, vehicle, mapBearing }: { city: City, vehicle: Vehicle, m
 
     return <>
         <VehicleMarker vehicle={vehicle} mapBearing={mapBearing} />
-        {trip && <Shapes trip={trip} delay={realTime?.delay} />}
+        {(trip && !trip.error) && <Shapes trip={trip} delay={realTime?.delay} />}
         <BottomSheet
             open
             onDismiss={() => navigate(".")}
             blocking={false}
         >
-            Linia {vehicle.line} kierunek {trip?.headsign} o nr taborowym {vehicle.tab}, Follow: {follow ? "Tak" : "Nie"}
+            Linia {vehicle.line} kierunek {trip?.headsign} o nr taborowym {vehicle.tab}, Follow: {follow ? "Tak" : "Nie"} {trip?.error}
         </BottomSheet>
     </>;
 };

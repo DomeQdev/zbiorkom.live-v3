@@ -19,7 +19,7 @@ const Map = lazy(() => import("./components/Map"));
 
 export default () => {
   const navigate = useNavigate();
-  const [settingsActive, setSettingsActive] = useState(true);
+  const [settingsActive, setSettingsActive] = useState(false);
 
   const theme = createTheme({
     palette: {
