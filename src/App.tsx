@@ -1,4 +1,4 @@
-import { lazy } from 'react';
+import { lazy, useState } from 'react';
 import { Suspense } from './components/Suspense';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { AppBar, Toolbar, IconButton, Typography } from '@mui/material';
@@ -13,11 +13,13 @@ const CityMap = lazy(() => import("./pages/CityMap"));
 const Brigades = lazy(() => import("./pages/Brigades"));
 const Brigade = lazy(() => import("./pages/Brigade"));
 const Error = lazy(() => import("./pages/Error"));
+const SettingsPage = lazy(() => import("./pages/Settings"));
 
 const Map = lazy(() => import("./components/Map"));
 
 export default () => {
   const navigate = useNavigate();
+  const [settingsActive, setSettingsActive] = useState(true);
 
   const theme = createTheme({
     palette: {
@@ -46,7 +48,7 @@ export default () => {
         </Typography>
         <div>
           <IconButton href="https://discord.gg/QYRswCH6Gw" target="_blank"><img src="/img/discord.png" alt="discord logo" width="24" height="18" /></IconButton>
-          <IconButton onClick={() => navigate("/settings")}><Settings style={{ fill: "white" }} /></IconButton>
+          <IconButton onClick={() => setSettingsActive(true)}><Settings style={{ fill: "white" }} /></IconButton>
         </div>
       </Toolbar>
     </AppBar>
@@ -82,6 +84,7 @@ export default () => {
       })}
       <Route path="*" element={<Suspense><Error text={"404"} message={"Nie znaleziono strony"} /></Suspense>} />
     </Routes>
+    {settingsActive && <Suspense><SettingsPage onClose={() => setSettingsActive(false)} /></Suspense>}
     <ToastContainer
       position="top-left"
       autoClose={7500}

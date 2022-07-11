@@ -28,7 +28,7 @@ export default ({ vehicle, mapBearing, onClick }: { vehicle: Vehicle, mapBearing
         longitude={vehicle._location[0]}
         latitude={vehicle._location[1]}
         clickTolerance={10}
-        style={{ cursor: "pointer", display: "block", zIndex: 5, transition: "linear .1s" }}
+        style={{ cursor: "pointer", display: "block", zIndex: 2, transition: "linear .1s" }}
         onClick={onClick}
     >
         <VehicleMarker color={Color(vehicle.type)} opacity={vehicle.isPredicted ? 0.8 : 1} backgroundColor={vehicle.isSpecial ? "#F5CF4B" : (vehicle.isEco ? "#83F493" : "#FFF")}>
