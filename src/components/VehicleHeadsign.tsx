@@ -16,8 +16,8 @@ const LineNumber = styled.b((props: {
     align-items: center;
 `);
 
-export default ({ type, line, headsign, color }: { type: VehicleType, line: string, headsign?: string, color?: string }) => {
+export default ({ type, line, headsign, color, textColor }: { type: VehicleType, line: string, headsign?: string, color?: string, textColor?: string }) => {
     return <div style={{ display: "inline-flex", alignItems: "center" }}>
-        <LineNumber color={"white"} backgroundColor={color || Color(type)}><Icon type={type} style={{ width: 18, height: 18 }} />&nbsp;{line}</LineNumber>&nbsp;{headsign}
+        <LineNumber color={textColor || "white"} backgroundColor={color || Color(type)}><Icon type={type} style={{ width: 18, height: 18 }} />&nbsp;{line}</LineNumber>&nbsp;{headsign}
     </div>;
 };

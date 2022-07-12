@@ -22,6 +22,7 @@ interface Vehicle {
 
 interface Trip {
     color: string,
+    text: string,
     headsign: string,
     id: string,
     line: string,
@@ -39,7 +40,8 @@ interface TripStop {
     on_request: boolean,
     distance: number,
     time: number,
-    metersToStop: number
+    metersToStop: number,
+    i: number
 }
 
 interface Departure {
@@ -59,6 +61,7 @@ interface Departure {
 
 interface Route {
     color: string,
+    text: string,
     line: string,
     name: string,
     type: VehicleType

@@ -30,8 +30,8 @@ export default ({ city }: { city: City }) => {
     useEffect(() => {
         const socket = io(cityData.api.ws, {
             reconnection: true,
-            reconnectionAttempts: 1,
-            timeout: 20000
+            reconnectionAttempts: 5,
+            timeout: 15000
         }).on("positions", setVehicles);
 
         socket.io.on("reconnect", () => toast.success("Wznowiono połączenie z serwerem."));

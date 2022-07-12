@@ -7,6 +7,25 @@ import { Backdrop } from "../components/Suspense";
 import { City, Route } from "../util/typings";
 import { Icon } from "../components/Icons";
 import cities from "../cities.json";
+import styled from "@emotion/styled";
+
+const Line = styled(ToggleButton)((props: {
+    textColor: string,
+    backgroundColor: string
+}) => `
+width: 110px;
+height: 50px;
+font-size: 20px;
+margin: 5px;
+border-radius: 15px;
+background-color: ${props.backgroundColor};
+color: ${props.textColor};
+:hover {
+    background-color: ${props.textColor};
+    color: ${props.backgroundColor};
+    border-color: ${props.backgroundColor};
+}
+`);
 
 export default ({ city }: { city: City }) => {
     const navigate = useNavigate();
@@ -16,18 +35,20 @@ export default ({ city }: { city: City }) => {
     const [selectedBrigades, setSelectedBrigades] = useState<string[] | null>();
 
     useEffect(() => {
-        fetch(cityData.api.routes).then(res => res.json()).then(setRoutes).catch(() => {
+        fetch(cityData.api.routes + "?brigade=1").then(res => res.json()).then(setRoutes).catch(() => {
             toast.error("Nie mogliśmy pobrać linii...");
             return navigate("../");
         });
     }, []);
 
-    return routes?.length ? <div style={{ textAlign: "center", width: "90%", marginLeft: "auto", marginRight: "auto" }}>
+    return routes?.length ? <div style={{ textAlign: "center" }}>
         <h1>Rozkład brygad</h1>
         <p>Wybierz linię:</p>
-        {routes?.map(route => <ToggleButton
+        {routes?.map(route => <Line
             value={route.line}
             key={route.line}
+            textColor={route.text === route.color ? "#fff" : route.text}
+            backgroundColor={route.color}
             onClick={() => {
                 setSelectedBrigades(null);
                 setSelected(route);
@@ -36,11 +57,9 @@ export default ({ city }: { city: City }) => {
                     return navigate("../");
                 });
             }}
-            style={{ width: 100, height: 50, fontSize: 20, margin: 5, color: route.color, borderColor: route.color }}
-            title={`${route.line} - ${route.name}`}
         >
             <Icon type={route.type} style={{ width: 21, height: 21 }} />&nbsp;{route.line.replace("-", "")}
-        </ToggleButton>)}
+        </Line>)}
 
         {selected && <Dialog
             open
