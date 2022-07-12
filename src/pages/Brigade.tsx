@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { List, ListItemButton, ListItemText, Divider, Button, Typography } from "@mui/material";
 import { ArrowBack } from "@mui/icons-material";
 import { BrigadeSchedule, City } from "../util/typings";
-import { toast } from "react-toastify";
+import { toast } from "react-hot-toast";
 import { Backdrop } from "../components/Suspense";
 import cities from "../cities.json";
 import styled from "@emotion/styled";

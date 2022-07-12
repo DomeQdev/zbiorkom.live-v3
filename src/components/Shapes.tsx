@@ -3,6 +3,7 @@ import { Chip, Tooltip } from "@mui/material";
 import { PanTool } from "@mui/icons-material";
 import { useState } from "react";
 import { Trip, TripStop } from "../util/typings";
+import { RealTimeResponse } from "../util/realtime";
 import styled from "@emotion/styled";
 
 const StopMarker = styled.button`
@@ -19,8 +20,9 @@ border: 3px solid ${props => props.color};
 border-radius: 18px;
 `;
 
-export default ({ trip, delay = 0 }: { trip: Trip, delay?: number }) => {
+export default ({ trip, realTime }: { trip: Trip, realTime?: RealTimeResponse }) => {
     const [stopPopup, setStopPopup] = useState<TripStop>();
+    let delay = realTime?.delay || 0;
 
     return <>
         <Source type="geojson" data={trip.shapes}>
@@ -62,7 +64,7 @@ export default ({ trip, delay = 0 }: { trip: Trip, delay?: number }) => {
             <h5 style={{ display: "inline" }}>{stopPopup.on_request && <PanTool style={{ width: 13, height: 13 }} />}&nbsp; <b style={{ fontSize: 15 }}>{stopPopup.name}</b></h5><br />
             {stopPopup.departure + delay > Date.now() - 15000 ? <>
                 za <b style={{ fontSize: 16 }}>{minutesUntil(stopPopup.arrival + delay)}</b> min<br />
-                <Chip label={new Date(stopPopup.arrival + delay).toLocaleTimeString("pl", { hour12: false, hour: "2-digit", minute: "2-digit" })} variant="outlined" style={{ color: delay ? (delay > 0 ? "red" : "green") : "#000000", fontWeight: delay ? "bold" : "normal" }} />
+                <Chip label={new Date(stopPopup.arrival + delay).toLocaleTimeString("pl", { hour12: false, hour: "2-digit", minute: "2-digit" })} variant="outlined" style={{ color: Math.floor(delay / 60000) ? (delay > 0 ? "red" : "green") : "#000000", fontWeight: delay ? "bold" : "normal" }} />
             </> : <b>Odjechał</b>}
         </Popup>}
     </>;

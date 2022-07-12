@@ -1,10 +1,10 @@
 import { lazy, useState } from 'react';
-import { Suspense } from './components/Suspense';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
-import { AppBar, Toolbar, IconButton, Typography } from '@mui/material';
 import { Routes, Route, useNavigate } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
+import { AppBar, Toolbar, IconButton, Typography } from '@mui/material';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { Settings } from "@mui/icons-material";
+import { Toaster } from 'react-hot-toast';
+import { Suspense } from './components/Suspense';
 import { City } from './util/typings';
 import cities from "./cities.json";
 
@@ -84,15 +84,10 @@ export default () => {
       })}
       <Route path="*" element={<Suspense><Error text={"404"} message={"Nie znaleziono strony"} /></Suspense>} />
     </Routes>
-    {settingsActive && <Suspense><SettingsPage onClose={() => setSettingsActive(false)} /></Suspense>}
-    <ToastContainer
-      position="top-left"
-      autoClose={7500}
-      newestOnTop
-      theme="dark"
-      pauseOnFocusLoss={false}
-      limit={5}
-      pauseOnHover
+    <Toaster
+      position="top-center"
+      reverseOrder={false}
     />
+    {settingsActive && <Suspense><SettingsPage onClose={() => setSettingsActive(false)} /></Suspense>}
   </ThemeProvider>;
 };

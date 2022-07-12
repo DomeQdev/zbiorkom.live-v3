@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Dialog, DialogTitle, DialogContent, ToggleButton, IconButton } from "@mui/material";
 import { Close } from "@mui/icons-material";
-import { toast } from "react-toastify";
+import { toast } from "react-hot-toast";
 import { Backdrop } from "../components/Suspense";
 import { City, Route } from "../util/typings";
 import { Icon } from "../components/Icons";

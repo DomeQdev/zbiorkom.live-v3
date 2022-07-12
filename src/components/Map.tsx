@@ -15,7 +15,7 @@ export default ({ city, location, children }: { city: City, location?: [number, 
             latitude: _loc[0],
             zoom: 17
         }}
-        minZoom={6}
+        minZoom={2}
         minPitch={10}
         mapStyle={mapStyles[mapStyle].style as string | Style}
         mapboxAccessToken="pk.eyJ1IjoiZG9tZXEiLCJhIjoiY2t6c2JnZnp5MDExMzJ4bWlpMjcwaDR0dCJ9.v2ONdyf7WN70xFwUOyUuXQ"

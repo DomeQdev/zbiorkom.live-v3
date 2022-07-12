@@ -1,9 +1,10 @@
 import { useEffect, useState, lazy } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { toast } from "react-toastify";
+import { toast } from "react-hot-toast";
 import { useMap } from "react-map-gl";
 import { io } from "socket.io-client";
-import { FilterList, Star } from "@mui/icons-material";
+import { Button } from "@mui/material";
+import { FilterList, PortableWifiOff, Star } from "@mui/icons-material";
 import { Backdrop, Suspense } from '../components/Suspense';
 import { City, Stop, Vehicle } from "../util/typings";
 import cities from "../cities.json";
@@ -29,13 +30,19 @@ export default ({ city }: { city: City }) => {
     useEffect(() => {
         const socket = io(cityData.api.ws, {
             reconnection: true,
-            reconnectionAttempts: 5,
+            reconnectionAttempts: 1,
             timeout: 20000
         }).on("positions", setVehicles);
 
         socket.io.on("reconnect", () => toast.success("Wznowiono połączenie z serwerem."));
-        socket.io.on("reconnect_attempt", (n) => toast.warn(`Ponawiam próbę połączenia... (${n}/5)`));
-        socket.io.on("reconnect_failed", () => toast.error("Nie udało się wznowić połączenia z serwerem. Odśwież stronę aby spróbować ponownie.", { autoClose: false }));
+        socket.io.on("reconnect_attempt", (n) => toast.error(`Ponawiam próbę połączenia... (${n}/5)`));
+        socket.io.on("reconnect_failed", () => toast(() => <div style={{ textAlign: "center" }}>
+            <PortableWifiOff style={{ width: 50, height: 50 }} />
+            <br />
+            <b>Nie udało się wznowić połączenia z serwerem.</b>
+            <br />
+            <Button variant="outlined" onClick={() => window.location.reload()}>Spróbuj ponownie</Button>
+        </div>, { duration: Infinity }));
         socket.io.on("error", console.error);
 
         if (cityData.api.stops) fetch(cityData.api.stops).then(res => res.json()).then(setStops).catch(() => toast.error("Nie udało się pobrać przystanków."));
@@ -58,15 +65,14 @@ export default ({ city }: { city: City }) => {
         if (v) setVehicle(v);
         else {
             navigate(".");
-            if (vehicle) toast.warn("Stracono połączenie z pojazdem.");
-            else toast.error("Nie znaleziono pojazdu.");
+            toast.error(vehicle ? "Stracono połączenie z pojazdem." : "Nie znaleziono pojazdu.");
         }
     }, [veh, vehicles]);
 
     return <>
         {!vehicles.length && <Backdrop />}
         <Suspense>
-            {(zoom >= 16 && !vehicle) && stops.filter(stop => bounds?.contains({ lat: stop.location[0], lon: stop.location[1] })).map(stop => <StopMarker key={stop.id} stop={stop} onClick={() => toast.info(`${stop.type} ${stop.name} ${stop.code} ${stop.id}`)} />)}
+            {(zoom >= 16 && !vehicle) && stops.filter(stop => bounds?.contains({ lat: stop.location[0], lon: stop.location[1] })).map(stop => <StopMarker key={stop.id} stop={stop} onClick={() => toast.success(`${stop.type} ${stop.name} ${stop.code} ${stop.id}`)} />)}
             {(zoom >= 15 && !vehicle) && vehicles.filter(veh => bounds?.contains({ lat: veh._location[1], lon: veh._location[0] })).map(veh => <VehicleMarker key={veh.type + veh.tab} vehicle={veh} mapBearing={bearing || 0} onClick={() => navigate(`?vehicle=${veh.type}/${veh.tab}`)} />)}
             {vehicle && <VehicleComp city={city} vehicle={vehicle} mapBearing={bearing || 0} />}
         </Suspense>

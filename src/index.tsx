@@ -3,7 +3,6 @@ import { BrowserRouter } from "react-router-dom";
 import { register } from './util/registerSW';
 import App from "./App";
 
-import "react-toastify/dist/ReactToastify.css";
 import "react-spring-bottom-sheet/dist/style.css";
 import "./index.css";
 
