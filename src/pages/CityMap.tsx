@@ -34,15 +34,23 @@ export default ({ city }: { city: City }) => {
             timeout: 15000
         }).on("positions", setVehicles);
 
-        socket.io.on("reconnect", () => toast.success("Wznowiono połączenie z serwerem."));
-        socket.io.on("reconnect_attempt", (n) => toast.error(`Ponawiam próbę połączenia... (${n}/5)`));
+        let toastId: any;
+        socket.io.on("reconnect", () => {
+            toast.success("Wznowiono połączenie z serwerem.", {
+                id: toastId
+            });
+            toastId = undefined;
+        });
+        socket.io.on("reconnect_attempt", (n) => {
+            toastId = toast.loading(`Ponawiam próbę połączenia... (${n}/5)`, {
+                id: toastId
+            });
+        });
         socket.io.on("reconnect_failed", () => toast(() => <div style={{ textAlign: "center" }}>
-            <PortableWifiOff style={{ width: 50, height: 50 }} />
-            <br />
-            <b>Nie udało się wznowić połączenia z serwerem.</b>
-            <br />
+            <PortableWifiOff style={{ width: 50, height: 50 }} /><br />
+            <b>Nie udało się wznowić połączenia z serwerem.</b><br />
             <Button variant="outlined" onClick={() => window.location.reload()}>Spróbuj ponownie</Button>
-        </div>, { duration: Infinity }));
+        </div>, { duration: Infinity, id: toastId }));
         socket.io.on("error", console.error);
 
         if (cityData.api.stops) fetch(cityData.api.stops).then(res => res.json()).then(setStops).catch(() => toast.error("Nie udało się pobrać przystanków."));
