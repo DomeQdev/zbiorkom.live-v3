@@ -23,7 +23,7 @@ function registerValidSW(swUrl: string) {
                 const installingWorker = registration.installing;
                 if (!installingWorker) return;
                 installingWorker.onstatechange = () => {
-                    if (installingWorker.state === 'installing') {
+                    if (installingWorker.state !== 'installed') {
                         toastId = toast.loading("Pobieram nową wersję zbiorkom.live...");
                     }
                     if (installingWorker.state === 'installed') {
@@ -33,7 +33,7 @@ function registerValidSW(swUrl: string) {
                             });
                             
                             setTimeout(() => {
-                                registration.installing?.postMessage({ action: 'skipWaiting' });
+                                registration.waiting?.postMessage({ action: 'skipWaiting' });
                                 window.location.reload();
                             }, 2000);
                         }

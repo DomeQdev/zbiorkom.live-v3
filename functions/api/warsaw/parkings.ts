@@ -22,7 +22,14 @@ interface Parkings {
 
 export const onRequestGet = async ({ env }) => {
     // if you're not banned by um warszawa, remove "env.PROXY + " from the url, else input in variables your own proxy
-    let parkings: Parkings = await fetch(env.PROXY + "https://api.um.warszawa.pl/api/action/parking_get_list/?apikey=ee277160-a0e2-407e-bea7-531a8fd8e067").then(res => res.json()).catch(() => null);
+    let parkings: Parkings = await fetch(env.PROXY + "https://api.um.warszawa.pl/api/action/parking_get_list/?apikey=ee277160-a0e2-407e-bea7-531a8fd8e067", {
+        //@ts-ignore
+        cf: {
+            cacheTtl: 600,
+            cacheEverything: true
+        },
+        keepalive: true
+    }).then(res => res.json()).catch(() => null);
     if (!parkings?.result.Parks) return new Response(JSON.stringify([]), { status: 404 });
 
     return new Response(JSON.stringify(
@@ -48,7 +55,7 @@ export const onRequestGet = async ({ env }) => {
     ), {
         headers: {
             "Content-Type": "application/json",
-            "Cache-Control": "public, max-age=10575"
+            "Cache-Control": "public, max-age=600"
         }
     });
 };

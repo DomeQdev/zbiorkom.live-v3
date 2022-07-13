@@ -84,4 +84,13 @@ interface BrigadeSchedule {
     firstStop: string
 }
 
-export { VehicleType, City, Trip, TripStop, Vehicle, Departure, Route, Stop, BrigadeSchedule, Trip };
+interface Alert {
+    id: string,
+    title: string,
+    routes: string[],
+    reduced: boolean,
+    link: string,
+    body: string
+}
+
+export { VehicleType, City, Trip, TripStop, Vehicle, Departure, Route, Stop, BrigadeSchedule, Trip, Alert };

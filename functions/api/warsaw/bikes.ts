@@ -18,7 +18,14 @@ interface NextBike {
 }
 
 export const onRequestGet = async () => {
-    let bikes: NextBike = await fetch("https://maps.nextbike.net/maps/nextbike.json?domains=vp").then(res => res.json()).catch(() => null);
+    let bikes: NextBike = await fetch("https://maps.nextbike.net/maps/nextbike.json?domains=vp", {
+        //@ts-ignore
+        cf: {
+            cacheTtl: 3600,
+            cacheEverything: true
+        },
+        keepalive: true
+    }).then(res => res.json()).catch(() => null);
     if (!bikes) return new Response(JSON.stringify([]), { status: 404 });
 
     return new Response(JSON.stringify(
@@ -33,7 +40,7 @@ export const onRequestGet = async () => {
     ), {
         headers: {
             "Content-Type": "application/json",
-            "Cache-Control": "public, max-age=10575"
+            "Cache-Control": "public, max-age=3600"
         }
     });
 };
