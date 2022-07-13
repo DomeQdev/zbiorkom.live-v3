@@ -3,13 +3,14 @@ import { useNavigate } from "react-router-dom";
 import { BottomSheet } from "react-spring-bottom-sheet";
 import { toast } from "react-hot-toast";
 import { useMap } from "react-map-gl";
-import { IconButton, Menu, MenuItem } from "@mui/material";
-import { Close, MoreVert } from "@mui/icons-material";
+import { IconButton, Menu, MenuItem, Skeleton } from "@mui/material";
+import { Check, Close, History, Logout, MoreVert } from "@mui/icons-material";
 import { RealTime, RealTimeResponse } from "../util/realtime";
 import { Trip, City, Vehicle } from "../util/typings";
-import VehicleMarker from "../components/VehicleMarker";
-import Shapes from "../components/Shapes";
+import styled from "@emotion/styled";
 import cities from "../cities.json";
+import Shapes from "../components/Shapes";
+import VehicleMarker from "../components/VehicleMarker";
 import VehicleHeadsign from "../components/VehicleHeadsign";
 
 export default ({ city, vehicle, mapBearing }: { city: City, vehicle: Vehicle, mapBearing: number }) => {
@@ -49,6 +50,11 @@ export default ({ city, vehicle, mapBearing }: { city: City, vehicle: Vehicle, m
         }));
     }, [vehicle, trip]);
 
+    const InlineB = styled.b`
+    display: inline-flex;
+    align-items: center;
+    `;
+
     return <>
         <VehicleMarker vehicle={vehicle} mapBearing={mapBearing} />
         {(trip && !trip.error) && <Shapes trip={trip} realTime={realTime} />}
@@ -57,30 +63,31 @@ export default ({ city, vehicle, mapBearing }: { city: City, vehicle: Vehicle, m
             onDismiss={() => navigate(".")}
             blocking={false}
             header={<div style={{ display: "flex", justifyContent: "space-between" }}>
-                <IconButton onClick={() => navigate(".")}><Close /></IconButton>
-                <div>
+                <IconButton onClick={() => navigate(".")} style={{ height: 40 }}><Close /></IconButton>
+                <div style={{ cursor: "pointer" }} onClick={() => setFollow(true)}>
                     <VehicleHeadsign type={vehicle.type} line={vehicle.line} headsign={vehicle.headsign || trip?.headsign} color={trip?.color} textColor={trip?.text} />
-                    {realTime && <span style={{ lineHeight: 1.4 }}><br />{Math.floor(realTime.delay / 60000) ? <b style={{ color: realTime.delay > 0 ? "red" : "green" }}>{Math.abs(Math.floor(realTime.delay / 60000))} min {realTime.delay > 0 ? "opóźnienia" : "przed czasem"}</b> : <b>Planowo</b>}</span>}
+                    {(realTime && trip) ? <span style={{ lineHeight: 1.4, fontSize: 15 }}><br />
+                        {trip.stops[0].departure > Date.now() ? <InlineB><Logout style={{ width: 18, height: 18 }} />&nbsp;Odjazd za {Math.floor((trip.stops[0].departure - Date.now()) / 60000)} min</InlineB> : Math.floor(realTime.delay / 60000) ? <InlineB style={{ color: realTime.delay > 0 ? "red" : "green" }}><History style={{ width: 18, height: 18 }} />&nbsp;{Math.abs(Math.floor(realTime.delay / 60000))} min {realTime.delay > 0 ? "opóźnienia" : "przed czasem"}</InlineB> : <InlineB><Check style={{ width: 18, height: 18 }} />&nbsp;Planowo</InlineB>}
+                    </span> : <Skeleton variant="text" style={{ width: 139, height: 21 }} />}
                 </div>
-                <div><IconButton onClick={({ currentTarget }: { currentTarget: HTMLElement }) => setAnchorEl(anchorEl ? null : currentTarget)}><MoreVert /></IconButton>
-                    <Menu
-                        anchorEl={anchorEl}
-                        open={!!anchorEl}
-                        onClose={() => setAnchorEl(null)}
-                        style={{ zIndex: 300000 }}
-                        PaperProps={{
-                            style: {
-                                maxHeight: 40 * 4.5,
-                                minWidth: 30 * 4.5,
-                            }
-                        }}
-                    >
-                        
-                    </Menu>
-                </div>
+                {trip ? <IconButton onClick={({ currentTarget }: { currentTarget: HTMLElement }) => setAnchorEl(anchorEl ? null : currentTarget)}  style={{ height: 40 }}><MoreVert /></IconButton> : <Skeleton variant="circular" width={40} height={40} />}
             </div>}
         >
             Linia {vehicle.line} kierunek {trip?.headsign} o nr taborowym {vehicle.tab}, Follow: {follow ? "Tak" : "Nie"} {trip?.error}
         </BottomSheet>
+        <Menu
+            anchorEl={anchorEl}
+            open={!!anchorEl}
+            onClose={() => setAnchorEl(null)}
+            style={{ zIndex: 300000 }}
+            PaperProps={{
+                style: {
+                    maxHeight: 40 * 4.5,
+                    minWidth: 30 * 4.5,
+                }
+            }}
+        >
+
+        </Menu>
     </>;
 };
