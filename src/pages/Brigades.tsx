@@ -18,12 +18,14 @@ height: 50px;
 font-size: 20px;
 margin: 5px;
 border-radius: 15px;
-background-color: ${props.backgroundColor};
-color: ${props.textColor};
+color: ${props.backgroundColor};
+background-color: ${props.textColor};
+border-color: ${props.backgroundColor};
 :hover {
-    background-color: ${props.textColor};
-    color: ${props.backgroundColor};
-    border-color: ${props.backgroundColor};
+    color: ${props.textColor};
+    background-color: ${props.backgroundColor};
+    border-color: ${props.textColor};
+
 }
 `);
 
@@ -74,7 +76,7 @@ export default ({ city }: { city: City }) => {
                         value={brigade}
                         key={brigade}
                         onClick={() => navigate(`../brigade/${selected.line}/${brigade}`)}
-                        style={{ width: 80, height: 50, fontSize: 20, margin: 3, color: selected.color, borderColor: selected.color }}
+                        style={{ width: 70, height: 50, fontSize: 20, margin: 3, color: selected.color, borderColor: selected.color }}
                     >{brigade}</ToggleButton>) : <h4>Nie mogliśmy znaleźć rozkładu dla tej linii...</h4>}
                 </div> : <Backdrop />}
             </DialogContent>

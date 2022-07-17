@@ -27,7 +27,7 @@ export default ({ city }: { city: City }) => {
     const [schedule, setSchedule] = useState<BrigadeSchedule[]>();
 
     useEffect(() => {
-        fetch(cityData.api.brigade_schedule!.replace("{{line}}", line!).replace("{{brigade}}", brigade!)).then(res => res.json()).then(setSchedule).catch(() => {
+        fetch(cityData.api.brigade!.replace("{{line}}", line!).replace("{{brigade}}", brigade!)).then(res => res.json()).then(setSchedule).catch(() => {
             toast.error("Nie mogliśmy pobrać rozkładu brygad...");
             return navigate("/");
         });

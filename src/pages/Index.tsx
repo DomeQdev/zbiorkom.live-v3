@@ -22,7 +22,7 @@ export default ({ city }: { city: City }) => {
                     </ListItemAvatar>
                     <ListItemText primary="Mapa" />
                 </ListItemButton>
-                {(cityData.api.stops && cityData.api.stop_departures) && <><Divider />
+                {cityData.api.stops && <><Divider />
                 <ListItemButton onClick={() => navigate("stops")}>
                     <ListItemAvatar>
                         <Avatar>
@@ -31,7 +31,7 @@ export default ({ city }: { city: City }) => {
                     </ListItemAvatar>
                     <ListItemText primary="Rozkład przystanku" />
                 </ListItemButton></>}
-                {(cityData.api.brigades && cityData.api.brigade_schedule) && <><Divider />
+                {cityData.api.brigades && <><Divider />
                 <ListItemButton onClick={() => navigate("brigades")}>
                     <ListItemAvatar>
                         <Avatar>

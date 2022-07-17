@@ -2,7 +2,7 @@ import Map, { GeolocateControl, NavigationControl } from 'react-map-gl';
 import { Style } from 'mapbox-gl';
 import { City } from '../util/typings';
 import cities from "../cities.json";
-import mapStyles from "../mapStyles.json";
+import mapStyles from "../util/mapStyles.json";
 import 'mapbox-gl/dist/mapbox-gl.css';
 
 export default ({ city, location, children }: { city: City, location?: [number, number], children?: JSX.Element | JSX.Element[] }) => {

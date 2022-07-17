@@ -4,7 +4,7 @@ import { Style } from "mapbox-gl";
 import { BottomSheet } from "react-spring-bottom-sheet";
 import { Button, FormControl, FormLabel, FormControlLabel, RadioGroup, Radio } from "@mui/material";
 import styled from "@emotion/styled";
-import mapStyles from "../mapStyles.json";
+import mapStyles from "../util/mapStyles.json";
 
 const Label = styled(FormLabel)`
     font-size: 1.2rem;
