@@ -4,8 +4,6 @@ interface Alerts {
         title: string,
         routes: string[],
         effect: 'REDUCED_SERVICE' | 'OTHER_EFFECT'
-        link: string,
-        htmlbody: string
     }[]
 }
 
@@ -25,8 +23,7 @@ export const onRequestGet = async () => {
             id: alert.id,
             title: alert.title,
             routes: alert.routes,
-            reduced: alert.effect === "REDUCED_SERVICE",
-            link: alert.link
+            effect: alert.effect === "REDUCED_SERVICE" ? "IMPEDIMENT" : "CHANGE"
         }))
     ), {
         headers: {

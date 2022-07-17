@@ -31,7 +31,7 @@ export const onRequestGet = async ({ request }) => {
         id: alert.id,
         title: alert.title,
         routes: alert.routes,
-        reduced: alert.effect === "REDUCED_SERVICE",
+        effect: alert.effect === "REDUCED_SERVICE" ? "IMPEDIMENT" : "CHANGE",
         link: alert.link,
         body: alert.htmlbody
     }), {

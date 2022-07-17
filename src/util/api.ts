@@ -7,7 +7,7 @@ export const getData = (type: keyof typeof cities["warsaw"]["api"], city: City, 
 
     if (options) {
         if(typeof options === "string") url = url + options;
-        else Object.keys(options).map((key, i) => {
+        else Object.keys(options).forEach((key, i) => {
             url = url.replace(`{{${key}}}`, options[key]);
         });
     }
