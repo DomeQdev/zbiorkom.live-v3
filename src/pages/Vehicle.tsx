@@ -7,9 +7,9 @@ import { IconButton, Menu, MenuItem, Skeleton } from "@mui/material";
 import { Check, Close, History, Logout, MoreVert } from "@mui/icons-material";
 import { RealTime, RealTimeResponse } from "../util/realtime";
 import { Trip, City, Vehicle } from "../util/typings";
+import { getData } from "../util/api";
 import { Color } from "../components/Icons";
 import styled from "@emotion/styled";
-import cities from "../cities.json";
 import Shapes from "../components/Shapes";
 import VehicleMarker from "../components/VehicleMarker";
 import VehicleHeadsign from "../components/VehicleHeadsign";
@@ -21,7 +21,6 @@ export default ({ city, vehicle, mapBearing }: { city: City, vehicle: Vehicle, m
     const [trip, setTrip] = useState<Trip>();
     const [realTime, setRealTime] = useState<RealTimeResponse>();
     const [anchorEl, setAnchorEl] = useState<HTMLElement | null>();
-    const cityData = cities[city];
 
     useEffect(() => {
         map?.on("movestart", (e) => e.originalEvent && e.originalEvent.type !== "resize" ? setFollow(false) : undefined);
@@ -36,10 +35,10 @@ export default ({ city, vehicle, mapBearing }: { city: City, vehicle: Vehicle, m
 
     useEffect(() => {
         if (!vehicle.trip) return;
-        fetch(cityData.api.trip.replace("{{trip}}", encodeURIComponent(vehicle.trip))).then(res => res.json()).then(setTrip).catch((e) => {
-            toast.error(`Fatalny błąd.`);
-            console.error(e);
-        });
+
+        getData("trip", city, {
+            trip: encodeURIComponent(vehicle.trip)
+        }).then(setTrip).catch(() => toast.error("Nie mogliśmy pobrać trasy..."));
     }, [vehicle.trip]);
 
     useEffect(() => {

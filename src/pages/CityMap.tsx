@@ -7,6 +7,7 @@ import { Button } from "@mui/material";
 import { FilterList, PortableWifiOff, Star } from "@mui/icons-material";
 import { Backdrop, Suspense } from '../components/Suspense';
 import { City, Stop, Vehicle } from "../util/typings";
+import { getData } from "../util/api";
 import cities from "../cities.json";
 
 const StopMarker = lazy(() => import("../components/StopMarker"));
@@ -53,7 +54,7 @@ export default ({ city }: { city: City }) => {
         </div>, { duration: Infinity, id: toastId }));
         socket.io.on("error", console.error);
 
-        if (cityData.api.stops) fetch(cityData.api.stops).then(res => res.json()).then(setStops).catch(() => toast.error("Nie udało się pobrać przystanków."));
+        if (cityData.api.stops) getData("stops", city).then(setStops).catch(() => toast.error("Nie udało się pobrać przystanków."));
 
         map?.on("moveend", () => setBounds(map.getBounds()));
         map?.on("zoomend", () => setZoom(map.getZoom()));

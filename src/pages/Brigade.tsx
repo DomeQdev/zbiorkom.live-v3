@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { List, ListItemButton, ListItemText, Divider, Button, Typography } from "@mui/material";
 import { ArrowBack } from "@mui/icons-material";
-import { BrigadeSchedule, City } from "../util/typings";
 import { toast } from "react-hot-toast";
 import { Backdrop } from "../components/Suspense";
-import cities from "../cities.json";
+import { BrigadeSchedule, City } from "../util/typings";
+import { getData } from "../util/api";
 import styled from "@emotion/styled";
 
 const Schedule = styled.div`
@@ -21,15 +21,17 @@ margin-right: auto;
 `;
 
 export default ({ city }: { city: City }) => {
-    const cityData = cities[city];
     const navigate = useNavigate();
     const { line, brigade } = useParams();
     const [schedule, setSchedule] = useState<BrigadeSchedule[]>();
 
     useEffect(() => {
-        fetch(cityData.api.brigade!.replace("{{line}}", line!).replace("{{brigade}}", brigade!)).then(res => res.json()).then(setSchedule).catch(() => {
+        getData("brigade", city, {
+            line,
+            brigade
+        }).then(setSchedule).catch(() => {
             toast.error("Nie mogliśmy pobrać rozkładu brygad...");
-            return navigate("/");
+            window.history.back();
         });
     }, [line, brigade]);
 
@@ -40,7 +42,7 @@ export default ({ city }: { city: City }) => {
 
         {schedule ? (schedule.length ? <List>{schedule.map<React.ReactNode>(sched => <ListItemButton>
             <ListItemText primary={<Typography noWrap>{sched.headsign}</Typography>} secondary={<>z przystanku {sched.firstStop}</>} />
-            <span>{timeString(sched.start)} - {timeString(sched.end)}</span>
+            <span><ListItemText primary={timeString(sched.start)} secondary={timeString(sched.end)} /></span>
         </ListItemButton>).reduce((prev, curr, i) => [prev, <Divider key={i} textAlign="left" style={{ color: "#9ba1ab", fontSize: 14 }}>{(schedule[i].start - schedule[i - 1]!.end) / 60000 < 60 ? `Postój ${(schedule[i].start - schedule[i - 1]!.end) / 60000} min` : null}</Divider>, curr])}</List> : <h4>Nie mogliśmy znaleźć rozkładu dla tej brygady...</h4>) : <Backdrop />}
     </Schedule>;
 };

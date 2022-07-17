@@ -3,10 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { Dialog, DialogTitle, DialogContent, ToggleButton, IconButton } from "@mui/material";
 import { Close } from "@mui/icons-material";
 import { toast } from "react-hot-toast";
-import { Backdrop } from "../components/Suspense";
 import { City, Route } from "../util/typings";
+import { getData } from "../util/api";
+import { Backdrop } from "../components/Suspense";
 import { Icon } from "../components/Icons";
-import cities from "../cities.json";
 import styled from "@emotion/styled";
 
 const Line = styled(ToggleButton)((props: {
@@ -25,19 +25,17 @@ border-color: ${props.backgroundColor};
     color: ${props.textColor};
     background-color: ${props.backgroundColor};
     border-color: ${props.textColor};
-
 }
 `);
 
 export default ({ city }: { city: City }) => {
     const navigate = useNavigate();
-    const cityData = cities[city];
     const [routes, setRoutes] = useState<Route[]>();
     const [selected, setSelected] = useState<Route | null>();
     const [selectedBrigades, setSelectedBrigades] = useState<string[] | null>();
 
     useEffect(() => {
-        fetch(cityData.api.routes + "?brigade=1").then(res => res.json()).then(setRoutes).catch(() => {
+        getData("routes", city, "?brigade=1").then(setRoutes).catch(() => {
             toast.error("Nie mogliśmy pobrać linii...");
             return navigate("../");
         });
@@ -54,9 +52,11 @@ export default ({ city }: { city: City }) => {
             onClick={() => {
                 setSelectedBrigades(null);
                 setSelected(route);
-                fetch(cityData.api.brigades!.replace("{{line}}", route.line)).then(res => res.json()).then(setSelectedBrigades).catch(() => {
+                getData("brigades", city, {
+                    line: route.line
+                }).then(setSelectedBrigades).catch(() => {
                     toast.error("Nie mogliśmy pobrać brygad...");
-                    return navigate("../");
+                    setSelected(null);
                 });
             }}
         >
