@@ -48,6 +48,5 @@ export default ({ city }: { city: City }) => {
 };
 
 function timeString(timestamp: number) {
-    let date = new Date(timestamp);
-    return `${date.getHours()}:${date.getMinutes() < 10 ? "0" : ""}${date.getMinutes()}`;
+    return new Date(timestamp).toLocaleTimeString("pl", { hour12: false, hour: "2-digit", minute: "2-digit" });
 }

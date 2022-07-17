@@ -10,6 +10,7 @@ import cities from "./cities.json";
 
 const Index = lazy(() => import("./pages/Index"));
 const CityMap = lazy(() => import("./pages/CityMap"));
+const Alerts = lazy(() => import("./pages/Alerts"));
 const Brigades = lazy(() => import("./pages/Brigades"));
 const Brigade = lazy(() => import("./pages/Brigade"));
 const Error = lazy(() => import("./pages/Error"));
@@ -77,7 +78,7 @@ export default () => {
             <Route path="parking/:parkingId" element={<></>} />
           </>}
           {cityData.api.alerts && <>
-            <Route path="alerts" element={<></>} />
+            <Route path="alerts" element={<Suspense><Alerts city={name} /></Suspense>} />
             <Route path="alert/:alertId" element={<></>} />
           </>}
         </Route>

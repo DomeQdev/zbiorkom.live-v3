@@ -87,8 +87,14 @@ interface BrigadeSchedule {
 interface Alert {
     id: string,
     title: string,
-    routes: string[],
+    routes: {
+        route: string,
+        type: VehicleType
+    }[],
     effect: "IMPEDIMENT" | "CHANGE",
+    from?: number,
+    to?: number,
+    published?: number,
     link?: string,
     body?: string
 }
