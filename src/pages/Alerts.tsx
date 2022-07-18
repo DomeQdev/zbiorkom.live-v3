@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Tabs, Tab, List, Divider, ListItem, ListItemButton, ListItemText, Skeleton } from "@mui/material";
-import { Error, NavigateNext, ReportProblem } from "@mui/icons-material";
+import { Error, NavigateNext, ReportProblem, TaskAlt } from "@mui/icons-material";
 import { toast } from "react-hot-toast";
 import { Alert, City } from "../util/typings";
 import { getData } from "../util/api";
@@ -35,12 +35,20 @@ export default ({ city }: { city: City }) => {
         <Skeleton variant="circular" width={24} height={24} />
     </ListItem>;
 
+    const NoAlerts = ({ type }: { type: "IMPEDIMENT" | "CHANGE" }) => <>
+        <TaskAlt color="primary" style={{ width: 70, height: 70 }} /><br />
+        <b style={{ fontSize: 18 }}>Brak {type === "IMPEDIMENT" ? "utrudnień" : "komunikatów"}.</b>
+    </>;
+
     useEffect(() => {
         getData("alerts", city).then(setAlerts).catch(() => {
             toast.error("Nie mogliśmy pobrać utrudnień...");
             setAlerts([]);
         });
     }, []);
+
+    const impediment = alerts.filter(a => a.effect === "IMPEDIMENT");
+    const change = alerts.filter(a => a.effect === "CHANGE");
 
     return <div style={{ textAlign: "center" }}>
         <h1>Utrudnienia</h1>
@@ -51,8 +59,21 @@ export default ({ city }: { city: City }) => {
         </Tabs>
         <List>
             {alerts.length ? <>
-                {tab === 0 ? alerts.filter(x => x.effect === "IMPEDIMENT").map<React.ReactNode>(alert => <AlertCard alert={alert} key={alert.id} />).reduce((prev, curr, i) => [prev, <Divider key={i} />, curr]) : alerts.filter(x => x.effect === "CHANGE").map<React.ReactNode>(alert => <AlertCard alert={alert} key={alert.id} />).reduce((prev, curr, i) => [prev, <Divider key={i} />, curr])}
-            </> : <><AlertCardSkeleton /><Divider /><AlertCardSkeleton /></>}
+                {tab === 0 && <>
+                    {impediment.length
+                        ? impediment.map<React.ReactNode>(alert => <AlertCard alert={alert} key={alert.id} />).reduce((prev, curr, i) => [prev, <Divider key={i} />, curr])
+                        : <NoAlerts type="IMPEDIMENT" />}
+                </>}
+                {tab === 1 && <>
+                    {change.length
+                        ? change.map<React.ReactNode>(alert => <AlertCard alert={alert} key={alert.id} />).reduce((prev, curr, i) => [prev, <Divider key={i} />, curr])
+                        : <NoAlerts type="CHANGE" />}
+                </>}
+            </> : <>
+                <AlertCardSkeleton />
+                <Divider />
+                <AlertCardSkeleton />
+            </>}
         </List>
     </div>;
 };
