@@ -51,7 +51,7 @@ export default ({ onClose }: { onClose: () => void }) => {
         </div>
         {mapNotSupported && <Suspense><Question 
             title={`Czy na pewno chcesz użyć ${mapStyles[mapNotSupported].name}?`} 
-            message={`Jest to nieoficjalna wersja mapy, która nie jest wspierana przez niektóre platformy (głównie komputery). Mapa może mieć efekt rozmazanej.`} 
+            message={`Jest to nieoficjalna wersja mapy, która nie wspiera obracania i częściowo przybliżania. Przy jej użyciu zalecane jest używanie przycisków kontroli przybliżenia w prawym górnym rogu.`} 
             options={[
                 {
                     name: "Tak",

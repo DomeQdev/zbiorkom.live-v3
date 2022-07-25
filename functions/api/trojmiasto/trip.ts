@@ -86,7 +86,7 @@ export const onRequestGet = async ({ request }) => {
                 }
             },
             alerts: [],
-            stops: stopTime.map(stop => {
+            stops: stopTime.map((stop, i) => {
                 let stopData = stops?.stops?.find(s => s.stopId === stop.stopId);
                 if (!stopData) return {
                     name: "Brak danych",
@@ -109,7 +109,7 @@ export const onRequestGet = async ({ request }) => {
                     arrival: czas(stop.arrivalTime.split("T")[1]) - 2 * 60 * 60 * 1000,
                     departure: czas(stop.departureTime.split("T")[1]) - 2 * 60 * 60 * 1000,
                     distance: nearest.properties.location,
-                    time: (czas(stop.departureTime.split("T")[1]) - czas(stopTime[0].departureTime.split("T")[1])) / 1000 / 60
+                    sequence: i
                 }
             })
         }), {

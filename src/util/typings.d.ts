@@ -39,9 +39,8 @@ interface TripStop {
     name: string,
     on_request: boolean,
     distance: number,
-    time: number,
     metersToStop: number,
-    i: number
+    sequence: number
 }
 
 interface Departure {

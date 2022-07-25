@@ -2,7 +2,7 @@ import { lazy, useState } from 'react';
 import { Routes, Route, useNavigate } from "react-router-dom";
 import { AppBar, Toolbar, IconButton, Typography } from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import { Settings } from "@mui/icons-material";
+import { DirectionsBus, Settings } from "@mui/icons-material";
 import { Toaster } from 'react-hot-toast';
 import { Suspense } from './components/Suspense';
 import { City } from './util/typings';
@@ -21,6 +21,11 @@ const Map = lazy(() => import("./components/Map"));
 export default () => {
   const navigate = useNavigate();
   const [settingsActive, setSettingsActive] = useState(false);
+  let city = cities[localStorage.getItem("city") as City];
+  if(!city) {
+    city = cities["warsaw"];
+    localStorage.setItem("city", "warsaw");
+  }
 
   const theme = createTheme({
     palette: {
@@ -44,8 +49,8 @@ export default () => {
   return <ThemeProvider theme={theme}>
     <AppBar position="sticky">
       <Toolbar style={{ display: "flex", justifyContent: "space-between" }}>
-        <Typography variant="h6" noWrap component="div" onClick={() => navigate("/")} sx={{ cursor: "pointer" }}>
-          zbiorkom.live
+        <Typography variant="h6" noWrap component="div" onClick={() => navigate("/")} sx={{ cursor: "pointer", display: "inline-flex", alignItems: "center" }}>
+          <DirectionsBus />&nbsp;<Routes>{Object.keys(cities).map((city) => <Route path={`${city}/*`} element={<>{cities[city as City].name}</>} />)}<Route path="*" element={<>zbiorkom.live</>} /></Routes>
         </Typography>
         <div>
           <IconButton href="https://discord.gg/QYRswCH6Gw" target="_blank"><img src="/img/discord.png" alt="discord logo" width="24" height="18" /></IconButton>
@@ -83,7 +88,7 @@ export default () => {
           </>}
         </Route>
       })}
-      <Route path="*" element={<Suspense><Error text={"404"} message={"Nie znaleziono strony"} /></Suspense>} />
+      <Route path="*" element={<Suspense><Error text={"404"} message={"Nie znaleziono strony (lub jesteś na stronie głównej :o)"} /></Suspense>} />
     </Routes>
     <Toaster
       position="top-center"

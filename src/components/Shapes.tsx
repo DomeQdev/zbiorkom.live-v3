@@ -62,7 +62,7 @@ export default ({ trip, realTime }: { trip: Trip, realTime?: RealTimeResponse })
             closeButton={false}
         >
             <h5 style={{ display: "inline" }}>{stopPopup.on_request && <PanTool style={{ width: 13, height: 13 }} />}&nbsp; <b style={{ fontSize: 15 }}>{stopPopup.name}</b></h5><br />
-            {stopPopup.departure + delay > Date.now() - 15000 || isNaN(delay) ? <>
+            {!realTime || realTime.snIndex <= stopPopup.sequence ? <>
                 za <b style={{ fontSize: 16 }}>{minutesUntil(stopPopup.arrival + delay)}</b> min<br />
                 <Chip label={new Date(stopPopup.arrival + delay).toLocaleTimeString("pl", { hour12: false, hour: "2-digit", minute: "2-digit" })} variant="outlined" style={{ color: Math.floor(delay / 60000) ? (delay > 0 ? "red" : "green") : "#000000", fontWeight: delay ? "bold" : "normal" }} />
             </> : <b>Odjechał</b>}

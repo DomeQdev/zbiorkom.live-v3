@@ -4,7 +4,7 @@ import { BottomSheet } from "react-spring-bottom-sheet";
 import { toast } from "react-hot-toast";
 import { useMap } from "react-map-gl";
 import { IconButton, Menu, MenuItem, Skeleton } from "@mui/material";
-import { Check, Close, Commit, DirectionsBus, History, LocationDisabled, LocationSearching, Logout, MoreVert, Route, Star } from "@mui/icons-material";
+import { Check, Close, Commit, DirectionsBus, GpsFixed, History, LocationDisabled, Logout, MoreVert, Route, Star } from "@mui/icons-material";
 import { RealTime, RealTimeResponse } from "../util/realtime";
 import { Trip, City, Vehicle } from "../util/typings";
 import { getData } from "../util/api";
@@ -89,7 +89,7 @@ export default ({ city, vehicle, mapBearing }: { city: City, vehicle: Vehicle, m
                 }
             }}
         >
-            <MenuItem sx={{ borderBottom: 1, borderColor: "divider", pointerEvents: "none" }}>{vehicle.isPredicted ? <LocationDisabled style={{ width: 20, height: 20 }} color="primary" /> : <LocationSearching style={{ width: 20, height: 20 }} color="primary" />}&nbsp;<b><Timer timestamp={vehicle.lastPing} /></b>&nbsp;temu</MenuItem>
+            <MenuItem sx={{ borderBottom: 1, borderColor: "divider", pointerEvents: "none" }}>{vehicle.isPredicted ? <LocationDisabled style={{ width: 20, height: 20 }} color="primary" /> : <GpsFixed style={{ width: 20, height: 20 }} color="primary" />}&nbsp;<b><Timer timestamp={vehicle.lastPing} /></b>&nbsp;temu</MenuItem>
             <MenuItem><Star style={{ width: 20, height: 20 }} color="primary" />&nbsp;Dodaj linię do ulubionych</MenuItem>
             {trip?.shapes && <MenuItem><Route style={{ width: 20, height: 20 }} color="primary" />&nbsp;Pokaż trasę</MenuItem>}
             {vehicle.brigade && <MenuItem><Commit style={{ width: 20, height: 20 }} color="primary" />&nbsp;Rozkład brygady</MenuItem>}

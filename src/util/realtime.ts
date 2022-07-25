@@ -2,6 +2,7 @@ import { nearestPointOnLine, point } from "@turf/turf";
 import { Trip, TripStop, Vehicle } from "./typings";
 
 type RealTimeResponse = {
+    snIndex: number,
     servingIndex: number | null,
     nextStopIndex: number,
     delay: number,
@@ -30,9 +31,10 @@ const RealTime = ({ trip, location, delay }: {
     let cur = serving || lastStop;
     let travelledToNextStop = percentTravelled(cur, nextStop);
     let realtime = ((nextStop.arrival - cur.departure) * travelledToNextStop) - (nextStop.arrival - Date.now());
-    let _delay = delay || (tripStart > 0 ? realtime : 0);
+    let _delay = tripStart > 0 ? delay || realtime : 0;
 
     return {
+        snIndex: tripStart > 0 ? (servingIndex === -1 ? nextStopIndex : servingIndex) : 0,
         servingIndex: tripStart > 0 ? (servingIndex === -1 ? null : servingIndex) : 0,
         nextStopIndex: tripStart > 0 ? nextStopIndex : 1,
         stops,
