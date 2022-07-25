@@ -5,7 +5,8 @@ type RealTimeResponse = {
     servingIndex: number | null,
     nextStopIndex: number,
     delay: number,
-    travelledToNextStop: number
+    travelledToNextStop: number,
+    stops: TripStop[]
 };
 
 const RealTime = ({ trip, location, delay }: {
@@ -34,6 +35,7 @@ const RealTime = ({ trip, location, delay }: {
     return {
         servingIndex: tripStart > 0 ? (servingIndex === -1 ? null : servingIndex) : 0,
         nextStopIndex: tripStart > 0 ? nextStopIndex : 1,
+        stops,
         delay: Math.floor(_delay),
         travelledToNextStop
     };

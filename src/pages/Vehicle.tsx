@@ -4,7 +4,7 @@ import { BottomSheet } from "react-spring-bottom-sheet";
 import { toast } from "react-hot-toast";
 import { useMap } from "react-map-gl";
 import { IconButton, Menu, MenuItem, Skeleton } from "@mui/material";
-import { Check, Close, History, Logout, MoreVert } from "@mui/icons-material";
+import { Check, Close, Commit, DirectionsBus, History, LocationDisabled, LocationSearching, Logout, MoreVert, Route, Star } from "@mui/icons-material";
 import { RealTime, RealTimeResponse } from "../util/realtime";
 import { Trip, City, Vehicle } from "../util/typings";
 import { getData } from "../util/api";
@@ -13,6 +13,8 @@ import styled from "@emotion/styled";
 import Shapes from "../components/Shapes";
 import VehicleMarker from "../components/VehicleMarker";
 import VehicleHeadsign from "../components/VehicleHeadsign";
+import VehicleStopList from "../components/VehicleStopList";
+import Timer from "../components/Timer";
 
 export default ({ city, vehicle, mapBearing }: { city: City, vehicle: Vehicle, mapBearing: number }) => {
     const navigate = useNavigate();
@@ -70,10 +72,10 @@ export default ({ city, vehicle, mapBearing }: { city: City, vehicle: Vehicle, m
                         {trip.stops[0].departure > Date.now() ? <InlineB><Logout style={{ width: 18, height: 18 }} />&nbsp;Odjazd za {Math.floor((trip.stops[0].departure - Date.now()) / 60000)} min</InlineB> : Math.floor(realTime.delay / 60000) ? <InlineB style={{ color: realTime.delay > 0 ? "red" : "green" }}><History style={{ width: 18, height: 18 }} />&nbsp;{Math.abs(Math.floor(realTime.delay / 60000))} min {realTime.delay > 0 ? "opóźnienia" : "przed czasem"}</InlineB> : <InlineB><Check style={{ width: 18, height: 18 }} />&nbsp;Planowo</InlineB>}
                     </span> : <Skeleton variant="text" style={{ width: 139, height: 21 }} /> : null}
                 </div>
-                {trip || !vehicle.trip ? <IconButton onClick={({ currentTarget }: { currentTarget: HTMLElement }) => setAnchorEl(anchorEl ? null : currentTarget)}  style={{ height: 40 }}><MoreVert /></IconButton> : <Skeleton variant="circular" width={40} height={40} />}
+                {trip || !vehicle.trip ? <IconButton onClick={({ currentTarget }: { currentTarget: HTMLElement }) => setAnchorEl(anchorEl ? null : currentTarget)} style={{ height: 40 }}><MoreVert /></IconButton> : <Skeleton variant="circular" width={40} height={40} />}
             </div>}
         >
-            Linia {vehicle.line} kierunek {trip?.headsign} o nr taborowym {vehicle.tab}, Follow: {follow ? "Tak" : "Nie"} {trip?.error}
+            <VehicleStopList realtime={realTime} />
         </BottomSheet>
         <Menu
             anchorEl={anchorEl}
@@ -87,7 +89,11 @@ export default ({ city, vehicle, mapBearing }: { city: City, vehicle: Vehicle, m
                 }
             }}
         >
-
+            <MenuItem sx={{ borderBottom: 1, borderColor: "divider", pointerEvents: "none" }}>{vehicle.isPredicted ? <LocationDisabled style={{ width: 20, height: 20 }} color="primary" /> : <LocationSearching style={{ width: 20, height: 20 }} color="primary" />}&nbsp;<b><Timer timestamp={vehicle.lastPing} /></b>&nbsp;temu</MenuItem>
+            <MenuItem><Star style={{ width: 20, height: 20 }} color="primary" />&nbsp;Dodaj linię do ulubionych</MenuItem>
+            {trip?.shapes && <MenuItem><Route style={{ width: 20, height: 20 }} color="primary" />&nbsp;Pokaż trasę</MenuItem>}
+            {vehicle.brigade && <MenuItem><Commit style={{ width: 20, height: 20 }} color="primary" />&nbsp;Rozkład brygady</MenuItem>}
+            {vehicle.brigade && <MenuItem><DirectionsBus style={{ width: 20, height: 20 }} color="primary" />&nbsp;Informacje o pojeździe</MenuItem>}
         </Menu>
     </>;
 };

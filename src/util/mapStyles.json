@@ -42,6 +42,7 @@
     "osm": {
         "name": "OpenStreetMap (beta)",
         "id": "osm",
+        "notMapbox": true,
         "style": {
             "version": 8,
             "sources": {

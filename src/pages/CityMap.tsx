@@ -29,10 +29,13 @@ export default ({ city }: { city: City }) => {
     const [vehicle, setVehicle] = useState<Vehicle>();
 
     useEffect(() => {
-        const socket = io(cityData.api.ws, {
+        const socket = io("https://api.zbiorkom.live/", {
             reconnection: true,
             reconnectionAttempts: 5,
-            timeout: 15000
+            timeout: 15000,
+            query: {
+                city: city
+            }
         }).on("positions", setVehicles);
 
         let toastId: any;
