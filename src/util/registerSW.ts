@@ -11,31 +11,30 @@ export function register() {
             if (isLocalhost) return;
             registerValidSW(`${process.env.PUBLIC_URL}/service-worker.js`);
         });
+
+        let refreshing = false;
+        navigator.serviceWorker.addEventListener('controllerchange', function () {
+            if (refreshing) return;
+            window.location.reload();
+            refreshing = true;
+        });
     }
 }
 
 function registerValidSW(swUrl: string) {
-    let toastId: any;
     navigator.serviceWorker
         .register(swUrl)
         .then((registration) => {
+            if(registration.waiting) registration.waiting.postMessage({ action: 'skipWaiting' });
+
             registration.onupdatefound = () => {
                 const installingWorker = registration.installing;
                 if (!installingWorker) return;
                 installingWorker.onstatechange = () => {
-                    if (installingWorker.state !== 'installed') {
-                        toastId = toast.loading("Pobieram nową wersję zbiorkom.live...");
-                    }
                     if (installingWorker.state === 'installed') {
                         if (navigator.serviceWorker.controller) {
-                            toast.success('Pobrano nową wersję zbiorkom.live, odświeżam...', {
-                                id: toastId
-                            });
-                            
-                            setTimeout(() => {
-                                registration.waiting?.postMessage({ action: 'skipWaiting' });
-                                window.location.reload();
-                            }, 2000);
+                            toast.loading('Pobrano nową wersję zbiorkom.live. Czekam na przeglądarkę...');
+                            installingWorker?.postMessage({ action: 'skipWaiting' });
                         }
                     }
                 };

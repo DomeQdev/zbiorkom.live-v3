@@ -26,5 +26,5 @@ registerRoute(({ url }) => url.origin === self.location.origin && url.pathname.i
 );
 
 self.addEventListener('message', (event) => {
-    if (event.data && event.data.type === 'SKIP_WAITING') self.skipWaiting();
+    if (event.data && event.data.action === 'skipWaiting') self.skipWaiting();
 });
