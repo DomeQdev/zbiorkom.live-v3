@@ -42,7 +42,12 @@ export default ({ city }: { city: City }) => {
 
         {schedule ? (schedule.length ? <List>{schedule.map<React.ReactNode>(sched => <ListItemButton>
             <ListItemText primary={<Typography noWrap>{sched.headsign}</Typography>} secondary={<>z przystanku {sched.firstStop}</>} />
-            <span><ListItemText primary={timeString(sched.start)} secondary={timeString(sched.end)} /></span>
+            <span style={{ textAlign: "right" }}>
+                <ListItemText
+                    primary={<><span style={{ textDecoration: sched.realStart ? "line-through" : "" }}>{timeString(sched.start)}</span> {sched.realStart ? <span style={{ color: "red" }}>{timeString(sched.realStart)}</span> : null}</>}
+                    secondary={<><span style={{ textDecoration: sched.realEnd ? "line-through" : "" }}>{timeString(sched.end)}</span> {sched.realEnd ? <span style={{ color: "red" }}>{timeString(sched.realEnd)}</span> : null}</>}
+                />
+            </span>
         </ListItemButton>).reduce((prev, curr, i) => [prev, <Divider key={i} textAlign="left" style={{ color: "#9ba1ab", fontSize: 14 }}>{(schedule[i].start - schedule[i - 1]!.end) / 60000 < 60 ? `Postój ${(schedule[i].start - schedule[i - 1]!.end) / 60000} min` : null}</Divider>, curr])}</List> : <h4>Nie mogliśmy znaleźć rozkładu dla tej brygady...</h4>) : <Backdrop />}
     </Schedule>;
 };

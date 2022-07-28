@@ -79,7 +79,9 @@ interface BrigadeSchedule {
     trip: string,
     headsign: string,
     start: number,
+    realStart?: number,
     end: number,
+    realEnd?: number,
     firstStop: string
 }
 
