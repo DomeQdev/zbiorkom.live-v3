@@ -7,8 +7,10 @@ import { Toaster } from 'react-hot-toast';
 import { Suspense } from './components/Suspense';
 import { City } from './util/typings';
 import cities from "./cities.json";
+import DetectDevice from './components/DetectDevice';
 
-const Index = lazy(() => import("./pages/Index"));
+const IndexMobile = lazy(() => import("./pages/IndexMobile"));
+const IndexDesktop = lazy(() => import("./pages/IndexDesktop"));
 const CityMap = lazy(() => import("./pages/CityMap"));
 const Alerts = lazy(() => import("./pages/Alerts"));
 const Brigades = lazy(() => import("./pages/Brigades"));
@@ -64,7 +66,7 @@ export default () => {
         let cityData = cities[name];
 
         return <Route path={city} key={city}>
-          <Route index element={<Suspense><Index city={name} /></Suspense>} />
+          <Route index element={<Suspense><DetectDevice desktop={<IndexDesktop city={name} />} mobile={<IndexMobile city={name} />} /></Suspense>} />
           <Route path="map" element={<Suspense><Map city={name}><CityMap city={name} /></Map></Suspense>} />
           {cityData.api.stops && <>
             <Route path="stops" element={<></>} />

@@ -8,21 +8,18 @@ export default ({ city }: { city: City }) => {
     const navigate = useNavigate();
     const cityData = cities[city];
 
-    return <div style={{ textAlign: "center", marginTop: 25 }}>
-        <img src={cityData.image} width="128" height="128" />
-        <h1>{cityData.name}</h1>
-
-        <Box display="flex" justifyContent="center" alignItems="center">
-            <List>
-                <ListItemButton onClick={() => navigate("map")}>
-                    <ListItemAvatar>
-                        <Avatar>
-                            <Map />
-                        </Avatar>
-                    </ListItemAvatar>
-                    <ListItemText primary="Mapa" />
-                </ListItemButton>
-                {cityData.api.stops && <><Divider />
+    return <div style={{ width: "100%", textAlign: "center" }}>
+        // widok na urządzenia {">600px"}, kiedyś to będzie lepiej wyglądać
+        <List>
+            <ListItemButton onClick={() => navigate("map")}>
+                <ListItemAvatar>
+                    <Avatar>
+                        <Map />
+                    </Avatar>
+                </ListItemAvatar>
+                <ListItemText primary="Mapa" />
+            </ListItemButton>
+            {cityData.api.stops && <><Divider />
                 <ListItemButton onClick={() => navigate("stops")}>
                     <ListItemAvatar>
                         <Avatar>
@@ -31,7 +28,7 @@ export default ({ city }: { city: City }) => {
                     </ListItemAvatar>
                     <ListItemText primary="Rozkład przystanku" />
                 </ListItemButton></>}
-                {cityData.api.brigades && <><Divider />
+            {cityData.api.brigades && <><Divider />
                 <ListItemButton onClick={() => navigate("brigades")}>
                     <ListItemAvatar>
                         <Avatar>
@@ -40,7 +37,7 @@ export default ({ city }: { city: City }) => {
                     </ListItemAvatar>
                     <ListItemText primary="Rozkład brygad" />
                 </ListItemButton></>}
-                {cityData.api.bikes && <><Divider />
+            {cityData.api.bikes && <><Divider />
                 <ListItemButton onClick={() => navigate("bikes")}>
                     <ListItemAvatar>
                         <Avatar>
@@ -49,7 +46,7 @@ export default ({ city }: { city: City }) => {
                     </ListItemAvatar>
                     <ListItemText primary="Rowery miejskie" />
                 </ListItemButton></>}
-                {cityData.api.parkings && <><Divider />
+            {cityData.api.parkings && <><Divider />
                 <ListItemButton onClick={() => navigate("parkings")}>
                     <ListItemAvatar>
                         <Avatar>
@@ -58,7 +55,7 @@ export default ({ city }: { city: City }) => {
                     </ListItemAvatar>
                     <ListItemText primary="Parkingi" />
                 </ListItemButton></>}
-                {cityData.api.alerts && <><Divider />
+            {cityData.api.alerts && <><Divider />
                 <ListItemButton onClick={() => navigate("alerts")}>
                     <ListItemAvatar>
                         <Avatar>
@@ -67,9 +64,7 @@ export default ({ city }: { city: City }) => {
                     </ListItemAvatar>
                     <ListItemText primary="Utrudnienia" />
                 </ListItemButton></>}
-            </List>
-        </Box>
-        <br />
-        {cityData.note}
+        </List>
+        <p>{cityData.note}</p>
     </div>;
 };

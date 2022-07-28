@@ -37,7 +37,6 @@ export default ({ city }: { city: City }) => {
 
     return <Schedule>
         <h1 style={{ fontWeight: "normal" }}>Rozkład brygady <b>{line}</b>/{brigade}</h1>
-
         <Button variant="outlined" startIcon={<ArrowBack />} onClick={() => window.history.back()}>Wróć</Button>
 
         {schedule ? (schedule.length ? <List>{schedule.map<React.ReactNode>(sched => <ListItemButton>
