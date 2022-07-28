@@ -47,7 +47,7 @@ export default ({ city }: { city: City }) => {
                     secondary={<><span style={{ textDecoration: sched.realEnd ? "line-through" : "" }}>{timeString(sched.end)}</span> {sched.realEnd ? <span style={{ color: "red" }}>{timeString(sched.realEnd)}</span> : null}</>}
                 />
             </span>
-        </ListItemButton>).reduce((prev, curr, i) => [prev, <Divider key={i} textAlign="left" style={{ color: "#9ba1ab", fontSize: 14 }}>{(schedule[i].start - schedule[i - 1]!.end) / 60000 < 60 ? `Postój ${(schedule[i].start - schedule[i - 1]!.end) / 60000} min` : null}</Divider>, curr])}</List> : <h4>Nie mogliśmy znaleźć rozkładu dla tej brygady...</h4>) : <Backdrop />}
+        </ListItemButton>).reduce((prev, curr, i) => [prev, <Divider key={i} textAlign="left" style={{ color: "#9ba1ab", fontSize: 14 }}>{(schedule[i].start - schedule[i - 1]!.end) / 60000 < 60 ? schedule[i].realStart ? <span style={{ color: "red" }}>Brak postoju z powodu zbyt dużego opóźnienia.</span> : <>Postój {Math.floor((schedule[i].start - schedule[i - 1]!.end) / 60000)} min</> : null}</Divider>, curr])}</List> : <h4>Nie mogliśmy znaleźć rozkładu dla tej brygady...</h4>) : <Backdrop />}
     </Schedule>;
 };
 

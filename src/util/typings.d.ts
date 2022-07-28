@@ -71,7 +71,7 @@ interface Stop {
     name: string,
     code?: string,
     location: [number, number],
-    deg?: number,
+    deg?: number[],
     type: VehicleType[]
 }
 

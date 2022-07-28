@@ -23,11 +23,6 @@ const Map = lazy(() => import("./components/Map"));
 export default () => {
   const navigate = useNavigate();
   const [settingsActive, setSettingsActive] = useState(false);
-  let city = cities[localStorage.getItem("city") as City];
-  if(!city) {
-    city = cities["warsaw"];
-    localStorage.setItem("city", "warsaw");
-  }
 
   const theme = createTheme({
     palette: {
