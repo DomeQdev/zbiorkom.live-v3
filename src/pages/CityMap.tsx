@@ -84,8 +84,8 @@ export default ({ city }: { city: City }) => {
     return <>
         {!vehicles.length && <Backdrop />}
         <Suspense>
-            {(zoom >= 16 && !vehicle) && stops.filter(stop => bounds?.contains({ lat: stop.location[0], lon: stop.location[1] })).map(stop => <StopMarker key={stop.id} stop={stop} onClick={() => toast.success(`${stop.type} ${stop.name} ${stop.code} ${stop.id}`)} />)}
-            {(zoom >= 15 && !vehicle) && vehicles.filter(veh => bounds?.contains({ lat: veh._location[1], lon: veh._location[0] })).map(veh => <VehicleMarker key={veh.type + veh.tab} vehicle={veh} mapBearing={bearing || 0} onClick={() => navigate(`?vehicle=${veh.type}/${veh.tab}`)} />)}
+            {(zoom >= 15 && !vehicle) && stops.filter(stop => bounds?.contains({ lat: stop.location[0], lon: stop.location[1] })).map(stop => <StopMarker key={stop.id} stop={stop} onClick={() => toast.success(`${stop.type} ${stop.name} ${stop.code} ${stop.id}`)} />)}
+            {(zoom >= 14 && !vehicle) && vehicles.filter(veh => bounds?.contains({ lat: veh._location[1], lon: veh._location[0] })).map(veh => <VehicleMarker key={veh.type + veh.tab} vehicle={veh} mapBearing={bearing || 0} onClick={() => navigate(`?vehicle=${veh.type}/${veh.tab}`)} />)}
             {vehicle && <VehicleComp city={city} vehicle={vehicle} mapBearing={bearing || 0} />}
         </Suspense>
         <div className="mapboxgl-ctrl-top-right" style={{ top: 135 }}>

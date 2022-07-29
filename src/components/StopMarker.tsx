@@ -20,7 +20,7 @@ const Arrow = styled(ArrowDropUp)((props: { arrowcolor: string }) => ({
     height: 27,
     color: props.arrowcolor,
     stroke: "white",
-    transform: "translateY(-18px)"
+    transform: "translateY(-14px)"
 }));
 
 export default ({ stop, onClick }: { stop: Stop, onClick: () => void }) => {
@@ -31,7 +31,7 @@ export default ({ stop, onClick }: { stop: Stop, onClick: () => void }) => {
         longitude={stop.location[1]}
         rotationAlignment="map"
         clickTolerance={10}
-        style={{ cursor: "pointer", zIndex: 1 }}
+        style={{ cursor: "pointer", display: "grid", placeItems: "center", zIndex: 1 }}
         onClick={onClick}
     >
         {stop.deg?.map((deg, i) => <div style={{ transform: `rotate(${deg}deg)`, display: "flex", position: "absolute" }} key={stop.id + i}><Arrow arrowcolor={colors[0]} /></div>)}
