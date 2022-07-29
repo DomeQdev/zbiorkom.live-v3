@@ -10,21 +10,21 @@ import { Icon } from "../components/Icons";
 import styled from "@emotion/styled";
 
 const Line = styled(ToggleButton)((props: {
-    textColor: string,
-    backgroundColor: string
+    textcolor: string,
+    backgroundcolor: string
 }) => `
 width: 110px;
 height: 50px;
 font-size: 20px;
 margin: 5px;
 border-radius: 15px;
-color: ${props.backgroundColor};
-background-color: ${props.textColor};
-border-color: ${props.backgroundColor};
+color: ${props.backgroundcolor};
+background-color: ${props.textcolor};
+border-color: ${props.backgroundcolor};
 :hover {
-    color: ${props.textColor};
-    background-color: ${props.backgroundColor};
-    border-color: ${props.textColor};
+    color: ${props.textcolor};
+    background-color: ${props.backgroundcolor};
+    border-color: ${props.textcolor};
 }
 `);
 
@@ -47,8 +47,8 @@ export default ({ city }: { city: City }) => {
         {routes?.map(route => <Line
             value={route.line}
             key={route.line}
-            textColor={route.text === route.color ? "#fff" : route.text}
-            backgroundColor={route.color}
+            textcolor={route.text === route.color ? "#fff" : route.text}
+            backgroundcolor={route.color}
             onClick={() => {
                 setSelectedBrigades(null);
                 setSelected(route);
