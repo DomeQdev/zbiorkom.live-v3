@@ -9,7 +9,7 @@ export default ({ city }: { city: City }) => {
     const cityData = cities[city];
 
     return <div style={{ width: "100%", textAlign: "center" }}>
-        <img src={cityData.image} width="128" height="128" style={{ marginTop: 25 }} />
+        <img src={cityData.image} width="100" height="100" style={{ marginTop: 15 }} />
         <h1>{cityData.name}</h1>
         <List>
             <ListItemButton onClick={() => navigate("map")}>

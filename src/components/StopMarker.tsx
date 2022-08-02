@@ -1,4 +1,3 @@
-import { Tooltip } from "@mui/material";
 import { ArrowDropUp } from "@mui/icons-material";
 import { Marker } from "react-map-gl";
 import { Color } from "./Icons";
@@ -35,6 +34,6 @@ export default ({ stop, onClick }: { stop: Stop, onClick: () => void }) => {
         onClick={onClick}
     >
         {stop.deg?.map((deg, i) => <div style={{ transform: `rotate(${deg}deg)`, display: "flex", position: "absolute" }} key={stop.id + i}><Arrow arrowcolor={colors[0]} /></div>)}
-        <Tooltip title={stop.name + (stop.code ? ` ${stop.code}` : "")} placement="left" arrow><StopMarker colors={colors} /></Tooltip>
+        <StopMarker colors={colors} />
     </Marker>;
 };

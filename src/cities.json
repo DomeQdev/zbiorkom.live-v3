@@ -6,7 +6,7 @@
         "note": "Dane: Miasto Stołeczne Warszawa, mkuran.pl",
         "api": {
             "trip": "https://api.zbiorkom.live/warsaw/trip?trip={{trip}}",
-            "planner": "s",
+            "planner": "https://api.zbiorkom.live/warsaw/planner?from={{from}}&to={{to}}&transfers={{transfers}}&type={{type}}&facilities={{facilities}}",
             "vehicle": "https://api.zbiorkom.live/warsaw/vehicle?vehicle={{type}}{{tab}}",
             "stops": "https://api.zbiorkom.live/warsaw/stops",
             "stop": "https://api.zbiorkom.live/warsaw/stopDepartures?id={{stop}}",
@@ -26,7 +26,7 @@
         "note": "Dane: ZTM Poznań",
         "api": {
             "trip": "https://api.zbiorkom.live/poznan/trip?trip={{trip}}",
-            "planner": null,
+            "planner": "https://api.zbiorkom.live/poznan/planner?from={{from}}&to={{to}}&transfers={{transfers}}&type={{type}}&facilities={{facilities}}",
             "vehicle": "https://api.zbiorkom.live/poznan/vehicle?vehicle={{tab}}",
             "stops": "https://api.zbiorkom.live/poznan/stops",
             "stop": "https://api.zbiorkom.live/poznan/stopDepartures?id={{stop}}",
