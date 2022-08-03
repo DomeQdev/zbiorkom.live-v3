@@ -1,4 +1,4 @@
-import { Box, Slide, TextField, Dialog } from "@mui/material";
+import { Box, Slide, TextField, Dialog, AppBar, Toolbar, IconButton } from "@mui/material";
 import { ArrowBack, Search } from "@mui/icons-material";
 import { forwardRef, ReactElement, Ref, useState } from "react";
 import { Stop } from "../util/typings";
@@ -8,7 +8,7 @@ export default ({ onData }: { onData: (name: string, location: [number, number])
     const [input, setInput] = useState<string>();
     const [stopResults, setStopResults] = useState<Stop[]>();
 
-    onData("es", [1,2])
+    onData("es", [1, 2])
 
     const Transition = forwardRef((
         props: TransitionProps & {
@@ -19,12 +19,16 @@ export default ({ onData }: { onData: (name: string, location: [number, number])
 
     return <Dialog
         open
-        fullWidth
+        fullScreen
         TransitionComponent={Transition}
     >
-        <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
-            <ArrowBack sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
-            <TextField id="input-with-sx" label="With sx" variant="standard" />
-        </Box>
+        <AppBar sx={{ position: "relative" }}>
+            <Toolbar>
+                <IconButton edge="start" color="inherit">
+                    <ArrowBack />
+                </IconButton>
+                <TextField id="input-with-sx" label="With sx" variant="standard" />
+            </Toolbar>
+        </AppBar>
     </Dialog>;
 };
