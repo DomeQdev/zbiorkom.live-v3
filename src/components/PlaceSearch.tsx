@@ -11,12 +11,19 @@ export default ({ onData }: { onData: (name: string, location: [number, number])
     const [stopResults, setStopResults] = useState<Stop[]>();
 
     return <>
-        <AppBar sx={{ position: "relative" }}>
+        <AppBar sx={{ position: "relative" }} color="transparent">
             <Toolbar>
                 <TextField
                     placeholder="Wyszukaj tutaj"
                     variant="outlined"
-                    sx={{ marginTop: 1, marginBottom: 1, borderRadius: "25px" }}
+                    fullWidth
+                    sx={{
+                        marginTop: 1,
+                        marginBottom: 1,
+                        "& fieldset": {
+                            borderRadius: "25px"
+                        }
+                    }}
                     value={input}
                     onChange={({ target }) => setInput(target.value)}
                     InputProps={{
@@ -25,7 +32,7 @@ export default ({ onData }: { onData: (name: string, location: [number, number])
                                 <ArrowBack />
                             </IconButton>
                         </InputAdornment>,
-                        endAdornment: input?.length && <InputAdornment position="end">
+                        endAdornment: !!input?.length && <InputAdornment position="end">
                             <IconButton color="inherit" onClick={() => setInput(undefined)}>
                                 <HighlightOff />
                             </IconButton>
