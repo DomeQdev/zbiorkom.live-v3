@@ -28,7 +28,7 @@ export default ({ onData }: { onData: (name: string, location: [number, number])
                     onChange={({ target }) => setInput(target.value)}
                     InputProps={{
                         startAdornment: <InputAdornment position="start">
-                            <IconButton color="inherit" onClick={() => navigate("./")}>
+                            <IconButton color="inherit" onClick={() => navigate("../")}>
                                 <ArrowBack />
                             </IconButton>
                         </InputAdornment>,
