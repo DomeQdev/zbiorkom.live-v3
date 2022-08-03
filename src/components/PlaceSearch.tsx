@@ -10,23 +10,13 @@ export default ({ onData }: { onData: (name: string, location: [number, number])
     const [input, setInput] = useState<string>();
     const [stopResults, setStopResults] = useState<Stop[]>();
 
-    const Transition = forwardRef((
-        props: TransitionProps & {
-            children: ReactElement
-        },
-        ref: Ref<unknown>
-    ) => <Slide direction="up" ref={ref} {...props} />)
-
-    return <Dialog
-        open
-        fullScreen
-        TransitionComponent={Transition}
-    >
+    return <>
         <AppBar sx={{ position: "relative" }}>
             <Toolbar>
                 <TextField
-                    label="Wyszukaj tutaj"
+                    placeholder="Wyszukaj tutaj"
                     variant="outlined"
+                    sx={{ marginTop: 1, marginBottom: 1, borderRadius: "25px" }}
                     value={input}
                     onChange={({ target }) => setInput(target.value)}
                     InputProps={{
@@ -44,5 +34,5 @@ export default ({ onData }: { onData: (name: string, location: [number, number])
                 />
             </Toolbar>
         </AppBar>
-    </Dialog>;
+    </>;
 };

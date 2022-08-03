@@ -1,8 +1,9 @@
 import { LastPage, Start, GpsFixed, ImportExport, Balance, DirectionsWalk, DirectionsBike, Accessible, AcUnit, ArrowForward, SelfImprovement, KeyboardArrowDown } from "@mui/icons-material";
-import { Box, Button, Dialog, Fab, Fade, FormControl, FormControlLabel, IconButton, InputAdornment, Radio, RadioGroup, Slider, TextField, ToggleButton, ToggleButtonGroup, Typography } from "@mui/material";
-import { useState } from "react";
+import { Box, Button, Dialog, Fab, Slide, Fade, FormControl, FormControlLabel, IconButton, InputAdornment, Radio, RadioGroup, Slider, TextField, ToggleButton, ToggleButtonGroup, Typography } from "@mui/material";
+import { forwardRef, ReactElement, Ref, useState } from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import { BottomSheet } from "react-spring-bottom-sheet";
+import { TransitionProps } from "@mui/material/transitions";
 import PlaceSearch from "../components/PlaceSearch";
 import toast from "react-hot-toast";
 import styled from "@emotion/styled";
@@ -19,6 +20,13 @@ margin-right: auto;
     width: 70%;
 }
 `;
+
+const Transition = forwardRef((
+    props: TransitionProps & {
+        children: ReactElement
+    },
+    ref: Ref<unknown>
+) => <Slide direction="up" ref={ref} {...props} />);
 
 export default () => {
     const navigate = useNavigate();
@@ -156,9 +164,15 @@ export default () => {
                 </div>
             </BottomSheet>} />
 
-            <Route path="from" element={<PlaceSearch onData={(name, location) => {
-                
-            }} />} />
+            <Route path="from" element={<Dialog
+                open
+                fullScreen
+                TransitionComponent={Transition}
+            >
+                <PlaceSearch onData={(name, location) => {
+
+                }} />
+            </Dialog>} />
         </Routes>
 
         <Fade in={!!(from && to)}>
