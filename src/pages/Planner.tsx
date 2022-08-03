@@ -1,10 +1,11 @@
 import { LastPage, Start, GpsFixed, ImportExport, Balance, DirectionsWalk, DirectionsBike, Accessible, AcUnit, ArrowForward, SelfImprovement, KeyboardArrowDown } from "@mui/icons-material";
-import { Box, Button, Fab, Fade, FormControl, FormControlLabel, IconButton, InputAdornment, Radio, RadioGroup, Slider, TextField, ToggleButton, ToggleButtonGroup, Typography } from "@mui/material";
+import { Box, Button, Dialog, Fab, Fade, FormControl, FormControlLabel, IconButton, InputAdornment, Radio, RadioGroup, Slider, TextField, ToggleButton, ToggleButtonGroup, Typography } from "@mui/material";
 import { useState } from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
+import { BottomSheet } from "react-spring-bottom-sheet";
+import PlaceSearch from "../components/PlaceSearch";
 import toast from "react-hot-toast";
 import styled from "@emotion/styled";
-import { BottomSheet } from "react-spring-bottom-sheet";
 
 const SizedDiv = styled.div`
 text-align: center;
@@ -154,6 +155,10 @@ export default () => {
                     </FormControl>
                 </div>
             </BottomSheet>} />
+
+            <Route path="from" element={<PlaceSearch onData={(name, location) => {
+                
+            }} />} />
         </Routes>
 
         <Fade in={!!(from && to)}>
