@@ -1,14 +1,14 @@
-import { Box, Slide, TextField, Dialog, AppBar, Toolbar, IconButton } from "@mui/material";
-import { ArrowBack, Search } from "@mui/icons-material";
-import { forwardRef, ReactElement, Ref, useState } from "react";
-import { Stop } from "../util/typings";
+import { Slide, TextField, Dialog, AppBar, Toolbar, IconButton, InputAdornment } from "@mui/material";
+import { ArrowBack, HighlightOff } from "@mui/icons-material";
 import { TransitionProps } from "@mui/material/transitions";
+import { forwardRef, ReactElement, Ref, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Stop } from "../util/typings";
 
 export default ({ onData }: { onData: (name: string, location: [number, number]) => void }) => {
+    const navigate = useNavigate();
     const [input, setInput] = useState<string>();
     const [stopResults, setStopResults] = useState<Stop[]>();
-
-    onData("es", [1, 2])
 
     const Transition = forwardRef((
         props: TransitionProps & {
@@ -24,10 +24,24 @@ export default ({ onData }: { onData: (name: string, location: [number, number])
     >
         <AppBar sx={{ position: "relative" }}>
             <Toolbar>
-                <IconButton edge="start" color="inherit">
-                    <ArrowBack />
-                </IconButton>
-                <TextField id="input-with-sx" label="With sx" variant="standard" />
+                <TextField
+                    label="Wyszukaj tutaj"
+                    variant="outlined"
+                    value={input}
+                    onChange={({ target }) => setInput(target.value)}
+                    InputProps={{
+                        startAdornment: <InputAdornment position="start">
+                            <IconButton color="inherit" onClick={() => navigate("./")}>
+                                <ArrowBack />
+                            </IconButton>
+                        </InputAdornment>,
+                        endAdornment: input?.length && <InputAdornment position="end">
+                            <IconButton color="inherit" onClick={() => setInput(undefined)}>
+                                <HighlightOff />
+                            </IconButton>
+                        </InputAdornment>
+                    }}
+                />
             </Toolbar>
         </AppBar>
     </Dialog>;
