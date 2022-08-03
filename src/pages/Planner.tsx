@@ -170,7 +170,19 @@ export default () => {
                 TransitionComponent={Transition}
             >
                 <PlaceSearch onData={(name, location) => {
+                    setFromName(name);
+                    setFrom(location);
+                }} />
+            </Dialog>} />
 
+            <Route path="to" element={<Dialog
+                open
+                fullScreen
+                TransitionComponent={Transition}
+            >
+                <PlaceSearch onData={(name, location) => {
+                    setToName(name);
+                    setTo(location);
                 }} />
             </Dialog>} />
         </Routes>
