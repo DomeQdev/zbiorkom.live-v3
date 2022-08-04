@@ -26,6 +26,12 @@ export default ({ city, placeholder, onData }: { city: City, placeholder: string
         return () => debouncedSearch.cancel();
     }, [input]);
 
+    useEffect(() => {
+        setInput("");
+        setStopResults(undefined);
+        debouncedSearch.cancel();
+    }, [placeholder]);
+
     return <>
         <AppBar sx={{ position: "relative" }} color="transparent">
             <Toolbar>

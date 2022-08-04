@@ -34,8 +34,8 @@ export default ({ city }: { city: City }) => {
 
     const [from, setFrom] = useState<[number, number]>();
     const [to, setTo] = useState<[number, number]>();
-    const [fromName, setFromName] = useState<string>("Przystanek początkowy");
-    const [toName, setToName] = useState<string>("Przystanek końcowy");
+    const [fromName, setFromName] = useState<string>("Miejsce początkowe");
+    const [toName, setToName] = useState<string>("Miejsce docelowe");
     const [transfers, setTransfers] = useState<number>(2);
     const [facilities, setFacilities] = useState<"wheelchair" | "ac" | "bike"[]>();
     const [type, setType] = useState<"quick" | "optimised" | "transfers">("optimised");
