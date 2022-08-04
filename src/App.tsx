@@ -63,7 +63,7 @@ export default () => {
         return <Route path={city} key={city}>
           <Route index element={<Suspense><DetectDevice desktop={<IndexDesktop city={name} />} mobile={<IndexMobile city={name} />} /></Suspense>} />
           <Route path="map" element={<Suspense><Map city={name}><CityMap city={name} /></Map></Suspense>} />
-          {cityData.api.planner && <Route path="planner/*" element={<Suspense><Planner /></Suspense>} />}
+          {cityData.api.planner && <Route path="planner/*" element={<Suspense><Planner city={name} /></Suspense>} />}
           {cityData.api.stops && <>
             <Route path="stops" element={<></>} />
             <Route path="stop/:stopId" element={<></>} />

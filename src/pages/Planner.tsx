@@ -1,10 +1,13 @@
 import { LastPage, Start, GpsFixed, ImportExport, Balance, DirectionsWalk, DirectionsBike, Accessible, AcUnit, ArrowForward, SelfImprovement, KeyboardArrowDown } from "@mui/icons-material";
-import { Box, Button, Fab, Fade, FormControl, FormControlLabel, IconButton, InputAdornment, Radio, RadioGroup, Slider, TextField, ToggleButton, ToggleButtonGroup, Typography } from "@mui/material";
-import { useState } from "react";
+import { Box, Button, Dialog, Fab, Slide, Fade, FormControl, FormControlLabel, IconButton, InputAdornment, Radio, RadioGroup, Slider, TextField, ToggleButton, ToggleButtonGroup, Typography } from "@mui/material";
+import { forwardRef, ReactElement, Ref, useState } from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
+import { BottomSheet } from "react-spring-bottom-sheet";
+import { TransitionProps } from "@mui/material/transitions";
+import { City } from "../util/typings";
+import PlaceSearch from "../components/PlaceSearch";
 import toast from "react-hot-toast";
 import styled from "@emotion/styled";
-import { BottomSheet } from "react-spring-bottom-sheet";
 
 const SizedDiv = styled.div`
 text-align: center;
@@ -19,7 +22,14 @@ margin-right: auto;
 }
 `;
 
-export default () => {
+const Transition = forwardRef((
+    props: TransitionProps & {
+        children: ReactElement
+    },
+    ref: Ref<unknown>
+) => <Slide direction="up" ref={ref} {...props} />);
+
+export default ({ city }: { city: City }) => {
     const navigate = useNavigate();
 
     const [from, setFrom] = useState<[number, number]>();
@@ -119,7 +129,7 @@ export default () => {
                         step={1}
                         min={0}
                         max={4}
-                        marks={[<SelfImprovement />, null, <Balance />, null, <DirectionsWalk />].map((icon, i) => ({ value: i, label: icon }))}
+                        marks
                     />
 
                     <Typography gutterBottom sx={{ marginTop: 3 }}>Udogodnienia</Typography>
@@ -154,6 +164,28 @@ export default () => {
                     </FormControl>
                 </div>
             </BottomSheet>} />
+
+            <Route path="from" element={<Dialog
+                open
+                fullScreen
+                TransitionComponent={Transition}
+            >
+                <PlaceSearch city={city} onData={(name, location) => {
+                    setFromName(name);
+                    setFrom(location);
+                }} />
+            </Dialog>} />
+
+            <Route path="to" element={<Dialog
+                open
+                fullScreen
+                TransitionComponent={Transition}
+            >
+                <PlaceSearch city={city} onData={(name, location) => {
+                    setToName(name);
+                    setTo(location);
+                }} />
+            </Dialog>} />
         </Routes>
 
         <Fade in={!!(from && to)}>
