@@ -36,7 +36,7 @@ export default ({ city }: { city: City }) => {
     </ListItem>;
 
     const NoAlerts = ({ type }: { type: "IMPEDIMENT" | "CHANGE" }) => <>
-        <TaskAlt color="primary" style={{ width: 70, height: 70 }} /><br />
+        <TaskAlt color="primary" sx={{ width: 70, height: 70 }} /><br />
         <b style={{ fontSize: 18 }}>Brak {type === "IMPEDIMENT" ? "utrudnień" : "komunikatów"}.</b>
     </>;
 
