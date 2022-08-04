@@ -6,7 +6,7 @@ import { debounce } from "lodash";
 import { Stop, City } from "../util/typings";
 import { getData } from "../util/api";
 
-export default ({ city, onData }: { city: City, onData: (name: string, location: [number, number]) => void }) => {
+export default ({ city, placeholder, onData }: { city: City, placeholder: string, onData: (name: string, location: [number, number]) => void }) => {
     const navigate = useNavigate();
     const [input, setInput] = useState<string>();
     const [stopResults, setStopResults] = useState<Stop[]>();
@@ -30,9 +30,10 @@ export default ({ city, onData }: { city: City, onData: (name: string, location:
         <AppBar sx={{ position: "relative" }} color="transparent">
             <Toolbar>
                 <TextField
-                    placeholder="Wyszukaj tutaj"
+                    placeholder={placeholder}
                     variant="outlined"
                     fullWidth
+                    autoFocus
                     sx={{
                         marginTop: 1,
                         marginBottom: 1,

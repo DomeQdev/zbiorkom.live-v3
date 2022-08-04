@@ -43,7 +43,7 @@ export default ({ city }: { city: City }) => {
     return <>
         <SizedDiv style={{ marginTop: 30 }}>
             <TextField
-                label="Start"
+                label="Miejsce początkowe"
                 fullWidth
                 autoFocus
                 value={fromName}
@@ -68,7 +68,7 @@ export default ({ city }: { city: City }) => {
                 }}
             />
             <TextField
-                label="Cel podróży"
+                label="Miejsce docelowe"
                 fullWidth
                 value={toName}
                 sx={{ marginTop: 2 }}
@@ -170,9 +170,10 @@ export default ({ city }: { city: City }) => {
                 fullScreen
                 TransitionComponent={Transition}
             >
-                <PlaceSearch city={city} onData={(name, location) => {
+                <PlaceSearch city={city} placeholder="Miejsce początkowe" onData={(name, location) => {
                     setFromName(name);
                     setFrom(location);
+                    navigate("./to");
                 }} />
             </Dialog>} />
 
@@ -181,7 +182,7 @@ export default ({ city }: { city: City }) => {
                 fullScreen
                 TransitionComponent={Transition}
             >
-                <PlaceSearch city={city} onData={(name, location) => {
+                <PlaceSearch city={city} placeholder="Miejsce docelowe" onData={(name, location) => {
                     setToName(name);
                     setTo(location);
                 }} />
