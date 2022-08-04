@@ -4,6 +4,7 @@ import { forwardRef, ReactElement, Ref, useState } from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import { BottomSheet } from "react-spring-bottom-sheet";
 import { TransitionProps } from "@mui/material/transitions";
+import { City } from "../util/typings";
 import PlaceSearch from "../components/PlaceSearch";
 import toast from "react-hot-toast";
 import styled from "@emotion/styled";
@@ -28,7 +29,7 @@ const Transition = forwardRef((
     ref: Ref<unknown>
 ) => <Slide direction="up" ref={ref} {...props} />);
 
-export default () => {
+export default ({ city }: { city: City }) => {
     const navigate = useNavigate();
 
     const [from, setFrom] = useState<[number, number]>();
@@ -169,7 +170,7 @@ export default () => {
                 fullScreen
                 TransitionComponent={Transition}
             >
-                <PlaceSearch onData={(name, location) => {
+                <PlaceSearch city={city} onData={(name, location) => {
                     setFromName(name);
                     setFrom(location);
                 }} />
@@ -180,7 +181,7 @@ export default () => {
                 fullScreen
                 TransitionComponent={Transition}
             >
-                <PlaceSearch onData={(name, location) => {
+                <PlaceSearch city={city} onData={(name, location) => {
                     setToName(name);
                     setTo(location);
                 }} />
