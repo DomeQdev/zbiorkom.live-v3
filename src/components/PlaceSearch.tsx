@@ -46,7 +46,7 @@ export default ({ city, onData }: { city: City, onData: (name: string, location:
                             </IconButton>
                         </InputAdornment>,
                         endAdornment: !!input?.length && <InputAdornment position="end">
-                            <IconButton color="inherit" onClick={() => setInput(undefined)}>
+                            <IconButton color="inherit" onClick={() => setInput("")}>
                                 <HighlightOff />
                             </IconButton>
                         </InputAdornment>
@@ -58,7 +58,7 @@ export default ({ city, onData }: { city: City, onData: (name: string, location:
             {stopResults.map<React.ReactNode>((stop) => <ListItemButton
                 key={stop.id}
                 onClick={() => {
-                    onData(`${stop.name} ${stop.code}`, stop.location);
+                    onData(`${stop.name}${stop.code ? ` ${stop.code}` : ""}`, stop.location);
                     navigate("../");
                 }}
             >
@@ -67,7 +67,7 @@ export default ({ city, onData }: { city: City, onData: (name: string, location:
                         <DirectionsTransit />
                     </Avatar>
                 </ListItemAvatar>
-                <ListItemText primary={`${stop.name} ${stop.code}`} />
+                <ListItemText primary={`${stop.name}${stop.code ? ` ${stop.code}` : ""}`} />
             </ListItemButton>).reduce((prev, curr, i) => [prev, <Divider variant="inset" key={i} />, curr])}
         </List> : <div style={{ textAlign: "center" }}>
             <NoTransfer color="primary" sx={{ width: 70, height: 70 }} /><br />

@@ -129,7 +129,7 @@ export default ({ city }: { city: City }) => {
                         step={1}
                         min={0}
                         max={4}
-                        marks={[<SelfImprovement />, null, <Balance />, null, <DirectionsWalk />].map((icon, i) => ({ value: i, label: icon }))}
+                        marks
                     />
 
                     <Typography gutterBottom sx={{ marginTop: 3 }}>Udogodnienia</Typography>
