@@ -61,10 +61,7 @@ export default ({ city, placeholder, onData }: { city: City, placeholder: string
         {stopResults ? stopResults.length ? <List sx={{ width: "100%" }}>
             {stopResults.map<React.ReactNode>((stop) => <ListItemButton
                 key={stop.id}
-                onClick={() => {
-                    onData(`${stop.name}${stop.code ? ` ${stop.code}` : ""}`, stop.location);
-                    navigate("../");
-                }}
+                onClick={() => onData(`${stop.name}${stop.code ? ` ${stop.code}` : ""}`, stop.location)}
             >
                 <ListItemAvatar>
                     <Avatar>

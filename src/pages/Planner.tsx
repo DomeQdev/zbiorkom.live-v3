@@ -185,6 +185,7 @@ export default ({ city }: { city: City }) => {
                 <PlaceSearch city={city} placeholder="Miejsce docelowe" onData={(name, location) => {
                     setToName(name);
                     setTo(location);
+                    navigate("./");
                 }} />
             </Dialog>} />
         </Routes>
