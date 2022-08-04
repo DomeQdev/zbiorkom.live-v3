@@ -1,14 +1,27 @@
-import { Slide, TextField, Dialog, AppBar, Toolbar, IconButton, InputAdornment } from "@mui/material";
+import { TextField, AppBar, Toolbar, IconButton, InputAdornment } from "@mui/material";
 import { ArrowBack, HighlightOff } from "@mui/icons-material";
-import { TransitionProps } from "@mui/material/transitions";
-import { forwardRef, ReactElement, Ref, useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { Stop } from "../util/typings";
+import { debounce } from "lodash";
+import { Stop, City } from "../util/typings";
+import { getData } from "../util/api";
 
-export default ({ onData }: { onData: (name: string, location: [number, number]) => void }) => {
+export default ({ city, onData }: { city: City, onData: (name: string, location: [number, number]) => void }) => {
     const navigate = useNavigate();
     const [input, setInput] = useState<string>();
     const [stopResults, setStopResults] = useState<Stop[]>();
+
+    const debouncedSearch = useRef(debounce(async (criteria: string) => {
+        setStopResults(await getData("findStop", city, {
+            name: criteria
+        }).catch(() => []));
+    }, 750)).current;
+
+    useEffect(() => {
+        if (!input || input.length < 3) return setStopResults(undefined);
+        debouncedSearch(input);
+        return () => debouncedSearch.cancel();
+    }, [input]);
 
     return <>
         <AppBar sx={{ position: "relative" }} color="transparent">
@@ -41,5 +54,6 @@ export default ({ onData }: { onData: (name: string, location: [number, number])
                 />
             </Toolbar>
         </AppBar>
+        {stopResults && JSON.stringify(stopResults)}
     </>;
 };

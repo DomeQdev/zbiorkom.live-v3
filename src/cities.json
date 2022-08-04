@@ -16,7 +16,8 @@
             "bikes": "/api/warsaw/bikes",
             "parkings": "/api/warsaw/parkings",
             "alerts": "/api/warsaw/alerts",
-            "alert": "/api/warsaw/alert?id={{id}}"
+            "alert": "/api/warsaw/alert?id={{id}}",
+            "findStop": "https://api.zbiorkom.live/warsaw/findStop?name={{name}}"
         }
     },
     "poznan": {
@@ -36,7 +37,8 @@
             "bikes": null,
             "parkings": "/api/poznan/parkings",
             "alerts": null,
-            "alert": null
+            "alert": null,
+            "findStop": "https://api.zbiorkom.live/warsaw/findStop?name={{name}}"
         }
     },
     "trojmiasto": {
@@ -56,7 +58,8 @@
             "bikes": null,
             "parkings": "/api/trojmiasto/parkings",
             "alerts": null,
-            "alert": null
+            "alert": null,
+            "findStop": null
         }
     }
 }
