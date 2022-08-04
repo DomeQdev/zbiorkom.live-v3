@@ -15,10 +15,13 @@ export default ({ city, onData }: { city: City, onData: (name: string, location:
         setStopResults(await getData("findStop", city, {
             name: criteria
         }).catch(() => []));
-    }, 750)).current;
+    }, 800)).current;
 
     useEffect(() => {
-        if (!input || input.length < 3) return setStopResults(undefined);
+        if (!input || input.length < 3) {
+            debouncedSearch.cancel();
+            return setStopResults(undefined); 
+        }
         debouncedSearch(input);
         return () => debouncedSearch.cancel();
     }, [input]);
