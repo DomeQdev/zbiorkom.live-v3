@@ -34,8 +34,8 @@ export default ({ city }: { city: City }) => {
 
     const [from, setFrom] = useState<[number, number]>();
     const [to, setTo] = useState<[number, number]>();
-    const [fromName, setFromName] = useState<string>("Przystanek początkowy");
-    const [toName, setToName] = useState<string>("Przystanek końcowy");
+    const [fromName, setFromName] = useState<string>("Miejsce początkowe");
+    const [toName, setToName] = useState<string>("Miejsce docelowe");
     const [transfers, setTransfers] = useState<number>(2);
     const [facilities, setFacilities] = useState<"wheelchair" | "ac" | "bike"[]>();
     const [type, setType] = useState<"quick" | "optimised" | "transfers">("optimised");
@@ -43,7 +43,7 @@ export default ({ city }: { city: City }) => {
     return <>
         <SizedDiv style={{ marginTop: 30 }}>
             <TextField
-                label="Start"
+                label="Miejsce początkowe"
                 fullWidth
                 autoFocus
                 value={fromName}
@@ -68,7 +68,7 @@ export default ({ city }: { city: City }) => {
                 }}
             />
             <TextField
-                label="Cel podróży"
+                label="Miejsce docelowe"
                 fullWidth
                 value={toName}
                 sx={{ marginTop: 2 }}
@@ -170,9 +170,10 @@ export default ({ city }: { city: City }) => {
                 fullScreen
                 TransitionComponent={Transition}
             >
-                <PlaceSearch city={city} onData={(name, location) => {
+                <PlaceSearch city={city} placeholder="Miejsce początkowe" onData={(name, location) => {
                     setFromName(name);
                     setFrom(location);
+                    navigate("./to");
                 }} />
             </Dialog>} />
 
@@ -181,9 +182,10 @@ export default ({ city }: { city: City }) => {
                 fullScreen
                 TransitionComponent={Transition}
             >
-                <PlaceSearch city={city} onData={(name, location) => {
+                <PlaceSearch city={city} placeholder="Miejsce docelowe" onData={(name, location) => {
                     setToName(name);
                     setTo(location);
+                    navigate("./");
                 }} />
             </Dialog>} />
         </Routes>

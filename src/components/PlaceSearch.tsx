@@ -6,7 +6,7 @@ import { debounce } from "lodash";
 import { Stop, City } from "../util/typings";
 import { getData } from "../util/api";
 
-export default ({ city, onData }: { city: City, onData: (name: string, location: [number, number]) => void }) => {
+export default ({ city, placeholder, onData }: { city: City, placeholder: string, onData: (name: string, location: [number, number]) => void }) => {
     const navigate = useNavigate();
     const [input, setInput] = useState<string>();
     const [stopResults, setStopResults] = useState<Stop[]>();
@@ -15,21 +15,31 @@ export default ({ city, onData }: { city: City, onData: (name: string, location:
         setStopResults(await getData("findStop", city, {
             name: criteria
         }).catch(() => []));
-    }, 750)).current;
+    }, 800)).current;
 
     useEffect(() => {
-        if (!input || input.length < 3) return setStopResults(undefined);
+        if (!input || input.length < 3) {
+            debouncedSearch.cancel();
+            return setStopResults(undefined); 
+        }
         debouncedSearch(input);
         return () => debouncedSearch.cancel();
     }, [input]);
+
+    useEffect(() => {
+        setInput("");
+        setStopResults(undefined);
+        debouncedSearch.cancel();
+    }, [placeholder]);
 
     return <>
         <AppBar sx={{ position: "relative" }} color="transparent">
             <Toolbar>
                 <TextField
-                    placeholder="Wyszukaj tutaj"
+                    placeholder={placeholder}
                     variant="outlined"
                     fullWidth
+                    autoFocus
                     sx={{
                         marginTop: 1,
                         marginBottom: 1,
@@ -57,10 +67,7 @@ export default ({ city, onData }: { city: City, onData: (name: string, location:
         {stopResults ? stopResults.length ? <List sx={{ width: "100%" }}>
             {stopResults.map<React.ReactNode>((stop) => <ListItemButton
                 key={stop.id}
-                onClick={() => {
-                    onData(`${stop.name}${stop.code ? ` ${stop.code}` : ""}`, stop.location);
-                    navigate("../");
-                }}
+                onClick={() => onData(`${stop.name}${stop.code ? ` ${stop.code}` : ""}`, stop.location)}
             >
                 <ListItemAvatar>
                     <Avatar>
