@@ -23,27 +23,23 @@ const DetectDevice = lazy(() => import("./components/DetectDevice"));
 const changeDarkMode = (val: boolean, setDarkMode: any) => {
   setDarkMode(val);
   document.documentElement.style.setProperty("--rsbs-bg", (val ? "#272727" : "#fff"));
-  document.documentElement.style.setProperty("--rsbs-handle-bg", (val ? "#fff" : "#dbdbdb"));
+  document.documentElement.style.setProperty("--rsbs-handle-bg", (val ? "rgba(255,255,255,0.3)" : "#dbdbdb"));
   localStorage.setItem("darkMode", String(val));
 }
 
 export default () => {
   const navigate = useNavigate();
   const [settingsActive, setSettingsActive] = useState(false);
-  const [darkMode, setDarkMode] = useState(localStorage.getItem("darkMode") === "true" || false); 
-  if (darkMode) {
-    document.documentElement.style.setProperty("--rsbs-bg", "#272727");
-    document.documentElement.style.setProperty("--rsbs-handle-bg", "rgba(255,255,255,0.4)");
-  }
+  const [darkMode, setDarkMode] = useState((localStorage.getItem("darkMode") === "true" || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches && localStorage.getItem("darkMode") === null)) || false); 
   const theme = createTheme({
     palette: {
       mode: (darkMode ? "dark" : "light" ),
       background: {
-          default: (darkMode ? "#000" : "#fff")
+          default: (darkMode ? "#111" : "#fff")
       },
       primary: {
         main: (darkMode ? "#fff" : "#5aa159"),
-        contrastText: (darkMode ? "#000" : "#fff")
+        contrastText: (darkMode ? "#111" : "#fff")
       }
     },
     components: {
@@ -56,6 +52,11 @@ export default () => {
       }
     }
   });
+
+  if (darkMode) {
+    document.documentElement.style.setProperty("--rsbs-bg", "#272727");
+    document.documentElement.style.setProperty("--rsbs-handle-bg", "rgba(255,255,255,0.3)");
+  }
 
   return <ThemeProvider theme={theme}>
     <CssBaseline />
