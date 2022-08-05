@@ -2,7 +2,7 @@ import { lazy, useState } from "react";
 import { useMap } from "react-map-gl";
 import { Style } from "mapbox-gl";
 import { BottomSheet } from "react-spring-bottom-sheet";
-import { Button, FormControl, FormLabel, FormControlLabel, RadioGroup, Radio } from "@mui/material";
+import { Button, Checkbox, FormControl, FormLabel, FormControlLabel, RadioGroup, Radio } from "@mui/material";
 import styled from "@emotion/styled";
 import mapStyles from "../util/mapStyles.json";
 import { Suspense } from "../components/Suspense";
@@ -17,6 +17,8 @@ export default ({ onClose }: { onClose: () => void }) => {
     const { current: map } = useMap();
     const [mapStyle, setMapStyle] = useState<keyof typeof mapStyles>(localStorage.getItem("mapstyle") as keyof typeof mapStyles || "ms");
     const [mapNotSupported, setMapNotSupported] = useState<keyof typeof mapStyles | null>();
+    const [darkMode, setDarkMode] = useState((localStorage.getItem("darkMode") === "true" || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches && localStorage.getItem("darkMode") === null)) || false);
+    const localDarkMode = localStorage.getItem("darkMode") === "true" || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches && localStorage.getItem("darkMode") === null) || false;
 
     return <BottomSheet
         open
@@ -29,11 +31,16 @@ export default ({ onClose }: { onClose: () => void }) => {
             let style = mapStyles[mapStyle];
 
             map?.getMap().setStyle(style.style as string | Style);
-            onClose();
+            if (darkMode !== localDarkMode) {
+                localStorage.setItem("darkMode", String(darkMode));
+                window.location.reload();
+            }
+            onClose()
         }}>Zapisz</Button>&nbsp;<Button variant="outlined" color="inherit" onClick={onClose}>Anuluj</Button></div>}
     >
         <div style={{ textAlign: "center" }}>
             <FormControl>
+                <FormControlLabel onChange={(_, checked: boolean) => setDarkMode(!darkMode)} control={<Checkbox checked={darkMode}/>} label="Ciemny motyw" />
                 <Label>Wybierz styl mapy:</Label>
                 <RadioGroup
                     value={mapStyle}

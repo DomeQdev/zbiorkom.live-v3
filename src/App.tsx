@@ -20,13 +20,6 @@ const SettingsPage = lazy(() => import("./pages/Settings"));
 const Map = lazy(() => import("./components/Map"));
 const DetectDevice = lazy(() => import("./components/DetectDevice"));
 
-const changeDarkMode = (val: boolean, setDarkMode: any) => {
-  setDarkMode(val);
-  document.documentElement.style.setProperty("--rsbs-bg", (val ? "#272727" : "#fff"));
-  document.documentElement.style.setProperty("--rsbs-handle-bg", (val ? "rgba(255,255,255,0.3)" : "#dbdbdb"));
-  localStorage.setItem("darkMode", String(val));
-}
-
 export default () => {
   const navigate = useNavigate();
   const [settingsActive, setSettingsActive] = useState(false);
@@ -56,6 +49,7 @@ export default () => {
   if (darkMode) {
     document.documentElement.style.setProperty("--rsbs-bg", "#272727");
     document.documentElement.style.setProperty("--rsbs-handle-bg", "rgba(255,255,255,0.3)");
+    localStorage.setItem("darkMode", String());
   }
 
   return <ThemeProvider theme={theme}>
@@ -66,7 +60,6 @@ export default () => {
           <DirectionsBus />&nbsp;<Routes>{Object.keys(cities).map((city) => <Route path={`${city}/*`} element={<>{cities[city as City].name}</>} key={city} />)}<Route path="*" element={<>zbiorkom.live</>} /></Routes>
         </Typography>
         <div>
-          <IconButton onClick={() => changeDarkMode(!darkMode, setDarkMode)}>{(darkMode ? <LightMode /> : <DarkMode style={{ fill: "white" }}/>)}</IconButton>
           <IconButton href="https://discord.gg/QYRswCH6Gw" target="_blank"><img src="/img/discord.png" alt="discord logo" width="24" height="18" /></IconButton>
           <IconButton onClick={() => setSettingsActive(true)}><Settings style={{ fill: "white" }} /></IconButton>
         </div>
