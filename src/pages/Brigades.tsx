@@ -20,10 +20,10 @@ margin: 5px;
 border-radius: 15px;
 color: ${props.textcolor};
 background-color: ${props.backgroundcolor};
-border-color: ${props.backgroundcolor};
+border-color: ${props.textcolor};
 :hover {
-    color: ${props.textcolor};
-    background-color: ${props.backgroundcolor};
+    color: ${props.backgroundcolor};
+    background-color: ${props.textcolor};
     border-color: ${props.textcolor};
 }
 `);
@@ -33,6 +33,9 @@ export default ({ city }: { city: City }) => {
     const [routes, setRoutes] = useState<Route[]>();
     const [selected, setSelected] = useState<Route | null>();
     const [selectedBrigades, setSelectedBrigades] = useState<string[] | null>();
+    // a bit bad but oh well
+    const [darkMode, setDarkMode] = useState((localStorage.getItem("darkMode") === "true" || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches && localStorage.getItem("darkMode") === null)) || false); 
+    console.log(darkMode);
 
     useEffect(() => {
         getData("routes", city, "?brigade=1").then(setRoutes).catch(() => {
@@ -47,8 +50,8 @@ export default ({ city }: { city: City }) => {
         {routes?.map(route => <Line
             value={route.line}
             key={route.line}
-            textcolor="#fff"
-            backgroundcolor={route.color}
+            textcolor={darkMode ? "#fff" : route.color}
+            backgroundcolor={darkMode ? route.color : "#fff"}
             onClick={() => {
                 setSelectedBrigades(null);
                 setSelected(route);
@@ -76,7 +79,7 @@ export default ({ city }: { city: City }) => {
                         value={brigade}
                         key={brigade}
                         onClick={() => navigate(`../brigade/${selected.line}/${brigade}`)}
-                        style={{ width: 70, height: 50, fontSize: 20, margin: 3, borderRadius: "15px", backgroundColor: selected.color, color: "#fff", borderColor: selected.color }}
+                                                                    style={{ width: 70, height: 50, fontSize: 20, margin: 3, borderRadius: "15px", backgroundColor: (darkMode ? selected.color : "#fff"), color: (darkMode ? "#fff" : selected.color), borderColor: (darkMode ? "#fff" : selected.color) }}
                     >{brigade}</ToggleButton>) : <h4>Nie mogliśmy znaleźć rozkładu dla tej linii...</h4>}
                 </div> : <Backdrop />}
             </DialogContent>

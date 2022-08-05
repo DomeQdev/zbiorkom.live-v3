@@ -49,7 +49,6 @@ export default () => {
   if (darkMode) {
     document.documentElement.style.setProperty("--rsbs-bg", "#272727");
     document.documentElement.style.setProperty("--rsbs-handle-bg", "rgba(255,255,255,0.3)");
-    localStorage.setItem("darkMode", String());
   }
 
   return <ThemeProvider theme={theme}>
@@ -101,6 +100,13 @@ export default () => {
     <Toaster
       position="top-center"
       reverseOrder={false}
+      toastOptions={{
+        className: '',
+        style: {
+            background: (darkMode ? "#111" : "3fff"),
+            color: (darkMode ? "#fff" : "#000"),
+        },
+      }}
     />
     {settingsActive && <Suspense><SettingsPage onClose={() => setSettingsActive(false)} /></Suspense>}
   </ThemeProvider>;
