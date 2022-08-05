@@ -18,8 +18,8 @@ height: 50px;
 font-size: 20px;
 margin: 5px;
 border-radius: 15px;
-color: ${props.backgroundcolor};
-background-color: ${props.textcolor};
+color: ${props.textcolor};
+background-color: ${props.backgroundcolor};
 border-color: ${props.backgroundcolor};
 :hover {
     color: ${props.textcolor};
@@ -47,7 +47,7 @@ export default ({ city }: { city: City }) => {
         {routes?.map(route => <Line
             value={route.line}
             key={route.line}
-            textcolor={route.text === route.color ? "#fff" : route.text}
+            textcolor="#fff"
             backgroundcolor={route.color}
             onClick={() => {
                 setSelectedBrigades(null);
@@ -76,7 +76,7 @@ export default ({ city }: { city: City }) => {
                         value={brigade}
                         key={brigade}
                         onClick={() => navigate(`../brigade/${selected.line}/${brigade}`)}
-                        style={{ width: 70, height: 50, fontSize: 20, margin: 3, color: selected.color, borderColor: selected.color }}
+                        style={{ width: 70, height: 50, fontSize: 20, margin: 3, borderRadius: "15px", backgroundColor: selected.color, color: "#fff", borderColor: selected.color }}
                     >{brigade}</ToggleButton>) : <h4>Nie mogliśmy znaleźć rozkładu dla tej linii...</h4>}
                 </div> : <Backdrop />}
             </DialogContent>

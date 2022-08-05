@@ -3,7 +3,6 @@ import { Home } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import { DirectionsBus } from "@mui/icons-material";
 
-        // <img src="/img/logo192.png" width="128" height="128" />
 export default ({ text, message }: { text: string, message?: string }) => {
     const navigate = useNavigate();
     

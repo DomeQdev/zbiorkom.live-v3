@@ -1,5 +1,5 @@
 import { List, ListItemAvatar, ListItemText, Avatar, Box, ListItemButton, Divider } from "@mui/material";
-import { Map, DepartureBoard, CalendarMonth, DirectionsBike, LocalParking, Error } from "@mui/icons-material";
+import { Map, DepartureBoard, CalendarMonth, DirectionsBike, Directions, LocalParking, Error } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import { City } from "../util/typings";
 import cities from "../cities.json";
@@ -19,6 +19,17 @@ export default ({ city }: { city: City }) => {
                 </ListItemAvatar>
                 <ListItemText primary="Mapa" />
             </ListItemButton>
+
+            {cityData.api.planner && <><Divider />
+                <ListItemButton onClick={() => navigate("planner")}>
+                    <ListItemAvatar>
+                        <Avatar>
+                            <Directions />
+                        </Avatar>
+                    </ListItemAvatar>
+                    <ListItemText primary="Wyznacz trasę" />
+                </ListItemButton>
+            </>}
             {cityData.api.stops && <><Divider />
                 <ListItemButton onClick={() => navigate("stops")}>
                     <ListItemAvatar>

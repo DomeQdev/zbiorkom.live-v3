@@ -56,7 +56,6 @@ export default () => {
       }
     }
   });
-// { if (darkMode) { localStorage.setItem("darkMode", "false"); setDarkMode(false); document.documentElement.style.setProperty("--rsbs-bg", "#fff") } else { localStorage.setItem("darkMode", "true"); setDarkMode(true); document.documentElement.style.setProperty("--rsbs-bg", "#272727")}}}
 
   return <ThemeProvider theme={theme}>
     <CssBaseline />
