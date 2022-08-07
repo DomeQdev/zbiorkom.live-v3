@@ -62,10 +62,10 @@ export default ({ city, vehicle, mapBearing }: { city: City, vehicle: Vehicle, m
         {(trip && !trip.error) && <Shapes trip={trip} realTime={realTime} />}
         <BottomSheet
             open
-            onDismiss={() => navigate(".")}
+            onDismiss={() => window.history.back()}
             blocking={false}
             header={<div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                <IconButton onClick={() => navigate(".")} style={{ height: 40 }}><Close /></IconButton>
+                <IconButton onClick={() => window.history.back()} style={{ height: 40 }}><Close /></IconButton>
                 <div style={{ cursor: "pointer" }} onClick={() => setFollow(true)}>
                     <VehicleHeadsign type={vehicle.type} line={vehicle.line} headsign={vehicle.headsign || trip?.headsign} color={vehicle.trip ? trip?.color : Color(vehicle.type)} textColor={vehicle.trip ? trip?.text : "white"} />
                     {vehicle.trip ? (realTime && trip) ? <span style={{ lineHeight: 1.4, fontSize: 15 }}><br />
@@ -92,7 +92,7 @@ export default ({ city, vehicle, mapBearing }: { city: City, vehicle: Vehicle, m
             <MenuItem sx={{ borderBottom: 1, borderColor: "divider", pointerEvents: "none" }}>{vehicle.isPredicted ? <LocationDisabled style={{ width: 20, height: 20 }} color="primary" /> : <GpsFixed style={{ width: 20, height: 20 }} color="primary" />}&nbsp;<b><Timer timestamp={vehicle.lastPing} /></b>&nbsp;temu</MenuItem>
             <MenuItem><Star style={{ width: 20, height: 20 }} color="primary" />&nbsp;Dodaj linię do ulubionych</MenuItem>
             {trip?.shapes && <MenuItem><Route style={{ width: 20, height: 20 }} color="primary" />&nbsp;Pokaż trasę</MenuItem>}
-            {vehicle.brigade && <MenuItem><Commit style={{ width: 20, height: 20 }} color="primary" />&nbsp;Rozkład brygady</MenuItem>}
+            {vehicle.brigade && <MenuItem onClick={() => navigate(`/${city}/brigade/${vehicle.line}/${vehicle.brigade}`)}><Commit style={{ width: 20, height: 20 }} color="primary" />&nbsp;Rozkład brygady</MenuItem>}
             {vehicle.brigade && <MenuItem><DirectionsBus style={{ width: 20, height: 20 }} color="primary" />&nbsp;Informacje o pojeździe</MenuItem>}
         </Menu>
     </>;
