@@ -1,11 +1,13 @@
 import { TextField, AppBar, Toolbar, IconButton, InputAdornment, List, ListItemButton, ListItemAvatar, ListItemText, Avatar, Divider } from "@mui/material";
 import { ArrowBack, DirectionsTransit, HighlightOff, NoTransfer } from "@mui/icons-material";
 import { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import { debounce } from "lodash";
 import { Stop, City } from "../util/typings";
 import { getData } from "../util/api";
 
 export default ({ city, placeholder, onData }: { city: City, placeholder: string, onData: (name: string, location: [number, number]) => void }) => {
+    const navigate = useNavigate();
     const inputRef = useRef<HTMLInputElement>();
     const [input, setInput] = useState<string>();
     const [stopResults, setStopResults] = useState<Stop[]>();
@@ -40,6 +42,7 @@ export default ({ city, placeholder, onData }: { city: City, placeholder: string
                     placeholder={placeholder}
                     variant="outlined"
                     fullWidth
+                    autoComplete="off"
                     inputRef={inputRef}
                     sx={{
                         marginTop: 1,
@@ -52,7 +55,7 @@ export default ({ city, placeholder, onData }: { city: City, placeholder: string
                     onChange={({ target }) => setInput(target.value)}
                     InputProps={{
                         startAdornment: <InputAdornment position="start">
-                            <IconButton color="inherit" onClick={() => window.history.back()}>
+                            <IconButton color="inherit" onClick={() => navigate("../", { replace: true })}>
                                 <ArrowBack />
                             </IconButton>
                         </InputAdornment>,
@@ -60,8 +63,7 @@ export default ({ city, placeholder, onData }: { city: City, placeholder: string
                             <IconButton color="inherit" onClick={() => setInput("")}>
                                 <HighlightOff />
                             </IconButton>
-                        </InputAdornment>,
-                        autoComplete: "off"
+                        </InputAdornment>
                     }}
                 />
             </Toolbar>
