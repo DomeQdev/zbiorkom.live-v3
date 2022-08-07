@@ -80,15 +80,15 @@ export default ({ city, placeholder, onData }: { city: City, placeholder: string
         </List> : <div style={{ textAlign: "center" }}>
             <NoTransfer color="primary" sx={{ width: 70, height: 70 }} /><br />
             <b style={{ fontSize: 18 }}>Nie znaleziono wyników.</b>
-        </div> : input && input.length >= 3 ? new Array(5).fill(null).map<React.ReactNode>((i) => <ListItem key={i}>
+        </div> : input && input.length >= 3 ? new Array(5).fill(null).map<React.ReactNode>((i) => <ListItem key={`1-${i}`}>
             <ListItemAvatar>
                 <Skeleton variant="circular">
                     <Avatar />
                 </Skeleton>
             </ListItemAvatar>
             <ListItemText>
-                <Skeleton variant="text" height={100} />
+                <Skeleton variant="text" width={100} />
             </ListItemText>
-        </ListItem>) : "not searching mode"}
+        </ListItem>).reduce((prev, curr, i) => [prev, <Divider variant="inset" key={`1_${i}`} />, curr]) : "not searching mode"}
     </>;
 };
