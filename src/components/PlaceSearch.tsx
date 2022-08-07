@@ -1,4 +1,4 @@
-import { TextField, AppBar, Toolbar, IconButton, InputAdornment, List, ListItemButton, ListItemAvatar, ListItemText, Avatar, Divider } from "@mui/material";
+import { TextField, AppBar, Toolbar, IconButton, InputAdornment, List, ListItemButton, ListItemAvatar, ListItemText, Avatar, Divider, ListItem, Skeleton } from "@mui/material";
 import { ArrowBack, DirectionsTransit, HighlightOff, NoTransfer } from "@mui/icons-material";
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
@@ -19,10 +19,8 @@ export default ({ city, placeholder, onData }: { city: City, placeholder: string
     }, 800)).current;
 
     useEffect(() => {
-        if (!input || input.length < 3) {
-            debouncedSearch.cancel();
-            return setStopResults(undefined); 
-        }
+        setStopResults(undefined);
+        if (!input || input.length < 3) return debouncedSearch.cancel();
         debouncedSearch(input);
         return () => debouncedSearch.cancel();
     }, [input]);
@@ -42,7 +40,6 @@ export default ({ city, placeholder, onData }: { city: City, placeholder: string
                     placeholder={placeholder}
                     variant="outlined"
                     fullWidth
-                    autoComplete="off"
                     inputRef={inputRef}
                     sx={{
                         marginTop: 1,
@@ -83,6 +80,15 @@ export default ({ city, placeholder, onData }: { city: City, placeholder: string
         </List> : <div style={{ textAlign: "center" }}>
             <NoTransfer color="primary" sx={{ width: 70, height: 70 }} /><br />
             <b style={{ fontSize: 18 }}>Nie znaleziono wyników.</b>
-        </div> : "wyszukaj cos"}
+        </div> : input && input.length >= 3 ? new Array(5).fill(null).map<React.ReactNode>((i) => <ListItem key={i}>
+            <ListItemAvatar>
+                <Skeleton variant="circular">
+                    <Avatar />
+                </Skeleton>
+            </ListItemAvatar>
+            <ListItemText>
+                <Skeleton variant="text" height={100} />
+            </ListItemText>
+        </ListItem>) : "not searching mode"}
     </>;
 };
