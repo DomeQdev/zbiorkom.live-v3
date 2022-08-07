@@ -1,4 +1,4 @@
-import { TextField, AppBar, Toolbar, IconButton, InputAdornment, List, ListItemButton, ListItemAvatar, ListItemText, Avatar, Divider, Skeleton } from "@mui/material";
+import { TextField, AppBar, Toolbar, IconButton, InputAdornment, List, ListItemButton, ListItemAvatar, ListItemText, Avatar, Divider, Skeleton, ListItem } from "@mui/material";
 import { ArrowBack, DirectionsTransit, HighlightOff, NoTransfer } from "@mui/icons-material";
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
@@ -79,20 +79,24 @@ export default ({ city, placeholder, onData }: { city: City, placeholder: string
                         <DirectionsTransit />
                     </Avatar>
                 </ListItemAvatar>
-                <ListItemText primary={`${stop.name}${stop.code ? ` ${stop.code}` : ""}`} />
+                <ListItemText
+                    primary={`${stop.name}${stop.code ? ` ${stop.code}` : ""}`}
+                    secondary="Przystanek"
+                />
             </ListItemButton>).reduce((prev, curr, i) => [prev, <Divider variant="inset" key={i} />, curr])}
         </List> : <div style={{ textAlign: "center" }}>
             <NoTransfer color="primary" sx={{ width: 70, height: 70 }} /><br />
             <b style={{ fontSize: 18 }}>Nie znaleziono wyników.</b>
-        </div> : input && input.length >= 3 ? new Array(5).fill(null).map<React.ReactNode>((i) => <ListItemButton key={`1-${i}`}>
+        </div> : input && input.length >= 3 ? new Array(5).fill(null).map<React.ReactNode>((i) => <ListItem key={`1-${i}`}>
             <ListItemAvatar>
                 <Skeleton variant="circular">
                     <Avatar />
                 </Skeleton>
             </ListItemAvatar>
-            <ListItemText 
+            <ListItemText
                 primary={<Skeleton variant="text" width={150} />}
+                secondary={<Skeleton variant="text" width={75} />}
             />
-        </ListItemButton>).reduce((prev, curr, i) => [prev, <Divider variant="inset" key={`1_${i}`} />, curr]) : "wpisz 3 znaki aby cos wyszukac"}
+        </ListItem>).reduce((prev, curr, i) => [prev, <Divider variant="inset" key={`1_${i}`} />, curr]) : "wpisz 3 znaki aby cos wyszukac"}
     </>;
 };
