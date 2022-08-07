@@ -81,7 +81,6 @@ export default ({ city, placeholder, onData }: { city: City, placeholder: string
                 </ListItemAvatar>
                 <ListItemText
                     primary={`${stop.name}${stop.code ? ` ${stop.code}` : ""}`}
-                    secondary="Przystanek"
                 />
             </ListItemButton>).reduce((prev, curr, i) => [prev, <Divider variant="inset" key={i} />, curr])}
         </List> : <div style={{ textAlign: "center" }}>
@@ -95,7 +94,6 @@ export default ({ city, placeholder, onData }: { city: City, placeholder: string
             </ListItemAvatar>
             <ListItemText
                 primary={<Skeleton variant="text" width={150} />}
-                secondary={<Skeleton variant="text" width={75} />}
             />
         </ListItem>).reduce((prev, curr, i) => [prev, <Divider variant="inset" key={`1_${i}`} />, curr]) : "wpisz 3 znaki aby cos wyszukac"}
     </>;
