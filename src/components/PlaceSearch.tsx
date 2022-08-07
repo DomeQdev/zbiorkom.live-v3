@@ -31,7 +31,7 @@ export default ({ city, placeholder, onData }: { city: City, placeholder: string
         debouncedSearch.cancel();
     }, [placeholder]);
 
-    useEffect(() => inputRef.current?.focus(), [inputRef]);
+    useEffect(() => inputRef.current?.focus(), [inputRef, placeholder]);
 
     return <>
         <AppBar sx={{ position: "relative" }} color="transparent">
@@ -41,7 +41,6 @@ export default ({ city, placeholder, onData }: { city: City, placeholder: string
                     variant="outlined"
                     fullWidth
                     inputRef={inputRef}
-                    type="text"
                     sx={{
                         marginTop: 1,
                         marginBottom: 1,
@@ -61,7 +60,8 @@ export default ({ city, placeholder, onData }: { city: City, placeholder: string
                             <IconButton color="inherit" onClick={() => setInput("")}>
                                 <HighlightOff />
                             </IconButton>
-                        </InputAdornment>
+                        </InputAdornment>,
+                        autoComplete: "off"
                     }}
                 />
             </Toolbar>
