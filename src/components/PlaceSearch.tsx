@@ -68,7 +68,11 @@ export default ({ city, placeholder, onData }: { city: City, placeholder: string
         {stopResults ? stopResults.length ? <List sx={{ width: "100%" }}>
             {stopResults.map<React.ReactNode>((stop) => <ListItemButton
                 key={stop.id}
-                onClick={() => onData(`${stop.name}${stop.code ? ` ${stop.code}` : ""}`, stop.location)}
+                onClick={() => {
+                    onData(`${stop.name}${stop.code ? ` ${stop.code}` : ""}`, stop.location);
+                    let lastStops = localStorage.getItem(`${city}.lastStops`);
+                    localStorage.setItem(`${city}.lastStops`, lastStops ? `${lastStops},${stop.id}` : stop.id);
+                }}
             >
                 <ListItemAvatar>
                     <Avatar>
@@ -86,9 +90,9 @@ export default ({ city, placeholder, onData }: { city: City, placeholder: string
                     <Avatar />
                 </Skeleton>
             </ListItemAvatar>
-            <ListItemText>
-                <Skeleton variant="text" width={250} height={24} />
-            </ListItemText>
+            <ListItemText 
+                primary={<Skeleton variant="text" width={150} />}
+            />
         </ListItemButton>).reduce((prev, curr, i) => [prev, <Divider variant="inset" key={`1_${i}`} />, curr]) : "wpisz 3 znaki aby cos wyszukac"}
     </>;
 };
