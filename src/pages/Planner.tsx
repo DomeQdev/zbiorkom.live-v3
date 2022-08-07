@@ -54,6 +54,7 @@ export default ({ city }: { city: City }) => {
                     endAdornment: <InputAdornment position="end">
                         <IconButton onClick={async () => {
                             setFromName("Pobieranie lokalizacji...");
+                            setFrom(undefined);
                             const location = await fetchLocation();
                             if (!location) {
                                 toast.error("Nie udało się pobrać twojej lokalizacji.");

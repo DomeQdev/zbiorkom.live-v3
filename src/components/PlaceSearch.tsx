@@ -87,7 +87,7 @@ export default ({ city, placeholder, onData }: { city: City, placeholder: string
                 </Skeleton>
             </ListItemAvatar>
             <ListItemText>
-                <Skeleton variant="text" width={100} />
+                <Skeleton variant="text" width={250} height={24} />
             </ListItemText>
         </ListItem>).reduce((prev, curr, i) => [prev, <Divider variant="inset" key={`1_${i}`} />, curr]) : "not searching mode"}
     </>;
