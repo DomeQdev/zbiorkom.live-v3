@@ -87,7 +87,7 @@ export default ({ city, placeholder, onData }: { city: City, placeholder: string
         </List> : <div style={{ textAlign: "center" }}>
             <NoTransfer color="primary" sx={{ width: 70, height: 70 }} /><br />
             <b style={{ fontSize: 18 }}>Nie znaleziono wyników.</b>
-        </div> : input && input.length >= 3 ? new Array(5).fill(null).map<React.ReactNode>((i) => <ListItem key={`1-${i}`}>
+        </div> : input && input.length >= 3 ? new Array(8).fill(null).map<React.ReactNode>((i) => <ListItem key={`1-${i}`}>
             <ListItemAvatar>
                 <Skeleton variant="circular">
                     <Avatar />
