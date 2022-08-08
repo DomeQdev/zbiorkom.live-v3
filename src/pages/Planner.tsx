@@ -174,7 +174,7 @@ export default ({ city }: { city: City }) => {
                 <PlaceSearch city={city} placeholder="Miejsce początkowe" onData={(name, location) => {
                     setFromName(name);
                     setFrom(location);
-                    navigate("./to");
+                    if (!to) navigate("./to");
                 }} />
             </Dialog>} />
 

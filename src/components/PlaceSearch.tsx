@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { debounce } from "lodash";
 import { Stop, City } from "../util/typings";
 import { getData } from "../util/api";
+import { Icon } from "./Icons";
 
 export default ({ city, placeholder, onData }: { city: City, placeholder: string, onData: (name: string, location: [number, number]) => void }) => {
     const navigate = useNavigate();
@@ -16,7 +17,7 @@ export default ({ city, placeholder, onData }: { city: City, placeholder: string
         setStopResults(await getData("findStop", city, {
             name: criteria
         }).catch(() => []));
-    }, 800)).current;
+    }, 700)).current;
 
     useEffect(() => {
         setStopResults(undefined);
@@ -76,7 +77,7 @@ export default ({ city, placeholder, onData }: { city: City, placeholder: string
             >
                 <ListItemAvatar>
                     <Avatar>
-                        <DirectionsTransit />
+                        {stop.type ? Icon(stop.type[0]) : <DirectionsTransit />}
                     </Avatar>
                 </ListItemAvatar>
                 <ListItemText

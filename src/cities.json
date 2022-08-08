@@ -38,7 +38,7 @@
             "parkings": "/api/poznan/parkings",
             "alerts": null,
             "alert": null,
-            "findStop": "https://api.zbiorkom.live/warsaw/findStop?name={{name}}"
+            "findStop": "https://api.zbiorkom.live/poznan/findStop?name={{name}}"
         }
     },
     "trojmiasto": {
