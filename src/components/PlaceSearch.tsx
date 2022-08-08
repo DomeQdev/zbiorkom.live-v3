@@ -77,7 +77,7 @@ export default ({ city, placeholder, onData }: { city: City, placeholder: string
             >
                 <ListItemAvatar>
                     <Avatar>
-                        {stop.type ? Icon(stop.type[0]) : <DirectionsTransit />}
+                        {stop.type ? <Icon type={stop.type[0]} /> : <DirectionsTransit />}
                     </Avatar>
                 </ListItemAvatar>
                 <ListItemText
