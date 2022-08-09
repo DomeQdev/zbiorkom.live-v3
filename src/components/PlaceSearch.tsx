@@ -35,7 +35,7 @@ export default ({ city, placeholder, onData }: { city: City, placeholder: string
     useEffect(() => inputRef.current?.focus(), [inputRef, placeholder]);
 
     return <>
-        <AppBar sx={{ position: "relative" }} color="transparent">
+        <AppBar position="sticky" color="inherit" elevation={0}>
             <Toolbar>
                 <TextField
                     placeholder={placeholder}
