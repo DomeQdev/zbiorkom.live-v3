@@ -1,5 +1,5 @@
 import { SvgIcon } from "@mui/material";
-import { DirectionsBus, Tram, Subway, Train, DirectionsBoat } from "@mui/icons-material";
+import { DirectionsBus, Tram, Subway, Train, DirectionsBoat, CarCrash } from "@mui/icons-material";
 import { VehicleType } from "../util/typings";
 
 const Icon = ({ type, style }: { type: VehicleType, style?: React.CSSProperties }) => {
@@ -18,7 +18,8 @@ const Icon = ({ type, style }: { type: VehicleType, style?: React.CSSProperties 
             c0.574,0,1.042-0.47,1.042-1.043v-1.855c0.637-0.573,1.045-1.397,1.045-2.313V8.389C20.34,5.245,17.567,4.423,13.853,4.257z
             M7.309,19.856c-0.864,0-1.563-0.699-1.563-1.564c0-0.864,0.699-1.563,1.563-1.563c0.865,0,1.563,0.698,1.563,1.563
             C8.872,19.157,8.174,19.856,7.309,19.856z M16.69,19.856c-0.865,0-1.564-0.699-1.564-1.564c0-0.864,0.699-1.563,1.564-1.563
-            s1.563,0.698,1.563,1.563C18.253,19.157,17.556,19.856,16.69,19.856z M18.253,13.601H5.745V8.389h12.508V13.601"></path></svg></SvgIcon>
+            s1.563,0.698,1.563,1.563C18.253,19.157,17.556,19.856,16.69,19.856z M18.253,13.601H5.745V8.389h12.508V13.601"></path></svg></SvgIcon>,
+        unknown: <CarCrash style={style} />
     };
 
     return icons[type];
@@ -33,7 +34,8 @@ const Color = (type: VehicleType) => {
         km: '#543ecc',
         train: '#0023a3',
         ferry: '#5e03fc',
-        trolley: '#059e00'
+        trolley: '#059e00',
+        unknown: '#FF7E00'
     };
 
     return colors[type];
@@ -48,7 +50,8 @@ const Name = (type: VehicleType) => {
         km: 'KM',
         train: 'Pociąg',
         ferry: 'Prom',
-        trolley: 'Trolejbus'
+        trolley: 'Trolejbus',
+        unknown: 'Pojazd'
     };
 
     return names[type];

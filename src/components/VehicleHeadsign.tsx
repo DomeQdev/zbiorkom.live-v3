@@ -9,6 +9,7 @@ const LineNumber = styled.b((props: {
 }) => `
     color: ${props.color};
     background-color: ${props.backgroundColor};
+    border: 1px solid ${props.color};
     border-radius: 15px;
     padding: 5px;
     padding-left: 10px;

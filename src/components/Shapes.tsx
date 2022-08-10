@@ -16,7 +16,7 @@ align-items: center;
 cursor: pointer;
 justify-content: center;
 outline: none;
-border: 3px solid ${props => props.color};
+border: 3px solid ${props => props.color?.toLowerCase() === "#ffffff" ? "#000" : props.color};
 border-radius: 18px;
 `;
 
@@ -35,7 +35,20 @@ export default ({ trip, realTime }: { trip: Trip, realTime?: RealTimeResponse })
                 }}
                 paint={{
                     "line-color": trip.color,
-                    "line-width": 6
+                    "line-width": 5
+                }}
+            />
+            <Layer
+                id="route2"
+                type="line"
+                layout={{
+                    "line-join": "round",
+                    "line-cap": "round"
+                }}
+                paint={{
+                    "line-color": trip.text,
+                    "line-width": 1,
+                    "line-gap-width": 5
                 }}
             />
         </Source>

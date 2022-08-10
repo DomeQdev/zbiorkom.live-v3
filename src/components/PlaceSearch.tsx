@@ -5,12 +5,12 @@ import { useNavigate } from "react-router-dom";
 import { debounce } from "lodash";
 import { Stop, City } from "../util/typings";
 import { getData } from "../util/api";
-import { Icon } from "./Icons";
+import { Color, Icon } from "./Icons";
 
 export default ({ city, placeholder, onData }: { city: City, placeholder: string, onData: (name: string, location: [number, number]) => void }) => {
     const navigate = useNavigate();
     const inputRef = useRef<HTMLInputElement>();
-    const [input, setInput] = useState<string>();
+    const [input, setInput] = useState<string>("");
     const [stopResults, setStopResults] = useState<Stop[]>();
 
     const debouncedSearch = useRef(debounce(async (criteria: string) => {
@@ -76,7 +76,7 @@ export default ({ city, placeholder, onData }: { city: City, placeholder: string
                 }}
             >
                 <ListItemAvatar>
-                    <Avatar>
+                    <Avatar sx={{ color: Color(stop.type[0]), bgcolor: "inherit" }}>
                         {stop.type ? <Icon type={stop.type[0]} /> : <DirectionsTransit />}
                     </Avatar>
                 </ListItemAvatar>
@@ -87,7 +87,7 @@ export default ({ city, placeholder, onData }: { city: City, placeholder: string
         </List> : <div style={{ textAlign: "center" }}>
             <NoTransfer color="primary" sx={{ width: 70, height: 70 }} /><br />
             <b style={{ fontSize: 18 }}>Nie znaleziono wyników.</b>
-        </div> : input && input.length >= 3 ? new Array(8).fill(null).map<React.ReactNode>((i) => <ListItem key={`1-${i}`}>
+        </div> : input && input.length >= 3 ? new Array(8).fill(null).map<React.ReactNode>((_, i) => <ListItem key={`1-${i}`}>
             <ListItemAvatar>
                 <Skeleton variant="circular">
                     <Avatar />
