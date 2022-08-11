@@ -8,11 +8,11 @@ export const onRequestPatch = async ({ request, env }) => {
         }
     });
 
-    let routes = env.ZBIORKOM?.get(key, { type: "text" });
+    let routes = env.ZBIORKOM?.get(key, { type: "json" });
     if (!routes) return new Response(JSON.stringify({ error: "Routes not found" }), { status: 404 });
 
     let route = routes[id];
-    if (!route) return new Response(JSON.stringify({ error: "Route not found" }), { status: 404 });
+    if (!route) return new Response(JSON.stringify({ error: "Route not found", routes }), { status: 404 });
 
     return new Response(JSON.stringify(route), {
         headers: {
