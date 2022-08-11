@@ -14,7 +14,7 @@
             "brigades": "https://api.zbiorkom.live/warsaw/brigade?line={{line}}",
             "brigade": "https://api.zbiorkom.live/warsaw/brigade?line={{line}}&brigade={{brigade}}",
             "bikes": "/api/warsaw/bikes",
-            "parkings": "/api/warsaw/parkings",
+            "parkings": null,
             "alerts": "/api/warsaw/alerts",
             "alert": "/api/warsaw/alert?id={{id}}",
             "findStop": "https://api.zbiorkom.live/warsaw/findStop?name={{name}}"
