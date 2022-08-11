@@ -13,15 +13,20 @@ export const onRequestPatch = async ({ request, env }) => {
         return v.toString(16);
     }).toUpperCase();
 
-    let resp = await fetch(`https://api.zbiorkom.live/${city}/planner?from=${from[0]},${from[1]}&to=${to[0]},${to[1]}&transfers=${transfers}&type=${type}${(facilities && facilities[0]) ? `&facilities=${facilities.join(",")}` : ""}&apikey=${env.ZBIORKOM_PLANNER_API_KEY}&_cf=${uuid}`, {
+    let res = await fetch(`https://api.zbiorkom.live/${city}/planner?from=${from[0]},${from[1]}&to=${to[0]},${to[1]}&transfers=${transfers}&type=${type}${(facilities && facilities[0]) ? `&facilities=${facilities.join(",")}` : ""}&apikey=${env.ZBIORKOM_PLANNER_API_KEY}&_cf=${uuid}`, {
         //@ts-ignore
         cf: {
             cacheTtl: 31536000,
             cacheEverything: true
         },
         keepalive: true
-    }).then(res => res.json()).catch(() => null);
-    if (!resp || resp?.error) return new Response(JSON.stringify({ error: "Server returned error", e: resp?.error }), { status: 419 });
+    }).catch(() => null);
+    if (!res) return new Response(JSON.stringify({ error: "Server returned unexpected error" }), { status: 419 });
+
+    let resp = await res.json();
+    if (resp.error) return new Response(JSON.stringify({ error: resp.error }), { status: 419 });
+
+    if (resp[0]) await env.ZBIORKOM?.put(uuid, JSON.stringify(resp), { expirationTtl: 86400 });
 
     return new Response(JSON.stringify({
         key: uuid,
@@ -33,8 +38,6 @@ export const onRequestPatch = async ({ request, env }) => {
             walkTime: route.walkTime,
             legs: route.legs.filter(leg => leg.mode !== "walk" || leg.duration > 100).map((leg, j) => ({
                 mode: leg.mode,
-                startTime: leg.startTime,
-                endTime: leg.endTime,
                 duration: leg.duration,
                 color: leg.color,
                 textColor: leg.textColor,
