@@ -9,6 +9,7 @@ export const onRequestPatch = async ({ request, env }) => {
     });
 
     let routes = env.ZBIORKOM?.get(key);
+    return new Response(JSON.stringify(routes))
     if (!routes) return new Response(JSON.stringify({ error: "Routes not found" }), { status: 404 });
 
     routes = JSON.stringify(routes)
