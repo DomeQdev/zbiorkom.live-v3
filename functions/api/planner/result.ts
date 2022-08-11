@@ -1,6 +1,8 @@
-export const onRequestPatch = async ({ request, env }) => {
-    const { key, id }: { key: string, id: number } = await request.json();
-    if (!key || (!id && id !== 0)) return new Response(JSON.stringify({ error: "Provide key=string, id=number" }), {
+export const onRequestGet = async ({ request, env }) => {
+    let sp = new URL(request.url).searchParams;
+    let key = sp.get("key");
+    let id = Number(sp.get("id"));
+    if (!key || isNaN(id) || (!id && id !== 0)) return new Response(JSON.stringify({ error: "Provide key=string, id=number" }), {
         status: 400,
         headers: {
             "Content-Type": "application/json",

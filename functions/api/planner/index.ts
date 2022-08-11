@@ -1,5 +1,6 @@
 export const onRequestPatch = async ({ request, env }) => {
-    const { city, from, to, transfers, type, facilities }: { city: "warsaw" | "poznan", from: [number, number], to: [number, number], transfers: number, type: "quick" | "optimised" | "transfers", facilities?: ["wheelchair" | "ac" | "bike"] } = await request.json();
+    const city = new URL(request.url).searchParams.get("city");
+    const { from, to, transfers, type, facilities }: { from: [number, number], to: [number, number], transfers: number, type: "quick" | "optimised" | "transfers", facilities?: ["wheelchair" | "ac" | "bike"] } = await request.json();
     if ((city !== "warsaw" && city !== "poznan") || (!from || isNaN(from[0]) || isNaN(from[1])) || (!to || isNaN(to[0]) || isNaN(to[1])) || (!transfers || isNaN(transfers)) || (type !== "quick" && type !== "optimised" && type !== "transfers")) return new Response(JSON.stringify({ error: "Provide city='warsaw' | 'poznan', from=[number,number], to=[number,number], transfers=number, type='quick' | 'optimised' | 'transfers', facilities?='wheelchair' | 'ac' | 'bike'[]" }), {
         status: 400,
         headers: {
@@ -36,7 +37,7 @@ export const onRequestPatch = async ({ request, env }) => {
             endTime: route.endTime,
             duration: route.duration,
             walkTime: route.walkTime,
-            legs: route.legs.filter(leg => leg.mode !== "walk" || leg.duration > 100).map((leg, j) => ({
+            legs: route.legs.filter(leg => leg.mode === "transit" || leg.duration > 100).map((leg, j) => ({
                 mode: leg.mode,
                 duration: leg.duration,
                 color: leg.color,

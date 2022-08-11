@@ -100,4 +100,64 @@ interface Alert {
     body?: string
 }
 
-export { VehicleType, City, Trip, TripStop, Vehicle, Departure, Route, Stop, BrigadeSchedule, Trip, Alert };
+interface PlannerResult {
+    key: string,
+    routes: {
+        id: number,
+        startTime: number,
+        endTime: number,
+        duration: number,
+        walkTime: number,
+        legs: {
+            mode: "walk" | "bike" | "car" | "transit",
+            duration: number,
+            color?: string,
+            textColor?: string,
+            line?: string,
+            type?: VehicleType
+        }[]
+    }[]
+}
+
+interface PlannerRoute {
+    startTime: number,
+    endTime: number,
+    duration: number,
+    walkTime: number,
+    legs: {
+        startTime: number,
+        endTime: number,
+        duration: number,
+        mode: "walk" | "bike" | "car" | "transit",
+        distance: number,
+        line?: string,
+        headsign?: string,
+        color?: string,
+        textColor?: string,
+        type?: VehicleType,
+        from: {
+            name: string,
+            id?: string,
+            location: [number, number]
+            arrival?: number,
+            departure?: number
+        },
+        to: {
+            name: string,
+            id?: string,
+            location: [number, number]
+            arrival?: number,
+            departure?: number
+        },
+        shape: [number, number][],
+        stops?: {
+            name: string,
+            id: string,
+            location: [number, number],
+            arrival: number,
+            departure: number
+        }[]
+    }[]
+}
+
+export { VehicleType, City, Trip, TripStop, Vehicle, Departure, Route, Stop, BrigadeSchedule, Trip, Alert, PlannerResult, PlannerRoute };
