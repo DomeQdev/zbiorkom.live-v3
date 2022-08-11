@@ -12,7 +12,7 @@ interface Alerts {
 export const onRequestGet = async ({ request }) => {
     let { searchParams } = new URL(request.url);
     let id = searchParams.get("id");
-    if (!id) return new Response(JSON.stringify({ error: true }), { status: 404 });
+    if (!id) return new Response(JSON.stringify({ error: "Provide id=any" }), { status: 400 });
 
     let alerts: Alerts = await fetch("https://mkuran.pl/gtfs/warsaw/alerts.json", {
         //@ts-ignore
@@ -22,10 +22,10 @@ export const onRequestGet = async ({ request }) => {
         },
         keepalive: true
     }).then(res => res.json()).catch(() => null);
-    if (!alerts?.alerts) return new Response(JSON.stringify([]), { status: 404 });
+    if (!alerts?.alerts) return new Response(JSON.stringify({ error: "Can't fetch alerts" }), { status: 404 });
 
     let alert = alerts.alerts.find(alert => alert.id === id);
-    if (!alert) return new Response(JSON.stringify({ error: true }), { status: 404 });
+    if (!alert) return new Response(JSON.stringify({ error: "Alert not found" }), { status: 404 });
 
     return new Response(JSON.stringify({
         id: alert.id,

@@ -6,7 +6,8 @@
         "note": "Dane: Miasto Stołeczne Warszawa, mkuran.pl",
         "api": {
             "trip": "https://api.zbiorkom.live/warsaw/trip?trip={{trip}}",
-            "planner": "https://api.zbiorkom.live/warsaw/planner?from={{from}}&to={{to}}&transfers={{transfers}}&type={{type}}&facilities={{facilities}}",
+            "planner": "/api/planner?city=warsaw",
+            "plannerResults": "/api/planner/results?key={{key}}&id={{id}}",
             "vehicle": "https://api.zbiorkom.live/warsaw/vehicle?vehicle={{type}}{{tab}}",
             "stops": "https://api.zbiorkom.live/warsaw/stops",
             "stop": "https://api.zbiorkom.live/warsaw/stopDepartures?id={{stop}}",
@@ -14,7 +15,7 @@
             "brigades": "https://api.zbiorkom.live/warsaw/brigade?line={{line}}",
             "brigade": "https://api.zbiorkom.live/warsaw/brigade?line={{line}}&brigade={{brigade}}",
             "bikes": "/api/warsaw/bikes",
-            "parkings": "/api/warsaw/parkings",
+            "parkings": null,
             "alerts": "/api/warsaw/alerts",
             "alert": "/api/warsaw/alert?id={{id}}",
             "findStop": "https://api.zbiorkom.live/warsaw/findStop?name={{name}}"
@@ -27,7 +28,8 @@
         "note": "Dane: ZTM Poznań",
         "api": {
             "trip": "https://api.zbiorkom.live/poznan/trip?trip={{trip}}",
-            "planner": "https://api.zbiorkom.live/poznan/planner?from={{from}}&to={{to}}&transfers={{transfers}}&type={{type}}&facilities={{facilities}}",
+            "planner": "/api/planner?city=poznan",
+            "plannerResults": "/api/planner/results?key={{key}}&id={{id}}",
             "vehicle": "https://api.zbiorkom.live/poznan/vehicle?vehicle={{tab}}",
             "stops": "https://api.zbiorkom.live/poznan/stops",
             "stop": "https://api.zbiorkom.live/poznan/stopDepartures?id={{stop}}",
@@ -49,6 +51,7 @@
         "api": {
             "trip": "/api/trojmiasto/trip?trip={{trip}}",
             "planner": null,
+            "plannerResults": null,
             "vehicle": "/api/trojmiasto/vehicle?tab={{tab}}&type={{type}}",
             "stops": "/api/trojmiasto/stops",
             "stop": "/api/trojmiasto/stopDepartures?id={{stop}}",
