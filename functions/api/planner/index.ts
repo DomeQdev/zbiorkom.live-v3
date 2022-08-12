@@ -1,7 +1,7 @@
 export const onRequestPatch = async ({ request, env }) => {
     const city = new URL(request.url).searchParams.get("city");
     const { from, to, transfers, type, facilities }: { from: [number, number], to: [number, number], transfers: number, type: "quick" | "optimised" | "transfers", facilities?: ["wheelchair" | "ac" | "bike"] } = await request.json();
-    if ((city !== "warsaw" && city !== "poznan") || (!from || isNaN(from[0]) || isNaN(from[1])) || (!to || isNaN(to[0]) || isNaN(to[1])) || (!transfers || isNaN(transfers)) || (type !== "quick" && type !== "optimised" && type !== "transfers")) return new Response(JSON.stringify({ error: "Provide city='warsaw' | 'poznan', from=[number,number], to=[number,number], transfers=number, type='quick' | 'optimised' | 'transfers', facilities?='wheelchair' | 'ac' | 'bike'[]" }), {
+    if ((city !== "warsaw" && city !== "poznan") || (!from || isNaN(from[0]) || isNaN(from[1])) || (!to || isNaN(to[0]) || isNaN(to[1])) || ((!transfers && transfers !== 0) || isNaN(transfers)) || (type !== "quick" && type !== "optimised" && type !== "transfers")) return new Response(JSON.stringify({ error: "Provide city='warsaw' | 'poznan', from=[number,number], to=[number,number], transfers=number, type='quick' | 'optimised' | 'transfers', facilities?='wheelchair' | 'ac' | 'bike'[]" }), {
         status: 400,
         headers: {
             "Content-Type": "application/json",

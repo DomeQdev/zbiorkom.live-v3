@@ -100,6 +100,16 @@ interface Alert {
     body?: string
 }
 
+interface PlannerOptions {
+    from: [number, number],
+    fromName: string,
+    to: [number, number],
+    toName: string,
+    transfers: number,
+    facilities: "wheelchair" | "ac" | "bike"[],
+    type: "quick" | "optimised" | "transfers"
+}
+
 interface PlannerResult {
     key: string,
     routes: {
@@ -160,4 +170,4 @@ interface PlannerRoute {
     }[]
 }
 
-export { VehicleType, City, Trip, TripStop, Vehicle, Departure, Route, Stop, BrigadeSchedule, Trip, Alert, PlannerResult, PlannerRoute };
+export { VehicleType, City, Trip, TripStop, Vehicle, Departure, Route, Stop, BrigadeSchedule, Trip, Alert, PlannerOptions, PlannerResult, PlannerRoute };
