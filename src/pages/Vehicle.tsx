@@ -58,7 +58,7 @@ export default ({ city, vehicle, mapBearing }: { city: City, vehicle: Vehicle, m
     `;
 
     return <>
-        <VehicleMarker vehicle={vehicle} mapBearing={mapBearing} />
+        <VehicleMarker vehicle={vehicle} city={city} mapBearing={mapBearing} />
         {(trip && !trip.error) && <Shapes trip={trip} realTime={realTime} />}
         <BottomSheet
             open
@@ -67,7 +67,7 @@ export default ({ city, vehicle, mapBearing }: { city: City, vehicle: Vehicle, m
             header={<div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                 <IconButton onClick={() => navigate(".", { replace: true })} style={{ height: 40 }}><Close /></IconButton>
                 <div style={{ cursor: "pointer" }} onClick={() => setFollow(true)}>
-                    <VehicleHeadsign type={vehicle.type} line={vehicle.line} headsign={vehicle.headsign || trip?.headsign || "Przejazd techniczny"} color={vehicle.trip && !trip?.error ? trip?.color : Color(vehicle.type)} textColor={vehicle.trip && !trip?.error ? trip?.text : "white"} />
+                    <VehicleHeadsign type={vehicle.type} line={vehicle.line} headsign={vehicle.headsign || trip?.headsign || "Przejazd techniczny"} color={vehicle.trip && !trip?.error ? trip?.color : Color(vehicle.type, city)} textColor={vehicle.trip && !trip?.error ? trip?.text : "white"} />
                     {vehicle.trip && !trip?.error ? (realTime && trip) ? <span style={{ lineHeight: 1.4, fontSize: 15 }}><br />
                         {trip.stops[0].departure > Date.now() ? <InlineB><Logout style={{ width: 18, height: 18 }} />&nbsp;Odjazd za {Math.floor((trip.stops[0].departure - Date.now()) / 60000)} min</InlineB> : Math.floor(realTime.delay / 60000) ? <InlineB style={{ color: realTime.delay > 0 ? "red" : "green" }}><History style={{ width: 18, height: 18 }} />&nbsp;{Math.abs(Math.floor(realTime.delay / 60000))} min {realTime.delay > 0 ? "opóźnienia" : "przed czasem"}</InlineB> : <InlineB><Check style={{ width: 18, height: 18 }} />&nbsp;Planowo</InlineB>}
                     </span> : <Skeleton variant="text" style={{ width: 139, height: 21 }} /> : null}

@@ -25,7 +25,7 @@ function registerValidSW(swUrl: string) {
     navigator.serviceWorker
         .register(swUrl)
         .then((registration) => {
-            if(registration.waiting) registration.waiting.postMessage({ action: 'skipWaiting' });
+            if (registration.waiting) registration.waiting.postMessage({ action: 'skipWaiting' });
 
             registration.onupdatefound = () => {
                 const installingWorker = registration.installing;

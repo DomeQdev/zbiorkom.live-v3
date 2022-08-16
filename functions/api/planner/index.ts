@@ -37,8 +37,8 @@ export const onRequestPatch = async ({ request, env }) => {
             endTime: route.endTime,
             duration: route.duration,
             walkTime: route.walkTime,
-            legs: route.legs.filter(leg => leg.mode === "transit" || leg.duration > 100).map((leg, j) => ({
-                mode: leg.mode,
+            legs: route.legs.map((leg, j) => ({
+                mode: leg.mode === "transit" ? leg.mode : (leg.duration > 60 ? leg.mode : "transfer"),
                 duration: leg.duration,
                 color: leg.color,
                 textColor: leg.textColor,

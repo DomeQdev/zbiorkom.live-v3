@@ -1,7 +1,10 @@
 {
     "warsaw": {
         "name": "Warszawa",
-        "location": [52.22983098654226, 21.011738084722143],
+        "location": [
+            52.22983098654226,
+            21.011738084722143
+        ],
         "image": "/img/wtp500.png",
         "note": "Dane: Miasto Stołeczne Warszawa, mkuran.pl",
         "api": {
@@ -19,11 +22,22 @@
             "alerts": "/api/warsaw/alerts",
             "alert": "/api/warsaw/alert?id={{id}}",
             "findStop": "https://api.zbiorkom.live/warsaw/findStop?name={{name}}"
+        },
+        "colors": {
+            "bus": "#88007c",
+            "tram": "#e90024",
+            "metro": "#0061a9",
+            "skm": "#008d50",
+            "km": "#543ecc",
+            "ferry": "#fff1ba"
         }
     },
     "poznan": {
         "name": "Poznań",
-        "location": [52.4027541284412, 16.91244334781004],
+        "location": [
+            52.4027541284412,
+            16.91244334781004
+        ],
         "image": "/img/mpk394.png",
         "note": "Dane: ZTM Poznań",
         "api": {
@@ -41,11 +55,18 @@
             "alerts": null,
             "alert": null,
             "findStop": "https://api.zbiorkom.live/poznan/findStop?name={{name}}"
+        },
+        "colors": {
+            "bus": "#38913e",
+            "tram": "#f1b434"
         }
     },
     "trojmiasto": {
         "name": "Trójmiasto",
-        "location": [54.34610966679864, 18.644629872390432],
+        "location": [
+            54.34610966679864,
+            18.644629872390432
+        ],
         "image": "/img/wtp500.png",
         "note": "Dane: Otwarte dane ZTM Gdańsk",
         "api": {
@@ -63,6 +84,11 @@
             "alerts": null,
             "alert": null,
             "findStop": null
+        },
+        "colors": {
+            "bus": "#fc7dab",
+            "tram": "#d4151d",
+            "trolley": "#91BE40"
         }
     }
 }

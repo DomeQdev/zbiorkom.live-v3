@@ -1,5 +1,5 @@
 import { MapboxGeoJSONLineString } from "mapbox-gl";
-import cities from "../cities.json";
+import cities from "../util/cities.json";
 
 type VehicleType = "bus" | "tram" | "metro" | "skm" | "km" | "train" | "ferry" | "trolley" | "unknown";
 type City = keyof typeof cities;
@@ -101,13 +101,22 @@ interface Alert {
 }
 
 interface PlannerOptions {
-    from: [number, number],
+    from: [number, number] | undefined,
     fromName: string,
-    to: [number, number],
+    to: [number, number] | undefined,
     toName: string,
     transfers: number,
     facilities: "wheelchair" | "ac" | "bike"[],
     type: "quick" | "optimised" | "transfers"
+}
+
+interface PlannerLeg {
+    mode: "walk" | "bicycle" | "car" | "transit" | "transfer",
+    duration: number,
+    color?: string,
+    textColor?: string,
+    line?: string,
+    type?: VehicleType
 }
 
 interface PlannerResult {
@@ -118,14 +127,7 @@ interface PlannerResult {
         endTime: number,
         duration: number,
         walkTime: number,
-        legs: {
-            mode: "walk" | "bike" | "car" | "transit",
-            duration: number,
-            color?: string,
-            textColor?: string,
-            line?: string,
-            type?: VehicleType
-        }[]
+        legs: PlannerLeg[]
     }[]
 }
 
@@ -170,4 +172,4 @@ interface PlannerRoute {
     }[]
 }
 
-export { VehicleType, City, Trip, TripStop, Vehicle, Departure, Route, Stop, BrigadeSchedule, Trip, Alert, PlannerOptions, PlannerResult, PlannerRoute };
+export { VehicleType, City, Trip, TripStop, Vehicle, Departure, Route, Stop, BrigadeSchedule, Trip, Alert, PlannerOptions, PlannerLeg, PlannerResult, PlannerRoute };

@@ -2,7 +2,7 @@ import { List, ListItemAvatar, ListItemText, Avatar, ListItemButton, Divider } f
 import { Map, DepartureBoard, CalendarMonth, DirectionsBike, LocalParking, Error, Directions } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import { City } from "../util/typings";
-import cities from "../cities.json";
+import cities from "../util/cities.json";
 
 export default ({ city }: { city: City }) => {
     const navigate = useNavigate();

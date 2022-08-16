@@ -1,7 +1,7 @@
 import { ArrowDropUp } from "@mui/icons-material";
 import { Marker } from "react-map-gl";
 import { Color } from "./Icons";
-import { Stop } from "../util/typings";
+import { City, Stop } from "../util/typings";
 import styled from "@emotion/styled";
 
 const StopMarker = styled.div((props: {
@@ -10,7 +10,7 @@ const StopMarker = styled.div((props: {
     width: 18,
     height: 18,
     background: props.colors.length === 1 ? props.colors[0] : `linear-gradient(-45deg,${props.colors[0]} 50%,${props.colors[1]} 0)`,
-    border: "solid white", 
+    border: "solid white",
     borderRadius: 18,
 }));
 
@@ -22,8 +22,8 @@ const Arrow = styled(ArrowDropUp)((props: { arrowcolor: string }) => ({
     transform: "translateY(-14px)"
 }));
 
-export default ({ stop, onClick }: { stop: Stop, onClick: () => void }) => {
-    let colors = stop.type?.map(type => Color(type)) || [Color("bus")];
+export default ({ stop, city, onClick }: { stop: Stop, city: City, onClick: () => void }) => {
+    let colors = stop.type?.map(type => Color(type, city)) || [Color("bus", city)];
 
     return <Marker
         latitude={stop.location[0]}

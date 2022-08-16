@@ -27,3 +27,5 @@ export default ({ type, line, headsign, color, textColor }: { type: VehicleType,
         </>}
     </div>;
 };
+
+export { LineNumber };

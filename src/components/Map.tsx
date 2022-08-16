@@ -1,7 +1,7 @@
 import Map, { GeolocateControl, NavigationControl } from 'react-map-gl';
 import { Style } from 'mapbox-gl';
 import { City } from '../util/typings';
-import cities from "../cities.json";
+import cities from "../util/cities.json";
 import mapStyles from "../util/mapStyles.json";
 import 'mapbox-gl/dist/mapbox-gl.css';
 

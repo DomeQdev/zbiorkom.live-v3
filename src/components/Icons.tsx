@@ -1,6 +1,7 @@
 import { SvgIcon } from "@mui/material";
 import { DirectionsBus, Tram, Subway, Train, DirectionsBoat, CarCrash } from "@mui/icons-material";
-import { VehicleType } from "../util/typings";
+import { City, VehicleType } from "../util/typings";
+import cities from "../util/cities.json";
 
 const Icon = ({ type, style }: { type: VehicleType, style?: React.CSSProperties }) => {
     const icons = {
@@ -25,20 +26,9 @@ const Icon = ({ type, style }: { type: VehicleType, style?: React.CSSProperties 
     return icons[type];
 };
 
-const Color = (type: VehicleType) => {
-    const colors = {
-        bus: '#006b47',
-        tram: '#007bff',
-        metro: '#cf51d4',
-        skm: '#008d50',
-        km: '#543ecc',
-        train: '#0023a3',
-        ferry: '#5e03fc',
-        trolley: '#059e00',
-        unknown: '#FF7E00'
-    };
-
-    return colors[type];
+const Color = (type: VehicleType, city: City) => {
+    //@ts-ignore
+    return cities[city].colors[type] || "#FF7E00";
 };
 
 const Name = (type: VehicleType) => {

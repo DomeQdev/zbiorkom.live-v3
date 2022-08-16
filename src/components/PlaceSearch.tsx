@@ -51,6 +51,7 @@ export default ({ city, placeholder, onData }: { city: City, placeholder: string
                     }}
                     value={input}
                     onChange={({ target }) => setInput(target.value)}
+                    autoComplete="off"
                     InputProps={{
                         startAdornment: <InputAdornment position="start">
                             <IconButton color="inherit" onClick={() => navigate("../", { replace: true })}>
@@ -76,7 +77,7 @@ export default ({ city, placeholder, onData }: { city: City, placeholder: string
                 }}
             >
                 <ListItemAvatar>
-                    <Avatar sx={{ color: Color(stop.type[0]), bgcolor: "inherit" }}>
+                    <Avatar sx={{ color: Color(stop.type[0], city), bgcolor: "inherit" }}>
                         {stop.type ? <Icon type={stop.type[0]} /> : <DirectionsTransit />}
                     </Avatar>
                 </ListItemAvatar>
@@ -99,3 +100,11 @@ export default ({ city, placeholder, onData }: { city: City, placeholder: string
         </ListItem>).reduce((prev, curr, i) => [prev, <Divider variant="inset" key={`1_${i}`} />, curr]) : "wpisz 3 znaki aby cos wyszukac"}
     </>;
 };
+
+function fetchLocation(): Promise<[number, number] | null> {
+    return new Promise((resolve) => {
+        navigator.geolocation.getCurrentPosition(({ coords }) => {
+            resolve([coords.latitude, coords.longitude]);
+        }, () => resolve(null));
+    });
+}
