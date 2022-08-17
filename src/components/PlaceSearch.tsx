@@ -6,12 +6,14 @@ import { debounce } from "lodash";
 import { Stop, City } from "../util/typings";
 import { getData } from "../util/api";
 import { Color, Icon } from "./Icons";
+import isDark from "../util/isDark";
 
 export default ({ city, placeholder, onData }: { city: City, placeholder: string, onData: (name: string, location: [number, number]) => void }) => {
     const navigate = useNavigate();
     const inputRef = useRef<HTMLInputElement>();
     const [input, setInput] = useState<string>("");
     const [stopResults, setStopResults] = useState<Stop[]>();
+    const darkMode = isDark();
 
     const debouncedSearch = useRef(debounce(async (criteria: string) => {
         setStopResults(await getData("findStop", city, {
@@ -35,7 +37,7 @@ export default ({ city, placeholder, onData }: { city: City, placeholder: string
     useEffect(() => inputRef.current?.focus(), [inputRef, placeholder]);
 
     return <>
-        <AppBar position="sticky" color="inherit" elevation={0}>
+        <AppBar position="sticky" elevation={0}>
             <Toolbar>
                 <TextField
                     placeholder={placeholder}
@@ -77,7 +79,7 @@ export default ({ city, placeholder, onData }: { city: City, placeholder: string
                 }}
             >
                 <ListItemAvatar>
-                    <Avatar sx={{ color: Color(stop.type[0], city), bgcolor: "inherit" }}>
+                    <Avatar sx={{ color: darkMode ? "white" : Color(stop.type[0], city), bgcolor: darkMode ? Color(stop.type[0], city) : "inherit" }}>
                         {stop.type ? <Icon type={stop.type[0]} /> : <DirectionsTransit />}
                     </Avatar>
                 </ListItemAvatar>

@@ -10,7 +10,7 @@ const StopMarker = styled.div((props: {
     width: 18,
     height: 18,
     background: props.colors.length === 1 ? props.colors[0] : `linear-gradient(-45deg,${props.colors[0]} 50%,${props.colors[1]} 0)`,
-    border: "solid white",
+    border: "solid 1px white",
     borderRadius: 18,
 }));
 
@@ -30,7 +30,7 @@ export default ({ stop, city, onClick }: { stop: Stop, city: City, onClick: () =
         longitude={stop.location[1]}
         rotationAlignment="map"
         clickTolerance={10}
-        style={{ cursor: "pointer", display: "grid", placeItems: "center", zIndex: 1 }}
+        style={{ cursor: "pointer", display: "grid", placeItems: "center", zIndex: 5 }}
         onClick={onClick}
     >
         {stop.deg?.map((deg, i) => <div style={{ transform: `rotate(${deg}deg)`, display: "flex", position: "absolute" }} key={stop.id + i}><Arrow arrowcolor={colors[0]} /></div>)}

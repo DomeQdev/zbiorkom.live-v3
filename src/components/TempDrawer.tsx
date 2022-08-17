@@ -1,9 +1,9 @@
 import { Drawer, Box } from "@mui/material";
 
-export default ({ open, onClose, padding, children }: { open: boolean, onClose: () => void, padding?: boolean, children: React.ReactElement | React.ReactElement[] }) => {
+export default ({ open, onClose, padding, children }: { open: boolean, onClose?: () => void, padding?: boolean, children: React.ReactElement | React.ReactElement[] }) => {
     return <Drawer
         open={open}
-        onClose={onClose}
+        onClose={onClose || (() => {})}
         anchor="bottom"
         variant="temporary"
         PaperProps={{
@@ -17,7 +17,8 @@ export default ({ open, onClose, padding, children }: { open: boolean, onClose: 
                 },
                 ["@media (min-width: 700px)"]: {
                     width: "700px"
-                }
+                },
+                maxHeight: "50vh"
             }
         }}
     >

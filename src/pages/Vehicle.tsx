@@ -52,10 +52,10 @@ export default ({ city, vehicle, mapBearing }: { city: City, vehicle: Vehicle, m
         }));
     }, [vehicle, trip]);
 
-    const InlineB = styled.b`
-    display: inline-flex;
-    align-items: center;
-    `;
+    const InlineB = styled.b({
+        display: "inline-flex",
+        alignItems: "center"
+    });
 
     return <>
         <VehicleMarker vehicle={vehicle} city={city} mapBearing={mapBearing} />

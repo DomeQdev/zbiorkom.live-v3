@@ -1,5 +1,5 @@
-import { List, ListItemAvatar, ListItemText, Avatar, Box, ListItemButton, Divider } from "@mui/material";
-import { Map, DepartureBoard, CalendarMonth, DirectionsBike, LocalParking, Error } from "@mui/icons-material";
+import { List, ListItemAvatar, ListItemText, Avatar, ListItemButton, Divider } from "@mui/material";
+import { Map, DepartureBoard, CalendarMonth, DirectionsBike, LocalParking, Error, Directions } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import { City } from "../util/typings";
 import cities from "../util/cities.json";
@@ -9,7 +9,6 @@ export default ({ city }: { city: City }) => {
     const cityData = cities[city];
 
     return <div style={{ width: "100%", textAlign: "center" }}>
-        // widok na urządzenia {">600px"}, kiedyś to będzie lepiej wyglądać
         <List>
             <ListItemButton onClick={() => navigate("map")}>
                 <ListItemAvatar>
@@ -19,6 +18,16 @@ export default ({ city }: { city: City }) => {
                 </ListItemAvatar>
                 <ListItemText primary="Mapa" />
             </ListItemButton>
+            {cityData.api.planner && <><Divider />
+                <ListItemButton onClick={() => navigate("planner")}>
+                    <ListItemAvatar>
+                        <Avatar>
+                            <Directions />
+                        </Avatar>
+                    </ListItemAvatar>
+                    <ListItemText primary="Wyznacz trasę" />
+                </ListItemButton>
+            </>}
             {cityData.api.stops && <><Divider />
                 <ListItemButton onClick={() => navigate("stops")}>
                     <ListItemAvatar>

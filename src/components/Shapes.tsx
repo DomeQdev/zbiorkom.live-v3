@@ -6,19 +6,19 @@ import { Trip, TripStop } from "../util/typings";
 import { RealTimeResponse } from "../util/realtime";
 import styled from "@emotion/styled";
 
-const StopMarker = styled.button`
-width: 5px;
-height: 5px;
-padding: 5px;
-background-color: #fff;
-display: flex;
-align-items: center;
-cursor: pointer;
-justify-content: center;
-outline: none;
-border: 3px solid ${props => props.color?.toLowerCase() === "#ffffff" ? "#000" : props.color};
-border-radius: 18px;
-`;
+const StopMarker = styled.button((props) => ({
+    width: 5,
+    height: 5,
+    padding: 5,
+    backgroundColor: "#fff",
+    display: "flex",
+    alignItems: "center",
+    cursor: "pointer",
+    justifyContent: "center",
+    outline: "none",
+    border: `3px solid ${props.color?.toLowerCase() === "#ffffff" ? "#000" : props.color}`,
+    borderRadius: 18
+}));
 
 export default ({ trip, realTime }: { trip: Trip, realTime?: RealTimeResponse }) => {
     const [stopPopup, setStopPopup] = useState<TripStop>();
@@ -60,6 +60,7 @@ export default ({ trip, realTime }: { trip: Trip, realTime?: RealTimeResponse })
                 e.originalEvent.stopPropagation();
                 setStopPopup(stop);
             }}
+            style={{ zIndex: 5 }}
         >
             <Tooltip title={stop.name} arrow placement="left">
                 <StopMarker color={trip.color} />
@@ -71,7 +72,7 @@ export default ({ trip, realTime }: { trip: Trip, realTime?: RealTimeResponse })
             longitude={stopPopup.location[1]}
             onClose={() => setStopPopup(undefined)}
             offset={[1, 8]}
-            style={{ textAlign: "center", backgroundColor: "white", zIndex: 10 }}
+            style={{ textAlign: "center", color: "black", backgroundColor: "white", zIndex: 10 }}
             closeButton={false}
         >
             <h5 style={{ display: "inline" }}>{stopPopup.on_request && <PanTool style={{ width: 13, height: 13 }} />}&nbsp; <b style={{ fontSize: 15 }}>{stopPopup.name}</b></h5><br />

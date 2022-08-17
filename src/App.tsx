@@ -1,12 +1,13 @@
 import { lazy, useState } from 'react';
-import { Routes, Route, useNavigate } from "react-router-dom";
-import { AppBar, Toolbar, IconButton, Typography } from '@mui/material';
+import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
+import { AppBar, Toolbar, IconButton, Typography, CssBaseline } from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { DirectionsBus, Settings } from "@mui/icons-material";
 import { Toaster } from 'react-hot-toast';
 import { Suspense } from './components/Suspense';
 import { City } from './util/typings';
 import cities from "./util/cities.json";
+import isDark from './util/isDark';
 
 const IndexMobile = lazy(() => import("./pages/IndexMobile"));
 const IndexDesktop = lazy(() => import("./pages/IndexDesktop"));
@@ -22,11 +23,15 @@ const DetectDevice = lazy(() => import("./components/DetectDevice"));
 
 export default () => {
   const navigate = useNavigate();
-  const [settingsActive, setSettingsActive] = useState(false);
+  const { state, pathname } = useLocation();
+  const darkMode = isDark();
 
   const theme = createTheme({
     palette: {
-      mode: "light",
+      mode: darkMode ? "dark" : "light",
+      background: {
+        default: darkMode ? "#383838" : "#fff"
+      },
       primary: {
         main: "#5aa159",
         contrastText: "#fff"
@@ -36,22 +41,36 @@ export default () => {
       MuiAvatar: {
         styleOverrides: {
           root: {
-            backgroundColor: "#5aa159"
+            backgroundColor: "#5aa159",
+            color: "#fff"
+          }
+        }
+      },
+      MuiAppBar: {
+        styleOverrides: {
+          colorPrimary: {
+            backgroundColor: darkMode ? "#383838" : "#fff"
           }
         }
       }
     }
   });
 
+  if (darkMode) {
+    document.body.style.setProperty("--rsbs-bg", "#383838");
+    document.body.style.setProperty("--rsbs-handle-bg", "rgba(255,255,255,0.3)");
+  }
+
   return <ThemeProvider theme={theme}>
-    <AppBar position="sticky">
-      <Toolbar style={{ display: "flex", justifyContent: "space-between" }}>
+    <CssBaseline />
+    <AppBar position="sticky" sx={{ bgcolor: "#5aa159" }}>
+      <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
         <Typography variant="h6" noWrap component="div" onClick={() => navigate("/")} sx={{ cursor: "pointer", display: "inline-flex", alignItems: "center" }}>
           <DirectionsBus />&nbsp;<Routes>{Object.keys(cities).map((city) => <Route path={`${city}/*`} element={<>{cities[city as City].name}</>} key={city} />)}<Route path="*" element={<>zbiorkom.live</>} /></Routes>
         </Typography>
         <div>
           <IconButton href="https://discord.gg/QYRswCH6Gw" target="_blank"><img src="/img/discord.png" alt="discord logo" width="24" height="18" /></IconButton>
-          <IconButton onClick={() => setSettingsActive(true)}><Settings style={{ fill: "white" }} /></IconButton>
+          <IconButton onClick={() => navigate(pathname, { state: "settings" })}><Settings style={{ fill: "white" }} /></IconButton>
         </div>
       </Toolbar>
     </AppBar>
@@ -92,6 +111,6 @@ export default () => {
       position="top-center"
       reverseOrder={false}
     />
-    {settingsActive && <Suspense><SettingsPage onClose={() => setSettingsActive(false)} /></Suspense>}
+    <Suspense><SettingsPage open={state === "settings"} onClose={() => navigate(pathname, { state: null, replace: true })} /></Suspense>
   </ThemeProvider>;
 };
