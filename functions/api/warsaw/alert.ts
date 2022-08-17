@@ -11,7 +11,7 @@ interface Alerts {
 
 export const onRequestGet = async ({ request }) => {
     let { searchParams } = new URL(request.url);
-    let id = searchParams.get("id");
+    let id = searchParams.get("id")?.split("/")[2];
     if (!id) return new Response(JSON.stringify({ error: "Provide id=any" }), { status: 400 });
 
     let alerts: Alerts = await fetch("https://mkuran.pl/gtfs/warsaw/alerts.json", {

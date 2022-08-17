@@ -20,7 +20,7 @@ export const onRequestGet = async () => {
 
     return new Response(JSON.stringify(
         alerts.alerts.map(alert => ({
-            id: alert.id,
+            id: alert.id.split("/")[2],
             title: alert.title,
             routes: alert.routes,
             effect: alert.effect === "REDUCED_SERVICE" ? "IMPEDIMENT" : "CHANGE"

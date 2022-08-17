@@ -9,5 +9,5 @@ export default () => {
             return false;
         }
     }
-    return true//ls === "dark";
+    return ls === "dark";
 };
