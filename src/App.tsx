@@ -1,8 +1,8 @@
-import { lazy, useState } from 'react';
-import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
+import { lazy, useEffect } from 'react';
+import { Routes, Route, useNavigate, useLocation, Link } from "react-router-dom";
 import { AppBar, Toolbar, IconButton, Typography, CssBaseline } from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import { DirectionsBus, Settings } from "@mui/icons-material";
+import { DarkMode, DirectionsBus, LightMode, Settings } from "@mui/icons-material";
 import { Toaster } from 'react-hot-toast';
 import { Suspense } from './components/Suspense';
 import { City } from './util/typings';
@@ -70,11 +70,16 @@ export default () => {
         </Typography>
         <div>
           <IconButton href="https://discord.gg/QYRswCH6Gw" target="_blank"><img src="/img/discord.png" alt="discord logo" width="24" height="18" /></IconButton>
-          <IconButton onClick={() => navigate(pathname, { state: "settings" })}><Settings style={{ fill: "white" }} /></IconButton>
+          <IconButton onClick={() => {
+            localStorage.setItem("theme", darkMode ? "light" : "dark");
+            window.location.reload();
+          }}>{darkMode ? <LightMode sx={{ fill: "white" }} /> : <DarkMode sx={{ fill: "white" }} />}</IconButton>
+          <IconButton onClick={() => navigate(pathname, { state: "settings" })}><Settings sx={{ fill: "white" }} /></IconButton>
         </div>
       </Toolbar>
     </AppBar>
     <Routes>
+      <Route index element={<CityPicker />} />
       {Object.keys(cities).map((city) => {
         let name = city as City;
         let cityData = cities[name];
@@ -105,7 +110,7 @@ export default () => {
           </>}
         </Route>
       })}
-      <Route path="*" element={<Suspense><Error text={"404"} message={"Nie znaleziono strony (lub jesteś na stronie głównej :o)"} /></Suspense>} />
+      <Route path="*" element={<Suspense><Error text={"404"} message={"Nie znaleziono strony"} /></Suspense>} />
     </Routes>
     <Toaster
       position="top-center"
@@ -114,3 +119,16 @@ export default () => {
     <Suspense><SettingsPage open={state === "settings"} onClose={() => navigate(pathname, { state: null, replace: true })} /></Suspense>
   </ThemeProvider>;
 };
+
+function CityPicker() {
+  const navigate = useNavigate();
+  useEffect(() => {
+    let ls = localStorage.getItem("city") as City;
+    if (!ls || !cities[ls]) {
+      localStorage.setItem("city", "warsaw");
+      navigate("/warsaw");
+    }
+    navigate(`/${ls}`);
+  }, []);
+  return <>zbiorkom.live to najlepsza aplikacja do wyznaczania trasy, odjazdów z przystanków, sprawdzania lokalizacji wszystkich pojazdów komunikacji miejskiej, wolnych miejsc na parkingu, dostępności rowerów i stojaków na stacji rowerowej i rozkładu brygad w {Object.keys(cities).length} różnych miastach: {Object.values(cities).map<React.ReactNode>(x => <Link to={`/${x.id}`} style={{ textDecoration: "none", color: "#69a968" }}>{x.name}</Link>).reduce((prev, curr, i) => [prev, <span key={i}>, </span>, curr])}</>;
+}

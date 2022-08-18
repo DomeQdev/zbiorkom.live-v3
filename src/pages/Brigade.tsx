@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { List, ListItemButton, ListItemText, Divider, Button, Typography, Box } from "@mui/material";
+import { List, ListItemButton, ListItemText, Divider, Button, Typography, Box, Skeleton, ListItem } from "@mui/material";
 import { ArrowBack } from "@mui/icons-material";
 import { toast } from "react-hot-toast";
 import { Backdrop } from "../components/Suspense";
@@ -44,7 +44,9 @@ export default ({ city }: { city: City }) => {
                     secondary={<><span style={{ textDecoration: sched.realEnd ? "line-through" : "" }}>{timeString(sched.end)}</span> {sched.realEnd ? <span style={{ color: "red" }}>{timeString(sched.realEnd)}</span> : null}</>}
                 />
             </span>
-        </ListItemButton>).reduce((prev, curr, i) => [prev, <Divider key={i} textAlign="left" style={{ color: "#9ba1ab", fontSize: 14 }}>{(schedule[i].start - schedule[i - 1]!.end) / 60000 < 60 ? schedule[i].realStart ? <span style={{ color: "red" }}>Brak postoju z powodu zbyt dużego opóźnienia.</span> : <>Postój {Math.floor((schedule[i].start - schedule[i - 1]!.end) / 60000)} min</> : null}</Divider>, curr])}</List> : <h4>Nie mogliśmy znaleźć rozkładu dla tej brygady...</h4>) : <Backdrop />}
+        </ListItemButton>).reduce((prev, curr, i) => [prev, <Divider key={i} textAlign="left" style={{ color: "#9ba1ab", fontSize: 14 }}>{(schedule[i].start - schedule[i - 1]!.end) / 60000 < 60 ? schedule[i].realStart ? <span style={{ color: "red" }}>Brak postoju z powodu zbyt dużego opóźnienia.</span> : <>Postój {Math.floor((schedule[i].start - schedule[i - 1]!.end) / 60000)} min</> : null}</Divider>, curr])}</List> : <h4>Nie mogliśmy znaleźć rozkładu dla tej brygady...</h4>) : <List>
+            {new Array(15).fill(0).map<React.ReactNode>((_, i) => <ListItem key={i}><ListItemText primary={<Skeleton variant="text" width={150} />} secondary={<Skeleton variant="text" width={300} />} /><ListItemText sx={{ right: 0, position: "absolute" }} primary={<Skeleton variant="text" width={60} sx={{ textAlign: "right" }} />} secondary={<Skeleton variant="text" width={60} />} /></ListItem>).reduce((prev, curr, i) => [prev, <Divider key={`1-${i}`} />, curr])}
+        </List>}
     </Box>;
 };
 

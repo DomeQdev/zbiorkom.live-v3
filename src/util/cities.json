@@ -1,6 +1,7 @@
 {
     "warsaw": {
         "name": "Warszawa",
+        "id": "warsaw",
         "location": [
             52.22983098654226,
             21.011738084722143
@@ -34,6 +35,7 @@
     },
     "poznan": {
         "name": "Poznań",
+        "id": "poznan",
         "location": [
             52.4027541284412,
             16.91244334781004
@@ -63,6 +65,7 @@
     },
     "trojmiasto": {
         "name": "Trójmiasto",
+        "id": "trojmiasto",
         "location": [
             54.34610966679864,
             18.644629872390432
