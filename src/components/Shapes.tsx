@@ -2,6 +2,7 @@ import { Layer, Marker, Popup, Source } from "react-map-gl";
 import { Chip, Tooltip } from "@mui/material";
 import { PanTool } from "@mui/icons-material";
 import { useState } from "react";
+import { minutesUntil } from "./VehicleStopList";
 import { Trip, TripStop } from "../util/typings";
 import { RealTimeResponse } from "../util/realtime";
 import styled from "@emotion/styled";
@@ -83,9 +84,3 @@ export default ({ trip, realTime }: { trip: Trip, realTime?: RealTimeResponse })
         </Popup>}
     </>;
 };
-
-function minutesUntil(timestamp: number) {
-    let res = Math.floor((timestamp - Date.now()) / 1000 / 60);
-    if (res <= 0) return "<1";
-    return res;
-}

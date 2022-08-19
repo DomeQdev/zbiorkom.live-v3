@@ -37,7 +37,11 @@ const RealTime = ({ trip, location, delay }: {
         snIndex: tripStart > 0 ? (servingIndex === -1 ? nextStopIndex : servingIndex) : 0,
         servingIndex: tripStart > 0 ? (servingIndex === -1 ? null : servingIndex) : 0,
         nextStopIndex: tripStart > 0 ? nextStopIndex : 1,
-        stops,
+        stops: stops.map(stop => ({
+            ...stop,
+            realArrival: stop.arrival + _delay,
+            realDeparture: stop.departure + _delay
+        })),
         delay: Math.floor(_delay),
         travelledToNextStop
     };

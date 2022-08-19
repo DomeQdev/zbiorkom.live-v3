@@ -34,13 +34,16 @@ interface Trip {
 interface TripStop {
     id: string,
     arrival: number,
+    realArrival: number,
     departure: number,
+    realDeparture: number,
     location: [number, number],
     name: string,
     on_request: boolean,
     distance: number,
     metersToStop: number,
-    sequence: number
+    sequence: number,
+    platform?: string
 }
 
 interface Departure {

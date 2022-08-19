@@ -130,5 +130,6 @@ function CityPicker() {
     }
     navigate(`/${ls}`);
   }, []);
-  return <>zbiorkom.live to najlepsza aplikacja do wyznaczania trasy, odjazdów z przystanków, sprawdzania lokalizacji wszystkich pojazdów komunikacji miejskiej, wolnych miejsc na parkingu, dostępności rowerów i stojaków na stacji rowerowej i rozkładu brygad w {Object.keys(cities).length} różnych miastach: {Object.values(cities).map<React.ReactNode>(x => <Link to={`/${x.id}`} style={{ textDecoration: "none", color: "#69a968" }}>{x.name}</Link>).reduce((prev, curr, i) => [prev, <span key={i}>, </span>, curr])}</>;
+
+  return null;
 }
