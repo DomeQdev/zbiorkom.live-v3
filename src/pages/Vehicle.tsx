@@ -100,7 +100,7 @@ export default ({ city, vehicle, mapBearing }: { city: City, vehicle: Vehicle, m
         >
             {vehicle.trip && !trip?.error
                 ? (realTime && trip)
-                    ? <VehicleStopList trip={trip} realtime={realTime} type={vehicle.type} follow={follow} />
+                    ? <VehicleStopList trip={trip} realtime={realTime} type={vehicle.type} follow={follow} stopFollowing={() => setFollow(false)} />
                     : <List>
                         {new Array(10).fill(null).map<React.ReactNode>((_, i) => <ListItem key={i}>
                             <ListItemAvatar>

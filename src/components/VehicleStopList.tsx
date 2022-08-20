@@ -5,13 +5,14 @@ import { RealTimeResponse } from "../util/realtime";
 import { Trip, VehicleType } from "../util/typings";
 import { Icon } from "./Icons";
 
-export default ({ trip, realtime, type, follow }: { trip: Trip, realtime: RealTimeResponse, type: VehicleType, follow: boolean }) => {
+export default ({ trip, realtime, type, follow, stopFollowing }: { trip: Trip, realtime: RealTimeResponse, type: VehicleType, follow: boolean, stopFollowing: () => void }) => {
     const { current: map } = useMap();
 
     return <List>
         {realtime.stops.map<React.ReactNode>(stop => <ListItemButton
             key={stop.sequence}
             onClick={() => {
+                stopFollowing();
                 map?.flyTo({
                     center: [stop.location[1], stop.location[0]],
                     zoom: 17

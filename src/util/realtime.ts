@@ -31,7 +31,7 @@ const RealTime = ({ trip, location, delay }: {
     let cur = serving || lastStop;
     let travelledToNextStop = percentTravelled(cur, nextStop);
     let realtime = ((nextStop.arrival - cur.departure) * travelledToNextStop) - (nextStop.arrival - Date.now());
-    let _delay = tripStart > 0 ? delay || realtime : 0;
+    let _delay = tripStart > 0 ? delay == null ? realtime : delay : 0;
 
     return {
         snIndex: tripStart > 0 ? (servingIndex === -1 ? nextStopIndex : servingIndex) : 0,
