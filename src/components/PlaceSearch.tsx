@@ -1,27 +1,30 @@
-import { TextField, AppBar, Toolbar, IconButton, InputAdornment, List, ListItemButton, ListItemAvatar, ListItemText, Avatar, Divider, Skeleton, ListItem, ListItemIcon, Box, Button } from "@mui/material";
+import { TextField, AppBar, Toolbar, IconButton, InputAdornment, List, ListItemButton, ListItemAvatar, ListItemText, Avatar, Divider, Skeleton, ListItem, ListItemIcon, Box, Button, Dialog, Typography } from "@mui/material";
 import { AccountBalance, ArrowBack, Clear, DirectionsTransit, HighlightOff, History, Home, Map, MyLocation, NoTransfer } from "@mui/icons-material";
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { debounce } from "lodash";
 import { Stop, City } from "../util/typings";
+import { Transition } from "./PlannerPicker";
+import cities from "../util/cities.json";
 import { getData } from "../util/api";
 import { Color, Icon } from "./Icons";
 import isDark from "../util/isDark";
-import cities from "../util/cities.json";
 import toast from "react-hot-toast";
+import MapPicker from "./MapPicker";
+import { debounce } from "lodash";
 
 export default ({ city, placeholder, onData }: { city: City, placeholder: string, onData: (name: string, location: [number, number]) => void }) => {
     const navigate = useNavigate();
     const inputRef = useRef<HTMLInputElement>();
     const [input, setInput] = useState<string>("");
     const [stopResults, setStopResults] = useState<Stop[]>();
-    const { samplePlace } = cities[city];
-    const darkMode = isDark();
+    const [mapEnabled, setMapEnabled] = useState<boolean>(false);
     const [lastPlaces, setLastPlaces] = useState<{
         name: string,
         location: [number, number],
         date: number
     }[]>(JSON.parse(localStorage.getItem(`${city}.lastPlaces`) || "[]"));
+    const { samplePlace } = cities[city];
+    const darkMode = isDark();
 
     const debouncedSearch = useRef(debounce(async (criteria: string) => {
         setStopResults(await getData("findStop", city, {
@@ -123,7 +126,7 @@ export default ({ city, placeholder, onData }: { city: City, placeholder: string
                     primary="Twoja lokalizacja"
                 />
             </ListItemButton>
-            <ListItemButton disabled>
+            <ListItemButton onClick={() => setMapEnabled(true)}>
                 <ListItemIcon>
                     <Map />
                 </ListItemIcon>
@@ -182,6 +185,13 @@ export default ({ city, placeholder, onData }: { city: City, placeholder: string
                 />
             </ListItemButton>}
         </List>}
+
+        <Dialog open={mapEnabled} fullScreen TransitionComponent={Transition}>
+            <MapPicker city={city} onData={(name, location) => {
+                setMapEnabled(false);
+                onData(name, location);
+            }} onDismiss={() => setMapEnabled(false)} />
+        </Dialog>
     </>;
 };
 
