@@ -1,5 +1,5 @@
 import { Box, Button, Dialog, Fab, Slide, FormControl, FormControlLabel, IconButton, InputAdornment, Radio, RadioGroup, Slider, TextField, ToggleButton, ToggleButtonGroup, Typography } from "@mui/material";
-import { LastPage, Start, ImportExport, DirectionsBike, Accessible, AcUnit, ArrowForward, KeyboardArrowDown } from "@mui/icons-material";
+import { LastPage, Start, ImportExport, DirectionsBike, Accessible, AcUnit, ArrowForward, KeyboardArrowDown, KeyboardArrowRight } from "@mui/icons-material";
 import { forwardRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { TransitionProps } from "@mui/material/transitions";
@@ -100,8 +100,8 @@ export default ({ city, options, setOptions }: { city: City, options: PlannerOpt
                 <Button variant="outlined" size="small" endIcon={<KeyboardArrowDown />} onClick={() => navigate(".", { state: "time" })}>
                     Odjazd o 21:37
                 </Button>
-                <Button variant="outlined" size="small" endIcon={<KeyboardArrowDown />} onClick={() => navigate(".", { state: "type" })} sx={{ marginX: 1 }}>
-                    {options.type === "quick" ? "Najszybsza trasa" : options.type === "optimised" ? "Najlepsza trasa" : "Mniej przesiadek"}
+                <Button variant="outlined" size="small" endIcon={<KeyboardArrowRight />} onClick={() => setOptions({ ...options, type: options.type === "quick" ? "optimised" : options.type === "optimised" ? "transfers" : "quick" })} sx={{ marginX: 1 }}>
+                    {options.type === "quick" ? "Najszybsza trasa" : options.type === "optimised" ? "Zoptymalizowana" : "Mniej przesiadek"}
                 </Button>
                 <Button variant="outlined" size="small" endIcon={<KeyboardArrowDown />} onClick={() => navigate(".", { state: "options" })}>
                     Opcje
@@ -122,22 +122,6 @@ export default ({ city, options, setOptions }: { city: City, options: PlannerOpt
                 navigate(".", { state: null, replace: true });
             }} />
         </Dialog>
-
-        <TempDrawer open={state === "type"} onClose={() => navigate(".", { replace: true })} padding>
-            <FormControl>
-                <RadioGroup
-                    value={options.type}
-                    onChange={(e, v) => {
-                        setOptions({ ...options, type: v as PlannerOptions["type"] });
-                        navigate(".", { replace: true });
-                    }}
-                >
-                    <FormControlLabel value="quick" control={<Radio />} label="Najszybsza trasa" />
-                    <FormControlLabel value="optimised" control={<Radio />} label="Najlepsza trasa" />
-                    <FormControlLabel value="transfers" control={<Radio />} label="Mniej przesiadek" />
-                </RadioGroup>
-            </FormControl>
-        </TempDrawer>
 
         <TempDrawer open={state === "options"} onClose={() => navigate(".", { replace: true })} padding>
             <Typography gutterBottom sx={{ marginBottom: -1 }}>Limit liczby przesiadek</Typography>

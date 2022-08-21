@@ -1,5 +1,5 @@
-import { TextField, AppBar, Toolbar, IconButton, InputAdornment, List, ListItemButton, ListItemAvatar, ListItemText, Avatar, Divider, Skeleton, ListItem } from "@mui/material";
-import { ArrowBack, DirectionsTransit, HighlightOff, NoTransfer } from "@mui/icons-material";
+import { TextField, AppBar, Toolbar, IconButton, InputAdornment, List, ListItemButton, ListItemAvatar, ListItemText, Avatar, Divider, Skeleton, ListItem, ListItemIcon, Box, Button } from "@mui/material";
+import { AccountBalance, ArrowBack, Clear, DirectionsTransit, HighlightOff, History, Home, Map, MyLocation, NoTransfer } from "@mui/icons-material";
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { debounce } from "lodash";
@@ -7,13 +7,21 @@ import { Stop, City } from "../util/typings";
 import { getData } from "../util/api";
 import { Color, Icon } from "./Icons";
 import isDark from "../util/isDark";
+import cities from "../util/cities.json";
+import toast from "react-hot-toast";
 
 export default ({ city, placeholder, onData }: { city: City, placeholder: string, onData: (name: string, location: [number, number]) => void }) => {
     const navigate = useNavigate();
     const inputRef = useRef<HTMLInputElement>();
     const [input, setInput] = useState<string>("");
     const [stopResults, setStopResults] = useState<Stop[]>();
+    const { samplePlace } = cities[city];
     const darkMode = isDark();
+    const [lastPlaces, setLastPlaces] = useState<{
+        name: string,
+        location: [number, number],
+        date: number
+    }[]>(JSON.parse(localStorage.getItem(`${city}.lastPlaces`) || "[]"));
 
     const debouncedSearch = useRef(debounce(async (criteria: string) => {
         setStopResults(await getData("findStop", city, {
@@ -74,8 +82,15 @@ export default ({ city, placeholder, onData }: { city: City, placeholder: string
                 key={stop.id}
                 onClick={() => {
                     onData(`${stop.name}${stop.code ? ` ${stop.code}` : ""}`, stop.location);
-                    let lastStops = localStorage.getItem(`${city}.lastStops`);
-                    localStorage.setItem(`${city}.lastStops`, lastStops ? `${lastStops},${stop.id}` : stop.id);
+                    let lastPlaces = JSON.parse(localStorage.getItem(`${city}.lastPlaces`) || "[]");
+                    localStorage.setItem(`${city}.lastPlaces`, JSON.stringify([
+                        ...lastPlaces.slice(0, 9),
+                        {
+                            name: `${stop.name}${stop.code ? ` ${stop.code}` : ""}`,
+                            location: stop.location,
+                            date: Date.now()
+                        }
+                    ]));
                 }}
             >
                 <ListItemAvatar>
@@ -99,14 +114,81 @@ export default ({ city, placeholder, onData }: { city: City, placeholder: string
             <ListItemText
                 primary={<Skeleton variant="text" width={150} />}
             />
-        </ListItem>).reduce((prev, curr, i) => [prev, <Divider variant="inset" key={`1_${i}`} />, curr]) : "wpisz 3 znaki aby cos wyszukac"}
+        </ListItem>).reduce((prev, curr, i) => [prev, <Divider variant="inset" key={`1_${i}`} />, curr]) : <List sx={{ width: "95%", marginLeft: "auto", marginRight: "auto" }}>
+            <ListItemButton onClick={() => fetchLocation().then(location => onData("Twoja lokalizacja", location)).catch(() => toast.error("Nie mogliśmy pobrać twojej lokalizacji."))}>
+                <ListItemIcon sx={{ color: "#5090E4" }}>
+                    <MyLocation />
+                </ListItemIcon>
+                <ListItemText
+                    primary="Twoja lokalizacja"
+                />
+            </ListItemButton>
+            <ListItemButton disabled>
+                <ListItemIcon>
+                    <Map />
+                </ListItemIcon>
+                <ListItemText
+                    primary="Wybierz na mapie"
+                />
+            </ListItemButton>
+            <Divider />
+            <Box
+                sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    textAlign: "center",
+                    width: "100%",
+                    overflowX: "auto",
+                    '& hr': {
+                        mx: 0.5,
+                    },
+                    '& .MuiListItemButton-root': {
+                        flex: "none"
+                    }
+                }}
+            >
+                <ListItemButton disabled>
+                    <ListItemIcon>
+                        <Home />
+                    </ListItemIcon>
+                    <ListItemText
+                        primary="Dom"
+                        secondary="Dworzec Wileński"
+                    />
+                </ListItemButton>
+                <Divider orientation="vertical" variant="middle" flexItem />
+
+            </Box>
+            <Divider />
+            {lastPlaces.length ? <>
+                {lastPlaces.map<React.ReactNode>((place, i) => <ListItemButton key={i} onClick={() => onData(place.name, place.location)}>
+                    <ListItemIcon>
+                        <History />
+                    </ListItemIcon>
+                    <ListItemText
+                        primary={place.name}
+                    />
+                </ListItemButton>)}
+                <Button startIcon={<Clear />} sx={{ float: "right" }} onClick={() => {
+                    localStorage.removeItem(`${city}.lastPlaces`);
+                    setLastPlaces([]);
+                }}>Wyczyść historię</Button>
+            </> : <ListItemButton onClick={() => onData(samplePlace.name, samplePlace.location as [number, number])}>
+                <ListItemIcon>
+                    <AccountBalance />
+                </ListItemIcon>
+                <ListItemText
+                    primary={samplePlace.name}
+                />
+            </ListItemButton>}
+        </List>}
     </>;
 };
 
-function fetchLocation(): Promise<[number, number] | null> {
-    return new Promise((resolve) => {
+function fetchLocation(): Promise<[number, number]> {
+    return new Promise((resolve, reject) => {
         navigator.geolocation.getCurrentPosition(({ coords }) => {
             resolve([coords.latitude, coords.longitude]);
-        }, () => resolve(null));
+        }, () => reject());
     });
 }

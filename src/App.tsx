@@ -65,9 +65,10 @@ export default () => {
     <CssBaseline />
     <AppBar position="sticky" sx={{ bgcolor: "#5aa159" }}>
       <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
-        <Typography variant="h6" noWrap component="div" onClick={() => navigate("/")} sx={{ cursor: "pointer", display: "inline-flex", alignItems: "center" }}>
-          <DirectionsBus />&nbsp;<Routes>{Object.keys(cities).map((city) => <Route path={`${city}/*`} element={<>{cities[city as City].name}</>} key={city} />)}<Route path="*" element={<>zbiorkom.live</>} /></Routes>
-        </Typography>
+        <Routes>
+          {Object.keys(cities).map((city) => <Route path={`${city}/*`} element={<CityHeadsign city={city as City} />} key={city} />)}
+          <Route path="*" element={<CityHeadsign />} />
+        </Routes>
         <div>
           <IconButton href="https://discord.gg/QYRswCH6Gw" target="_blank"><img src="/img/discord.png" alt="discord logo" width="24" height="18" /></IconButton>
           <IconButton onClick={() => {
@@ -132,4 +133,12 @@ function CityPicker() {
   }, []);
 
   return null;
+}
+
+function CityHeadsign({ city }: { city?: City }) {
+  const navigate = useNavigate();
+
+  return <Typography variant="h6" noWrap component="div" onClick={() => navigate(`/${city || ""}`)} sx={{ cursor: "pointer", display: "inline-flex", alignItems: "center" }}>
+    <DirectionsBus />&nbsp;{city ? cities[city].name : "zbiorkom.live"}
+  </Typography>
 }

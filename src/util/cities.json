@@ -31,6 +31,10 @@
             "skm": "#008d50",
             "km": "#543ecc",
             "ferry": "#fff1ba"
+        },
+        "samplePlace": {
+            "name": "Pałac Kultury i Nauki",
+            "location": [52.231831589861834, 21.00599062423941]
         }
     },
     "poznan": {
@@ -61,6 +65,10 @@
         "colors": {
             "bus": "#38913e",
             "tram": "#f1b434"
+        },
+        "samplePlace": {
+            "name": "Koziołki Poznańskie",
+            "location": [52.408540946706694, 16.93426635682684]
         }
     },
     "trojmiasto": {
@@ -92,6 +100,10 @@
             "bus": "#fc7dab",
             "tram": "#d4151d",
             "trolley": "#91BE40"
+        },
+        "samplePlace": {
+            "name": "Gdańsk Główny",
+            "location": [54.3565941516535, 18.64433129468317]
         }
     }
 }

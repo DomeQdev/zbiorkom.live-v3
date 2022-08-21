@@ -13,7 +13,7 @@ export default ({ city }: { city: City }) => {
         toName: "Miejsce docelowe",
         transfers: 4,
         facilities: [],
-        type: "optimised"
+        type: "quick"
     });
 
     return <>
