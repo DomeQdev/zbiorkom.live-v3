@@ -97,8 +97,8 @@ export default ({ city, placeholder, onData }: { city: City, placeholder: string
                 }}
             >
                 <ListItemAvatar>
-                    <Avatar sx={{ color: darkMode ? "white" : Color(stop.type[0], city), bgcolor: darkMode ? Color(stop.type[0], city) : "inherit" }}>
-                        {stop.type ? <Icon type={stop.type[0]} /> : <DirectionsTransit />}
+                    <Avatar>
+                        <DirectionsTransit />
                     </Avatar>
                 </ListItemAvatar>
                 <ListItemText

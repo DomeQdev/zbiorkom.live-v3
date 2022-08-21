@@ -34,7 +34,10 @@ function UseMap({ onCenter }: { onCenter: (location: [number, number]) => void }
     const { current: map } = useMap();
     
     useEffect(() => {
-        map?.on("moveend", () => onCenter(map.getCenter().toArray() as [number, number]));
+        map?.on("moveend", () => {
+            let center = map.getCenter().toArray();
+            onCenter([center[1], center[0]]);
+        });
     }, []);
 
     return <></>;
