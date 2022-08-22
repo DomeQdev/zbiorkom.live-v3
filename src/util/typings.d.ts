@@ -48,17 +48,34 @@ interface TripStop {
 
 interface Departure {
     line: string,
-    type: VehicleType,
-    color: string,
-    brigade: string,
     headsign: string,
+    color: string,
+    text: string,
     delay: number,
     status: "REALTIME" | "SCHEDULED",
     realTime: number,
     scheduledTime: number,
-    vehicle?: Vehicle,
+    platform?: string,
     trip: string,
-    platform?: string
+    type: VehicleType
+}
+
+interface StopDepartures {
+    name: string,
+    code: string,
+    type?: VehicleType[],
+    location: [number, number],
+    lines: {
+        line: string,
+        color: string,
+        text: string
+    }[],
+    alert?: {
+        type: "error" | "warning" | "info" | "success", 
+        text: string,
+        link?: string
+    },
+    departures: Departure[]
 }
 
 interface Route {
@@ -175,4 +192,4 @@ interface PlannerRoute {
     }[]
 }
 
-export { VehicleType, City, Trip, TripStop, Vehicle, Departure, Route, Stop, BrigadeSchedule, Trip, Alert, PlannerOptions, PlannerLeg, PlannerResult, PlannerRoute };
+export { VehicleType, City, Trip, TripStop, Vehicle, Departure, StopDepartures, Route, Stop, BrigadeSchedule, Trip, Alert, PlannerOptions, PlannerLeg, PlannerResult, PlannerRoute };

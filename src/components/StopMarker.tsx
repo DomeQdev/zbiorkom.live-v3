@@ -22,7 +22,7 @@ const Arrow = styled(ArrowDropUp)((props: { arrowcolor: string }) => ({
     transform: "translateY(-14px)"
 }));
 
-export default ({ stop, city, onClick }: { stop: Stop, city: City, onClick: () => void }) => {
+export default ({ stop, city, onClick }: { stop: Stop, city: City, onClick?: () => void }) => {
     let colors = stop.type?.map(type => Color(type, city)) || [Color("bus", city)];
 
     return <Marker

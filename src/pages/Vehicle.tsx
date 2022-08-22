@@ -107,8 +107,8 @@ export default ({ city, vehicle, mapBearing }: { city: City, vehicle: Vehicle, m
                                 <Skeleton variant="circular" width={15} height={15} sx={{ marginLeft: "auto", marginRight: "auto" }} />
                             </ListItemAvatar>
                             <ListItemText
-                                primary={<Skeleton variant="text" width={400} />}
-                                secondary={<Skeleton variant="text" width={300} />}
+                                primary={<Skeleton variant="text" width={200} />}
+                                secondary={<Skeleton variant="text" width={100} />}
                             />
                         </ListItem>).reduce((prev, curr, i) => [prev, <Divider key={`div-${i}`} />, curr])}
                     </List>

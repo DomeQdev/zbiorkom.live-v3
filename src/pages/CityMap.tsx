@@ -11,6 +11,7 @@ import { getData } from "../util/api";
 import cities from "../util/cities.json";
 
 const StopMarker = lazy(() => import("../components/StopMarker"));
+const StopComp = lazy(() => import("./Stop"));
 const VehicleMarker = lazy(() => import("../components/VehicleMarker"));
 const VehicleComp = lazy(() => import("./Vehicle"));
 
@@ -25,6 +26,7 @@ export default ({ city }: { city: City }) => {
     const [bearing, setBearing] = useState(map?.getBearing())
 
     const [stops, setStops] = useState<Stop[]>([]);
+    const [stop, setStop] = useState<Stop>();
     const [vehicles, setVehicles] = useState<Vehicle[]>([]);
     const [vehicle, setVehicle] = useState<Vehicle>();
 
@@ -76,17 +78,30 @@ export default ({ city }: { city: City }) => {
 
         if (v) setVehicle(v);
         else {
-            navigate(".");
+            navigate(".", { replace: true });
             toast.error(vehicle ? "Stracono połączenie z pojazdem." : "Nie znaleziono pojazdu.");
         }
     }, [veh, vehicles]);
 
+    const st = searchParams.get("stop");
+    useEffect(() => {
+        if (!st || !stops.length) return setStop(undefined);
+        let s = stops.find(x => x.id === st);
+
+        if (s) setStop(s);
+        else {
+            navigate(".", { replace: true });
+            toast.error("Nie znaleziono przystanku.");
+        }
+    }, [st, stops]);
+
     return <>
         {!vehicles.length && <Backdrop />}
         <Suspense>
-            {(zoom >= 15 && !vehicle) && stops.filter(stop => bounds?.contains({ lat: stop.location[0], lon: stop.location[1] })).map(stop => <StopMarker key={stop.id} stop={stop} city={city} onClick={() => toast.success(`${stop.type} ${stop.name} ${stop.code} ${stop.id}`)} />)}
-            {(zoom >= 14 && !vehicle) && vehicles.filter(veh => bounds?.contains({ lat: veh._location[1], lon: veh._location[0] })).map(veh => <VehicleMarker key={veh.type + veh.tab} vehicle={veh} city={city} mapBearing={bearing || 0} onClick={() => navigate(`?vehicle=${veh.type}/${veh.tab}`)} />)}
+            {(zoom >= 15 && !vehicle && !stop) && stops.filter(stop => bounds?.contains({ lat: stop.location[0], lon: stop.location[1] })).map(stop => <StopMarker key={stop.id} stop={stop} city={city} onClick={() => navigate(`?stop=${stop.id}`)} />)}
+            {(zoom >= 14 && !vehicle && !stop) && vehicles.filter(veh => bounds?.contains({ lat: veh._location[1], lon: veh._location[0] })).map(veh => <VehicleMarker key={veh.type + veh.tab} vehicle={veh} city={city} mapBearing={bearing || 0} onClick={() => navigate(`?vehicle=${veh.type}/${veh.tab}`)} />)}
             {vehicle && <VehicleComp city={city} vehicle={vehicle} mapBearing={bearing || 0} />}
+            {stop && <StopComp city={city} stop={stop} vehicles={vehicles} />}
         </Suspense>
         <div className="mapboxgl-ctrl-top-right" style={{ top: 135 }}>
             <div className="mapboxgl-ctrl mapboxgl-ctrl-group">
