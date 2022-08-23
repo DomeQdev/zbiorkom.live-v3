@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Alert, Box, Button, Divider, IconButton, List, ListItem, ListItemButton, ListItemText, Skeleton } from "@mui/material";
 import { BusAlert, Close, DirectionsTransit, MoreVert } from "@mui/icons-material";
-import { BottomSheet, BottomSheetRef } from "react-spring-bottom-sheet";
+import { BottomSheet } from "react-spring-bottom-sheet";
 import { useMap } from "react-map-gl";
 import toast from "react-hot-toast";
 import { City, Stop, StopDepartures, Vehicle } from "../util/typings";
@@ -17,7 +17,6 @@ import isDark from "../util/isDark";
 export default ({ city, stop, vehicles }: { city: City, stop: Stop, vehicles: Vehicle[] }) => {
     const { current: map } = useMap();
     const navigate = useNavigate();
-    const sheetRef = useRef<BottomSheetRef>(null);
     const darkMode = isDark();
     const [stopDepartures, setStopDepartures] = useState<StopDepartures>();
     const [anchorEl, setAnchorEl] = useState<HTMLElement | null>();
@@ -46,13 +45,11 @@ export default ({ city, stop, vehicles }: { city: City, stop: Stop, vehicles: Ve
 
     return <>
         <StopMarker stop={stop} city={city} />
-        {vehicles.filter(v => stopDepartures?.departures.some(d => d.trip && d.trip === v.trip)).map(v => <VehicleMarker vehicle={v} city={city} mapBearing={map?.getBearing() || 0} />)}
+        {vehicles.filter(v => stopDepartures?.departures.some(d => d.trip && d.trip === v.trip)).map(v => <VehicleMarker key={v.trip} vehicle={v} city={city} mapBearing={map?.getBearing() || 0} onClick={() => navigate(`?vehicle=${v.type}/${v.tab}`)} />)}
         <BottomSheet
             open
-            ref={sheetRef}
             defaultSnap={({ maxHeight }) => maxHeight / 3.5}
-            snapPoints={({ maxHeight, headerHeight }) => [
-                headerHeight,
+            snapPoints={({ maxHeight }) => [
                 maxHeight / 3,
                 maxHeight * 0.5
             ]}
@@ -69,7 +66,6 @@ export default ({ city, stop, vehicles }: { city: City, stop: Stop, vehicles: Ve
                             center: [stop.location[1], stop.location[0]],
                             zoom: 17
                         });
-                        sheetRef.current?.snapTo(({ maxHeight }) => maxHeight / 3.5);
                     }}>
                         {stop.type ? stop.type.map(type => <Icon type={type} key={type} style={{ color: Color(type, city) }} />) : <DirectionsTransit sx={{ color: Color("unknown", city) }} />}&nbsp;{stop.name} {stop.code || ""}
                     </div>

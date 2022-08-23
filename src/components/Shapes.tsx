@@ -73,7 +73,7 @@ export default ({ trip, realTime }: { trip: Trip, realTime?: RealTimeResponse })
             longitude={stopPopup.location[1]}
             onClose={() => setStopPopup(undefined)}
             offset={[1, 8]}
-            style={{ textAlign: "center", color: "black", backgroundColor: "white", zIndex: 10 }}
+            style={{ textAlign: "center", color: "black", zIndex: 10 }}
             closeButton={false}
         >
             <h5 style={{ display: "inline" }}>{stopPopup.on_request && <PanTool style={{ width: 13, height: 13 }} />}&nbsp; <b style={{ fontSize: 15 }}>{stopPopup.name}</b></h5><br />

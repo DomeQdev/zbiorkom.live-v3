@@ -9,6 +9,7 @@ interface Vehicle {
     deg: number,
     lastPing: number,
     line: string,
+    location: [number, number],
     _location: [number, number],
     tab: string,
     trip?: string,
