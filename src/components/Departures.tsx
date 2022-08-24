@@ -1,0 +1,33 @@
+import { BusAlert } from "@mui/icons-material";
+import { Divider, List, ListItem, ListItemButton, ListItemText, Skeleton } from "@mui/material";
+import isDark from "../util/isDark";
+import { StopDepartures } from "../util/typings";
+import VehicleHeadsign from "./VehicleHeadsign";
+import { minutesUntil } from "./VehicleStopList";
+
+export default ({ departures }: { departures?: StopDepartures }) => {
+    const darkMode = isDark();
+
+    return departures ? departures.departures.length ? <List>
+        {departures.departures.map<React.ReactNode>((departure) => <ListItemButton key={departure.trip} onClick={() => null}>
+            <ListItemText
+                primary={<VehicleHeadsign type={departure.type} line={departure.line} headsign={departure.headsign} color={departure.color} textColor={departure.text} />}
+                secondary={<>{Math.floor(departure.delay / 60000) ? <b style={{ color: darkMode ? "#F26663" : "red" }}>{Math.abs(Math.floor(departure.delay / 60000))} min {departure.delay > 0 ? "opóźnienia" : "przed czasem"}</b> : <b style={{ color: departure.status === "REALTIME" ? darkMode ? "#90EE90" : "green" : "" }}>{departure.status === "REALTIME" ? "Planowo" : "Według rozkładu"}</b>} · <span style={{ textDecoration: Math.floor(departure.delay / 60000) ? "line-through" : "" }}>{new Date(departure.scheduledTime).toLocaleTimeString("pl", { hour12: false, hour: "2-digit", minute: "2-digit" })}</span>{departure.platform && <> · Peron <b>{departure.platform}</b></>}</>}
+            />
+            <ListItemText
+                sx={{ textAlign: "right" }}
+                primary={<><b>{minutesUntil(departure.realTime)}</b> min</>}
+            />
+        </ListItemButton>).reduce((prev, curr, i) => [prev, <Divider key={`divi-${i}`} />, curr])}
+    </List> : <div style={{ textAlign: "center" }}>
+        <BusAlert color="primary" sx={{ width: 60, height: 60, marginTop: 1 }} /><br />
+        <b style={{ fontSize: 17 }}>Brak odjazdów w najbliższym czasie.</b>
+    </div> : <List>
+        {new Array(7).fill(0).map<React.ReactNode>((_, i) => <ListItem key={i}>
+            <ListItemText
+                primary={<VehicleHeadsign skeletonWidth={120} />}
+                secondary={<Skeleton variant="text" width={120} height={20} />}
+            />
+        </ListItem>).reduce((prev, curr, i) => [prev, <Divider key={`div-${i}`} />, curr])}
+    </List>;
+};

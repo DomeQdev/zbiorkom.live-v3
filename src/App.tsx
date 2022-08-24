@@ -1,6 +1,6 @@
 import { lazy, useEffect } from 'react';
-import { Routes, Route, useNavigate, useLocation, Link } from "react-router-dom";
-import { AppBar, Toolbar, IconButton, Typography, CssBaseline } from '@mui/material';
+import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
+import { AppBar, Toolbar, IconButton, Typography, CssBaseline, Box } from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { DarkMode, DirectionsBus, LightMode, Settings } from "@mui/icons-material";
 import { Toaster } from 'react-hot-toast';
@@ -16,6 +16,7 @@ const Alerts = lazy(() => import("./pages/Alerts"));
 const Brigades = lazy(() => import("./pages/Brigades"));
 const Brigade = lazy(() => import("./pages/Brigade"));
 const Planner = lazy(() => import("./pages/Planner"));
+const StopDepartures = lazy(() => import("./pages/StopDepartures"));
 const Error = lazy(() => import("./pages/Error"));
 const SettingsPage = lazy(() => import("./pages/Settings"));
 const Map = lazy(() => import("./components/Map"));
@@ -64,19 +65,20 @@ export default () => {
   return <ThemeProvider theme={theme}>
     <CssBaseline />
     <AppBar position="sticky" sx={{ bgcolor: "#5aa159" }}>
-      <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
+      <Toolbar>
+        <IconButton edge="start"><DirectionsBus /></IconButton>
         <Routes>
-          {Object.keys(cities).map((city) => <Route path={`${city}/*`} element={<CityHeadsign city={city as City} />} key={city} />)}
-          <Route path="*" element={<CityHeadsign />} />
+          {Object.keys(cities).map((city) => <Route key={city} path={`${city}/*`} element={<Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }} onClick={() => navigate(`/${city}`)}>{cities[city as City].name}</Typography>} />)}
+          <Route path="*" element={<Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }} onClick={() => navigate("/")}>zbiorkom.live</Typography>} />
         </Routes>
-        <div>
+        <Box>
           <IconButton href="https://discord.gg/QYRswCH6Gw" target="_blank"><img src="/img/discord.png" alt="discord logo" width="24" height="18" /></IconButton>
           <IconButton onClick={() => {
             localStorage.setItem("theme", darkMode ? "light" : "dark");
             window.location.reload();
           }}>{darkMode ? <LightMode sx={{ fill: "white" }} /> : <DarkMode sx={{ fill: "white" }} />}</IconButton>
-          <IconButton onClick={() => navigate(pathname, { state: "settings" })}><Settings sx={{ fill: "white" }} /></IconButton>
-        </div>
+          <IconButton edge="end" onClick={() => navigate(pathname, { state: "settings" })}><Settings sx={{ fill: "white" }} /></IconButton>
+        </Box>
       </Toolbar>
     </AppBar>
     <Routes>
@@ -91,7 +93,7 @@ export default () => {
           {cityData.api.planner && <Route path="planner/*" element={<Suspense><Planner city={name} /></Suspense>} />}
           {cityData.api.stops && <>
             <Route path="stops" element={<></>} />
-            <Route path="stop/:stopId" element={<></>} />
+            <Route path="stop/:stopId" element={<Suspense><StopDepartures city={name} /></Suspense>} />
           </>}
           {cityData.api.brigades && <>
             <Route path="brigades" element={<Suspense><Brigades city={name} /></Suspense>} />
@@ -133,12 +135,4 @@ function CityPicker() {
   }, []);
 
   return null;
-}
-
-function CityHeadsign({ city }: { city?: City }) {
-  const navigate = useNavigate();
-
-  return <Typography variant="h6" noWrap component="div" onClick={() => navigate(`/${city || ""}`)} sx={{ cursor: "pointer", display: "inline-flex", alignItems: "center" }}>
-    <DirectionsBus />&nbsp;{city ? cities[city].name : "zbiorkom.live"}
-  </Typography>
 }

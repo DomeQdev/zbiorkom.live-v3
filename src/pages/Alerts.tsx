@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Tabs, Tab, List, Divider, ListItem, ListItemButton, ListItemText, Skeleton } from "@mui/material";
+import { Tabs, Tab, List, Divider, ListItem, ListItemButton, ListItemText, Skeleton, Box } from "@mui/material";
 import { Error, NavigateNext, ReportProblem, TaskAlt } from "@mui/icons-material";
 import { toast } from "react-hot-toast";
 import { Alert, City } from "../util/typings";
@@ -50,8 +50,8 @@ export default ({ city }: { city: City }) => {
     const impediment = alerts.filter(a => a.effect === "IMPEDIMENT");
     const change = alerts.filter(a => a.effect === "CHANGE");
 
-    return <div style={{ textAlign: "center" }}>
-        <h1>Utrudnienia</h1>
+    return <Box sx={{ textAlign: "center" }}>
+        <h1 style={{ fontWeight: "normal" }}>Utrudnienia</h1>
         <p>Utrudnienia w kursowaniu pojazdów komunikacji miejskiej</p>
         <Tabs centered sx={{ borderBottom: 1, borderColor: "divider" }} value={tab} onChange={() => setTab(tab === 0 ? 1 : 0)}>
             <Tab icon={<Error />} label="Utrudnienia" />
@@ -75,5 +75,5 @@ export default ({ city }: { city: City }) => {
                 <AlertCardSkeleton />
             </>}
         </List>
-    </div>;
+    </Box>;
 };

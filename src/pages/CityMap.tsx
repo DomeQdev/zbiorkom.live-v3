@@ -11,9 +11,9 @@ import { getData } from "../util/api";
 import cities from "../util/cities.json";
 
 const StopMarker = lazy(() => import("../components/StopMarker"));
-const StopComp = lazy(() => import("./Stop"));
+const MapStop = lazy(() => import("./MapStop"));
 const VehicleMarker = lazy(() => import("../components/VehicleMarker"));
-const VehicleComp = lazy(() => import("./Vehicle"));
+const MapVehicle = lazy(() => import("./MapVehicle"));
 
 export default ({ city }: { city: City }) => {
     const [searchParams] = useSearchParams();
@@ -100,8 +100,8 @@ export default ({ city }: { city: City }) => {
         <Suspense>
             {(zoom >= 15 && !vehicle && !stop) && stops.filter(stop => bounds?.contains({ lat: stop.location[0], lon: stop.location[1] })).map(stop => <StopMarker key={stop.id} stop={stop} city={city} onClick={() => navigate(`?stop=${stop.id}`)} />)}
             {(zoom >= 14 && !vehicle && !stop) && vehicles.filter(veh => bounds?.contains({ lat: veh._location[1], lon: veh._location[0] })).map(veh => <VehicleMarker key={veh.type + veh.tab} vehicle={veh} city={city} mapBearing={bearing || 0} onClick={() => navigate(`?vehicle=${veh.type}/${veh.tab}`)} />)}
-            {vehicle && <VehicleComp city={city} vehicle={vehicle} mapBearing={bearing || 0} />}
-            {stop && <StopComp city={city} stop={stop} vehicles={vehicles} />}
+            {vehicle && <MapVehicle city={city} vehicle={vehicle} mapBearing={bearing || 0} />}
+            {stop && <MapStop city={city} stop={stop} vehicles={vehicles} />}
         </Suspense>
         <div className="mapboxgl-ctrl-top-right" style={{ top: 135 }}>
             <div className="mapboxgl-ctrl mapboxgl-ctrl-group">

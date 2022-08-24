@@ -24,7 +24,7 @@ export default ({ city, vehicle, mapBearing }: { city: City, vehicle: Vehicle, m
     const [follow, setFollow] = useState<boolean>(true);
     const [trip, setTrip] = useState<Trip>();
     const [realTime, setRealTime] = useState<RealTimeResponse>();
-    const [anchorEl, setAnchorEl] = useState<HTMLElement | null>();
+    const [anchorEl, setAnchorEl] = useState<HTMLElement>();
     const sheetRef = useRef<BottomSheetRef>(null);
     const darkMode = isDark();
 
@@ -95,7 +95,7 @@ export default ({ city, vehicle, mapBearing }: { city: City, vehicle: Vehicle, m
                     </span> : <Skeleton variant="text" style={{ width: 139, height: 21 }} /> : null}
                 </div>
 
-                {trip || !vehicle.trip ? <IconButton onClick={({ currentTarget }: { currentTarget: HTMLElement }) => setAnchorEl(anchorEl ? null : currentTarget)} style={{ height: 40 }}><MoreVert /></IconButton> : <Skeleton variant="circular" width={40} height={40} />}
+                {trip || !vehicle.trip ? <IconButton onClick={({ currentTarget }: { currentTarget: HTMLElement }) => setAnchorEl(anchorEl ? undefined : currentTarget)} style={{ height: 40 }}><MoreVert /></IconButton> : <Skeleton variant="circular" width={40} height={40} />}
             </div>}
         >
             {vehicle.trip && !trip?.error
@@ -120,7 +120,7 @@ export default ({ city, vehicle, mapBearing }: { city: City, vehicle: Vehicle, m
         <Menu
             anchorEl={anchorEl}
             open={!!anchorEl}
-            onClose={() => setAnchorEl(null)}
+            onClose={() => setAnchorEl(undefined)}
             style={{ zIndex: 300000 }}
             PaperProps={{
                 style: {
@@ -132,7 +132,7 @@ export default ({ city, vehicle, mapBearing }: { city: City, vehicle: Vehicle, m
             <MenuItem sx={{ borderBottom: 1, borderColor: "divider", pointerEvents: "none" }}>{vehicle.isPredicted ? <LocationDisabled style={{ width: 20, height: 20 }} color="primary" /> : <GpsFixed style={{ width: 20, height: 20 }} color="primary" />}&nbsp;<b><Timer timestamp={vehicle.lastPing} /></b>&nbsp;temu</MenuItem>
             <MenuItem><Star style={{ width: 20, height: 20 }} color="primary" />&nbsp;Dodaj linię do ulubionych</MenuItem>
             {trip?.shapes && <MenuItem onClick={() => {
-                setAnchorEl(null);
+                setAnchorEl(undefined);
                 setFollow(false);
                 sheetRef.current?.snapTo(({ headerHeight }) => headerHeight);
                 const [minLng, minLat, maxLng, maxLat] = bbox(lineString(trip.shapes.geometry.coordinates.map((c: [number, number]) => [c[1], c[0]])));

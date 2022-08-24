@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { Dialog, DialogTitle, DialogContent, ToggleButton, IconButton, Slide, Skeleton, Grid } from "@mui/material";
+import { Dialog, DialogTitle, DialogContent, ToggleButton, IconButton, Slide, Skeleton, Grid, Box } from "@mui/material";
 import { Close } from "@mui/icons-material";
 import { toast } from "react-hot-toast";
 import { City, Route } from "../util/typings";
@@ -52,8 +52,12 @@ export default ({ city }: { city: City }) => {
         });
     }, [state]);
 
-    return <div style={{ textAlign: "center", marginLeft: "auto", marginRight: "auto", width: "90%" }}>
-        <h1>Rozkład brygad</h1>
+    return <Box sx={{
+        textAlign: "center",
+        mx: "auto",
+        width: "90%"
+    }}>
+        <h1 style={{ fontWeight: "normal" }}>Rozkład brygad</h1>
         <p>Wybierz linię:</p>
         {routes?.length ? routes.map(route => <Line
             value={route.line}
@@ -77,15 +81,15 @@ export default ({ city }: { city: City }) => {
         >
             <DialogTitle style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}><span>Wybierz brygadę dla linii <b>{state as string}</b></span><IconButton onClick={() => navigate(".", { state: null, replace: true })}><Close /></IconButton></DialogTitle>
             <DialogContent dividers>
-                <div style={{ textAlign: "center" }}>
+                <Box sx={{ textAlign: "center" }}>
                     {selectedBrigades ? selectedBrigades.length ? selectedBrigades.map(brigade => <ToggleButton
                         value={brigade}
                         key={brigade}
                         onClick={() => navigate(`../brigade/${state}/${brigade}`)}
                         sx={{ width: 70, height: 40, fontSize: 18, margin: 0.5 }}
                     >{brigade}</ToggleButton>) : <h4>Nie mogliśmy znaleźć rozkładu dla tej linii...</h4> : <Grid container justifyContent="center">{new Array(20).fill(null).map((_, i) => <Skeleton key={`1_${i}`} variant="rounded" width={70} height={40} sx={{ margin: 0.5 }} />)}</Grid>}
-                </div>
+                </Box>
             </DialogContent>
         </Dialog>
-    </div>;
+    </Box>;
 };

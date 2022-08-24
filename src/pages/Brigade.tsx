@@ -24,8 +24,7 @@ export default ({ city }: { city: City }) => {
 
     return <Box sx={{
         textAlign: "center",
-        marginLeft: "auto",
-        marginRight: "auto",
+        mx: "auto",
         "@media (max-width: 599px)": {
             width: "100%"
         },
