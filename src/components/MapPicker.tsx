@@ -9,7 +9,7 @@ export default ({ city, onData, onDismiss }: { city: City, onData: (name: string
     const [center, setCenter] = useState<[number, number]>();
 
     return <>
-        <AppBar position="sticky" sx={{ bgcolor: "#5aa159" }}>
+        <AppBar position="sticky" sx={{ bgcolor: "#5aa159", color: "white" }}>
             <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
                 <Box sx={{ flex: "none" }}>
                     <Typography variant="h6" color="inherit">

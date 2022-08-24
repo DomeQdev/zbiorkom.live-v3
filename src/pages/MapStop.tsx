@@ -22,7 +22,7 @@ export default ({ city, stop, vehicles }: { city: City, stop: Stop, vehicles: Ve
         map?.flyTo({
             center: [stop.location[1], stop.location[0]]
         });
-        
+
         const fetchDepartures = () => getData("stop", city, {
             stop: stop.id
         }).then((res) => {
@@ -93,7 +93,6 @@ export default ({ city, stop, vehicles }: { city: City, stop: Stop, vehicles: Ve
                             py: 0,
                             borderRadius: 2,
                             minWidth: 0,
-                            opacity: i % 2 === 0 ? 1 : 0.9,
                             "&:hover": {
                                 backgroundColor: line.color,
                                 color: line.text

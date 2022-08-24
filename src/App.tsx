@@ -50,7 +50,8 @@ export default () => {
       MuiAppBar: {
         styleOverrides: {
           colorPrimary: {
-            backgroundColor: darkMode ? "#383838" : "#fff"
+            backgroundColor: darkMode ? "#383838" : "#fff",
+            color: darkMode ? "white" : "black"
           }
         }
       }
@@ -64,12 +65,12 @@ export default () => {
 
   return <ThemeProvider theme={theme}>
     <CssBaseline />
-    <AppBar position="sticky" sx={{ bgcolor: "#5aa159" }}>
+    <AppBar position="sticky" sx={{ bgcolor: "#5aa159", color: "white" }}>
       <Toolbar>
-        <IconButton edge="start"><DirectionsBus /></IconButton>
+        <IconButton edge="start" sx={{ color: "white", pointerEvents: "none" }}><DirectionsBus /></IconButton>
         <Routes>
-          {Object.keys(cities).map((city) => <Route key={city} path={`${city}/*`} element={<Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }} onClick={() => navigate(`/${city}`)}>{cities[city as City].name}</Typography>} />)}
-          <Route path="*" element={<Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }} onClick={() => navigate("/")}>zbiorkom.live</Typography>} />
+          {Object.keys(cities).map((city) => <Route key={city} path={`${city}/*`} element={<Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1, cursor: "pointer" }} onClick={() => navigate(`/${city}`)}>{cities[city as City].name}</Typography>} />)}
+          <Route path="*" element={<Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1, cursor: "pointer" }} onClick={() => navigate("/")}>zbiorkom.live</Typography>} />
         </Routes>
         <Box>
           <IconButton href="https://discord.gg/QYRswCH6Gw" target="_blank"><img src="/img/discord.png" alt="discord logo" width="24" height="18" /></IconButton>

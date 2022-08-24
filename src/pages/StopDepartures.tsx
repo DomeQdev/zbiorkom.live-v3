@@ -37,7 +37,7 @@ export default ({ city }: { city: City }) => {
         <AppBar position="sticky">
             <Toolbar>
                 <IconButton edge="start" onClick={() => navigate("../stops", { replace: true })}><ArrowBack /></IconButton>
-                <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>{stopDepartures ? `${stopDepartures.name} ${stopDepartures.code}` : <Skeleton variant="text" width={150} />}</Typography>
+                <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>{stopDepartures ? `${stopDepartures.name} ${stopDepartures.code || ""}` : <Skeleton variant="text" width={150} />}</Typography>
                 <IconButton edge="end" onClick={({ currentTarget }: { currentTarget: HTMLElement }) => setAnchorEl(anchorEl ? undefined : currentTarget)}><MoreVert /></IconButton>
             </Toolbar>
             {stopDepartures?.lines && <Box
@@ -62,7 +62,6 @@ export default ({ city }: { city: City }) => {
                         py: 0,
                         borderRadius: 2,
                         minWidth: 0,
-                        opacity: i % 2 === 0 ? 1 : 0.9,
                         "&:hover": {
                             backgroundColor: line.color,
                             color: line.text
