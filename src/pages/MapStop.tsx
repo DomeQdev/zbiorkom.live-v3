@@ -38,7 +38,7 @@ export default ({ city, stop, vehicles }: { city: City, stop: Stop, vehicles: Ve
         });
 
         fetchDepartures();
-        const int = setInterval(fetchDepartures, 20000);
+        const int = setInterval(() => document.visibilityState === "visible" && fetchDepartures(), 20000);
         return () => clearInterval(int);
     }, [stop]);
 
@@ -105,7 +105,10 @@ export default ({ city, stop, vehicles }: { city: City, stop: Stop, vehicles: Ve
             </>}
         >
             {stopDepartures?.alert && <Alert severity={stopDepartures.alert.type} sx={{ cursor: stopDepartures.alert.link ? "pointer" : "" }} onClick={() => stopDepartures.alert?.link ? window.open(stopDepartures.alert!.link, "_blank") : null}>{stopDepartures.alert.text}</Alert>}
-            <Departures departures={stopDepartures} />
+            <Departures departures={stopDepartures} onClick={(departure) => map?.flyTo({
+                center: vehicles.find(v => v.trip === departure.trip)?._location || [stop.location[1], stop.location[0]],
+                zoom: 17
+            })} />
         </BottomSheet>
     </>;
 };

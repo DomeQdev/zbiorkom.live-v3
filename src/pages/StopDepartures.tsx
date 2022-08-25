@@ -29,7 +29,7 @@ export default ({ city }: { city: City }) => {
         });
 
         fetchDepartures();
-        const int = setInterval(fetchDepartures, 20000);
+        const int = setInterval(() => document.visibilityState === "visible" && fetchDepartures(), 20000);
         return () => clearInterval(int);
     }, [stopId]);
 

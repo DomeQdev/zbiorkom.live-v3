@@ -1,15 +1,15 @@
 import { BusAlert } from "@mui/icons-material";
 import { Divider, List, ListItem, ListItemButton, ListItemText, Skeleton } from "@mui/material";
-import isDark from "../util/isDark";
-import { StopDepartures } from "../util/typings";
-import VehicleHeadsign from "./VehicleHeadsign";
+import { Departure, StopDepartures } from "../util/typings";
 import { minutesUntil } from "./VehicleStopList";
+import VehicleHeadsign from "./VehicleHeadsign";
+import isDark from "../util/isDark";
 
-export default ({ departures }: { departures?: StopDepartures }) => {
+export default ({ departures, onClick }: { departures?: StopDepartures, onClick?: (departure: Departure) => void }) => {
     const darkMode = isDark();
 
     return departures ? departures.departures.length ? <List>
-        {departures.departures.map<React.ReactNode>((departure) => <ListItemButton key={departure.trip} onClick={() => null}>
+        {departures.departures.map<React.ReactNode>((departure) => <ListItemButton key={departure.trip} onClick={() => onClick?.(departure)}>
             <ListItemText
                 primary={<VehicleHeadsign type={departure.type} line={departure.line} headsign={departure.headsign} color={departure.color} textColor={departure.text} />}
                 secondary={<>{Math.floor(departure.delay / 60000) ? <b style={{ color: darkMode ? "#F26663" : "red" }}>{Math.abs(Math.floor(departure.delay / 60000))} min {departure.delay > 0 ? "opóźnienia" : "przed czasem"}</b> : <b style={{ color: departure.status === "REALTIME" ? darkMode ? "#90EE90" : "green" : "" }}>{departure.status === "REALTIME" ? "Planowo" : "Według rozkładu"}</b>} · <span style={{ textDecoration: Math.floor(departure.delay / 60000) ? "line-through" : "" }}>{new Date(departure.scheduledTime).toLocaleTimeString("pl", { hour12: false, hour: "2-digit", minute: "2-digit" })}</span>{departure.platform && <> · Peron <b>{departure.platform}</b></>}</>}
