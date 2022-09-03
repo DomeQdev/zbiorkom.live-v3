@@ -20,16 +20,6 @@ export default ({ city }: { city: City }) => {
                 </ListItemAvatar>
                 <ListItemText primary="Mapa" />
             </ListItemButton>
-            {cityData.api.planner && <><Divider />
-                <ListItemButton onClick={() => navigate("planner")}>
-                    <ListItemAvatar>
-                        <Avatar>
-                            <Directions />
-                        </Avatar>
-                    </ListItemAvatar>
-                    <ListItemText primary="Wyznacz trasę" />
-                </ListItemButton>
-            </>}
             {cityData.api.stops && <><Divider />
                 <ListItemButton onClick={() => navigate("stops")}>
                     <ListItemAvatar>

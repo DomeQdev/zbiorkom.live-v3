@@ -15,7 +15,6 @@ const CityMap = lazy(() => import("./pages/CityMap"));
 const Alerts = lazy(() => import("./pages/Alerts"));
 const Brigades = lazy(() => import("./pages/Brigades"));
 const Brigade = lazy(() => import("./pages/Brigade"));
-const Planner = lazy(() => import("./pages/Planner"));
 const StopDepartures = lazy(() => import("./pages/StopDepartures"));
 const Error = lazy(() => import("./pages/Error"));
 const SettingsPage = lazy(() => import("./pages/Settings"));
@@ -91,7 +90,6 @@ export default () => {
         return <Route path={city} key={city}>
           <Route index element={<Suspense><DetectDevice desktop={<IndexDesktop city={name} />} mobile={<IndexMobile city={name} />} /></Suspense>} />
           <Route path="map" element={<Suspense><Map city={name} style={{ position: "absolute" }}><CityMap city={name} /></Map></Suspense>} />
-          {cityData.api.planner && <Route path="planner/*" element={<Suspense><Planner city={name} /></Suspense>} />}
           {cityData.api.stops && <>
             <Route path="stops" element={<></>} />
             <Route path="stop/:stopId" element={<Suspense><StopDepartures city={name} /></Suspense>} />

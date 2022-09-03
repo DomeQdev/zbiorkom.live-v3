@@ -10,8 +10,6 @@
         "note": "Dane: Miasto Stołeczne Warszawa, mkuran.pl",
         "api": {
             "trip": "https://api.zbiorkom.live/warsaw/trip?trip={{trip}}",
-            "planner": "/api/planner?city=warsaw",
-            "plannerResults": "/api/planner/results?key={{key}}&id={{id}}",
             "vehicle": "https://api.zbiorkom.live/warsaw/vehicle?vehicle={{type}}{{tab}}",
             "stops": "https://api.zbiorkom.live/warsaw/stops",
             "stop": "https://api.zbiorkom.live/warsaw/stopDepartures?id={{stop}}",
@@ -48,8 +46,6 @@
         "note": "Dane: ZTM Poznań",
         "api": {
             "trip": "https://api.zbiorkom.live/poznan/trip?trip={{trip}}",
-            "planner": "/api/planner?city=poznan",
-            "plannerResults": "/api/planner/results?key={{key}}&id={{id}}",
             "vehicle": "https://api.zbiorkom.live/poznan/vehicle?vehicle={{tab}}",
             "stops": "https://api.zbiorkom.live/poznan/stops",
             "stop": "https://api.zbiorkom.live/poznan/stopDepartures?id={{stop}}",
@@ -82,8 +78,6 @@
         "note": "Dane: Otwarte dane ZTM Gdańsk",
         "api": {
             "trip": "/api/trojmiasto/trip?trip={{trip}}",
-            "planner": null,
-            "plannerResults": null,
             "vehicle": "/api/trojmiasto/vehicle?tab={{tab}}&type={{type}}",
             "stops": "/api/trojmiasto/stops",
             "stop": "/api/trojmiasto/stopDepartures?id={{stop}}",
