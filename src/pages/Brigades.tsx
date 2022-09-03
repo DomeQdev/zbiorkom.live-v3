@@ -17,7 +17,7 @@ const Line = styled(ToggleButton)((props: {
     width: 100,
     height: 40,
     fontSize: 20,
-    margin: 5,
+    margin: 3,
     borderRadius: 25,
     color: darkMode ? props.textcolor : props.backgroundcolor,
     backgroundColor: darkMode ? props.backgroundcolor : props.textcolor,
@@ -70,7 +70,7 @@ export default ({ city }: { city: City }) => {
             }}
         >
             <Icon type={route.type} style={{ width: 21, height: 21 }} />&nbsp;{route.line}
-        </Line>) : <Grid container justifyContent="center">{new Array(30).fill(null).map((_, i) => <Skeleton key={`1_${i}`} variant="rounded" width={100} height={40} sx={{ margin: "5px", borderRadius: "15px" }} />)}</Grid>}
+        </Line>) : <Grid container justifyContent="center">{new Array(30).fill(null).map((_, i) => <Skeleton key={`1_${i}`} variant="rounded" width={100} height={40} sx={{ margin: "3px", borderRadius: "15px" }} />)}</Grid>}
 
         <Dialog
             open={!!state}

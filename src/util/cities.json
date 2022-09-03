@@ -97,9 +97,9 @@
             "findStop": null
         },
         "colors": {
-            "bus": "#fc7dab",
-            "tram": "#d4151d",
-            "trolley": "#91BE40"
+            "bus": "#185c9d",
+            "tram": "#dd4730",
+            "trolley": "#53a548"
         },
         "samplePlace": {
             "name": "Gdańsk Główny",

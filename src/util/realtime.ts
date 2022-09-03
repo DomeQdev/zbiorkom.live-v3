@@ -22,11 +22,12 @@ const RealTime = ({ trip, location, delay }: {
     }));
 
     let tripStart = Date.now() - stops[0].arrival;
-    let lastStop = stops.filter(stop => stop.metersToStop < -50).pop() || stops[0];
     let serving = stops.find(stop => stop.metersToStop < 50 && stop.metersToStop > -50);
     let servingIndex = stops.findIndex(stop => stop.metersToStop < 50 && stop.metersToStop > -50);
     let nextStop = stops.find(stop => stop?.metersToStop > 50) || stops[stops.length - 1];
     let nextStopIndex = stops.findIndex(stop => stop?.metersToStop > 50) || stops.length - 1;
+    let snIndex = tripStart > 0 ? (servingIndex === -1 ? nextStopIndex : servingIndex) : 0;
+    let lastStop = stops[snIndex - 1];
 
     let cur = serving || lastStop;
     let travelledToNextStop = percentTravelled(cur, nextStop);
@@ -34,7 +35,7 @@ const RealTime = ({ trip, location, delay }: {
     let _delay = tripStart > 0 ? delay == null ? realtime : delay : 0;
 
     return {
-        snIndex: tripStart > 0 ? (servingIndex === -1 ? nextStopIndex : servingIndex) : 0,
+        snIndex,
         servingIndex: tripStart > 0 ? (servingIndex === -1 ? null : servingIndex) : 0,
         nextStopIndex: tripStart > 0 ? nextStopIndex : 1,
         stops: stops.map(stop => ({

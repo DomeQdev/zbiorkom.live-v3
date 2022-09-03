@@ -57,6 +57,7 @@ export default ({ trip, realTime }: { trip: Trip, realTime?: RealTimeResponse })
             key={i}
             latitude={stop.location[0]}
             longitude={stop.location[1]}
+            rotationAlignment="map"
             onClick={e => {
                 e.originalEvent.stopPropagation();
                 setStopPopup(stop);
