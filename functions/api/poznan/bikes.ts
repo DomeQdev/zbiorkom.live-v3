@@ -14,7 +14,7 @@ interface NextBike {
 }
 
 export const onRequestGet = async () => {
-    let bikes: NextBike = await fetch("https://nextbike.net/maps/nextbike-official.json?city=210,372,442,461,527,550,551,812", {
+    let bikes: NextBike = await fetch("https://nextbike.net/maps/nextbike-official.json?city=192,394,504,620,630", {
         //@ts-ignore
         cf: {
             cacheTtl: 3600,

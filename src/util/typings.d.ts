@@ -72,7 +72,7 @@ interface StopDepartures {
         text: string
     }[],
     alert?: {
-        type: "error" | "warning" | "info" | "success", 
+        type: "error" | "warning" | "info" | "success",
         text: string,
         link?: string
     },
@@ -121,76 +121,12 @@ interface Alert {
     body?: string
 }
 
-interface PlannerOptions {
-    from: [number, number] | undefined,
-    fromName: string,
-    to: [number, number] | undefined,
-    toName: string,
-    transfers: number,
-    facilities: "wheelchair" | "ac" | "bike"[],
-    type: "quick" | "optimised" | "transfers"
+interface BikeStation {
+    location: [number, number],
+    name: string,
+    id: string,
+    freeRacks: number,
+    bikes: number
 }
 
-interface PlannerLeg {
-    mode: "walk" | "bicycle" | "car" | "transit" | "transfer",
-    duration: number,
-    color?: string,
-    textColor?: string,
-    line?: string,
-    type?: VehicleType
-}
-
-interface PlannerResult {
-    key: string,
-    routes: {
-        id: number,
-        startTime: number,
-        endTime: number,
-        duration: number,
-        walkTime: number,
-        legs: PlannerLeg[]
-    }[]
-}
-
-interface PlannerRoute {
-    startTime: number,
-    endTime: number,
-    duration: number,
-    walkTime: number,
-    legs: {
-        startTime: number,
-        endTime: number,
-        duration: number,
-        mode: "walk" | "bike" | "car" | "transit",
-        distance: number,
-        line?: string,
-        headsign?: string,
-        color?: string,
-        textColor?: string,
-        type?: VehicleType,
-        from: {
-            name: string,
-            id?: string,
-            location: [number, number]
-            arrival?: number,
-            departure?: number
-        },
-        to: {
-            name: string,
-            id?: string,
-            location: [number, number]
-            arrival?: number,
-            departure?: number
-        },
-        shape: [number, number][],
-        stops?: {
-            name: string,
-            id: string,
-            location: [number, number],
-            arrival: number,
-            departure: number
-        }[]
-    }[]
-}
-
-export { VehicleType, City, Trip, TripStop, Vehicle, Departure, StopDepartures, Route, Stop, BrigadeSchedule, Trip, Alert, PlannerOptions, PlannerLeg, PlannerResult, PlannerRoute };
+export { VehicleType, City, Trip, TripStop, Vehicle, Departure, StopDepartures, Route, Stop, BrigadeSchedule, Trip, Alert, BikeStation };
