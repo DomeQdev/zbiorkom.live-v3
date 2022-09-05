@@ -27,7 +27,7 @@ const RealTime = ({ trip, location, delay }: {
     let nextStop = stops.find(stop => stop?.metersToStop > 50) || stops[stops.length - 1];
     let nextStopIndex = stops.findIndex(stop => stop?.metersToStop > 50) || stops.length - 1;
     let snIndex = tripStart > 0 ? (servingIndex === -1 ? nextStopIndex : servingIndex) : 0;
-    let lastStop = stops[snIndex - 1];
+    let lastStop = stops[snIndex - 1] || stops[0];
 
     let cur = serving || lastStop;
     let travelledToNextStop = percentTravelled(cur, nextStop);
