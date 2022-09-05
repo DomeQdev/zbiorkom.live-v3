@@ -74,7 +74,7 @@ export default ({ city }: { city: City }) => {
     useEffect(() => {
         if (!veh || !vehicles.length) return setVehicle(undefined);
         let [type, tab] = veh.split("/");
-        let v = vehicles.find(x => x.type === type && x.tab === tab.replace(/\s/g, "+"));
+        let v = vehicles.find(x => x.type === Number(type) && x.tab === tab.replace(/\s/g, "+"));
 
         if (v) setVehicle(v);
         else {

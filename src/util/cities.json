@@ -11,7 +11,7 @@
         "api": {
             "trip": "https://api.zbiorkom.live/warsaw/trip?trip={{trip}}",
             "vehicle": "https://api.zbiorkom.live/warsaw/vehicle?vehicle={{type}}{{tab}}",
-            "stops": "https://api.zbiorkom.live/warsaw/stops",
+            "stops": "http://localhost:3001/warsaw/stops",
             "stop": "https://api.zbiorkom.live/warsaw/stopDepartures?id={{stop}}",
             "routes": "https://api.zbiorkom.live/warsaw/routes",
             "brigades": "https://api.zbiorkom.live/warsaw/brigade?line={{line}}",
@@ -23,12 +23,11 @@
             "findStop": "https://api.zbiorkom.live/warsaw/findStop?name={{name}}"
         },
         "colors": {
-            "bus": "#88007c",
-            "tram": "#e90024",
-            "metro": "#0061a9",
-            "skm": "#008d50",
-            "km": "#543ecc",
-            "ferry": "#fff1ba"
+            "0": "#e90024",
+            "1": "#0061a9",
+            "2": "#008d50",
+            "3": "#88007c",
+            "4": "#fff1ba"
         },
         "samplePlace": {
             "name": "Pałac Kultury i Nauki",
@@ -59,8 +58,8 @@
             "findStop": "https://api.zbiorkom.live/poznan/findStop?name={{name}}"
         },
         "colors": {
-            "bus": "#38913e",
-            "tram": "#f1b434"
+            "0": "#f1b434",
+            "3": "#38913e"
         },
         "samplePlace": {
             "name": "Koziołki Poznańskie",
@@ -91,9 +90,9 @@
             "findStop": null
         },
         "colors": {
-            "bus": "#185c9d",
-            "tram": "#dd4730",
-            "trolley": "#53a548"
+            "0": "#dd4730",
+            "3": "#185c9d",
+            "11": "#53a548"
         },
         "samplePlace": {
             "name": "Gdańsk Główny",

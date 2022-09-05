@@ -23,7 +23,7 @@ const Arrow = styled(ArrowDropUp)((props: { arrowcolor: string }) => ({
 }));
 
 export default ({ stop, city, onClick }: { stop: Stop, city: City, onClick?: () => void }) => {
-    let colors = stop.type?.map(type => Color(type, city)) || [Color("bus", city)];
+    let colors = stop.type?.map(type => Color(type, city)) || [Color(3, city)];
 
     return <Marker
         latitude={stop.location[0]}

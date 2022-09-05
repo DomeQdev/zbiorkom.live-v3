@@ -66,7 +66,7 @@ export default ({ city, stop, vehicles }: { city: City, stop: Stop, vehicles: Ve
                             zoom: 17
                         });
                     }}>
-                        {stop.type ? stop.type.map(type => <Icon type={type} key={type} style={{ color: Color(type, city) }} />) : <DirectionsTransit sx={{ color: Color("unknown", city) }} />}&nbsp;{stop.name} {stop.code || ""}
+                        {stop.type ? stop.type.map(type => <Icon type={type} key={type} style={{ color: Color(type, city) }} />) : <DirectionsTransit sx={{ color: Color(3, city) }} />}&nbsp;{stop.name} {stop.code || ""}
                     </div>
 
                     <IconButton onClick={({ currentTarget }: { currentTarget: HTMLElement }) => setAnchorEl(anchorEl ? undefined : currentTarget)} style={{ height: 40 }}><MoreVert /></IconButton>
