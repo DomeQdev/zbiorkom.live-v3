@@ -130,7 +130,7 @@ function CityPicker() {
       localStorage.setItem("city", "warsaw");
       navigate("/warsaw");
     }
-    navigate(`/${ls}`);
+    navigate(`/${ls || "warsaw"}`);
   }, []);
 
   return null;
