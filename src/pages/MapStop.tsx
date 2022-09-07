@@ -56,6 +56,7 @@ export default ({ city, stop, vehicles }: { city: City, stop: Stop, vehicles: Ve
             style={{ zIndex: 100, position: "absolute" }}
             blocking={false}
             expandOnContentDrag
+            skipInitialTransition
             header={<>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                     <IconButton onClick={() => navigate(".", { replace: true })} style={{ height: 40 }}><Close /></IconButton>

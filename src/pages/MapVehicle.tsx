@@ -68,8 +68,7 @@ export default ({ city, vehicle, mapBearing }: { city: City, vehicle: Vehicle, m
             open
             ref={sheetRef}
             defaultSnap={({ maxHeight }) => maxHeight / 3.5}
-            snapPoints={({ maxHeight, headerHeight }) => [
-                headerHeight,
+            snapPoints={({ maxHeight }) => [
                 maxHeight / 3.5,
                 maxHeight * 0.5
             ]}
@@ -77,6 +76,7 @@ export default ({ city, vehicle, mapBearing }: { city: City, vehicle: Vehicle, m
             style={{ zIndex: 100, position: "absolute" }}
             blocking={false}
             expandOnContentDrag
+            skipInitialTransition
             header={<div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                 <IconButton onClick={() => navigate(".", { replace: true })} style={{ height: 40 }}><Close /></IconButton>
 
@@ -100,7 +100,7 @@ export default ({ city, vehicle, mapBearing }: { city: City, vehicle: Vehicle, m
         >
             {vehicle.trip && !trip?.error
                 ? (realTime && trip)
-                    ? <VehicleStopList trip={trip} realtime={realTime} type={vehicle.type} follow={follow} stopFollowing={() => setFollow(false)} />
+                    ? <VehicleStopList trip={trip} realtime={realTime} type={vehicle.type} stopFollowing={() => setFollow(false)} />
                     : <List>
                         {new Array(10).fill(null).map<React.ReactNode>((_, i) => <ListItem key={i}>
                             <ListItemAvatar>
@@ -134,9 +134,8 @@ export default ({ city, vehicle, mapBearing }: { city: City, vehicle: Vehicle, m
             {trip?.shapes && <MenuItem onClick={() => {
                 setAnchorEl(undefined);
                 setFollow(false);
-                sheetRef.current?.snapTo(({ headerHeight }) => headerHeight);
                 const [minLng, minLat, maxLng, maxLat] = bbox(lineString(trip.shapes.geometry.coordinates.map((c: [number, number]) => [c[1], c[0]])));
-                map?.fitBounds([[minLat, minLng], [maxLat, maxLng]], { padding: 125, duration: 1000 });
+                map?.fitBounds([[minLat, minLng], [maxLat, maxLng]], { padding: sheetRef.current?.height! + 20 > 400 ? 400 : sheetRef.current?.height! + 20, duration: 0 });
             }}><Route style={{ width: 20, height: 20 }} color="primary" />&nbsp;Pokaż trasę</MenuItem>}
             {vehicle.brigade && <MenuItem onClick={() => navigate(`/${city}/brigade/${vehicle.line}/${vehicle.brigade}`)}><Commit style={{ width: 20, height: 20 }} color="primary" />&nbsp;Rozkład brygady</MenuItem>}
             {vehicle.brigade && <MenuItem><DirectionsBus style={{ width: 20, height: 20 }} color="primary" />&nbsp;Informacje o pojeździe</MenuItem>}

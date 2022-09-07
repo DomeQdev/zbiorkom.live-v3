@@ -1,12 +1,14 @@
 import { Avatar, Divider, IconButton, List, ListItemAvatar, ListItemButton, ListItemText, Typography } from "@mui/material";
 import { PanTool } from "@mui/icons-material";
+import { useState } from "react";
 import { useMap } from "react-map-gl";
 import { RealTimeResponse } from "../util/realtime";
 import { Trip, VehicleType } from "../util/typings";
 import { Icon } from "./Icons";
 
-export default ({ trip, realtime, type, follow, stopFollowing }: { trip: Trip, realtime: RealTimeResponse, type: VehicleType, follow: boolean, stopFollowing: () => void }) => {
+export default ({ trip, realtime, type, stopFollowing }: { trip: Trip, realtime: RealTimeResponse, type: VehicleType, stopFollowing: () => void }) => {
     const { current: map } = useMap();
+    const [scrolled, setScrolled] = useState<boolean>(false);
 
     return <List>
         {realtime.stops.map<React.ReactNode>(stop => <ListItemButton
@@ -18,7 +20,12 @@ export default ({ trip, realtime, type, follow, stopFollowing }: { trip: Trip, r
                     zoom: 17
                 });
             }}
-            ref={(r) => follow && (stop.sequence === realtime.servingIndex || (!realtime.servingIndex && stop.sequence + 1 === realtime.nextStopIndex)) && r?.scrollIntoView()}
+            ref={(r) => {
+                if (!scrolled && (stop.sequence === realtime.servingIndex || (!realtime.servingIndex && stop.sequence + 1 === realtime.nextStopIndex))) {
+                    r?.scrollIntoView();
+                    setScrolled(true);
+                }
+            }}
         >
             <ListItemAvatar>
                 <>
