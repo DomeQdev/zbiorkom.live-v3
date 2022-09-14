@@ -4,7 +4,7 @@ import { toast } from "react-hot-toast";
 import { useMap } from "react-map-gl";
 import { io } from "socket.io-client";
 import { Button } from "@mui/material";
-import { FilterList, PortableWifiOff, Star } from "@mui/icons-material";
+import { FilterList, PortableWifiOff, Search, Star } from "@mui/icons-material";
 import { Backdrop, Suspense } from '../components/Suspense';
 import { City, Stop, Vehicle } from "../util/typings";
 import { getData } from "../util/api";
@@ -106,6 +106,7 @@ export default ({ city }: { city: City }) => {
         <div className="mapboxgl-ctrl-top-right" style={{ top: 135 }}>
             <div className="mapboxgl-ctrl mapboxgl-ctrl-group">
                 <button><FilterList sx={{ fontSize: 19, marginTop: "3px" }} /></button>
+                <button><Search sx={{ fontSize: 19, marginTop: "3px" }} /></button>
                 <button><Star sx={{ fontSize: 19, marginTop: "3px" }} /></button>
             </div>
         </div>

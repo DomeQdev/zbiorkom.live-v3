@@ -1,4 +1,4 @@
-import { Avatar, Divider, IconButton, List, ListItemAvatar, ListItemButton, ListItemText, Typography } from "@mui/material";
+import { Avatar, Divider, IconButton, List, ListItemAvatar, ListItemButton, ListItemText, Paper, Typography } from "@mui/material";
 import { PanTool } from "@mui/icons-material";
 import { useMap } from "react-map-gl";
 import { RealTimeResponse } from "../util/realtime";
@@ -27,8 +27,8 @@ export default ({ trip, realtime, type, scrolled, setScrolled }: { trip: Trip, r
         >
             <ListItemAvatar>
                 <>
-                    <Avatar sx={{ bgcolor: trip.text, color: trip.text, width: 15, height: 15, border: `2px solid ${trip.color}`, marginLeft: "auto", marginRight: "auto", zIndex: 100 }} />
-                    {stop.sequence + 1 !== realtime.stops.length && <div style={{ border: `7.5px solid ${trip.color}`, boxShadow: `0px 0px 8px 0px ${trip.text}`, backgroundColor: trip.color, marginLeft: 20.5, marginTop: -6, opacity: realtime.snIndex <= stop.sequence ? 0.6 : 1, height: '100%', position: 'absolute' }} />}
+                    <Avatar sx={{ color: trip.text, bgcolor: trip.text, width: 15, height: 15, border: `2px solid ${trip.color}`, marginLeft: "auto", marginRight: "auto", zIndex: 100 }} />
+                    {stop.sequence + 1 !== realtime.stops.length && <Paper elevation={0} sx={{ border: `7.5px solid ${trip.color}`, backgroundColor: trip.color, borderRadius: 0, marginLeft: 2.58, marginTop: -0.9, opacity: realtime.snIndex <= stop.sequence ? 1 : 0.4, height: '100%', position: 'absolute' }} />}
                     {(realtime.servingIndex === stop.sequence || realtime.nextStopIndex === stop.sequence + 1) && <IconButton key="move" sx={{ position: "absolute", zIndex: 101, transition: "margin 300ms", backgroundColor: "white", border: `1px solid ${trip.color}`, opacity: 1, marginLeft: 1.85, marginTop: realtime.servingIndex === stop.sequence ? -2.3 : returnTravelled(realtime.travelledToNextStop), pointerEvents: "none", padding: 0.4 }}><Icon type={type} style={{ width: 18, height: 18, fill: "#757575" }} /></IconButton>}
                 </>
             </ListItemAvatar>

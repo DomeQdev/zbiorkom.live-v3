@@ -20,8 +20,8 @@ const LineNumber = styled.b((props: {
 
 export default ({ type, line, headsign, color, textColor, skeletonWidth }: { type?: VehicleType, line?: string, headsign?: string, color?: string, textColor?: string, skeletonWidth?: number }) => {
     return <div style={{ display: "inline-flex", alignItems: "center" }}>
-        {(type && line && headsign && color && textColor) ? <>
-            <LineNumber color={textColor} backgroundColor={color}><Icon type={type} style={{ width: 18, height: 18 }} />&nbsp;{line}</LineNumber>&nbsp;{headsign}
+        {(type != null && line != null && headsign != null && color != null && textColor != null) ? <>
+            <LineNumber color={textColor} backgroundColor={color}><Icon type={type} style={{ width: 18, height: 18 }} />&nbsp;{line}</LineNumber>{headsign && <>&nbsp;{headsign}</>}
         </> : <>
             <Skeleton variant="rectangular" width={55} height={29} style={{ borderRadius: "15px" }} />&nbsp;<Skeleton variant="text" width={skeletonWidth || 80} height={19} />
         </>}

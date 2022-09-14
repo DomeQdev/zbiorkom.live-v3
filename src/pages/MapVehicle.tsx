@@ -41,7 +41,7 @@ export default ({ city, vehicle, mapBearing }: { city: City, vehicle: Vehicle, m
     }, [vehicle._location, follow]);
 
     useEffect(() => {
-        if (!vehicle.trip) return;
+        if (!vehicle.trip) return setTrip(undefined);
          
         setScrolled(false);
         getData("trip", city, {
@@ -87,11 +87,11 @@ export default ({ city, vehicle, mapBearing }: { city: City, vehicle: Vehicle, m
                     setScrolled(false);
                     sheetRef.current?.snapTo(({ maxHeight }) => maxHeight / 3.5);
                 }}>
-                    <VehicleHeadsign type={vehicle.type} line={vehicle.line} headsign={vehicle.headsign || trip?.headsign || "Przejazd techniczny"} color={vehicle.trip && !trip?.error ? trip?.color : Color(vehicle.type, city)} textColor={vehicle.trip && !trip?.error ? trip?.text : "white"} />
+                    <VehicleHeadsign type={vehicle.type} line={vehicle.line} headsign={vehicle.headsign || trip?.headsign || ""} color={vehicle.trip && !trip?.error ? trip?.color : Color(vehicle.type, city)} textColor={vehicle.trip && !trip?.error ? trip?.text : "white"} />
 
                     {vehicle.trip && !trip?.error ? (realTime && trip) ? <span style={{ lineHeight: 1.4, fontSize: 15 }}><br />
                         {trip.stops[0].departure > Date.now()
-                            ? <InlineB><Logout style={{ width: 18, height: 18 }} />&nbsp;Odjazd za {Math.floor((trip.stops[0].departure - Date.now()) / 60000)} min</InlineB>
+                            ? <InlineB><Logout style={{ width: 18, height: 18 }} />&nbsp;Odjazd{!!Math.floor((trip.stops[0].departure - Date.now()) / 60000) && ` za ${Math.floor((trip.stops[0].departure - Date.now()) / 60000)} min`}</InlineB>
                             : vehicle.isPredicted && vehicle.delay === undefined
                                 ? <InlineB><WifiOff style={{ width: 18, height: 18 }} />&nbsp;Brak informacji o opóźnieniu</InlineB>
                                 : Math.floor(realTime.delay / 60000) ? <InlineB style={{ color: realTime.delay > 0 ? darkMode ? "#F26663" : "red" : darkMode ? "#90EE90" : "green" }}><History style={{ width: 18, height: 18 }} />&nbsp;{Math.abs(Math.floor(realTime.delay / 60000))} min {realTime.delay > 0 ? "opóźnienia" : "przed czasem"}</InlineB> : <InlineB><Check style={{ width: 18, height: 18 }} />&nbsp;Planowo</InlineB>}
