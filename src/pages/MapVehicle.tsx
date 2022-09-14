@@ -22,6 +22,7 @@ export default ({ city, vehicle, mapBearing }: { city: City, vehicle: Vehicle, m
     const navigate = useNavigate();
     const { current: map } = useMap();
     const [follow, setFollow] = useState<boolean>(true);
+    const [scrolled, setScrolled] = useState<boolean>(false);
     const [trip, setTrip] = useState<Trip>();
     const [realTime, setRealTime] = useState<RealTimeResponse>();
     const [anchorEl, setAnchorEl] = useState<HTMLElement>();
@@ -41,7 +42,8 @@ export default ({ city, vehicle, mapBearing }: { city: City, vehicle: Vehicle, m
 
     useEffect(() => {
         if (!vehicle.trip) return;
-
+         
+        setScrolled(false);
         getData("trip", city, {
             trip: encodeURIComponent(vehicle.trip)
         }).then(setTrip).catch(() => toast.error("Nie mogliśmy pobrać trasy..."));
@@ -82,6 +84,7 @@ export default ({ city, vehicle, mapBearing }: { city: City, vehicle: Vehicle, m
 
                 <div style={{ cursor: "pointer" }} onClick={() => {
                     setFollow(true);
+                    setScrolled(false);
                     sheetRef.current?.snapTo(({ maxHeight }) => maxHeight / 3.5);
                 }}>
                     <VehicleHeadsign type={vehicle.type} line={vehicle.line} headsign={vehicle.headsign || trip?.headsign || "Przejazd techniczny"} color={vehicle.trip && !trip?.error ? trip?.color : Color(vehicle.type, city)} textColor={vehicle.trip && !trip?.error ? trip?.text : "white"} />
@@ -100,7 +103,7 @@ export default ({ city, vehicle, mapBearing }: { city: City, vehicle: Vehicle, m
         >
             {vehicle.trip && !trip?.error
                 ? (realTime && trip)
-                    ? <VehicleStopList trip={trip} realtime={realTime} type={vehicle.type} stopFollowing={() => setFollow(false)} />
+                    ? <VehicleStopList trip={trip} realtime={realTime} type={vehicle.type} scrolled={scrolled} setScrolled={setScrolled} />
                     : <List>
                         {new Array(10).fill(null).map<React.ReactNode>((_, i) => <ListItem key={i}>
                             <ListItemAvatar>
