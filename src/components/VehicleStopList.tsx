@@ -5,7 +5,7 @@ import { RealTimeResponse } from "../util/realtime";
 import { Trip, VehicleType } from "../util/typings";
 import { Icon } from "./Icons";
 
-export default ({ trip, realtime, type, scrolled, setScrolled }: { trip: Trip, realtime: RealTimeResponse, type: VehicleType, scrolled: boolean, setScrolled: () => void }) => {
+export default ({ trip, realtime, type, scrolled, setScrolled }: { trip: Trip, realtime: RealTimeResponse, type: VehicleType, scrolled: boolean, setScrolled: (scrolled: boolean) => void }) => {
     const { current: map } = useMap();
 
     return <List>
