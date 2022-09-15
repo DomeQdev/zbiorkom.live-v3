@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { BottomSheet, BottomSheetRef } from "react-spring-bottom-sheet";
 import { toast } from "react-hot-toast";
 import { useMap } from "react-map-gl";
-import { Divider, IconButton, List, ListItem, ListItemAvatar, ListItemText, Menu, MenuItem, Skeleton } from "@mui/material";
+import { Divider, IconButton, Dialog, DialogTitle, DialogContent, List, ListItem, ListItemAvatar, ListItemText, Menu, MenuItem, Skeleton } from "@mui/material";
 import { Check, Close, Commit, DirectionsBus, GpsFixed, History, LocationDisabled, Logout, MoreVert, Route, Star, WifiOff } from "@mui/icons-material";
 import { bbox, lineString } from "@turf/turf";
 import { RealTime, RealTimeResponse } from "../util/realtime";
@@ -20,6 +20,7 @@ import isDark from "../util/isDark";
 
 export default ({ city, vehicle, mapBearing }: { city: City, vehicle: Vehicle, mapBearing: number }) => {
     const navigate = useNavigate();
+    const { state } = useLocation();
     const { current: map } = useMap();
     const [follow, setFollow] = useState<boolean>(true);
     const [scrolled, setScrolled] = useState<boolean>(false);
@@ -42,7 +43,7 @@ export default ({ city, vehicle, mapBearing }: { city: City, vehicle: Vehicle, m
 
     useEffect(() => {
         if (!vehicle.trip) return setTrip(undefined);
-         
+
         setScrolled(false);
         getData("trip", city, {
             trip: encodeURIComponent(vehicle.trip)
@@ -120,6 +121,17 @@ export default ({ city, vehicle, mapBearing }: { city: City, vehicle: Vehicle, m
                     <p>Pojazd nie realizuje żadnego kursu lub jego trasa nie została dodana do systemu.</p>
                 </div>}
         </BottomSheet>
+        <Dialog
+            open={state === "vehicle"}
+            onClose={() => navigate(".", { state: "", replace: true })}
+            fullWidth
+            scroll="paper"
+        >
+            <DialogTitle style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}><span>Informacje o pojeździe</span><IconButton onClick={() => navigate(".", { state: "", replace: true })}><Close /></IconButton></DialogTitle>
+            <DialogContent dividers>
+                Nr taborowy: {vehicle.tab}
+            </DialogContent>
+        </Dialog>
         <Menu
             anchorEl={anchorEl}
             open={!!anchorEl}
