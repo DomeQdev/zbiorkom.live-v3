@@ -153,7 +153,7 @@ export default ({ city, vehicle, mapBearing }: { city: City, vehicle: Vehicle, m
                 map?.fitBounds([[minLat, minLng], [maxLat, maxLng]], { padding: sheetRef.current?.height! + 20 > 400 ? 400 : sheetRef.current?.height! + 20, duration: 0 });
             }}><Route style={{ width: 20, height: 20 }} color="primary" />&nbsp;Pokaż trasę</MenuItem>}
             {vehicle.brigade && <MenuItem onClick={() => navigate(`/${city}/brigade/${vehicle.line}/${vehicle.brigade}`)}><Commit style={{ width: 20, height: 20 }} color="primary" />&nbsp;Rozkład brygady</MenuItem>}
-            {vehicle.brigade && <MenuItem><DirectionsBus style={{ width: 20, height: 20 }} color="primary" />&nbsp;Informacje o pojeździe</MenuItem>}
+            {vehicle.brigade && <MenuItem onClick={() => navigate(".", { state: "vehicle" })}><DirectionsBus style={{ width: 20, height: 20 }} color="primary" />&nbsp;Informacje o pojeździe</MenuItem>}
         </Menu>
     </>;
 };
