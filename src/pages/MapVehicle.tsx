@@ -20,7 +20,7 @@ import isDark from "../util/isDark";
 
 export default ({ city, vehicle, mapBearing }: { city: City, vehicle: Vehicle, mapBearing: number }) => {
     const navigate = useNavigate();
-    const { state } = useLocation();
+    const { state, search } = useLocation();
     const { current: map } = useMap();
     const [follow, setFollow] = useState<boolean>(true);
     const [scrolled, setScrolled] = useState<boolean>(false);
@@ -123,13 +123,14 @@ export default ({ city, vehicle, mapBearing }: { city: City, vehicle: Vehicle, m
         </BottomSheet>
         <Dialog
             open={state === "vehicle"}
-            onClose={() => navigate(".", { state: "", replace: true })}
+            onClose={() => navigate(search, { state: "", replace: true })}
             fullWidth
             scroll="paper"
         >
-            <DialogTitle style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}><span>Informacje o pojeździe</span><IconButton onClick={() => navigate(".", { state: "", replace: true })}><Close /></IconButton></DialogTitle>
+            <DialogTitle style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}><span>Informacje o pojeździe</span><IconButton onClick={() => navigate(search, { state: "", replace: true })}><Close /></IconButton></DialogTitle>
             <DialogContent dividers>
-                Nr taborowy: {vehicle.tab}
+                Numer pojazdu: {vehicle.tab}
+
             </DialogContent>
         </Dialog>
         <Menu
@@ -137,23 +138,19 @@ export default ({ city, vehicle, mapBearing }: { city: City, vehicle: Vehicle, m
             open={!!anchorEl}
             onClose={() => setAnchorEl(undefined)}
             style={{ zIndex: 300000 }}
-            PaperProps={{
-                style: {
-                    maxHeight: 40 * 4.5,
-                    minWidth: 30 * 4.5,
-                }
-            }}
         >
             <MenuItem sx={{ borderBottom: 1, borderColor: "divider", pointerEvents: "none" }}>{vehicle.isPredicted ? <LocationDisabled style={{ width: 20, height: 20 }} color="primary" /> : <GpsFixed style={{ width: 20, height: 20 }} color="primary" />}&nbsp;<b><Timer timestamp={vehicle.lastPing} /></b>&nbsp;temu</MenuItem>
-            <MenuItem><Star style={{ width: 20, height: 20 }} color="primary" />&nbsp;Dodaj linię do ulubionych</MenuItem>
             {trip?.shapes && <MenuItem onClick={() => {
                 setAnchorEl(undefined);
                 setFollow(false);
                 const [minLng, minLat, maxLng, maxLat] = bbox(lineString(trip.shapes.geometry.coordinates.map((c: [number, number]) => [c[1], c[0]])));
-                map?.fitBounds([[minLat, minLng], [maxLat, maxLng]], { padding: sheetRef.current?.height! + 20 > 400 ? 400 : sheetRef.current?.height! + 20, duration: 0 });
+                map?.fitBounds([[minLat, minLng], [maxLat, maxLng]], { padding: sheetRef.current?.height! + 20 > 400 ? 200 : sheetRef.current?.height! + 20, duration: 0 });
             }}><Route style={{ width: 20, height: 20 }} color="primary" />&nbsp;Pokaż trasę</MenuItem>}
             {vehicle.brigade && <MenuItem onClick={() => navigate(`/${city}/brigade/${vehicle.line}/${vehicle.brigade}`)}><Commit style={{ width: 20, height: 20 }} color="primary" />&nbsp;Rozkład brygady</MenuItem>}
-            {vehicle.brigade && <MenuItem onClick={() => navigate(".", { state: "vehicle" })}><DirectionsBus style={{ width: 20, height: 20 }} color="primary" />&nbsp;Informacje o pojeździe</MenuItem>}
+            {vehicle.brigade && <MenuItem onClick={() => {
+                setAnchorEl(undefined);
+                navigate(search, { state: "vehicle" });
+            }}><DirectionsBus style={{ width: 20, height: 20 }} color="primary" />&nbsp;Informacje o pojeździe</MenuItem>}
         </Menu>
     </>;
 };

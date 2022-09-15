@@ -44,7 +44,7 @@ export default ({ city }: { city: City }) => {
                 />
             </span>
         </ListItemButton>).reduce((prev, curr, i) => [prev, <Divider key={i} textAlign="left" style={{ color: "#9ba1ab", fontSize: 14 }}>{(schedule[i].start - schedule[i - 1]!.end) / 60000 < 60 ? schedule[i].realStart ? <span style={{ color: "red" }}>Brak postoju z powodu zbyt dużego opóźnienia.</span> : <>Postój {Math.floor((schedule[i].start - schedule[i - 1]!.end) / 60000)} min</> : null}</Divider>, curr])}</List> : <h4>Nie mogliśmy znaleźć rozkładu dla tej brygady...</h4>) : <List>
-            {new Array(15).fill(0).map<React.ReactNode>((_, i) => <ListItem key={i}><ListItemText primary={<Skeleton variant="text" width={150} />} secondary={<Skeleton variant="text" width={300} />} /><ListItemText sx={{ right: 0, position: "absolute" }} primary={<Skeleton variant="text" width={60} sx={{ textAlign: "right" }} />} secondary={<Skeleton variant="text" width={60} />} /></ListItem>).reduce((prev, curr, i) => [prev, <Divider key={`1-${i}`} />, curr])}
+            {new Array(15).fill(0).map<React.ReactNode>((_, i) => <ListItem key={i}><ListItemText primary={<Skeleton variant="text" width={100} />} secondary={<Skeleton variant="text" width={150} />} /><ListItemText sx={{ right: 0, position: "absolute" }} primary={<Skeleton variant="text" width={60} sx={{ textAlign: "right" }} />} secondary={<Skeleton variant="text" width={60} />} /></ListItem>).reduce((prev, curr, i) => [prev, <Divider key={`1-${i}`} />, curr])}
         </List>}
     </Box>;
 };
