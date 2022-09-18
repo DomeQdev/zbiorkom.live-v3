@@ -3,7 +3,7 @@ import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import { AppBar, Toolbar, IconButton, Typography, CssBaseline, Box } from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { DarkMode, DirectionsBus, LightMode, Settings } from "@mui/icons-material";
-import { Toaster } from 'react-hot-toast';
+import toast, { Toaster } from 'react-hot-toast';
 import { Suspense } from './components/Suspense';
 import { City } from './util/typings';
 import cities from "./util/cities.json";
@@ -62,6 +62,12 @@ export default () => {
     document.body.style.setProperty("--rsbs-handle-bg", "rgba(255,255,255,0.3)");
   }
 
+  useEffect(() => {
+    toast.error("Z powodów technicznych, wersja beta została wyłączona do odwołania. Prosimy o korzystanie z zbiorkom.live.", {
+      duration: Infinity
+    });
+  }, []);
+
   return <ThemeProvider theme={theme}>
     <CssBaseline />
     <AppBar position="sticky" sx={{ bgcolor: "#5aa159", color: "white" }}>
@@ -81,44 +87,11 @@ export default () => {
         </Box>
       </Toolbar>
     </AppBar>
-    <Routes>
-      <Route index element={<CityPicker />} />
-      {Object.keys(cities).map((city) => {
-        let name = city as City;
-        let cityData = cities[name];
-
-        return <Route path={city} key={city}>
-          <Route index element={<Suspense><DetectDevice desktop={<IndexDesktop city={name} />} mobile={<IndexMobile city={name} />} /></Suspense>} />
-          <Route path="map" element={<Suspense><Map city={name} style={{ position: "absolute" }}><CityMap city={name} /></Map></Suspense>} />
-          {cityData.api.stops && <>
-            <Route path="stops" element={<></>} />
-            <Route path="stop/:stopId" element={<Suspense><StopDepartures city={name} /></Suspense>} />
-          </>}
-          {cityData.api.brigades && <>
-            <Route path="brigades" element={<Suspense><Brigades city={name} /></Suspense>} />
-            <Route path="brigade/:line/:brigade" element={<Suspense><Brigade city={name} /></Suspense>} />
-          </>}
-          {cityData.api.bikes && <>
-            <Route path="bikes" element={<></>} />
-            <Route path="bike/:stationId" element={<></>} />
-          </>}
-          {cityData.api.parkings && <>
-            <Route path="parkings" element={<></>} />
-            <Route path="parking/:parkingId" element={<></>} />
-          </>}
-          {cityData.api.alerts && <>
-            <Route path="alerts" element={<Suspense><Alerts city={name} /></Suspense>} />
-            <Route path="alert/:alertId" element={<></>} />
-          </>}
-        </Route>
-      })}
-      <Route path="*" element={<Suspense><Error text={"404"} message={"Nie znaleziono strony"} /></Suspense>} />
-    </Routes>
     <Toaster
       position="top-center"
       reverseOrder={false}
     />
-    <Suspense><SettingsPage open={state === "settings"} onClose={() => navigate(pathname, { state: null, replace: true })} /></Suspense>
+    <div>418: I'm a teapot.</div>
   </ThemeProvider>;
 };
 
