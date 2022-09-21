@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Alert, Box, Button, IconButton } from "@mui/material";
+import { Alert, Box, Button, IconButton, Skeleton } from "@mui/material";
 import { Close, DirectionsTransit, MoreVert } from "@mui/icons-material";
 import { BottomSheet } from "react-spring-bottom-sheet";
 import { useMap } from "react-map-gl";
@@ -44,7 +44,7 @@ export default ({ city, stop, vehicles }: { city: City, stop: Stop, vehicles: Ve
 
     return <>
         <StopMarker stop={stop} city={city} />
-        {vehicles.filter(v => stopDepartures?.departures.some(d => d.trip && d.trip === v.trip)).map(v => <VehicleMarker key={v.trip} vehicle={v} city={city} mapBearing={map?.getBearing() || 0} onClick={() => navigate(`?vehicle=${v.type}/${v.tab}`)} />)}
+        {vehicles.filter(v => stopDepartures?.departures.some(d => d.trip && d.trip === v.trip)).map(v => <VehicleMarker key={v.trip} vehicle={v} city={city} mapBearing={map?.getBearing() || 0} onClick={() => navigate(`?vehicle=${v.type}/${v.id}`)} />)}
         <BottomSheet
             open
             defaultSnap={({ maxHeight }) => maxHeight / 3.5}
@@ -67,12 +67,12 @@ export default ({ city, stop, vehicles }: { city: City, stop: Stop, vehicles: Ve
                             zoom: 17
                         });
                     }}>
-                        {stop.type ? stop.type.map(type => <Icon type={type} key={type} style={{ color: Color(type, city) }} />) : <DirectionsTransit sx={{ color: Color("unknown", city) }} />}&nbsp;{stop.name} {stop.code || ""}
+                        {stop.type ? stop.type.map(type => <Icon type={type} key={type} style={{ color: Color(type, city) }} />) : <DirectionsTransit sx={{ color: Color(3, city) }} />}&nbsp;{stopDepartures ? `${stopDepartures.name} ${stopDepartures.code || ""}` : <Skeleton variant="text" width={150} />}
                     </div>
 
                     <IconButton onClick={({ currentTarget }: { currentTarget: HTMLElement }) => setAnchorEl(anchorEl ? undefined : currentTarget)} style={{ height: 40 }}><MoreVert /></IconButton>
                 </div>
-                {stopDepartures?.lines && <Box
+                {stopDepartures?.routes && <Box
                     sx={{
                         display: "flex",
                         marginTop: 1,
@@ -83,33 +83,36 @@ export default ({ city, stop, vehicles }: { city: City, stop: Stop, vehicles: Ve
                         }
                     }}
                 >
-                    {stopDepartures.lines.map((line, i) => <Button
+                    {stopDepartures.routes.map((route, i) => <Button
                         variant="contained"
                         key={i}
                         sx={{
-                            backgroundColor: line.color,
-                            color: line.text,
+                            backgroundColor: Color(route[1], city),
+                            color: "white",
                             mx: 0.4,
-                            px: 2,
+                            px: 1.5,
                             py: 0,
                             borderRadius: 2,
                             minWidth: 0,
                             "&:hover": {
-                                backgroundColor: line.color,
-                                color: line.text
+                                backgroundColor: Color(route[1], city),
+                                color: "white"
                             }
                         }}
                     >
-                        {line.line}
+                        {route[0]}
                     </Button>)}
                 </Box>}
             </>}
         >
             {stopDepartures?.alert && <Alert severity={stopDepartures.alert.type} sx={{ cursor: stopDepartures.alert.link ? "pointer" : "" }} onClick={() => stopDepartures.alert?.link ? window.open(stopDepartures.alert!.link, "_blank") : null}>{stopDepartures.alert.text}</Alert>}
-            <Departures departures={stopDepartures} onClick={(departure) => map?.flyTo({
-                center: vehicles.find(v => v.trip === departure.trip)?._location || [stop.location[1], stop.location[0]],
-                zoom: 17
-            })} />
+            <Departures departures={stopDepartures} city={city} onClick={(departure) => {
+                let location = vehicles.find(v => v.trip === departure.trip)?.location;
+                map?.flyTo({
+                    center: location ? [location[1], location[0]] : [stop.location[1], stop.location[0]],
+                    zoom: 17
+                })
+            }} />
         </BottomSheet>
     </>;
 };

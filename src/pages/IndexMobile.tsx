@@ -9,8 +9,6 @@ export default ({ city }: { city: City }) => {
     const cityData = cities[city];
 
     return <div style={{ width: "100%", textAlign: "center" }}>
-        <img src={cityData.image} width="100" height="100" style={{ marginTop: 15 }} />
-        <h1>{cityData.name}</h1>
         <List>
             <ListItemButton onClick={() => navigate("map")}>
                 <ListItemAvatar>
@@ -71,6 +69,5 @@ export default ({ city }: { city: City }) => {
                 </ListItemButton>
             </>}
         </List>
-        <p>{cityData.note}</p>
     </div>;
 };

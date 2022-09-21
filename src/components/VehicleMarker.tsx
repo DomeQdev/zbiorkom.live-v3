@@ -27,14 +27,14 @@ const VehicleMarker = styled.span((props: {
 
 export default ({ vehicle, city, mapBearing, onClick }: { vehicle: Vehicle, city: City, mapBearing: number, onClick?: () => void }) => {
     return <Marker
-        longitude={vehicle._location[0]}
-        latitude={vehicle._location[1]}
+        latitude={vehicle.location[0]}
+        longitude={vehicle.location[1]}
         clickTolerance={10}
         style={{ cursor: "pointer", display: "block", zIndex: 10 }}
         onClick={onClick}
     >
         <VehicleMarker color={darkMode ? "white" : Color(vehicle.type, city)} backgroundColor={darkMode ? Color(vehicle.type, city) : "#fff"} opacity={vehicle.isPredicted ? 0.8 : 1}>
-            {!!vehicle.deg && <ArrowUpward style={{ width: 14, height: 14, transform: `rotate(${vehicle.deg - mapBearing}deg)` }} />}<Icon type={vehicle.type} style={{ width: 17, height: 17 }} />&nbsp;<b style={{ fontWeight: 700, fontSize: 14 }}>{vehicle.line}</b>{vehicle.brigade && <small>/{vehicle.brigade}</small>}
+            {!!vehicle.bearing && <ArrowUpward style={{ width: 14, height: 14, transform: `rotate(${vehicle.bearing - mapBearing}deg)` }} />}<Icon type={vehicle.type} style={{ width: 17, height: 17 }} />&nbsp;<b style={{ fontWeight: 700, fontSize: 14 }}>{vehicle.route}</b>{vehicle.brigade && <small>/{vehicle.brigade}</small>}
         </VehicleMarker>
     </Marker>;
 };

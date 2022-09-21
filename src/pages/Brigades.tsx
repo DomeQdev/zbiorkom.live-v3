@@ -1,38 +1,16 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { Dialog, DialogTitle, DialogContent, ToggleButton, IconButton, Slide, Skeleton, Grid, Box } from "@mui/material";
+import { Dialog, DialogTitle, DialogContent, ToggleButton, IconButton, Slide, Skeleton, Grid, Box, Divider, Button } from "@mui/material";
 import { Close } from "@mui/icons-material";
 import { toast } from "react-hot-toast";
-import { City, Route } from "../util/typings";
+import { City, RouteType } from "../util/typings";
+import { Color, Name } from "../components/Icons";
 import { getData } from "../util/api";
-import { Icon } from "../components/Icons";
-import styled from "@emotion/styled";
-import isDark from "../util/isDark";
-
-const darkMode = isDark();
-const Line = styled(ToggleButton)((props: {
-    textcolor: string,
-    backgroundcolor: string
-}) => ({
-    width: 100,
-    height: 40,
-    fontSize: 20,
-    margin: 3,
-    borderRadius: 25,
-    color: darkMode ? props.textcolor : props.backgroundcolor,
-    backgroundColor: darkMode ? props.backgroundcolor : props.textcolor,
-    borderColor: darkMode ? props.textcolor : props.backgroundcolor,
-    "&:hover": {
-        color: darkMode ? props.backgroundcolor : props.textcolor,
-        backgroundColor: darkMode ? props.textcolor : props.backgroundcolor,
-        borderColor: darkMode ? props.backgroundcolor : props.textcolor
-    }
-}));
 
 export default ({ city }: { city: City }) => {
     const { state } = useLocation();
     const navigate = useNavigate();
-    const [routes, setRoutes] = useState<Route[]>();
+    const [routes, setRoutes] = useState<RouteType[]>();
     const [selectedBrigades, setSelectedBrigades] = useState<string[] | null>();
 
     useEffect(() => {
@@ -58,19 +36,25 @@ export default ({ city }: { city: City }) => {
         width: "90%"
     }}>
         <h1 style={{ fontWeight: "normal" }}>Rozkład brygad</h1>
-        <p>Wybierz linię:</p>
-        {routes?.length ? routes.map(route => <Line
-            value={route.line}
-            key={route.line}
-            textcolor={route.text === route.color ? "#fff" : route.text}
-            backgroundcolor={route.color}
-            onClick={() => {
-                setSelectedBrigades(null);
-                navigate(".", { state: route.line });
-            }}
-        >
-            <Icon type={route.type} style={{ width: 21, height: 21 }} />&nbsp;{route.line}
-        </Line>) : <Grid container justifyContent="center">{new Array(30).fill(null).map((_, i) => <Skeleton key={`1_${i}`} variant="rounded" width={100} height={40} sx={{ margin: "3px", borderRadius: "15px" }} />)}</Grid>}
+        {routes ? routes.map((type) => <Box key={type.type}>
+            <h2 style={{ fontWeight: "normal", marginBottom: 0 }}>{Name(type.type)}</h2>
+            <Divider />
+            {type.routes.map((route, i) => <Button
+                key={`b-${i}`}
+                sx={{
+                    height: 30,
+                    fontSize: 16,
+                    margin: 0.6,
+                    borderRadius: 25,
+                    color: "white",
+                    backgroundColor: Color(type.type, city),
+                }}
+                onClick={() => {
+                    setSelectedBrigades(null);
+                    navigate(".", { state: route.id });
+                }}
+            >{route.name}</Button>)}
+        </Box>) : <Grid container justifyContent="center">{new Array(30).fill(null).map((_, i) => <Skeleton key={`1_${i}`} variant="rounded" width={100} height={40} sx={{ margin: "3px", borderRadius: "15px" }} />)}</Grid>}
 
         <Dialog
             open={!!state}

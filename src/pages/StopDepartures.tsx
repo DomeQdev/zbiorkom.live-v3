@@ -5,6 +5,7 @@ import { ArrowBack, Map, MoreVert, Star } from "@mui/icons-material";
 import { toast } from "react-hot-toast";
 import { getData } from "../util/api";
 import { City, StopDepartures } from "../util/typings";
+import { Color } from "../components/Icons";
 import Departures from "../components/Departures";
 
 export default ({ city }: { city: City }) => {
@@ -40,7 +41,7 @@ export default ({ city }: { city: City }) => {
                 <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>{stopDepartures ? `${stopDepartures.name} ${stopDepartures.code || ""}` : <Skeleton variant="text" width={150} />}</Typography>
                 <IconButton edge="end" onClick={({ currentTarget }: { currentTarget: HTMLElement }) => setAnchorEl(anchorEl ? undefined : currentTarget)}><MoreVert /></IconButton>
             </Toolbar>
-            {stopDepartures?.lines && <Box
+            {stopDepartures?.routes && <Box
                 sx={{
                     display: "flex",
                     width: "100%",
@@ -51,24 +52,24 @@ export default ({ city }: { city: City }) => {
                     }
                 }}
             >
-                {stopDepartures.lines.map((line, i) => <Button
+                {stopDepartures.routes.map((route, i) => <Button
                     variant="contained"
                     key={i}
                     sx={{
-                        backgroundColor: line.color,
-                        color: line.text,
+                        backgroundColor: Color(route[1], city),
+                        color: "white",
                         mx: 0.4,
-                        px: 2,
+                        px: 1.5,
                         py: 0,
                         borderRadius: 2,
                         minWidth: 0,
                         "&:hover": {
-                            backgroundColor: line.color,
-                            color: line.text
+                            backgroundColor: Color(route[1], city),
+                            color: "white"
                         }
                     }}
                 >
-                    {line.line}
+                    {route[0]}
                 </Button>)}
             </Box>}
         </AppBar>
@@ -89,6 +90,6 @@ export default ({ city }: { city: City }) => {
         </Menu>
 
         {stopDepartures?.alert && <Alert severity={stopDepartures.alert.type} sx={{ cursor: stopDepartures.alert.link ? "pointer" : "" }} onClick={() => stopDepartures.alert?.link ? window.open(stopDepartures.alert!.link, "_blank") : null}>{stopDepartures.alert.text}</Alert>}
-        <Departures departures={stopDepartures} />
+        <Departures departures={stopDepartures} city={city} />
     </>;
 };

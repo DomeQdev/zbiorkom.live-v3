@@ -4,12 +4,11 @@ import { BottomSheet, BottomSheetRef } from "react-spring-bottom-sheet";
 import { toast } from "react-hot-toast";
 import { useMap } from "react-map-gl";
 import { Divider, IconButton, Dialog, DialogTitle, DialogContent, List, ListItem, ListItemAvatar, ListItemText, Menu, MenuItem, Skeleton } from "@mui/material";
-import { Check, Close, Commit, DirectionsBus, GpsFixed, History, LocationDisabled, Logout, MoreVert, Route, Star, WifiOff } from "@mui/icons-material";
+import { Check, Close, Commit, DirectionsBus, GpsFixed, History, LocationDisabled, Logout, MoreVert, Route, WifiOff } from "@mui/icons-material";
 import { bbox, lineString } from "@turf/turf";
 import { RealTime, RealTimeResponse } from "../util/realtime";
 import { Trip, City, Vehicle } from "../util/typings";
 import { getData } from "../util/api";
-import { Color } from "../components/Icons";
 import Shapes from "../components/Shapes";
 import VehicleMarker from "../components/VehicleMarker";
 import VehicleHeadsign from "../components/VehicleHeadsign";
@@ -36,10 +35,11 @@ export default ({ city, vehicle, mapBearing }: { city: City, vehicle: Vehicle, m
 
     useEffect(() => {
         if (!follow) return;
+        setScrolled(false);
         map?.flyTo({
-            center: vehicle._location
+            center: [vehicle.location[1], vehicle.location[0]]
         });
-    }, [vehicle._location, follow]);
+    }, [vehicle.location, follow]);
 
     useEffect(() => {
         if (!vehicle.trip) return setTrip(undefined);
@@ -54,7 +54,7 @@ export default ({ city, vehicle, mapBearing }: { city: City, vehicle: Vehicle, m
         if (!trip || trip.error) return;
         setRealTime(RealTime({
             trip,
-            location: vehicle._location,
+            location: [vehicle.location[1], vehicle.location[0]],
             delay: vehicle.delay
         }));
     }, [vehicle, trip]);
@@ -66,7 +66,7 @@ export default ({ city, vehicle, mapBearing }: { city: City, vehicle: Vehicle, m
 
     return <>
         <VehicleMarker vehicle={vehicle} city={city} mapBearing={mapBearing} />
-        {(trip && !trip.error) && <Shapes trip={trip} realTime={realTime} />}
+        {(trip && !trip.error) && <Shapes trip={trip} type={vehicle.type} city={city} realTime={realTime} />}
         <BottomSheet
             open
             ref={sheetRef}
@@ -88,7 +88,7 @@ export default ({ city, vehicle, mapBearing }: { city: City, vehicle: Vehicle, m
                     setScrolled(false);
                     sheetRef.current?.snapTo(({ maxHeight }) => maxHeight / 3.5);
                 }}>
-                    <VehicleHeadsign type={vehicle.type} line={vehicle.line} headsign={vehicle.headsign || trip?.headsign || ""} color={vehicle.trip && !trip?.error ? trip?.color : Color(vehicle.type, city)} textColor={vehicle.trip && !trip?.error ? trip?.text : "white"} />
+                    <VehicleHeadsign type={vehicle.type} city={city} line={vehicle.route} headsign={trip?.headsign || ""} />
 
                     {vehicle.trip && !trip?.error ? (realTime && trip) ? <span style={{ lineHeight: 1.4, fontSize: 15 }}><br />
                         {trip.stops[0].departure > Date.now()
@@ -104,7 +104,7 @@ export default ({ city, vehicle, mapBearing }: { city: City, vehicle: Vehicle, m
         >
             {vehicle.trip && !trip?.error
                 ? (realTime && trip)
-                    ? <VehicleStopList trip={trip} realtime={realTime} type={vehicle.type} scrolled={scrolled} setScrolled={setScrolled} />
+                    ? <VehicleStopList trip={trip} realtime={realTime} type={vehicle.type} city={city} scrolled={scrolled} setScrolled={setScrolled} stopFollowing={() => setFollow(false)} />
                     : <List>
                         {new Array(10).fill(null).map<React.ReactNode>((_, i) => <ListItem key={i}>
                             <ListItemAvatar>
@@ -129,7 +129,7 @@ export default ({ city, vehicle, mapBearing }: { city: City, vehicle: Vehicle, m
         >
             <DialogTitle style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}><span>Informacje o pojeździe</span><IconButton onClick={() => navigate(search, { state: "", replace: true })}><Close /></IconButton></DialogTitle>
             <DialogContent dividers>
-                Numer pojazdu: {vehicle.tab}
+                Numer pojazdu: {vehicle.id}
 
             </DialogContent>
         </Dialog>
@@ -143,10 +143,10 @@ export default ({ city, vehicle, mapBearing }: { city: City, vehicle: Vehicle, m
             {trip?.shapes && <MenuItem onClick={() => {
                 setAnchorEl(undefined);
                 setFollow(false);
-                const [minLng, minLat, maxLng, maxLat] = bbox(lineString(trip.shapes.geometry.coordinates.map((c: [number, number]) => [c[1], c[0]])));
-                map?.fitBounds([[minLat, minLng], [maxLat, maxLng]], { padding: sheetRef.current?.height! + 20 > 400 ? 200 : sheetRef.current?.height! + 20, duration: 0 });
+                const [minLng, minLat, maxLng, maxLat] = bbox(lineString(trip.shapes));
+                map?.fitBounds([[minLat, minLng], [maxLat, maxLng]], { duration: 0, padding: { left: 0, top: 30, right: 0, bottom: sheetRef.current?.height! + 30 } });
             }}><Route style={{ width: 20, height: 20 }} color="primary" />&nbsp;Pokaż trasę</MenuItem>}
-            {vehicle.brigade && <MenuItem onClick={() => navigate(`/${city}/brigade/${vehicle.line}/${vehicle.brigade}`)}><Commit style={{ width: 20, height: 20 }} color="primary" />&nbsp;Rozkład brygady</MenuItem>}
+            {vehicle.brigade && <MenuItem onClick={() => navigate(`/${city}/brigade/${vehicle.route}/${vehicle.brigade}`)}><Commit style={{ width: 20, height: 20 }} color="primary" />&nbsp;Rozkład brygady</MenuItem>}
             {vehicle.brigade && <MenuItem onClick={() => {
                 setAnchorEl(undefined);
                 navigate(search, { state: "vehicle" });

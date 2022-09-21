@@ -64,6 +64,5 @@ export default ({ city }: { city: City }) => {
                     <ListItemText primary="Utrudnienia" />
                 </ListItemButton></>}
         </List>
-        <p>{cityData.note}</p>
     </div>;
 };

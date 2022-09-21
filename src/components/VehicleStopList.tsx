@@ -2,24 +2,25 @@ import { Avatar, Divider, IconButton, List, ListItemAvatar, ListItemButton, List
 import { PanTool } from "@mui/icons-material";
 import { useMap } from "react-map-gl";
 import { RealTimeResponse } from "../util/realtime";
-import { Trip, VehicleType } from "../util/typings";
-import { Icon } from "./Icons";
+import { City, Trip, VehicleType } from "../util/typings";
+import { Color, Icon } from "./Icons";
 
-export default ({ trip, realtime, type, scrolled, setScrolled }: { trip: Trip, realtime: RealTimeResponse, type: VehicleType, scrolled: boolean, setScrolled: (scrolled: boolean) => void }) => {
+export default ({ trip, realtime, type, city, scrolled, setScrolled, stopFollowing }: { trip: Trip, realtime: RealTimeResponse, type: VehicleType, city: City, scrolled: boolean, setScrolled: (scrolled: boolean) => void, stopFollowing: () => void }) => {
     const { current: map } = useMap();
+    const color = Color(type, city);
 
     return <List>
-        {realtime.stops.map<React.ReactNode>(stop => <ListItemButton
-            key={stop.sequence}
+        {realtime.stops.map<React.ReactNode>((stop, i) => <ListItemButton
+            key={i}
             onClick={() => {
-                setScrolled(true);
+                stopFollowing();
                 map?.flyTo({
                     center: [stop.location[1], stop.location[0]],
                     zoom: 17
                 });
             }}
             ref={(r) => {
-                if (!scrolled && (stop.sequence === realtime.servingIndex || (!realtime.servingIndex && stop.sequence + 1 === realtime.nextStopIndex))) {
+                if (!scrolled && (i === realtime.servingIndex || (!realtime.servingIndex && i + 1 === realtime.nextStopIndex))) {
                     r?.scrollIntoView();
                     setScrolled(true);
                 }
@@ -27,19 +28,19 @@ export default ({ trip, realtime, type, scrolled, setScrolled }: { trip: Trip, r
         >
             <ListItemAvatar>
                 <>
-                    <Avatar sx={{ color: trip.text, bgcolor: trip.text, width: 15, height: 15, border: `2px solid ${trip.color}`, marginLeft: "auto", marginRight: "auto", zIndex: 100 }} />
-                    {stop.sequence + 1 !== realtime.stops.length && <Paper elevation={0} sx={{ border: `7.5px solid ${trip.color}`, backgroundColor: trip.color, borderRadius: 0, marginLeft: 2.58, marginTop: -0.9, opacity: realtime.snIndex <= stop.sequence ? 1 : 0.4, height: '100%', position: 'absolute' }} />}
-                    {(realtime.servingIndex === stop.sequence || realtime.nextStopIndex === stop.sequence + 1) && <IconButton key="move" sx={{ position: "absolute", zIndex: 101, transition: "margin 300ms", backgroundColor: "white", border: `1px solid ${trip.color}`, opacity: 1, marginLeft: 1.85, marginTop: realtime.servingIndex === stop.sequence ? -2.3 : returnTravelled(realtime.travelledToNextStop), pointerEvents: "none", padding: 0.4 }}><Icon type={type} style={{ width: 18, height: 18, fill: "#757575" }} /></IconButton>}
+                    <Avatar sx={{ color: "white", bgcolor: "white", width: 14.9, height: 14.9, border: `2px solid ${color}`, marginLeft: 2.6, marginRight: "auto", zIndex: 100 }} />
+                    {i + 1 !== realtime.stops.length && <Paper elevation={0} sx={{ border: `7.5px solid ${color}`, backgroundColor: color, borderRadius: 0, marginLeft: 2.58, marginTop: -0.9, opacity: realtime.snIndex <= i + 1 && realtime.servingIndex !== i + 1 ? 1 : 0.4, height: '100%', position: 'absolute' }} />}
+                    {(realtime.servingIndex === i || realtime.nextStopIndex === i + 1) && <IconButton key="move" sx={{ position: "absolute", zIndex: 101, transition: "margin 300ms", backgroundColor: "white", border: `1px solid ${color}`, opacity: 1, marginLeft: 1.70, marginTop: realtime.servingIndex === i ? -2.3 : returnTravelled(realtime.travelledToNextStop), pointerEvents: "none", padding: 0.5 }}><Icon type={type} style={{ width: 18, height: 18, fill: "#757575" }} /></IconButton>}
                 </>
             </ListItemAvatar>
             <ListItemText
-                sx={{ opacity: realtime.snIndex > stop.sequence ? 0.6 : 1, }}
+                sx={{ opacity: realtime.snIndex > i ? 0.6 : 1, }}
                 primary={<Typography noWrap>{stop.on_request && <PanTool sx={{ width: 15, height: 15 }} />} {stop.name}</Typography>}
-                secondary={<><span style={{ textDecoration: Math.floor(realtime.delay / 60000) ? "line-through" : "" }}>{new Date(stop.departure).toLocaleTimeString("pl", { hour12: false, hour: "2-digit", minute: "2-digit" })}</span> {!!Math.floor(realtime.delay / 60000) && new Date(stop.realDeparture).toLocaleTimeString("pl", { hour12: false, hour: "2-digit", minute: "2-digit" })}{stop.platform && <> · Peron <b>{stop.platform}</b></>}</>}
+                secondary={<><span style={{ textDecoration: Math.floor(realtime.delay / 60000) ? "line-through" : "" }}>{new Date(stop.departure).toLocaleTimeString("pl", { hour12: false, hour: "2-digit", minute: "2-digit" })}</span> {!!Math.floor(realtime.delay / 60000) && new Date(stop.departure + realtime.delay).toLocaleTimeString("pl", { hour12: false, hour: "2-digit", minute: "2-digit" })}{stop.platform && <> · Peron <b>{stop.platform}</b></>}</>}
             />
             <ListItemText
                 sx={{ textAlign: "right" }}
-                primary={realtime.snIndex <= stop.sequence && <><b>{minutesUntil(stop.realDeparture)}</b> min</>}
+                primary={realtime.snIndex <= i && <><b>{minutesUntil(stop.departure + realtime.delay)}</b> min</>}
             />
         </ListItemButton>).reduce((prev, curr, i) => [prev, <Divider key={`divi-${i}`} />, curr])}
     </List>;

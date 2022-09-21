@@ -1,10 +1,12 @@
 import { Layer, Marker, Popup, Source } from "react-map-gl";
 import { Chip, Tooltip } from "@mui/material";
 import { PanTool } from "@mui/icons-material";
+import { lineString } from "@turf/turf";
 import { useState } from "react";
 import { minutesUntil } from "./VehicleStopList";
-import { Trip, TripStop } from "../util/typings";
+import { City, Trip, TripStop, VehicleType } from "../util/typings";
 import { RealTimeResponse } from "../util/realtime";
+import { Color } from "./Icons";
 import styled from "@emotion/styled";
 
 const StopMarker = styled.button((props) => ({
@@ -21,12 +23,13 @@ const StopMarker = styled.button((props) => ({
     borderRadius: 18
 }));
 
-export default ({ trip, realTime }: { trip: Trip, realTime?: RealTimeResponse }) => {
+export default ({ trip, type, city, realTime }: { trip: Trip, type: VehicleType, city: City, realTime?: RealTimeResponse }) => {
     const [stopPopup, setStopPopup] = useState<TripStop>();
     let delay = realTime?.delay || 0;
+    let color = Color(type, city);
 
     return <>
-        <Source type="geojson" data={trip.shapes}>
+        <Source type="geojson" data={lineString(trip.shapes.map(x => [x[1], x[0]]))}>
             <Layer
                 id="route"
                 type="line"
@@ -35,21 +38,8 @@ export default ({ trip, realTime }: { trip: Trip, realTime?: RealTimeResponse })
                     "line-cap": "round"
                 }}
                 paint={{
-                    "line-color": trip.color,
+                    "line-color": color,
                     "line-width": 5
-                }}
-            />
-            <Layer
-                id="route2"
-                type="line"
-                layout={{
-                    "line-join": "round",
-                    "line-cap": "round"
-                }}
-                paint={{
-                    "line-color": trip.text,
-                    "line-width": 1,
-                    "line-gap-width": 5
                 }}
             />
         </Source>
@@ -65,7 +55,7 @@ export default ({ trip, realTime }: { trip: Trip, realTime?: RealTimeResponse })
             style={{ zIndex: 5 }}
         >
             <Tooltip title={stop.name} arrow placement="left">
-                <StopMarker color={trip.color} />
+                <StopMarker color={color} />
             </Tooltip>
         </Marker>)}
         {stopPopup && <Popup
@@ -79,8 +69,8 @@ export default ({ trip, realTime }: { trip: Trip, realTime?: RealTimeResponse })
         >
             <h5 style={{ display: "inline" }}>{stopPopup.on_request && <PanTool style={{ width: 13, height: 13 }} />}&nbsp; <b style={{ fontSize: 15 }}>{stopPopup.name}</b></h5><br />
             {!realTime || realTime.snIndex <= stopPopup.sequence ? <>
-                za <b style={{ fontSize: 16 }}>{minutesUntil(stopPopup.arrival + delay)}</b> min<br />
-                <Chip label={new Date(stopPopup.arrival + delay).toLocaleTimeString("pl", { hour12: false, hour: "2-digit", minute: "2-digit" })} variant="outlined" style={{ color: Math.floor(delay / 60000) ? (delay > 0 ? "red" : "green") : "#000000", fontWeight: delay ? "bold" : "normal" }} />
+                za <b style={{ fontSize: 16 }}>{minutesUntil(stopPopup.departure + delay)}</b> min<br />
+                <Chip label={new Date(stopPopup.departure + delay).toLocaleTimeString("pl", { hour12: false, hour: "2-digit", minute: "2-digit" })} variant="outlined" style={{ color: Math.floor(delay / 60000) ? (delay > 0 ? "red" : "green") : "#000000", fontWeight: delay ? "bold" : "normal" }} />
             </> : <b>Odjechał</b>}
         </Popup>}
     </>;
