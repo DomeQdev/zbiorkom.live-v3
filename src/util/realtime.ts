@@ -1,4 +1,4 @@
-import { nearestPointOnLine, point } from "@turf/turf";
+import { lineString, nearestPointOnLine, point } from "@turf/turf";
 import { Trip, TripStop, Vehicle } from "./typings";
 
 type RealTimeResponse = {
@@ -12,13 +12,14 @@ type RealTimeResponse = {
 
 const RealTime = ({ trip, location, delay }: {
     trip: Trip,
-    location: Vehicle["_location"],
+    location: Vehicle["location"],
     delay?: number
 }): RealTimeResponse => {
-    let vehicleDistance = nearestPointOnLine(trip.shapes, point(location), { units: 'meters' }).properties.location || 0;
+    let shapes = lineString(trip.shapes.map(x => [x[1], x[0]]));
+    let vehicleDistance = nearestPointOnLine(shapes, point(location), { units: 'meters' }).properties.location || 0;
     let stops = trip.stops.map(stop => ({
         ...stop,
-        metersToStop: nearestPointOnLine(trip.shapes, point([stop.location[1], stop.location[0]]), { units: 'meters' }).properties.location! - vehicleDistance
+        metersToStop: nearestPointOnLine(shapes, point([stop.location[1], stop.location[0]]), { units: 'meters' }).properties.location! - vehicleDistance
     }));
 
     let tripStart = Date.now() - stops[0].arrival;

@@ -23,7 +23,7 @@ const Arrow = styled(ArrowDropUp)((props: { arrowcolor: string }) => ({
 }));
 
 export default ({ stop, city, onClick }: { stop: Stop, city: City, onClick?: () => void }) => {
-    let colors = stop.type?.map(type => Color(type, city)) || [Color("bus", city)];
+    let colors = stop.type?.map(type => Color(type, city)) || [Color(3, city)];
 
     return <Marker
         latitude={stop.location[0]}
@@ -33,7 +33,7 @@ export default ({ stop, city, onClick }: { stop: Stop, city: City, onClick?: () 
         style={{ cursor: "pointer", display: "grid", placeItems: "center", zIndex: 5 }}
         onClick={onClick}
     >
-        {stop.deg?.map((deg, i) => <div style={{ transform: `rotate(${deg}deg)`, display: "flex", position: "absolute" }} key={stop.id + i}><Arrow arrowcolor={colors[0]} /></div>)}
+        {stop.bearing?.map((bearing, i) => <div style={{ transform: `rotate(${bearing}deg)`, display: "flex", position: "absolute" }} key={stop.id + i}><Arrow arrowcolor={colors[0]} /></div>)}
         <StopMarker colors={colors} />
     </Marker>;
 };

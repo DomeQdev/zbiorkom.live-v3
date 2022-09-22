@@ -31,7 +31,7 @@ export default ({ city }: { city: City }) => {
     const [vehicle, setVehicle] = useState<Vehicle>();
 
     useEffect(() => {
-        const socket = io("https://api.zbiorkom.live/", {
+        const socket = io("https://transitapi.me/", {
             reconnection: true,
             reconnectionAttempts: 5,
             timeout: 15000,
@@ -73,8 +73,8 @@ export default ({ city }: { city: City }) => {
     const veh = searchParams.get("vehicle");
     useEffect(() => {
         if (!veh || !vehicles.length) return setVehicle(undefined);
-        let [type, tab] = veh.split("/");
-        let v = vehicles.find(x => x.type === type && x.tab === tab.replace(/\s/g, "+"));
+        let [type, id] = veh.split("/");
+        let v = vehicles.find(x => x.type === Number(type) && x.id === id.replace(/\s/g, "+"));
 
         if (v) setVehicle(v);
         else {
@@ -99,7 +99,7 @@ export default ({ city }: { city: City }) => {
         {!vehicles.length && <Backdrop />}
         <Suspense>
             {(zoom >= 15 && !vehicle && !stop) && stops.filter(stop => bounds?.contains({ lat: stop.location[0], lon: stop.location[1] })).map(stop => <StopMarker key={stop.id} stop={stop} city={city} onClick={() => navigate(`?stop=${stop.id}`)} />)}
-            {(zoom >= 14 && !vehicle && !stop) && vehicles.filter(veh => bounds?.contains({ lat: veh._location[1], lon: veh._location[0] })).map(veh => <VehicleMarker key={veh.type + veh.tab} vehicle={veh} city={city} mapBearing={bearing || 0} onClick={() => navigate(`?vehicle=${veh.type}/${veh.tab}`)} />)}
+            {(zoom >= 14 && !vehicle && !stop) && vehicles.filter(veh => bounds?.contains({ lat: veh.location[0], lon: veh.location[1] })).map(veh => <VehicleMarker key={veh.type + veh.id} vehicle={veh} city={city} mapBearing={bearing || 0} onClick={() => navigate(`?vehicle=${veh.type}/${veh.id}`)} />)}
             {vehicle && <MapVehicle city={city} vehicle={vehicle} mapBearing={bearing || 0} />}
             {stop && <MapStop city={city} stop={stop} vehicles={vehicles} />}
         </Suspense>

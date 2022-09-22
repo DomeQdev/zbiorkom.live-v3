@@ -1,76 +1,63 @@
 import { MapboxGeoJSONLineString } from "mapbox-gl";
 import cities from "../util/cities.json";
 
-type VehicleType = "bus" | "tram" | "metro" | "skm" | "km" | "train" | "ferry" | "trolley" | "unknown";
+type VehicleType = 0 | 1 | 2 | 3 | 4 | 11;
 type City = keyof typeof cities;
 
 interface Vehicle {
-    brigade: string,
-    deg: number,
-    lastPing: number,
-    line: string,
-    location: [number, number],
-    _location: [number, number],
-    tab: string,
-    trip?: string,
+    route: string,
+    id: string,
     type: VehicleType,
-    headsign?: string,
+    location: [number, number],
+    brigade: string,
+    lastPing: number,
+    bearing: number,
+    trip: string,
     delay?: number,
-    isSpecial?: string,
-    isEco?: boolean,
     isPredicted?: boolean
 }
 
 interface Trip {
-    color: string,
-    text: string,
-    headsign: string,
+    error?: string,
     id: string,
-    line: string,
-    shapes: MapboxGeoJSONLineString,
-    stops: TripStop[],
-    error?: string
+    headsign: string,
+    shortName?: string,
+    shapes: [[number, number]],
+    stops: TripStop[]
 }
 
 interface TripStop {
     id: string,
     arrival: number,
-    realArrival: number,
     departure: number,
-    realDeparture: number,
+    metersToStop: number,
     location: [number, number],
     name: string,
     on_request: boolean,
     distance: number,
-    metersToStop: number,
+    index: number,
     sequence: number,
     platform?: string
 }
 
 interface Departure {
-    line: string,
+    route: string,
+    type: VehicleType,
     headsign: string,
-    color: string,
-    text: string,
     delay: number,
-    status: "REALTIME" | "SCHEDULED",
+    status: "REALTIME" | "SCHEDULED" | "CANCELLED",
+    isLastStop?: boolean,
     realTime: number,
     scheduledTime: number,
     platform?: string,
-    trip: string,
-    type: VehicleType
+    trip: string
 }
 
 interface StopDepartures {
     name: string,
     code: string,
     type?: VehicleType[],
-    location: [number, number],
-    lines: {
-        line: string,
-        color: string,
-        text: string
-    }[],
+    routes: [string, VehicleType][],
     alert?: {
         type: "error" | "warning" | "info" | "success",
         text: string,
@@ -79,21 +66,19 @@ interface StopDepartures {
     departures: Departure[]
 }
 
-interface Route {
-    color: string,
-    text: string,
-    line: string,
-    name: string,
-    type: VehicleType
+interface RouteType {
+    type: VehicleType,
+    routes: {
+        id: string,
+        name: string
+    }[]
 }
 
 interface Stop {
     id: string,
-    name: string,
-    code?: string,
+    bearing: number[],
     location: [number, number],
-    deg?: number[],
-    type: VehicleType[]
+    type: VehicleType[],
 }
 
 interface BrigadeSchedule {
@@ -109,16 +94,12 @@ interface BrigadeSchedule {
 interface Alert {
     id: string,
     title: string,
-    routes: {
-        route: string,
-        type: VehicleType
-    }[],
-    effect: "IMPEDIMENT" | "CHANGE",
-    from?: number,
-    to?: number,
-    published?: number,
-    link?: string,
-    body?: string
+    description?: string,
+    url?: string,
+    routes?: string[],
+    start?: number,
+    end?: number,
+    impediment: boolean
 }
 
 interface BikeStation {
@@ -129,4 +110,4 @@ interface BikeStation {
     bikes: number
 }
 
-export { VehicleType, City, Trip, TripStop, Vehicle, Departure, StopDepartures, Route, Stop, BrigadeSchedule, Trip, Alert, BikeStation };
+export { VehicleType, City, Trip, TripStop, Vehicle, Departure, StopDepartures, RouteType, Stop, BrigadeSchedule, Trip, Alert, BikeStation };
