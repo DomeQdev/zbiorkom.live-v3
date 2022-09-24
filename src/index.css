@@ -10,12 +10,12 @@ body {
   margin: 0;
 }
 
-* {
-  font-family: Roboto, "Helvetica Neue", sans-serif!important;
-}
-
 button {
   color: black;
+}
+
+* {
+  font-family: Roboto, "Helvetica Neue", sans-serif!important;
 }
 
 [data-rsbs-header] {

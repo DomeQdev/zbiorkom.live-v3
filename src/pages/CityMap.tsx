@@ -33,6 +33,7 @@ export default ({ city }: { city: City }) => {
     const [vehicle, setVehicle] = useState<Vehicle>();
 
     const [filter, setFilter] = useState<FilterData>({ routes: [], types: [] });
+    const filterEnabled = filter.routes.length || filter.types.length;
     const filteredVehicles = !vehicle && !stop ? vehicles.filter(vehicle => (!filter.routes.length || filter.routes.includes(vehicle.route)) && (!filter.types.length || filter.types.includes(vehicle.type))).filter(veh => bounds?.contains({ lat: veh.location[0], lon: veh.location[1] })) : [];
 
     useEffect(() => {
@@ -104,13 +105,13 @@ export default ({ city }: { city: City }) => {
         {!vehicles.length && <Backdrop />}
         <Suspense>
             {(zoom >= 15 && !vehicle && !stop) && stops.filter(stop => bounds?.contains({ lat: stop.location[0], lon: stop.location[1] })).map(stop => <StopMarker key={stop.id} stop={stop} city={city} onClick={() => navigate(`?stop=${stop.id}`)} />)}
-            {((zoom >= 14 || filteredVehicles.length < 75) && !vehicle && !stop) && filteredVehicles.map(veh => <VehicleMarker key={veh.type + veh.id} vehicle={veh} city={city} mapBearing={bearing || 0} onClick={() => navigate(`?vehicle=${veh.type}/${veh.id}`)} />)}
+            {((zoom >= 14 || (filterEnabled && filteredVehicles.length < 75)) && !vehicle && !stop) && filteredVehicles.map(veh => <VehicleMarker key={veh.type + veh.id} vehicle={veh} city={city} mapBearing={bearing || 0} onClick={() => navigate(`?vehicle=${veh.type}/${veh.id}`)} />)}
             {vehicle && <MapVehicle city={city} vehicle={vehicle} mapBearing={bearing || 0} />}
             {stop && <MapStop city={city} stop={stop} vehicles={vehicles} />}
         </Suspense>
         <div className="mapboxgl-ctrl-top-right" style={{ top: 135 }}>
             <div className="mapboxgl-ctrl mapboxgl-ctrl-group">
-                <button onClick={() => filter.routes.length || filter.types.length ? setFilter({ routes: [], types: [] }) : navigate(".", { state: "filter" })} style={{ backgroundColor: filter.routes.length || filter.types.length ? "#5aa159" : "white" }}><FilterList sx={{ fontSize: 19, marginTop: "3px" }} /></button>
+                <button onClick={() => filterEnabled ? setFilter({ routes: [], types: [] }) : navigate(".", { state: "filter" })} style={{ backgroundColor: filterEnabled ? "#5aa159" : "white" }}><FilterList sx={{ fontSize: 19, marginTop: "3px" }} /></button>
                 <button><Search sx={{ fontSize: 19, marginTop: "3px" }} /></button>
                 <button><Star sx={{ fontSize: 19, marginTop: "3px" }} /></button>
             </div>
