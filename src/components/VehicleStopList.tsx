@@ -36,7 +36,7 @@ export default ({ trip, realtime, type, city, scrolled, setScrolled, stopFollowi
             <ListItemText
                 sx={{ opacity: realtime.snIndex > i ? 0.6 : 1, }}
                 primary={<Typography noWrap>{stop.on_request && <PanTool sx={{ width: 15, height: 15 }} />} {stop.name}</Typography>}
-                secondary={<><span style={{ textDecoration: Math.floor(realtime.delay / 60000) ? "line-through" : "" }}>{new Date(stop.departure).toLocaleTimeString("pl", { hour12: false, hour: "2-digit", minute: "2-digit" })}</span> {!!Math.floor(realtime.delay / 60000) && new Date(stop.departure + realtime.delay).toLocaleTimeString("pl", { hour12: false, hour: "2-digit", minute: "2-digit" })}{stop.platform && <> · Peron <b>{stop.platform}</b></>}</>}
+                secondary={<><span style={{ textDecoration: Math.round(realtime.delay / 60000) ? "line-through" : "" }}>{new Date(stop.departure).toLocaleTimeString("pl", { hour12: false, hour: "2-digit", minute: "2-digit" })}</span> {!!Math.round(realtime.delay / 60000) && new Date(stop.departure + realtime.delay).toLocaleTimeString("pl", { hour12: false, hour: "2-digit", minute: "2-digit" })}{stop.platform && <> · Peron <b>{stop.platform}</b></>}</>}
             />
             <ListItemText
                 sx={{ textAlign: "right" }}
