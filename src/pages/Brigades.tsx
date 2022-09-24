@@ -48,13 +48,17 @@ export default ({ city }: { city: City }) => {
                     borderRadius: 25,
                     color: "white",
                     backgroundColor: Color(type.type, city),
+                    ":hover": {
+                        color: "white",
+                        backgroundColor: Color(type.type, city)
+                    }
                 }}
                 onClick={() => {
                     setSelectedBrigades(null);
                     navigate(".", { state: route.id });
                 }}
             >{route.name}</Button>)}
-        </Box>) : <Grid container justifyContent="center">{new Array(30).fill(null).map((_, i) => <Skeleton key={`1_${i}`} variant="rounded" width={100} height={40} sx={{ margin: "3px", borderRadius: "15px" }} />)}</Grid>}
+        </Box>) : <Grid container justifyContent="center">{new Array(30).fill(null).map((_, i) => <Skeleton key={`1_${i}`} variant="rounded" width={64} height={30} sx={{ margin: "4.8px", borderRadius: "15px" }} />)}</Grid>}
 
         <Dialog
             open={!!state}

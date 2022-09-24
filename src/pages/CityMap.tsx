@@ -1,12 +1,12 @@
 import { useEffect, useState, lazy } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import { useMap } from "react-map-gl";
 import { io } from "socket.io-client";
 import { Button } from "@mui/material";
 import { FilterList, PortableWifiOff, Search, Star } from "@mui/icons-material";
 import { Backdrop, Suspense } from '../components/Suspense';
-import { City, Stop, Vehicle } from "../util/typings";
+import { City, FilterData, Stop, Vehicle } from "../util/typings";
 import { getData } from "../util/api";
 import cities from "../util/cities.json";
 
@@ -14,9 +14,11 @@ const StopMarker = lazy(() => import("../components/StopMarker"));
 const MapStop = lazy(() => import("./MapStop"));
 const VehicleMarker = lazy(() => import("../components/VehicleMarker"));
 const MapVehicle = lazy(() => import("./MapVehicle"));
+const Filter = lazy(() => import("./Filter"));
 
 export default ({ city }: { city: City }) => {
     const [searchParams] = useSearchParams();
+    const { state } = useLocation();
     const { current: map } = useMap();
     const navigate = useNavigate();
     const cityData = cities[city];
@@ -29,6 +31,9 @@ export default ({ city }: { city: City }) => {
     const [stop, setStop] = useState<Stop>();
     const [vehicles, setVehicles] = useState<Vehicle[]>([]);
     const [vehicle, setVehicle] = useState<Vehicle>();
+
+    const [filter, setFilter] = useState<FilterData>({ routes: [], types: [] });
+    const filteredVehicles = !vehicle && !stop ? vehicles.filter(vehicle => (!filter.routes.length || filter.routes.includes(vehicle.route)) && (!filter.types.length || filter.types.includes(vehicle.type))).filter(veh => bounds?.contains({ lat: veh.location[0], lon: veh.location[1] })) : [];
 
     useEffect(() => {
         const socket = io("https://transitapi.me/", {
@@ -99,16 +104,17 @@ export default ({ city }: { city: City }) => {
         {!vehicles.length && <Backdrop />}
         <Suspense>
             {(zoom >= 15 && !vehicle && !stop) && stops.filter(stop => bounds?.contains({ lat: stop.location[0], lon: stop.location[1] })).map(stop => <StopMarker key={stop.id} stop={stop} city={city} onClick={() => navigate(`?stop=${stop.id}`)} />)}
-            {(zoom >= 14 && !vehicle && !stop) && vehicles.filter(veh => bounds?.contains({ lat: veh.location[0], lon: veh.location[1] })).map(veh => <VehicleMarker key={veh.type + veh.id} vehicle={veh} city={city} mapBearing={bearing || 0} onClick={() => navigate(`?vehicle=${veh.type}/${veh.id}`)} />)}
+            {((zoom >= 14 || filteredVehicles.length < 75) && !vehicle && !stop) && filteredVehicles.map(veh => <VehicleMarker key={veh.type + veh.id} vehicle={veh} city={city} mapBearing={bearing || 0} onClick={() => navigate(`?vehicle=${veh.type}/${veh.id}`)} />)}
             {vehicle && <MapVehicle city={city} vehicle={vehicle} mapBearing={bearing || 0} />}
             {stop && <MapStop city={city} stop={stop} vehicles={vehicles} />}
         </Suspense>
         <div className="mapboxgl-ctrl-top-right" style={{ top: 135 }}>
             <div className="mapboxgl-ctrl mapboxgl-ctrl-group">
-                <button><FilterList sx={{ fontSize: 19, marginTop: "3px" }} /></button>
+                <button onClick={() => filter.routes.length || filter.types.length ? setFilter({ routes: [], types: [] }) : navigate(".", { state: "filter" })} style={{ backgroundColor: filter.routes.length || filter.types.length ? "#5aa159" : "white" }}><FilterList sx={{ fontSize: 19, marginTop: "3px" }} /></button>
                 <button><Search sx={{ fontSize: 19, marginTop: "3px" }} /></button>
                 <button><Star sx={{ fontSize: 19, marginTop: "3px" }} /></button>
             </div>
         </div>
+        {state === "filter" && <Suspense><Filter city={city} filter={filter} setFilter={setFilter} onClose={() => navigate(".", { state: "", replace: true })} /></Suspense>}
     </>;
 };

@@ -110,4 +110,9 @@ interface BikeStation {
     bikes: number
 }
 
-export { VehicleType, City, Trip, TripStop, Vehicle, Departure, StopDepartures, RouteType, Stop, BrigadeSchedule, Trip, Alert, BikeStation };
+interface FilterData {
+    routes: string[],
+    types: VehicleType[],
+}
+
+export { VehicleType, City, Trip, TripStop, Vehicle, Departure, StopDepartures, RouteType, Stop, BrigadeSchedule, Trip, Alert, BikeStation, FilterData };
