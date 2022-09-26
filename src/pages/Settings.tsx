@@ -1,66 +1,38 @@
-import { lazy, useState } from "react";
-import { useMap } from "react-map-gl";
-import { Style } from "mapbox-gl";
-import { Suspense } from "../components/Suspense";
-import { Button, FormControl, FormLabel, FormControlLabel, RadioGroup, Radio, Box } from "@mui/material";
-import mapStyles from "../util/mapStyles.json";
-import TempDrawer from "../components/TempDrawer";
+import { List, ListItemButton, ListItemIcon, ListItemText, Divider } from "@mui/material";
+import { City } from "../util/typings";
+import { Route, Routes, useNavigate } from "react-router-dom";
+import { DarkMode, LightMode, LocationCity, Map, NavigateNext } from "@mui/icons-material";
+import isDark from "../util/isDark";
 
-const Question = lazy(() => import("../components/Question"));
+export default ({ city }: { city: City }) => {
+    const navigate = useNavigate();
+    const darkMode = isDark();
 
-export default ({ open, onClose }: { open: boolean, onClose: () => void }) => {
-    const { current: map } = useMap();
-    const [mapStyle, setMapStyle] = useState<keyof typeof mapStyles>(localStorage.getItem("mapstyle") as keyof typeof mapStyles || "ms");
-    const [mapNotSupported, setMapNotSupported] = useState<keyof typeof mapStyles | null>();
-
-    return <>
-        <TempDrawer
-            open={open}
-            onClose={onClose}
-            padding
-        >
-            <FormControl>
-                <FormLabel sx={{ fontSize: 20 }}>Wybierz styl mapy:</FormLabel>
-                <RadioGroup
-                    value={mapStyle}
-                    onChange={({ target }) => {
-                        let val = target.value as keyof typeof mapStyles;
-                        let style = mapStyles[val];
-                        //@ts-ignore
-                        if (style.notMapbox) return setMapNotSupported(val);
-                        setMapStyle(val);
-                    }}
-                >
-                    {Object.values(mapStyles).map(({ name, id }) => <FormControlLabel key={id} value={id} control={<Radio />} label={name} />)}
-                </RadioGroup>
-            </FormControl>
-            <Box sx={{ display: "flex", justifyContent: "space-between", marginTop: 2 }}>
-                <Button variant="contained" sx={{ width: "49%" }} onClick={() => {
-                    localStorage.setItem("mapstyle", mapStyle);
-                    let style = mapStyles[mapStyle];
-
-                    map?.getMap().setStyle(style.style as string | Style);
-                    onClose();
-                }}>Zapisz</Button>
-                <Button variant="outlined" sx={{ width: "49%" }} color="inherit" onClick={onClose}>Anuluj</Button>
-            </Box>
-        </TempDrawer>
-        {mapNotSupported && <Suspense><Question
-            title={`Czy na pewno chcesz użyć ${mapStyles[mapNotSupported].name}?`}
-            message={`Jest to nieoficjalna wersja mapy, która nie wspiera obracania i częściowo przybliżania. Przy jej użyciu zalecane jest używanie przycisków kontroli przybliżenia w prawym górnym rogu.`}
-            options={[
-                {
-                    name: "Tak",
-                    onClick: () => {
-                        setMapStyle(mapNotSupported);
-                        setMapNotSupported(null);
-                    }
-                },
-                {
-                    name: "Nie",
-                    onClick: () => setMapNotSupported(null)
-                }
-            ]}
-        /></Suspense>}
-    </>;
+    return <Routes>
+        <Route path="*" element={<>
+            <h1 style={{ fontWeight: "normal", textAlign: "center" }}>Ustawienia</h1>
+            <List sx={{ width: "90%", mx: "auto" }}>
+                <ListItemButton onClick={() => {
+                    localStorage.setItem("theme", darkMode ? "light" : "dark");
+                    window.location.reload();
+                }}>
+                    <ListItemIcon>{darkMode ? <LightMode /> : <DarkMode />}</ListItemIcon>
+                    <ListItemText primary={`Zmień motyw na ${darkMode ? "jasny" : "ciemny"}`} />
+                    <NavigateNext />
+                </ListItemButton>
+                <Divider />
+                <ListItemButton onClick={() => navigate("/city")}>
+                    <ListItemIcon><LocationCity /></ListItemIcon>
+                    <ListItemText primary="Zmiana miasta" />
+                    <NavigateNext />
+                </ListItemButton>
+                <Divider />
+                <ListItemButton onClick={() => navigate("map")}>
+                    <ListItemIcon><Map /></ListItemIcon>
+                    <ListItemText primary="Styl mapy" />
+                    <NavigateNext />
+                </ListItemButton>
+            </List>
+        </>} />
+    </Routes>;
 };

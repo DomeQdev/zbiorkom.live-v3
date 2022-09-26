@@ -1,29 +1,26 @@
 import { lazy, useEffect } from 'react';
-import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import { AppBar, Toolbar, IconButton, Typography, CssBaseline, Box } from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import { DarkMode, DirectionsBus, LightMode, Settings } from "@mui/icons-material";
+import { DirectionsBus } from "@mui/icons-material";
 import { Toaster } from 'react-hot-toast';
 import { Suspense } from './components/Suspense';
 import { City } from './util/typings';
 import cities from "./util/cities.json";
 import isDark from './util/isDark';
 
-const IndexMobile = lazy(() => import("./pages/IndexMobile"));
-const IndexDesktop = lazy(() => import("./pages/IndexDesktop"));
+const Index = lazy(() => import("./pages/Index"));
 const CityMap = lazy(() => import("./pages/CityMap"));
 const Alerts = lazy(() => import("./pages/Alerts"));
 const Brigades = lazy(() => import("./pages/Brigades"));
 const Brigade = lazy(() => import("./pages/Brigade"));
 const StopDepartures = lazy(() => import("./pages/StopDepartures"));
 const Error = lazy(() => import("./pages/Error"));
-const SettingsPage = lazy(() => import("./pages/Settings"));
 const Map = lazy(() => import("./components/Map"));
-const DetectDevice = lazy(() => import("./components/DetectDevice"));
+const Settings = lazy(() => import("./pages/Settings"));
 
 export default () => {
   const navigate = useNavigate();
-  const { state, pathname } = useLocation();
   const darkMode = isDark();
 
   const theme = createTheme({
@@ -71,14 +68,7 @@ export default () => {
           {Object.keys(cities).map((city) => <Route key={city} path={`${city}/*`} element={<Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1, cursor: "pointer" }} onClick={() => navigate(`/${city}`)}>{cities[city as City].name}</Typography>} />)}
           <Route path="*" element={<Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1, cursor: "pointer" }} onClick={() => navigate("/")}>zbiorkom.live</Typography>} />
         </Routes>
-        <Box>
-          <IconButton href="https://discord.gg/QYRswCH6Gw" target="_blank"><img src="/img/discord.png" alt="discord logo" width="24" height="18" /></IconButton>
-          <IconButton onClick={() => {
-            localStorage.setItem("theme", darkMode ? "light" : "dark");
-            window.location.reload();
-          }}>{darkMode ? <LightMode sx={{ fill: "white" }} /> : <DarkMode sx={{ fill: "white" }} />}</IconButton>
-          <IconButton edge="end" onClick={() => navigate(pathname, { state: "settings" })}><Settings sx={{ fill: "white" }} /></IconButton>
-        </Box>
+        <Box></Box>
       </Toolbar>
     </AppBar>
     <Routes>
@@ -88,7 +78,7 @@ export default () => {
         let cityData = cities[name];
 
         return <Route path={city} key={city}>
-          <Route index element={<Suspense><DetectDevice desktop={<IndexDesktop city={name} />} mobile={<IndexMobile city={name} />} /></Suspense>} />
+          <Route index element={<Suspense><Index city={name} /></Suspense>} />
           <Route path="map" element={<Suspense><Map city={name} style={{ position: "absolute" }}><CityMap city={name} /></Map></Suspense>} />
           {cityData.api.stops && <>
             <Route path="stops" element={<></>} />
@@ -110,7 +100,8 @@ export default () => {
             <Route path="alerts" element={<Suspense><Alerts city={name} /></Suspense>} />
             <Route path="alert/:alertId" element={<></>} />
           </>}
-        </Route>
+          <Route path="settings/*" element={<Settings city={name} />} />
+        </Route>;
       })}
       <Route path="*" element={<Suspense><Error text={"404"} message={"Nie znaleziono strony"} /></Suspense>} />
     </Routes>
@@ -118,7 +109,6 @@ export default () => {
       position="top-center"
       reverseOrder={false}
     />
-    <Suspense><SettingsPage open={state === "settings"} onClose={() => navigate(pathname, { state: null, replace: true })} /></Suspense>
   </ThemeProvider>;
 };
 

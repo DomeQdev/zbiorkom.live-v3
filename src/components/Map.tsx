@@ -1,6 +1,6 @@
 import Map, { GeolocateControl, GeolocateControlRef, NavigationControl } from 'react-map-gl';
+import { LngLatBounds, Style } from 'mapbox-gl';
 import { useRef } from 'react';
-import { Style } from 'mapbox-gl';
 import { City } from '../util/typings';
 import cities from "../util/cities.json";
 import mapStyles from "../util/mapStyles.json";
@@ -19,15 +19,33 @@ export default ({ city, location, style, children }: { city: City, location?: [n
         }}
         minZoom={2}
         maxPitch={0}
-        maxBounds={[{ lat: cities[city].bounds[0][0], lng: cities[city].bounds[0][1] }, { lat: cities[city].bounds[1][0], lng: cities[city].bounds[1][1] }]}
         mapStyle={mapStyles[mapStyle].style as string | Style}
         mapboxAccessToken="pk.eyJ1IjoiZG9tZXEiLCJhIjoiY2t6c2JnZnp5MDExMzJ4bWlpMjcwaDR0dCJ9.v2ONdyf7WN70xFwUOyUuXQ"
         attributionControl={false}
         style={style}
-        onLoad={() => !window.location.search && geolocateControlRef.current?.trigger()}
+        onLoad={({ target }) => {
+            if (window.location.search || !navigator.geolocation) return;
+            navigator.geolocation.getCurrentPosition((pos) => {
+                let bounds = cities[city].bounds;
+                if (!new LngLatBounds([bounds[0][1], bounds[0][0]], [bounds[1][1], bounds[1][0]]).contains([pos.coords.longitude, pos.coords.latitude])) return;
+                target.flyTo({
+                    center: [pos.coords.longitude, pos.coords.latitude],
+                    zoom: 15,
+                    duration: 0
+                });
+                geolocateControlRef.current?.trigger();
+            });
+        }}
     >
         <NavigationControl visualizePitch />
-        <GeolocateControl trackUserLocation showUserHeading showUserLocation positionOptions={{ enableHighAccuracy: true }} fitBoundsOptions={{ animate: false, zoom: 15 }} ref={geolocateControlRef} />
+        <GeolocateControl
+            trackUserLocation
+            showUserHeading
+            showUserLocation
+            positionOptions={{ enableHighAccuracy: true }}
+            fitBoundsOptions={{ animate: false, zoom: 15 }}
+            ref={geolocateControlRef}
+        />
         {children}
     </Map>
 };

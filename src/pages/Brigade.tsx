@@ -3,7 +3,6 @@ import { useParams } from "react-router-dom";
 import { List, ListItemButton, ListItemText, Divider, Button, Typography, Box, Skeleton, ListItem } from "@mui/material";
 import { ArrowBack } from "@mui/icons-material";
 import { toast } from "react-hot-toast";
-import { Backdrop } from "../components/Suspense";
 import { BrigadeSchedule, City } from "../util/typings";
 import { getData } from "../util/api";
 

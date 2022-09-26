@@ -1,5 +1,5 @@
-import { ArrowDropDown, ArrowDropUp, Close, RestartAlt, Search } from "@mui/icons-material";
-import { Box, IconButton, InputAdornment, List, ListItem, ListItemAvatar, ListItemText, Skeleton, TextField, ToggleButton, Typography } from "@mui/material";
+import { ArrowDropDown, ArrowDropUp, Close, NoTransfer, RestartAlt, Search } from "@mui/icons-material";
+import { Badge, Box, IconButton, InputAdornment, List, ListItem, ListItemAvatar, ListItemText, Skeleton, TextField, ToggleButton, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { BottomSheet } from "react-spring-bottom-sheet";
 import { Color, Name, Icon } from "../components/Icons";
@@ -10,11 +10,11 @@ import toast from "react-hot-toast";
 export default ({ city, filter, setFilter, onClose }: { city: City, filter: FilterData, setFilter: (filterData: FilterData) => void, onClose: () => void }) => {
     const [routes, setRoutes] = useState<RouteType[]>();
     const [selectedType, setSelectedType] = useState<VehicleType>();
-    const [search, setSearch] = useState<string>("40");
+    const [search, setSearch] = useState<string>("");
     const searchResults = routes?.map(r => r.routes.map(route => ({ ...route, type: r.type }))).flat().filter(route => route.name.replace(/[^\w]/gi, "").toLowerCase().includes(search.replace(/[^\w]/gi, "").toLowerCase()));
 
     useEffect(() => {
-        setSearch("");
+        setSearch(" ");
         setSelectedType(undefined);
         getData("routes", city).then(setRoutes).catch(() => {
             toast.error("Nie mogliśmy pobrać linii...");
@@ -87,11 +87,16 @@ export default ({ city, filter, setFilter, onClose }: { city: City, filter: Filt
                     <Icon type={result.type} />&nbsp;{result.name}
                 </ToggleButton>)}
             </Box> : <div style={{ textAlign: "center" }}>
-                Nie znaleziono linii...
+                <NoTransfer color="primary" sx={{ width: 60, height: 60, marginTop: 1 }} /><br />
+                <b style={{ fontSize: 17 }}>Nie znaleziono żadnych wyników.</b>
             </div> : <List>
                 {routes.map(type => <ListItem
                     key={type.type}
-                    secondaryAction={<IconButton edge="end" onClick={() => setSelectedType(selectedType === type.type ? undefined : type.type)}>{selectedType === type.type ? <ArrowDropUp /> : <ArrowDropDown />}</IconButton>}
+                    secondaryAction={<IconButton edge="end" onClick={() => setSelectedType(selectedType === type.type ? undefined : type.type)}>
+                        <Badge variant="dot" color="primary" invisible={!routes.find(r => r.type === type.type)?.routes.find(r => filter.routes.includes(r.id))}>
+                            {selectedType === type.type ? <ArrowDropUp /> : <ArrowDropDown />}
+                        </Badge>
+                    </IconButton>}
                 >
                     <ListItemAvatar>
                         <ToggleButton
@@ -109,10 +114,10 @@ export default ({ city, filter, setFilter, onClose }: { city: City, filter: Filt
                                 }
                             }}
                             onClick={() => setFilter(filter.types?.includes(type.type) ? {
-                                ...filter,
+                                routes: [...new Set(filter.routes.filter(r => searchResults?.find(d => d.id === r)!.type !== type.type))],
                                 types: filter.types.filter(t => t !== type.type)
                             } : {
-                                ...filter,
+                                routes: [...new Set(filter.routes.filter(r => searchResults?.find(d => d.id === r)!.type !== type.type))],
                                 types: [...filter.types, type.type]
                             })}
                         ><Icon type={type.type} /></ToggleButton>
