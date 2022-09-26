@@ -1,16 +1,21 @@
-import { ArrowDropDown, Close, RestartAlt, Search } from "@mui/icons-material";
-import { IconButton, InputAdornment, List, ListItem, ListItemAvatar, ListItemText, Skeleton, TextField, ToggleButton, Typography } from "@mui/material";
+import { ArrowDropDown, ArrowDropUp, Close, RestartAlt, Search } from "@mui/icons-material";
+import { Box, IconButton, InputAdornment, List, ListItem, ListItemAvatar, ListItemText, Skeleton, TextField, ToggleButton, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { BottomSheet } from "react-spring-bottom-sheet";
 import { Color, Name, Icon } from "../components/Icons";
-import { City, FilterData, RouteType } from "../util/typings";
+import { City, FilterData, RouteType, VehicleType } from "../util/typings";
 import { getData } from "../util/api";
 import toast from "react-hot-toast";
 
 export default ({ city, filter, setFilter, onClose }: { city: City, filter: FilterData, setFilter: (filterData: FilterData) => void, onClose: () => void }) => {
     const [routes, setRoutes] = useState<RouteType[]>();
+    const [selectedType, setSelectedType] = useState<VehicleType>();
+    const [search, setSearch] = useState<string>("40");
+    const searchResults = routes?.map(r => r.routes.map(route => ({ ...route, type: r.type }))).flat().filter(route => route.name.replace(/[^\w]/gi, "").toLowerCase().includes(search.replace(/[^\w]/gi, "").toLowerCase()));
 
     useEffect(() => {
+        setSearch("");
+        setSelectedType(undefined);
         getData("routes", city).then(setRoutes).catch(() => {
             toast.error("Nie mogliśmy pobrać linii...");
             return onClose();
@@ -38,17 +43,56 @@ export default ({ city, filter, setFilter, onClose }: { city: City, filter: Filt
                 size="small"
                 placeholder="Wyszukaj linie..."
                 autoComplete="off"
-                sx={{
-                    marginTop: 1.2,
-                    width: "96%",
-                    mx: "2%"
-                }}
+                value={search}
+                onChange={e => setSearch(e.target.value)}
+                sx={{ marginTop: 1.2, width: "96%", mx: "2%" }}
                 InputProps={{
                     startAdornment: <InputAdornment position="start"><Search /></InputAdornment>,
                 }}
             />
-            <List>
-                {routes.map(type => <ListItem key={type.type} secondaryAction={<IconButton edge="end"><ArrowDropDown /></IconButton>}>
+            {search ? searchResults?.length ? <Box sx={{ marginTop: 1.2, width: "96%", mx: "2%", textAlign: "center" }}>
+                {searchResults.map(result => <ToggleButton
+                    value={result.id}
+                    key={result.id}
+                    selected={!filter.routes.length || filter.routes.includes(result.id)}
+                    onClick={() => setFilter({
+                        routes: filter.routes.includes(result.id) ? filter.routes.filter(r => r !== result.id) : [...filter.routes, result.id],
+                        types: filter.routes.includes(result.id) ? [...new Set(filter.routes.filter(r => r !== result.id).map(r => searchResults.find(d => d.id === r)!.type))] : [...new Set([...filter.types, result.type])]
+                    })}
+                    sx={{
+                        borderRadius: 15,
+                        padding: "0 10px",
+                        margin: 0.3,
+                        color: Color(result.type, city),
+                        border: `2px solid ${Color(result.type, city)}`,
+                        fill: Color(result.type, city),
+                        backgroundColor: "white",
+                        ":hover": {
+                            backgroundColor: "white",
+                            color: Color(result.type, city),
+                            fill: Color(result.type, city),
+                        },
+                        "&.Mui-selected": {
+                            backgroundColor: Color(result.type, city),
+                            color: "white",
+                            fill: "white"
+                        },
+                        "&.Mui-selected:hover": {
+                            backgroundColor: Color(result.type, city),
+                            color: "white",
+                            fill: "white"
+                        }
+                    }}
+                >
+                    <Icon type={result.type} />&nbsp;{result.name}
+                </ToggleButton>)}
+            </Box> : <div style={{ textAlign: "center" }}>
+                Nie znaleziono linii...
+            </div> : <List>
+                {routes.map(type => <ListItem
+                    key={type.type}
+                    secondaryAction={<IconButton edge="end" onClick={() => setSelectedType(selectedType === type.type ? undefined : type.type)}>{selectedType === type.type ? <ArrowDropUp /> : <ArrowDropDown />}</IconButton>}
+                >
                     <ListItemAvatar>
                         <ToggleButton
                             size="small"
@@ -75,9 +119,23 @@ export default ({ city, filter, setFilter, onClose }: { city: City, filter: Filt
                     </ListItemAvatar>
                     <ListItemText
                         primary={Name(type.type)}
+                        sx={{ cursor: "pointer" }}
+                        onClick={() => setSelectedType(selectedType === type.type ? undefined : type.type)}
+                    />
+                </ListItem>)}
+            </List>}
+        </> : <>
+            <Skeleton variant="rectangular" height={40} sx={{ width: "96%", mx: "2%", marginTop: 1.2, borderRadius: 1 }} />
+            <List>
+                {[1, 2, 3, 4].map(i => <ListItem key={i} secondaryAction={<Skeleton variant="circular" width={24} height={24} />}>
+                    <ListItemAvatar>
+                        <Skeleton variant="rectangular" width={40} height={40} sx={{ borderRadius: 1 }} />
+                    </ListItemAvatar>
+                    <ListItemText
+                        primary={<Skeleton variant="text" width={100} />}
                     />
                 </ListItem>)}
             </List>
-        </> : <Skeleton variant="rectangular" height={100} />}
+        </>}
     </BottomSheet>;
 };

@@ -22,7 +22,7 @@ const VehicleMarker = styled.span((props: {
     border: `2px solid ${props.color}`,
     fill: props.color,
     backgroundColor: props.backgroundColor,
-    opacity: props.opacity,
+    opacity: props.opacity
 }));
 
 export default ({ vehicle, city, mapBearing, onClick }: { vehicle: Vehicle, city: City, mapBearing: number, onClick?: () => void }) => {

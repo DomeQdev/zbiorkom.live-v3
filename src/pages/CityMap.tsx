@@ -5,8 +5,9 @@ import { useMap } from "react-map-gl";
 import { io } from "socket.io-client";
 import { Button } from "@mui/material";
 import { FilterList, PortableWifiOff, Search, Star } from "@mui/icons-material";
-import { Backdrop, Suspense } from '../components/Suspense';
+import { bbox, featureCollection, point } from "@turf/turf";
 import { City, FilterData, Stop, Vehicle } from "../util/typings";
+import { Backdrop, Suspense } from "../components/Suspense";
 import { getData } from "../util/api";
 import cities from "../util/cities.json";
 
@@ -104,7 +105,7 @@ export default ({ city }: { city: City }) => {
     return <>
         {!vehicles.length && <Backdrop />}
         <Suspense>
-            {(zoom >= 15 && !vehicle && !stop) && stops.filter(stop => bounds?.contains({ lat: stop.location[0], lon: stop.location[1] })).map(stop => <StopMarker key={stop.id} stop={stop} city={city} onClick={() => navigate(`?stop=${stop.id}`)} />)}
+            {(zoom >= 15 && !vehicle && !stop) && stops.filter(stop => !filter.types.length || filter.types.find(s => stop.type.includes(s))).filter(stop => bounds?.contains({ lat: stop.location[0], lon: stop.location[1] })).map(stop => <StopMarker key={stop.id} stop={stop} city={city} onClick={() => navigate(`?stop=${stop.id}`)} />)}
             {((zoom >= 14 || (filterEnabled && filteredVehicles.length < 75)) && !vehicle && !stop) && filteredVehicles.map(veh => <VehicleMarker key={veh.type + veh.id} vehicle={veh} city={city} mapBearing={bearing || 0} onClick={() => navigate(`?vehicle=${veh.type}/${veh.id}`)} />)}
             {vehicle && <MapVehicle city={city} vehicle={vehicle} mapBearing={bearing || 0} />}
             {stop && <MapStop city={city} stop={stop} vehicles={vehicles} />}
@@ -116,6 +117,16 @@ export default ({ city }: { city: City }) => {
                 <button><Star sx={{ fontSize: 19, marginTop: "3px" }} /></button>
             </div>
         </div>
-        {state === "filter" && <Suspense><Filter city={city} filter={filter} setFilter={setFilter} onClose={() => navigate(".", { state: "", replace: true })} /></Suspense>}
+        {state === "filter" && <Suspense><Filter city={city} filter={filter} setFilter={setFilter} onClose={() => {
+            navigate(".", { state: "", replace: true });
+            let filtered = vehicles.filter(vehicle => (!filter.routes.length || filter.routes.includes(vehicle.route)) && (!filter.types.length || filter.types.includes(vehicle.type)));
+            if (filterEnabled && filtered.length < 75) {
+                if (filtered.length) {
+                    const [minLng, minLat, maxLng, maxLat] = bbox(featureCollection(filtered.map(veh => point(veh.location))));
+                    map?.fitBounds([[minLat, minLng], [maxLat, maxLng]], { duration: 0, padding: 30 });
+                    toast.success(`Znaleziono ${filtered.length} pojazdów.`);
+                } else toast.error("Nie znaleziono żadnych pojazdów.");
+            }
+        }} /></Suspense>}
     </>;
 };

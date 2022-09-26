@@ -28,21 +28,8 @@ export const onRequestGet = async () => {
             id: parking.parkingId,
             name: info?.name,
             location: [info?.location.latitude, info?.location.longitude],
-            totalPlaces: {
-                all: null,
-                disabled: null,
-                standard: null,
-                electric: null
-            },
-            freePlaces: {
-                all: parking.availableSpots,
-                disabled: null,
-                standard: null,
-                electric: null
-            },
-            allowedVehicles: [],
-            contact: null
-        }
+            freePlaces: parking.availableSpots
+        };
     })), {
         headers: {
             "Content-Type": "application/json",

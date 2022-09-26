@@ -6,7 +6,7 @@
             52.22983098654226,
             21.011738084722143
         ],
-        "bounds": [[51.703,19.550], [53.468,22.011]],
+        "bounds": [[50.865,19.979], [53.432,21.929]],
         "api": {
             "trip": "https://transitapi.me/warsaw/trip?trip={{trip}}",
             "vehicle": "https://transitapi.me/warsaw/vehicle?vehicle={{type}}/{{tab}}",
@@ -35,7 +35,7 @@
             52.4027541284412,
             16.91244334781004
         ],
-        "bounds": [[52.15166197, 16.481194], [52.58722581, 17.2769318451]],
+        "bounds": [[52.2740,16.6168], [52.5496,17.1414]],
         "api": {
             "trip": "https://transitapi.me/poznan/trip?trip={{trip}}",
             "vehicle": "https://transitapi.me/poznan/vehicle?vehicle={{tab}}",
@@ -61,10 +61,10 @@
             53.42500,
             14.55099
         ],
-        "bounds": [[53.2455, 14.3619], [53.6023, 14.8755]],
+        "bounds": [[53.2562,14.3330], [53.5966,14.9153]],
         "api": {
             "trip": "https://transitapi.me/szczecin/trip?trip={{trip}}",
-            "vehicle": "https://transitapi.me/szczecin/vehicle?vehicle={{tab}}",
+            "vehicle": null,
             "stops": "https://transitapi.me/szczecin/stops",
             "stop": "https://transitapi.me/szczecin/stopDepartures?stop={{stop}}",
             "routes": "https://transitapi.me/szczecin/routes",
@@ -87,13 +87,13 @@
             54.34610966679864,
             18.644629872390432
         ],
-        "bounds": [[17.8989619361,54.166898714],[19.3711299049,54.7827254949]],
+        "bounds": [[54.0287,18.3636],[54.8766,18.7701]],
         "api": {
-            "trip": "/api/trojmiasto/trip?trip={{trip}}",
+            "trip": null,
             "vehicle": "/api/trojmiasto/vehicle?tab={{tab}}&type={{type}}",
-            "stops": "/api/trojmiasto/stops",
-            "stop": "/api/trojmiasto/stopDepartures?id={{stop}}",
-            "routes": "/api/trojmiasto/routes",
+            "stops": null,
+            "stop": null,
+            "routes": null,
             "brigades": null,
             "brigade": null,
             "bikes": null,
@@ -114,7 +114,7 @@
             -34.92158,
             138.59941
         ],
-        "bounds": [[-35.4036,138.2932], [-34.3582,139.1199]],
+        "bounds": [[-35.339223, 138.445316], [-34.571043, 139.036087]],
         "api": {
             "trip": "https://transitapi.me/adelaide/trip?trip={{trip}}",
             "vehicle": null,

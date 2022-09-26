@@ -61,16 +61,9 @@ export const onRequestGet = async ({ request }) => {
     if (vehicleData.zapowiedzi_glosowe === "tak") features.push("zapowiedzi głosowe");
 
     return new Response(JSON.stringify({
-        tab: vehicleData.nr_inwentarzowy,
-        type: vehicleData.rodzaj_pojazdu === "Autobus" ? "bus" : "tram",
-        photo: vehicleData.foto !== "no-foto" ? `https://files.cloudgdansk.pl/f/otwarte-dane/ztm/baza-pojazdow/${vehicleData.foto}.jpg` : null,
         model: `${vehicleData.marka} ${vehicleData.model}`,
         prodYear: vehicleData.rok_produkcji,
         carrier: vehicleData.operator_przewoznik,
-        doors: Number(vehicleData.drzwi_pasazerskie),
-        seats: Number(vehicleData.liczba_miejsc_siedzacych),
-        length: `${vehicleData.dlugosc}m`,
-        bikes: Number(vehicleData.mocowanie_rowerow),
         features
     }), {
         headers: {

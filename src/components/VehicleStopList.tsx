@@ -40,7 +40,7 @@ export default ({ trip, realtime, type, city, scrolled, setScrolled, stopFollowi
             />
             <ListItemText
                 sx={{ textAlign: "right" }}
-                primary={realtime.snIndex <= i && <><b>{minutesUntil(stop.departure + realtime.delay)}</b> min</>}
+                primary={realtime.snIndex <= i && <><b>{minutesUntil(stop.departure + (realtime.delay || 0))}</b> min</>}
             />
         </ListItemButton>).reduce((prev, curr, i) => [prev, <Divider key={`divi-${i}`} />, curr])}
     </List>;
