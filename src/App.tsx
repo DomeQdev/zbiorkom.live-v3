@@ -16,8 +16,9 @@ const Brigades = lazy(() => import("./pages/Brigades"));
 const Brigade = lazy(() => import("./pages/Brigade"));
 const StopDepartures = lazy(() => import("./pages/StopDepartures"));
 const Error = lazy(() => import("./pages/Error"));
-const Map = lazy(() => import("./components/Map"));
+const CitySelection = lazy(() => import("./pages/CitySelection"));
 const Settings = lazy(() => import("./pages/Settings"));
+const Map = lazy(() => import("./components/Map"));
 
 export default () => {
   const navigate = useNavigate();
@@ -73,6 +74,7 @@ export default () => {
     </AppBar>
     <Routes>
       <Route index element={<CityPicker />} />
+      <Route path="city" element={<Suspense><CitySelection /></Suspense>} />
       {Object.keys(cities).map((city) => {
         let name = city as City;
         let cityData = cities[name];
@@ -100,7 +102,7 @@ export default () => {
             <Route path="alerts" element={<Suspense><Alerts city={name} /></Suspense>} />
             <Route path="alert/:alertId" element={<></>} />
           </>}
-          <Route path="settings/*" element={<Settings city={name} />} />
+          <Route path="settings/*" element={<Suspense><Settings city={name} /></Suspense>} />
         </Route>;
       })}
       <Route path="*" element={<Suspense><Error text={"404"} message={"Nie znaleziono strony"} /></Suspense>} />

@@ -3,7 +3,7 @@ import { LngLatBounds, Style } from 'mapbox-gl';
 import { useRef } from 'react';
 import { City } from '../util/typings';
 import cities from "../util/cities.json";
-import mapStyles from "../util/mapStyles.json";
+import mapStyles from "../util/styles.json";
 import 'mapbox-gl/dist/mapbox-gl.css';
 
 export default ({ city, location, style, children }: { city: City, location?: [number, number], style?: React.CSSProperties, children?: JSX.Element | JSX.Element[] }) => {
