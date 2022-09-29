@@ -22,7 +22,7 @@ interface Trip {
     id: string,
     headsign: string,
     shortName?: string,
-    shapes: [[number, number]],
+    shapes: [number, number][],
     stops: TripStop[]
 }
 
@@ -81,6 +81,20 @@ interface Stop {
     type: VehicleType[],
 }
 
+interface StopGroup {
+    name: string,
+    location: [number, number],
+    distance?: number,
+    bearing?: number
+}
+
+interface StopInGroup {
+    id: string,
+    name: string,
+    type: VehicleType[],
+    routes: string[]
+}
+
 interface BrigadeSchedule {
     trip: string,
     headsign: string,
@@ -115,4 +129,4 @@ interface FilterData {
     types: VehicleType[],
 }
 
-export { VehicleType, City, Trip, TripStop, Vehicle, Departure, StopDepartures, RouteType, Stop, BrigadeSchedule, Trip, Alert, BikeStation, FilterData };
+export { VehicleType, City, Trip, TripStop, Vehicle, Departure, StopDepartures, RouteType, Stop, StopGroup, StopInGroup, BrigadeSchedule, Trip, Alert, BikeStation, FilterData };

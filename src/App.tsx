@@ -15,6 +15,7 @@ const Alerts = lazy(() => import("./pages/Alerts"));
 const Brigades = lazy(() => import("./pages/Brigades"));
 const Brigade = lazy(() => import("./pages/Brigade"));
 const StopDepartures = lazy(() => import("./pages/StopDepartures"));
+const StopSearch = lazy(() => import("./pages/StopSearch"));
 const Error = lazy(() => import("./pages/Error"));
 const CitySelection = lazy(() => import("./pages/CitySelection"));
 const Settings = lazy(() => import("./pages/Settings"));
@@ -83,7 +84,7 @@ export default () => {
           <Route index element={<Suspense><Index city={name} /></Suspense>} />
           <Route path="map" element={<Suspense><Map city={name} style={{ position: "absolute" }}><CityMap city={name} /></Map></Suspense>} />
           {cityData.api.stops && <>
-            <Route path="stops" element={<></>} />
+            <Route path="stops" element={<Suspense><StopSearch city={name} /></Suspense>} />
             <Route path="stop/:stopId" element={<Suspense><StopDepartures city={name} /></Suspense>} />
           </>}
           {cityData.api.brigades && <>
