@@ -4,7 +4,7 @@ import { TransitionGroup } from "react-transition-group";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { City, StopGroup, StopInGroup } from "../util/typings";
-import { Icon } from "../components/Icons";
+import { Color, Icon } from "../components/Icons";
 import { getData } from "../util/api";
 import toast from "react-hot-toast";
 
@@ -28,9 +28,8 @@ export default ({ city }: { city: City }) => {
     }, []);
 
     useEffect(() => {
-        setGroupStops(undefined);
         if (!state || !stopGroups?.length) return navigate("", { state: undefined, replace: true });
-        setTimeout(() => getData("stopGroup", city, { name: state }).then(data => {
+        getData("stopGroup", city, { name: state }).then(data => {
             if (!data.length) {
                 navigate(".", { state: undefined, replace: true });
                 return toast.error(`Nie mogliśmy załadować przystanków w tej grupie.`);
@@ -40,7 +39,7 @@ export default ({ city }: { city: City }) => {
         }).catch(() => {
             navigate("", { state: undefined, replace: true });
             toast.error(`Błąd.`);
-        }), 2000);
+        });
     }, [state]);
 
     useEffect(() => {
@@ -109,12 +108,15 @@ export default ({ city }: { city: City }) => {
 
         <Dialog
             open={!!state}
-            onClose={() => navigate("", { state: undefined, replace: true })}
+            onClose={() => {
+                navigate("", { state: undefined, replace: true });
+                setGroupStops(undefined);
+            }}
             fullWidth
         >
             {groupStops ? <List>
                 {groupStops.map(stop => <ListItemButton key={stop.id} onClick={() => navigate(`../stop/${stop.id}`)}>
-                    <ListItemAvatar><Avatar><Icon type={stop.type[0]} /></Avatar></ListItemAvatar>
+                    <ListItemAvatar><Avatar sx={{ bgcolor: Color(stop.type[0], city) }}><Icon type={stop.type[0]} /></Avatar></ListItemAvatar>
                     <ListItemText
                         primary={stop.name}
                         secondary={`${stop.routes.slice(0, 7).join(", ")}${stop.routes.length > 7 ? ", ..." : ""}`}
@@ -140,5 +142,11 @@ export default ({ city }: { city: City }) => {
                 borderRadius: "15px"
             }}
         />
+
+        {new Array(10).fill(null).map((_, i) => <ListItem key={`s-${i}`}>
+            <ListItemText 
+                primary={<Skeleton width={150} />}
+            />
+        </ListItem>)}
     </>;
 };
