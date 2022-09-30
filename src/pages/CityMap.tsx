@@ -30,12 +30,12 @@ export default ({ city }: { city: City }) => {
 
     const [stops, setStops] = useState<Stop[]>([]);
     const [stop, setStop] = useState<Stop>();
-    const [vehicles, setVehicles] = useState<Vehicle[]>([]);
+    const [vehicles, setVehicles] = useState<Vehicle[]>();
     const [vehicle, setVehicle] = useState<Vehicle>();
 
     const [filter, setFilter] = useState<FilterData>({ routes: [], types: [] });
     const filterEnabled = filter.routes.length || filter.types.length;
-    const filteredVehicles = !vehicle && !stop ? vehicles.filter(vehicle => (!filter.routes.length || filter.routes.includes(vehicle.route)) && (!filter.types.length || filter.types.includes(vehicle.type))).filter(veh => bounds?.contains({ lat: veh.location[0], lon: veh.location[1] })) : [];
+    const filteredVehicles = !vehicle && !stop && vehicles ? vehicles.filter(vehicle => (!filter.routes.length || filter.routes.includes(vehicle.route)) && (!filter.types.length || filter.types.includes(vehicle.type))).filter(veh => bounds?.contains({ lat: veh.location[0], lon: veh.location[1] })) : [];
 
     useEffect(() => {
         const socket = io("https://transitapi.me/", {
@@ -79,9 +79,9 @@ export default ({ city }: { city: City }) => {
 
     const veh = searchParams.get("vehicle");
     useEffect(() => {
-        if (!veh || !vehicles.length) return setVehicle(undefined);
+        if (!veh || !vehicles?.length) return setVehicle(undefined);
         let [type, id] = veh.split("/");
-        let v = vehicles.find(x => x.type === Number(type) && x.id === id.replace(/\s/g, "+"));
+        let v = vehicles?.find(x => x.type === Number(type) && x.id === id.replace(/\s/g, "+"));
 
         if (v) setVehicle(v);
         else {
@@ -103,12 +103,12 @@ export default ({ city }: { city: City }) => {
     }, [st, stops]);
 
     return <>
-        {!vehicles.length && <Backdrop />}
+        {!vehicles && <Backdrop />}
         <Suspense>
             {(zoom >= 15 && !vehicle && !stop) && stops.filter(stop => !filter.types.length || filter.types.find(s => stop.type.includes(s))).filter(stop => bounds?.contains({ lat: stop.location[0], lon: stop.location[1] })).map(stop => <StopMarker key={stop.id} stop={stop} city={city} onClick={() => navigate(`?stop=${stop.id}`)} />)}
             {((zoom >= 14 || (filterEnabled && filteredVehicles.length < 75)) && !vehicle && !stop) && filteredVehicles.map(veh => <VehicleMarker key={veh.type + veh.id} vehicle={veh} city={city} mapBearing={bearing || 0} onClick={() => navigate(`?vehicle=${veh.type}/${veh.id}`)} />)}
             {vehicle && <MapVehicle city={city} vehicle={vehicle} mapBearing={bearing || 0} />}
-            {stop && <MapStop city={city} stop={stop} vehicles={vehicles} />}
+            {stop && <MapStop city={city} stop={stop} vehicles={vehicles || []} />}
         </Suspense>
         <div className="mapboxgl-ctrl-top-right" style={{ top: 135 }}>
             <div className="mapboxgl-ctrl mapboxgl-ctrl-group">
@@ -119,7 +119,7 @@ export default ({ city }: { city: City }) => {
         </div>
         {state === "filter" && <Suspense><Filter city={city} filter={filter} setFilter={setFilter} onClose={() => {
             navigate(".", { state: "", replace: true });
-            let filtered = vehicles.filter(vehicle => (!filter.routes.length || filter.routes.includes(vehicle.route)) && (!filter.types.length || filter.types.includes(vehicle.type)));
+            let filtered = vehicles?.filter(vehicle => (!filter.routes.length || filter.routes.includes(vehicle.route)) && (!filter.types.length || filter.types.includes(vehicle.type))) || [];
             if (filterEnabled && filtered.length < 75) {
                 if (filtered.length) {
                     const [minLng, minLat, maxLng, maxLat] = bbox(featureCollection(filtered.map(veh => point(veh.location))));
