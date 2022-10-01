@@ -101,7 +101,7 @@ export default ({ city }: { city: City }) => {
                     {nearestGroups?.slice(0, 15).map((group) => <Collapse key={`0-${group.name}`}>
                         <ListItemButton component={Link} to="." state={group.name} disableRipple>
                             <ListItemText primary={group.name} />
-                            <Typography sx={{ alignItems: "center", display: "flex", color: "#cfd8dc" }} variant="body2">
+                            <Typography sx={{ alignItems: "center", display: "flex" }} variant="body2">
                                 {Math.round(group.distance || 0)} m
                                 <ArrowUpward sx={{ transform: `rotate(${group.bearing}deg)`, marginLeft: 0.5 }} color="primary" />
                             </Typography>
