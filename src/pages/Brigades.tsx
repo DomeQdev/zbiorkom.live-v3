@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import { Dialog, DialogTitle, DialogContent, ToggleButton, IconButton, Slide, Skeleton, Grid, Box, Divider, Button } from "@mui/material";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Dialog, DialogTitle, DialogContent, IconButton, Slide, Skeleton, Grid, Box, Divider, Button } from "@mui/material";
 import { Close } from "@mui/icons-material";
 import { toast } from "react-hot-toast";
 import { City, RouteType } from "../util/typings";
@@ -21,7 +21,7 @@ export default ({ city }: { city: City }) => {
     }, []);
 
     useEffect(() => {
-        if (!state) return setSelectedBrigades(null);
+        setSelectedBrigades(null);
         getData("brigades", city, {
             line: state
         }).then(setSelectedBrigades).catch(() => {
@@ -53,10 +53,9 @@ export default ({ city }: { city: City }) => {
                         backgroundColor: Color(type.type, city)
                     }
                 }}
-                onClick={() => {
-                    setSelectedBrigades(null);
-                    navigate(".", { state: route.id });
-                }}
+                component={Link}
+                to="."
+                state={route.id}
             >{route.name}</Button>)}
         </Box>) : <Grid container justifyContent="center">{new Array(30).fill(null).map((_, i) => <Skeleton key={`1_${i}`} variant="rounded" width={64} height={30} sx={{ margin: "4.8px", borderRadius: "15px" }} />)}</Grid>}
 
@@ -70,12 +69,13 @@ export default ({ city }: { city: City }) => {
             <DialogTitle style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}><span>Wybierz brygadę dla linii <b>{state as string}</b></span><IconButton onClick={() => navigate(".", { state: null, replace: true })}><Close /></IconButton></DialogTitle>
             <DialogContent dividers>
                 <Box sx={{ textAlign: "center" }}>
-                    {selectedBrigades ? selectedBrigades.length ? selectedBrigades.map(brigade => <ToggleButton
-                        value={brigade}
+                    {selectedBrigades ? selectedBrigades.length ? selectedBrigades.map(brigade => <Button
                         key={brigade}
-                        onClick={() => navigate(`../brigade/${state}/${brigade}`)}
+                        component={Link}
+                        variant="outlined"
+                        to={`../brigade/${state}/${brigade}`}
                         sx={{ width: 70, height: 40, fontSize: 18, margin: 0.5 }}
-                    >{brigade}</ToggleButton>) : <h4>Nie mogliśmy znaleźć rozkładu dla tej linii...</h4> : <Grid container justifyContent="center">{new Array(20).fill(null).map((_, i) => <Skeleton key={`1_${i}`} variant="rounded" width={70} height={40} sx={{ margin: 0.5 }} />)}</Grid>}
+                    >{brigade}</Button>) : <h4>Nie mogliśmy znaleźć rozkładu dla tej linii...</h4> : <Grid container justifyContent="center">{new Array(20).fill(null).map((_, i) => <Skeleton key={`1_${i}`} variant="rounded" width={70} height={40} sx={{ margin: 0.5 }} />)}</Grid>}
                 </Box>
             </DialogContent>
         </Dialog>

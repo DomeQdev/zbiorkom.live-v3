@@ -2,7 +2,7 @@ import { AppBar, IconButton, InputAdornment, List, ListItemButton, ListItemText,
 import { ArrowBack, ArrowUpward, HighlightOff } from "@mui/icons-material";
 import { TransitionGroup } from "react-transition-group";
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, Link } from "react-router-dom";
 import { City, StopGroup, StopInGroup } from "../util/typings";
 import { Color, Icon } from "../components/Icons";
 import { getData } from "../util/api";
@@ -16,6 +16,7 @@ export default ({ city }: { city: City }) => {
     const [nearestGroups, setNearestGroups] = useState<StopGroup[]>();
     const [userLocation, setUserLocation] = useState<GeolocationPosition>();
     const [groupStops, setGroupStops] = useState<StopInGroup[]>();
+    const [search, setSearch] = useState<StopGroup[]>();
 
     useEffect(() => {
         getData("stopGroups", city).then(setStopGroups).catch(() => {
@@ -43,24 +44,29 @@ export default ({ city }: { city: City }) => {
     }, [state]);
 
     useEffect(() => {
-        if (userLocation && stopGroups) setNearestGroups(stopGroups.map(group => ({
+        if (!userLocation || !stopGroups?.length) return;
+        let filtered = stopGroups.filter(group => !input || group.name.toLowerCase().replace(/[^\w]/gi, "").includes(input.toLowerCase().replace(/[^\w]/gi, "")));
+        setNearestGroups(filtered.map(group => ({
             ...group,
             distance: Math.sqrt(
                 Math.pow(group.location[0] - userLocation.coords.latitude, 2) +
                 Math.pow(group.location[1] - userLocation.coords.longitude, 2)
             ) * 111000,
-            bearing: Math.atan2(
-                group.location[1] - userLocation.coords.longitude,
-                group.location[0] - userLocation.coords.latitude
-            ) * 180 / Math.PI
+            bearing: calcBearing(group.location, [userLocation.coords.latitude, userLocation.coords.longitude])
         })).filter(x => x.distance < 2000).sort((a, b) => a.distance - b.distance));
-    }, [userLocation]);
+    }, [userLocation, input]);
+
+    useEffect(() => {
+        if (!input || !stopGroups?.length) return setSearch(undefined);
+        let filtered = stopGroups.filter(group => group.name.toLowerCase().replace(/[^\w]/gi, "").includes(input.toLowerCase().replace(/[^\w]/gi, "")));
+        setSearch(filtered);
+    }, [input]);
 
     return stopGroups ? <>
         <AppBar position="sticky" elevation={0}>
             <Toolbar>
                 <TextField
-                    placeholder="soon"
+                    placeholder="Wyszukaj przystanek..."
                     variant="outlined"
                     fullWidth
                     autoFocus
@@ -75,7 +81,7 @@ export default ({ city }: { city: City }) => {
                     autoComplete="off"
                     InputProps={{
                         startAdornment: <InputAdornment position="start">
-                            <IconButton color="inherit" onClick={() => navigate("../", { replace: true })}>
+                            <IconButton color="inherit" component={Link} to="../" replace>
                                 <ArrowBack />
                             </IconButton>
                         </InputAdornment>,
@@ -85,16 +91,15 @@ export default ({ city }: { city: City }) => {
                             </IconButton>
                         </InputAdornment>
                     }}
-                    disabled
                 />
             </Toolbar>
         </AppBar>
 
-        <Slide direction="up" in={!!nearestGroups?.length}>
-            {nearestGroups?.length ? <List subheader={<ListSubheader disableSticky>Najbliższe przystanki</ListSubheader>}>
+        <Slide direction="down" in={!!nearestGroups?.length} mountOnEnter unmountOnExit>
+            <List subheader={<ListSubheader disableSticky>Najbliższe przystanki</ListSubheader>}>
                 <TransitionGroup>
-                    {nearestGroups.map((group, i) => <Collapse key={group.name}>
-                        <ListItemButton onClick={() => navigate(".", { state: group.name })} disableRipple>
+                    {nearestGroups?.slice(0, 15).map((group) => <Collapse key={`0-${group.name}`}>
+                        <ListItemButton component={Link} to="." state={group.name} disableRipple>
                             <ListItemText primary={group.name} />
                             <Typography sx={{ alignItems: "center", display: "flex", color: "#cfd8dc" }} variant="body2">
                                 {Math.round(group.distance || 0)} m
@@ -103,19 +108,32 @@ export default ({ city }: { city: City }) => {
                         </ListItemButton>
                     </Collapse>)}
                 </TransitionGroup>
-            </List> : <></>}
+            </List>
+        </Slide>
+
+        <Slide direction="up" in={!!search} mountOnEnter unmountOnExit>
+            <List subheader={<ListSubheader disableSticky>Wyniki wyszukiwania</ListSubheader>}>
+                {search?.length ? <TransitionGroup>
+                    {search.slice(0, 100).map((group) => <Collapse key={`1-${group.name}`}>
+                        <ListItemButton component={Link} to="." state={group.name} disableRipple>
+                            <ListItemText primary={group.name} />
+                        </ListItemButton>
+                    </Collapse>)}
+                </TransitionGroup> : <ListItem>Nie znaleziono takiego przystanku</ListItem>}
+            </List>
         </Slide>
 
         <Dialog
             open={!!state}
+            fullWidth
             onClose={() => {
                 navigate("", { state: undefined, replace: true });
                 setGroupStops(undefined);
             }}
-            fullWidth
+            sx={{ maxHeight: "80%", my: "auto" }}
         >
             {groupStops ? <List>
-                {groupStops.map(stop => <ListItemButton key={stop.id} onClick={() => navigate(`../stop/${stop.id}`)}>
+                {groupStops.map(stop => <ListItemButton key={stop.id} component={Link} to={`../stop/${stop.id}`}>
                     <ListItemAvatar><Avatar sx={{ bgcolor: Color(stop.type[0], city) }}><Icon type={stop.type[0]} /></Avatar></ListItemAvatar>
                     <ListItemText
                         primary={stop.name}
@@ -144,9 +162,15 @@ export default ({ city }: { city: City }) => {
         />
 
         {new Array(10).fill(null).map((_, i) => <ListItem key={`s-${i}`}>
-            <ListItemText 
+            <ListItemText
                 primary={<Skeleton width={150} />}
             />
         </ListItem>)}
     </>;
 };
+
+const calcBearing = (point1: [number, number], point2: [number, number]) => {
+    if (!point1 || !point2) return undefined;
+    let deg = (Math.atan2(point2[1] - point1[1], point2[0] - point1[0]) * 180) / Math.PI;
+    return Math.floor(deg < 0 ? deg + 360 : deg);
+}

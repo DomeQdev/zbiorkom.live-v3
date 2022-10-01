@@ -1,16 +1,15 @@
 import { List, ListItemAvatar, ListItemText, Avatar, ListItemButton, Divider, Button } from "@mui/material";
 import { Map, DepartureBoard, CalendarMonth, DirectionsBike, LocalParking, Error, Settings } from "@mui/icons-material";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { City } from "../util/typings";
 import cities from "../util/cities.json";
 
 export default ({ city }: { city: City }) => {
-    const navigate = useNavigate();
     const cityData = cities[city];
 
     return <div style={{ width: "100%", textAlign: "center" }}>
         <List>
-            <ListItemButton onClick={() => navigate("map")}>
+            <ListItemButton component={Link} to="map" >
                 <ListItemAvatar>
                     <Avatar>
                         <Map />
@@ -19,7 +18,7 @@ export default ({ city }: { city: City }) => {
                 <ListItemText primary="Mapa" />
             </ListItemButton>
             {cityData.api.stops && <><Divider />
-                <ListItemButton onClick={() => navigate("stops")}>
+                <ListItemButton component={Link} to="stops">
                     <ListItemAvatar>
                         <Avatar>
                             <DepartureBoard />
@@ -29,7 +28,7 @@ export default ({ city }: { city: City }) => {
                 </ListItemButton>
             </>}
             {cityData.api.brigades && <><Divider />
-                <ListItemButton onClick={() => navigate("brigades")}>
+                <ListItemButton component={Link} to="brigades">
                     <ListItemAvatar>
                         <Avatar>
                             <CalendarMonth />
@@ -39,7 +38,7 @@ export default ({ city }: { city: City }) => {
                 </ListItemButton>
             </>}
             {cityData.api.bikes && <><Divider />
-                <ListItemButton onClick={() => navigate("bikes")}>
+                <ListItemButton component={Link} to="bikes">
                     <ListItemAvatar>
                         <Avatar>
                             <DirectionsBike />
@@ -49,7 +48,7 @@ export default ({ city }: { city: City }) => {
                 </ListItemButton>
             </>}
             {cityData.api.parkings && <><Divider />
-                <ListItemButton onClick={() => navigate("parkings")}>
+                <ListItemButton component={Link} to="parkings">
                     <ListItemAvatar>
                         <Avatar>
                             <LocalParking />
@@ -59,7 +58,7 @@ export default ({ city }: { city: City }) => {
                 </ListItemButton>
             </>}
             {cityData.api.alerts && <><Divider />
-                <ListItemButton onClick={() => navigate("alerts")}>
+                <ListItemButton component={Link} to="alerts">
                     <ListItemAvatar>
                         <Avatar>
                             <Error />
@@ -69,7 +68,7 @@ export default ({ city }: { city: City }) => {
                 </ListItemButton>
             </>}
             <Divider />
-            <ListItemButton onClick={() => navigate("settings")}>
+            <ListItemButton component={Link} to="settings">
                 <ListItemAvatar>
                     <Avatar>
                         <Settings />

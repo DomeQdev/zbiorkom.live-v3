@@ -1,6 +1,6 @@
 {
   "name": "zbiorkom.live-v3",
-  "version": "v3.0.1 Szczęśliwe Bródnowskie Metro 🙄",
+  "version": "v3.0.1",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.10.0",

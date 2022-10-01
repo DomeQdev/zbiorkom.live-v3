@@ -1,21 +1,20 @@
 import { List, ListItemButton, ListItemIcon, ListItemText, Divider, Button, Box } from "@mui/material";
 import { ArrowBack, DarkMode, LightMode, LocationCity, Map, NavigateNext } from "@mui/icons-material";
-import { Route, Routes, useNavigate } from "react-router-dom";
-import { City } from "../util/typings";
-import isDark from "../util/isDark";
-import styles from "../util/styles.json";
-import toast from "react-hot-toast";
+import { Link, Route, Routes } from "react-router-dom";
 import { useState } from "react";
+import { City } from "../util/typings";
+import styles from "../util/styles.json";
+import isDark from "../util/isDark";
+import toast from "react-hot-toast";
 
 export default ({ city }: { city: City }) => {
     const [mapStyle, setMapStyle] = useState(localStorage.getItem("mapstyle") || "ms");
-    const navigate = useNavigate();
     const darkMode = isDark();
 
     return <Routes>
         <Route path="map" element={<Box sx={{ textAlign: "center" }}>
             <h1 style={{ fontWeight: "normal" }}>Zmiana stylu mapy</h1>
-            <Button variant="outlined" startIcon={<ArrowBack />} onClick={() => navigate(".", { replace: true })}>Wróć</Button>
+            <Button variant="outlined" startIcon={<ArrowBack />} component={Link} to=".." replace>Wróć</Button>
             <List sx={{ width: "90%", mx: "auto" }}>
                 {Object.values(styles).map(style => <ListItemButton key={style.id} disabled={mapStyle === style.id} onClick={() => {
                     setMapStyle(style.id);
@@ -40,15 +39,15 @@ export default ({ city }: { city: City }) => {
                     <NavigateNext />
                 </ListItemButton>
                 <Divider />
-                <ListItemButton onClick={() => navigate("/city")}>
+                <ListItemButton component={Link} to="/city">
                     <ListItemIcon><LocationCity /></ListItemIcon>
                     <ListItemText primary="Zmiana miasta" />
                     <NavigateNext />
                 </ListItemButton>
                 <Divider />
-                <ListItemButton onClick={() => navigate("map")}>
+                <ListItemButton component={Link} to="map">
                     <ListItemIcon><Map /></ListItemIcon>
-                    <ListItemText primary="Styl mapy" />
+                    <ListItemText primary="Zmiana stylu mapy" />
                     <NavigateNext />
                 </ListItemButton>
             </List>

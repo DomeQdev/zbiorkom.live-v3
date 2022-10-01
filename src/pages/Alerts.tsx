@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { List, Divider, ListItem, ListItemButton, ListItemText, Skeleton, Box, Badge } from "@mui/material";
 import { NavigateNext, TaskAlt } from "@mui/icons-material";
 import { toast } from "react-hot-toast";
@@ -7,10 +7,9 @@ import { Alert, City } from "../util/typings";
 import { getData } from "../util/api";
 
 export default ({ city }: { city: City }) => {
-    const navigate = useNavigate();
     const [alerts, setAlerts] = useState<Alert[]>();
 
-    const AlertCard = ({ alert }: { alert: Alert }) => <ListItemButton onClick={() => navigate(`../alert?alert=${alert.id}`)}>
+    const AlertCard = ({ alert }: { alert: Alert }) => <ListItemButton component={Link} to={`../alert?alert=${alert.id}`}>
         <ListItemText
             primary={<>{alert.impediment ? <Badge color="primary" badgeContent=" " variant="dot" sx={{ "& .MuiBadge-badge": { backgroundColor: "red" } }} anchorOrigin={{
                 vertical: 'top',

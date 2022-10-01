@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import { Alert, AppBar, Box, Button, IconButton, Menu, MenuItem, Skeleton, Toolbar, Typography } from "@mui/material";
 import { ArrowBack, Map, MoreVert, Star } from "@mui/icons-material";
 import { toast } from "react-hot-toast";
@@ -37,7 +37,7 @@ export default ({ city }: { city: City }) => {
     return <>
         <AppBar position="sticky">
             <Toolbar>
-                <IconButton edge="start" onClick={() => navigate("../stops", { replace: true })}><ArrowBack /></IconButton>
+                <IconButton edge="start" component={Link} to="../stops" replace><ArrowBack /></IconButton>
                 <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>{stopDepartures ? `${stopDepartures.name} ${stopDepartures.code || ""}` : <Skeleton variant="text" width={150} />}</Typography>
                 <IconButton edge="end" onClick={({ currentTarget }: { currentTarget: HTMLElement }) => setAnchorEl(anchorEl ? undefined : currentTarget)}><MoreVert /></IconButton>
             </Toolbar>
@@ -86,7 +86,7 @@ export default ({ city }: { city: City }) => {
             }}
         >
             <MenuItem><Star style={{ width: 20, height: 20 }} color="primary" />&nbsp;Dodaj do ulubionych</MenuItem>
-            <MenuItem onClick={() => navigate(`../map?stop=${stopId}`)}><Map style={{ width: 20, height: 20 }} color="primary" />&nbsp;Pokaż na mapie</MenuItem>
+            <MenuItem component={Link} to={`../map?stop=${stopId}`}><Map style={{ width: 20, height: 20 }} color="primary" />&nbsp;Pokaż na mapie</MenuItem>
         </Menu>
 
         {stopDepartures?.alert && <Alert severity={stopDepartures.alert.type} sx={{ cursor: stopDepartures.alert.link ? "pointer" : "" }} onClick={() => stopDepartures.alert?.link ? window.open(stopDepartures.alert!.link, "_blank") : null}>{stopDepartures.alert.text}</Alert>}
