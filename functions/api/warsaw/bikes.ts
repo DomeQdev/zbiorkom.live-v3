@@ -30,7 +30,7 @@ export const onRequestGet = async () => {
             place.name,
             [place.lat, place.lng],
             [place.name.includes("E-bike") ? null : place.bikes_available_to_rent, place.name.includes("E-bike") ? place.bikes_available_to_rent : null, place.free_racks]
-        ])))).flat(2)
+        ])))).flat(2).sort((a, b) => (a[1] as string).localeCompare(b[1] as string))
     ), {
         headers: {
             "Content-Type": "application/json",

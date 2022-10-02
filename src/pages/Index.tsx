@@ -3,6 +3,7 @@ import { Map, DepartureBoard, CalendarMonth, DirectionsBike, LocalParking, Error
 import { Link } from "react-router-dom";
 import { City } from "../util/typings";
 import cities from "../util/cities.json";
+import Advertisment from "../components/Advertisment";
 
 export default ({ city }: { city: City }) => {
     const cityData = cities[city];
@@ -78,5 +79,6 @@ export default ({ city }: { city: City }) => {
             </ListItemButton>
         </List>
         <Button variant="text" href="https://discord.gg/QYRswCH6Gw" target="_blank">Discord</Button>・<Button variant="text" disabled>Instagram 👀</Button>
+        <Advertisment style={{ height: "250px", width: "100%" }} type="multiplex" />
     </div>;
 };

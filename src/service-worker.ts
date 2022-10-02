@@ -20,8 +20,8 @@ registerRoute(({ url }) => url.origin === self.location.origin && url.pathname.i
     new StaleWhileRevalidate({
         cacheName: 'images',
         plugins: [
-            new ExpirationPlugin({ maxEntries: 50 })
-        ],
+            new ExpirationPlugin({ maxEntries: 75 })
+        ]
     })
 );
 
