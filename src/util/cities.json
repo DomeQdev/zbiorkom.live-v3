@@ -48,7 +48,7 @@
             "routes": "https://transitapi.me/poznan/routes",
             "brigades": "https://84a572bd-5b45-4285-899e-2e653a851bd4.transitapi.me/poznan/brigade?line={{line}}",
             "brigade": "https://84a572bd-5b45-4285-899e-2e653a851bd4.transitapi.me/poznan/brigade?line={{line}}&brigade={{brigade}}",
-            "bikes": null,
+            "bikes": "/api/poznan/bikes",
             "parkings": "/api/poznan/parkings",
             "alerts": null,
             "alert": null
