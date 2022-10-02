@@ -14,17 +14,18 @@ export default ({ city }: { city: City }) => {
     const [input, setInput] = useState("");
     const [stopGroups, setStopGroups] = useState<StopGroup[]>();
     const [nearestGroups, setNearestGroups] = useState<StopGroup[]>();
-    const [userLocation, setUserLocation] = useState<GeolocationPosition>();
-    const [groupStops, setGroupStops] = useState<StopInGroup[]>();
     const [search, setSearch] = useState<StopGroup[]>();
+    const [groupStops, setGroupStops] = useState<StopInGroup[]>();
+    const [userLocation, setUserLocation] = useState<GeolocationPosition>();
 
     useEffect(() => {
+        let id = navigator.geolocation.watchPosition(setUserLocation, console.error, { timeout: 10000 });
+
         getData("stopGroups", city).then(setStopGroups).catch(() => {
             navigate("../", { replace: true });
             toast.error(`Nie mogliśmy załadować przystanków.`);
         });
 
-        let id = navigator.geolocation.watchPosition(setUserLocation, console.error, { timeout: 10000 });
         return () => navigator.geolocation.clearWatch(id);
     }, []);
 
@@ -134,7 +135,11 @@ export default ({ city }: { city: City }) => {
         >
             {groupStops ? <List>
                 {groupStops.map(stop => <ListItemButton key={stop.id} component={Link} to={`../stop/${stop.id}`}>
-                    <ListItemAvatar><Avatar sx={{ bgcolor: Color(stop.type[0], city) }}><Icon type={stop.type[0]} /></Avatar></ListItemAvatar>
+                    <ListItemAvatar>
+                        <Avatar sx={{ bgcolor: Color(stop.type[0], city) }}>
+                            <Icon type={stop.type[0]} />
+                        </Avatar>
+                    </ListItemAvatar>
                     <ListItemText
                         primary={stop.name}
                         secondary={`${stop.routes.slice(0, 7).join(", ")}${stop.routes.length > 7 ? ", ..." : ""}`}

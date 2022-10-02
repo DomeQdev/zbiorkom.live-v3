@@ -125,7 +125,9 @@ type BikeStation = [
     id: string,
     name: string,
     location: [number, number],
-    racks: [number, number]
+    racks: [number | null, number | null, number],
+    distance?: number,
+    bearing?: number
 ];
 
 type Parking = [

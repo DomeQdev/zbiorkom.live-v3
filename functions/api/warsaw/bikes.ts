@@ -29,7 +29,7 @@ export const onRequestGet = async () => {
             String(place.number),
             place.name,
             [place.lat, place.lng],
-            [place.free_racks, place.bikes_available_to_rent]
+            [place.name.includes("E-bike") ? null : place.free_racks, place.name.includes("E-bike") ? place.free_racks : null, place.bikes_available_to_rent]
         ])))).flat(2)
     ), {
         headers: {

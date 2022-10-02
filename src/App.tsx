@@ -10,17 +10,18 @@ import cities from "./util/cities.json";
 import isDark from './util/isDark';
 import ErrorBoundary from './components/ErrorBoundary';
 
-const Index = lazy(() => import("./pages/Index"));
-const CityMap = lazy(() => import("./pages/CityMap"));
 const Alerts = lazy(() => import("./pages/Alerts"));
-const Brigades = lazy(() => import("./pages/Brigades"));
+const Bikes = lazy(() => import("./pages/Bikes"));
 const Brigade = lazy(() => import("./pages/Brigade"));
+const Brigades = lazy(() => import("./pages/Brigades"));
+const CityMap = lazy(() => import("./pages/CityMap"));
+const CitySelection = lazy(() => import("./pages/CitySelection"));
+const Error = lazy(() => import("./pages/Error"));
+const Index = lazy(() => import("./pages/Index"));
+const Map = lazy(() => import("./components/Map"));
 const StopDepartures = lazy(() => import("./pages/StopDepartures"));
 const StopSearch = lazy(() => import("./pages/StopSearch"));
-const Error = lazy(() => import("./pages/Error"));
-const CitySelection = lazy(() => import("./pages/CitySelection"));
 const Settings = lazy(() => import("./pages/Settings"));
-const Map = lazy(() => import("./components/Map"));
 
 export default () => {
   const darkMode = isDark();
@@ -92,17 +93,11 @@ export default () => {
               <Route path="brigades" element={<Suspense><Brigades city={name} /></Suspense>} />
               <Route path="brigade/:line/:brigade" element={<Suspense><Brigade city={name} /></Suspense>} />
             </>}
-            {cityData.api.bikes && <>
-              <Route path="bikes" element={<></>} />
-              <Route path="bike/:stationId" element={<></>} />
-            </>}
-            {cityData.api.parkings && <>
-              <Route path="parkings" element={<></>} />
-              <Route path="parking/:parkingId" element={<></>} />
-            </>}
+            {cityData.api.bikes && <Route path="bikes" element={<Suspense><Bikes city={name} /></Suspense>} />}
+            {cityData.api.parkings && <Route path="parkings" element={<></>} />}
             {cityData.api.alerts && <>
               <Route path="alerts" element={<Suspense><Alerts city={name} /></Suspense>} />
-              <Route path="alert/:alertId" element={<></>} />
+              <Route path="alert" element={<></>} />
             </>}
             <Route path="settings/*" element={<Suspense><Settings city={name} /></Suspense>} />
           </Route>;
