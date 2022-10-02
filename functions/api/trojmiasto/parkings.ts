@@ -24,12 +24,12 @@ export const onRequestGet = async () => {
 
     return new Response(JSON.stringify(parkingLots.map(parking => {
         let info = parkingList.find(x => x.id === parking.parkingId);
-        return {
-            id: parking.parkingId,
-            name: info?.name,
-            location: [info?.location.latitude, info?.location.longitude],
-            freePlaces: parking.availableSpots
-        };
+        return [
+            parking.parkingId,
+            info?.name,
+            [info?.location.latitude, info?.location.longitude],
+            parking.availableSpots
+        ];
     })), {
         headers: {
             "Content-Type": "application/json",

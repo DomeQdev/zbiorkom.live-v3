@@ -25,13 +25,12 @@ export const onRequestGet = async () => {
     if (!bikes) return new Response(JSON.stringify([]), { status: 404 });
 
     return new Response(JSON.stringify(
-        bikes.countries.map(country => country.cities.map(city => city.places.map(place => ({
-            location: [place.lat, place.lng],
-            name: place.name,
-            id: String(place.number),
-            freeRacks: place.free_racks,
-            bikes: place.bikes_available_to_rent
-        })))).flat(2)
+        bikes.countries.map(country => country.cities.map(city => city.places.map(place => ([
+            String(place.number),
+            place.name,
+            [place.lat, place.lng],
+            [place.free_racks, place.bikes_available_to_rent]
+        ])))).flat(2)
     ), {
         headers: {
             "Content-Type": "application/json",

@@ -4,7 +4,7 @@ import cities from "../util/cities.json";
 type VehicleType = 0 | 1 | 2 | 3 | 4 | 11;
 type City = keyof typeof cities;
 
-interface Vehicle {
+type Vehicle = {
     route: string,
     id: string,
     type: VehicleType,
@@ -15,18 +15,18 @@ interface Vehicle {
     trip: string,
     delay?: number,
     isPredicted?: boolean
-}
+};
 
-interface Trip {
+type Trip = {
     error?: string,
     id: string,
     headsign: string,
     shortName?: string,
     shapes: [number, number][],
     stops: TripStop[]
-}
+};
 
-interface TripStop {
+type TripStop = {
     id: string,
     arrival: number,
     departure: number,
@@ -38,9 +38,9 @@ interface TripStop {
     index: number,
     sequence: number,
     platform?: string
-}
+};
 
-interface Departure {
+type Departure = {
     route: string,
     type: VehicleType,
     headsign: string,
@@ -51,9 +51,9 @@ interface Departure {
     scheduledTime: number,
     platform?: string,
     trip: string
-}
+};
 
-interface StopDepartures {
+type StopDepartures = {
     name: string,
     code: string,
     type?: VehicleType[],
@@ -64,38 +64,38 @@ interface StopDepartures {
         link?: string
     },
     departures: Departure[]
-}
+};
 
-interface RouteType {
+type RouteType = {
     type: VehicleType,
     routes: {
         id: string,
         name: string
     }[]
-}
+};
 
-interface Stop {
+type Stop = {
     id: string,
     bearing: number[],
     location: [number, number],
     type: VehicleType[],
-}
+};
 
-interface StopGroup {
+type StopGroup = {
     name: string,
     location: [number, number],
     distance?: number,
     bearing?: number
-}
+};
 
-interface StopInGroup {
+type StopInGroup = {
     id: string,
     name: string,
     type: VehicleType[],
     routes: string[]
-}
+};
 
-interface BrigadeSchedule {
+type BrigadeSchedule = {
     trip: string,
     headsign: string,
     start: number,
@@ -103,9 +103,9 @@ interface BrigadeSchedule {
     end: number,
     realEnd?: number,
     firstStop: string
-}
+};
 
-interface Alert {
+type Alert = {
     id: string,
     title: string,
     description?: string,
@@ -114,19 +114,43 @@ interface Alert {
     start?: number,
     end?: number,
     impediment: boolean
-}
+};
 
-interface BikeStation {
-    location: [number, number],
-    name: string,
-    id: string,
-    freeRacks: number,
-    bikes: number
-}
-
-interface FilterData {
+type FilterData = {
     routes: string[],
     types: VehicleType[],
-}
+};
 
-export { VehicleType, City, Trip, TripStop, Vehicle, Departure, StopDepartures, RouteType, Stop, StopGroup, StopInGroup, BrigadeSchedule, Trip, Alert, BikeStation, FilterData };
+type BikeStation = [
+    id: string,
+    name: string,
+    location: [number, number],
+    racks: [number, number]
+];
+
+type Parking = [
+    id: string,
+    name: string,
+    location: [number, number],
+    spots: number
+];
+
+export {
+    VehicleType,
+    City,
+    Trip,
+    TripStop,
+    Vehicle,
+    Departure,
+    StopDepartures,
+    RouteType,
+    Stop,
+    StopGroup,
+    StopInGroup,
+    BrigadeSchedule,
+    Trip,
+    Alert,
+    FilterData,
+    BikeStation,
+    Parking
+};
