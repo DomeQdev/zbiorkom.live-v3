@@ -1,6 +1,6 @@
 import { lazy, useEffect } from 'react';
 import { Routes, Route, useNavigate, Link } from "react-router-dom";
-import { AppBar, Toolbar, IconButton, Typography, CssBaseline, Box } from '@mui/material';
+import { AppBar, Toolbar, IconButton, Typography, CssBaseline, Box, Dialog, DialogTitle, DialogActions, Button, DialogContent } from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { DirectionsBus } from "@mui/icons-material";
 import { Toaster } from 'react-hot-toast';
@@ -83,6 +83,17 @@ export default () => {
         <Box></Box>
       </Toolbar>
     </AppBar>
+    <Dialog open={!localStorage.getItem("seen_movement")}>
+      <DialogTitle>Nowa wersja aplikacji.</DialogTitle>
+      <DialogContent>Właśnie widzisz nową wersję aplikacji. Ta wersja ma większość funkcji starej wersji z wyjątkiem: dokładnych informacji o pojeździe, filtrowania po modelu pojazdu i zajezdni oraz oznaczeń specjalnych i ekologicznych pojazdów.<h3>Chcę używac:</h3></DialogContent>
+      <DialogActions>
+        <Button onClick={() => {
+          localStorage.setItem("seen_movement", "1");
+          window.location.reload();
+        }} variant="outlined">Nowej wersji (nie pokazuj ponownie)</Button>
+        <Button href="https://old.transitapi.me" onClick={() => alert("Jeśli nadal chcesz używać starej wersji, pamiętaj, że adres został zmieniony. Nowy adres starej wersji to 🔗 https://old.transitapi.me. Zostaniesz do niej teraz przekierowany.")}>Starej wersji (Nowy adres: old.transitapi.me)</Button>
+      </DialogActions>
+    </Dialog>
     <ErrorBoundary>
       <Routes>
         <Route index element={<CityPicker />} />

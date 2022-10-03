@@ -28,10 +28,9 @@ export default ({ style, before, after, type }: { style: React.CSSProperties, be
         <ins
             className={"adsbygoogle"}
             data-ad-client={"ca-pub-7576926722331812"}
-            data-adtest="on"
             style={style}
             {...ads[type]}
         />
         {after}
-    </> : <div style={{ position: "relative" }}><img style={style} src="https://i.ytimg.com/vi/6zL8zd1fDZU/maxresdefault.jpg" /><h2 style={{ backgroundImage: "linear-gradient(to left, violet, indigo, blue, green, yellow, orange, red)", WebkitBackgroundClip: "text", color: "transparent", bottom: 0, right: 16, position: "absolute" }}>Bardzo przykładowa reklama ^^^^</h2></div>;
+    </> : <></>;
 };
