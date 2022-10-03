@@ -62,53 +62,5 @@
                 }
             ]
         }
-    },
-    "gmaps": {
-        "name": "Google Maps (beta)",
-        "id": "gmaps",
-        "notMapbox": true,
-        "style": {
-            "version": 8,
-            "sources": {
-                "osm": {
-                    "type": "raster",
-                    "tiles": [
-                        "https://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}"
-                    ],
-                    "tileSize": 256
-                }
-            },
-            "layers": [
-                {
-                    "id": "gmaps",
-                    "type": "raster",
-                    "source": "gmaps"
-                }
-            ]
-        }
-    },
-    "gsat": {
-        "name": "Google Maps Satelita (beta)",
-        "id": "gsat",
-        "notMapbox": true,
-        "style": {
-            "version": 8,
-            "sources": {
-                "osm": {
-                    "type": "raster",
-                    "tiles": [
-                        "https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}"
-                    ],
-                    "tileSize": 256
-                }
-            },
-            "layers": [
-                {
-                    "id": "gsat",
-                    "type": "raster",
-                    "source": "gsat"
-                }
-            ]
-        }
     }
 }
