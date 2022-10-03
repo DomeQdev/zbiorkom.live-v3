@@ -9,7 +9,7 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 export default ({ city, location, style, children }: { city: City, location?: [number, number], style?: React.CSSProperties, children?: JSX.Element | JSX.Element[] }) => {
     const geolocateControlRef = useRef<GeolocateControlRef>(null);
     const _loc = location || cities[city].location;
-    const mapStyle = localStorage.getItem("mapstyle") as keyof typeof mapStyles || "ms";
+    const mapStyle = localStorage.getItem("mapStyle") as keyof typeof mapStyles || "ms";
 
     return <Map
         initialViewState={{

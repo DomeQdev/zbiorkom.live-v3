@@ -8,7 +8,7 @@ import isDark from "../util/isDark";
 import toast from "react-hot-toast";
 
 export default ({ city }: { city: City }) => {
-    const [mapStyle, setMapStyle] = useState(localStorage.getItem("mapstyle") || "ms");
+    const [mapStyle, setMapStyle] = useState(localStorage.getItem("mapStyle") || "ms");
     const [adsEnabled, setAdsEnabled] = useState(localStorage.getItem("ads") === "true");
     const [canBeEnabled, setCanBeEnabled] = useState<boolean>();
     const { pathname } = useLocation();
@@ -38,7 +38,7 @@ export default ({ city }: { city: City }) => {
                 {Object.values(styles).map(style => <ListItemButton key={style.id} disabled={mapStyle === style.id} onClick={() => {
                     setMapStyle(style.id);
                     toast.success(`Zmieniono styl mapy na ${style.name}!`);
-                    localStorage.setItem("mapstyle", style.id);
+                    localStorage.setItem("mapStyle", style.id);
                 }}>
                     <ListItemIcon><Map /></ListItemIcon>
                     <ListItemText primary={style.name} />
