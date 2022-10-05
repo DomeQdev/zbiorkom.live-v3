@@ -1,4 +1,4 @@
-import { BusAlert } from "@mui/icons-material";
+import { BusAlert, Logout } from "@mui/icons-material";
 import { Divider, List, ListItem, ListItemButton, ListItemText, Skeleton } from "@mui/material";
 import { City, Departure, StopDepartures } from "../util/typings";
 import { minutesUntil } from "./VehicleStopList";
@@ -12,7 +12,15 @@ export default ({ departures, city, onClick }: { departures?: StopDepartures, ci
         {departures.departures.map<React.ReactNode>((departure, i) => <ListItemButton key={i} onClick={() => onClick?.(departure)}>
             <ListItemText
                 primary={<VehicleHeadsign type={departure.type} line={departure.route} headsign={departure.headsign} city={city} />}
-                secondary={<>{Math.floor(departure.delay / 60000) ? <b style={{ color: darkMode ? "#F26663" : "red" }}>{Math.abs(Math.floor(departure.delay / 60000))} min {departure.delay > 0 ? "opóźnienia" : "przed czasem"}</b> : <b style={{ color: departure.status === "REALTIME" ? darkMode ? "#90EE90" : "green" : "" }}>{departure.status === "REALTIME" ? "Planowo" : "Według rozkładu"}</b>} · <span style={{ textDecoration: Math.floor(departure.delay / 60000) ? "line-through" : "" }}>{new Date(departure.scheduledTime).toLocaleTimeString("pl", { hour12: false, hour: "2-digit", minute: "2-digit" })}</span>{departure.platform && <> · Peron <b>{departure.platform}</b></>}</>}
+                secondary={<span style={{ display: "inline-flex", alignItems: "center" }}>
+                    {Math.floor(departure.delay / 60000)
+                        ? <b style={{ color: darkMode ? "#F26663" : "red" }}>{Math.abs(Math.floor(departure.delay / 60000))} min {departure.delay > 0 ? "opóźnienia" : "przed czasem"}</b>
+                        : <b style={{ color: departure.status === "REALTIME" ? darkMode ? "#90EE90" : "green" : "" }}>{departure.status === "REALTIME" ? "Planowo" : "Według rozkładu"}</b>
+                    }
+                    &nbsp;·&nbsp;
+                    {departure.isLastStop ? <span style={{ display: "inline-flex", alignItems: "center" }}><Logout sx={{ width: 18, height: 18 }} />&nbsp;Dla wysiadających</span> : <span style={{ textDecoration: Math.floor(departure.delay / 60000) ? "line-through" : "" }}>{new Date(departure.scheduledTime).toLocaleTimeString("pl", { hour12: false, hour: "2-digit", minute: "2-digit" })}</span>}
+                    {departure.platform && <>&nbsp;· Peron&nbsp;<b>{departure.platform}</b></>}
+                </span>}
             />
             <ListItemText
                 sx={{ textAlign: "right" }}

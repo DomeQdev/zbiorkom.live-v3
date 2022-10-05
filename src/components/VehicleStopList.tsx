@@ -5,7 +5,7 @@ import { RealTimeResponse } from "../util/realtime";
 import { City, Trip, VehicleType } from "../util/typings";
 import { Color, Icon } from "./Icons";
 
-export default ({ trip, realtime, type, city, scrolled, setScrolled, stopFollowing }: { trip: Trip, realtime: RealTimeResponse, type: VehicleType, city: City, scrolled: boolean, setScrolled: (scrolled: boolean) => void, stopFollowing: () => void }) => {
+export default ({ trip, realtime, type, city, scrolled, setScrolled, stopFollowing, height }: { trip: Trip, realtime: RealTimeResponse, type: VehicleType, city: City, scrolled: boolean, setScrolled: (scrolled: boolean) => void, stopFollowing: () => void, height: number }) => {
     const { current: map } = useMap();
     const color = Color(type, city);
 
@@ -16,7 +16,9 @@ export default ({ trip, realtime, type, city, scrolled, setScrolled, stopFollowi
                 stopFollowing();
                 map?.flyTo({
                     center: [stop.location[1], stop.location[0]],
-                    zoom: 17
+                    zoom: 17,
+                    padding: { top: 0, bottom: height, left: 0, right: 0 },
+                    duration: 0
                 });
             }}
             ref={(r) => {

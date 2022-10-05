@@ -37,7 +37,9 @@ export default ({ city, vehicle, mapBearing }: { city: City, vehicle: Vehicle, m
         if (!follow) return;
         setScrolled(false);
         map?.flyTo({
-            center: [vehicle.location[1], vehicle.location[0]]
+            center: [vehicle.location[1], vehicle.location[0]],
+            duration: 0,
+            padding: { top: 0, bottom: sheetRef.current?.height!, left: 0, right: 0 },
         });
     }, [vehicle.location, follow]);
 
@@ -45,6 +47,7 @@ export default ({ city, vehicle, mapBearing }: { city: City, vehicle: Vehicle, m
         if (!vehicle.trip) return setTrip(undefined);
 
         setScrolled(false);
+        window.navigator.vibrate?.(600);
         getData("trip", city, {
             trip: encodeURIComponent(vehicle.trip)
         }).then(setTrip).catch(() => toast.error("Nie mogliśmy pobrać trasy..."));
@@ -104,7 +107,7 @@ export default ({ city, vehicle, mapBearing }: { city: City, vehicle: Vehicle, m
         >
             {vehicle.trip && !trip?.error
                 ? (realTime && trip)
-                    ? <VehicleStopList trip={trip} realtime={realTime} type={vehicle.type} city={city} scrolled={scrolled} setScrolled={setScrolled} stopFollowing={() => setFollow(false)} />
+                    ? <VehicleStopList trip={trip} realtime={realTime} type={vehicle.type} city={city} scrolled={scrolled} setScrolled={setScrolled} stopFollowing={() => setFollow(false)} height={sheetRef.current?.height!} />
                     : <List>
                         {new Array(10).fill(null).map<React.ReactNode>((_, i) => <ListItem key={i}>
                             <ListItemAvatar>

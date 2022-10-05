@@ -105,8 +105,8 @@ export default ({ city }: { city: City }) => {
     return <>
         {!vehicles && <Backdrop />}
         <Suspense>
-            {(zoom >= 15 && !vehicle && !stop) && stops.filter(stop => !filter.types.length || filter.types.find(s => stop.type.includes(s))).filter(stop => bounds?.contains({ lat: stop.location[0], lon: stop.location[1] })).map(stop => <StopMarker key={stop.id} stop={stop} city={city} onClick={() => navigate(`?stop=${stop.id}`)} />)}
-            {((zoom >= 14 || (filterEnabled && filteredVehicles.length < 75)) && !vehicle && !stop) && filteredVehicles.map(veh => <VehicleMarker key={veh.type + veh.id} vehicle={veh} city={city} mapBearing={bearing || 0} onClick={() => navigate(`?vehicle=${veh.type}/${veh.id}`)} />)}
+            {(zoom >= 15 && !vehicle && !stop) && stops.filter(stop => !filter.types.length || filter.types.find(s => stop.type.includes(s)) != null).filter(stop => bounds?.contains({ lat: stop.location[0], lon: stop.location[1] })).map(stop => <StopMarker key={stop.id} stop={stop} city={city} onClick={() => navigate(`?stop=${stop.id}`)} />)}
+            {((zoom >= 14 || (filterEnabled && filteredVehicles.length <= 100)) && !vehicle && !stop) && filteredVehicles.map(veh => <VehicleMarker key={veh.type + veh.id} vehicle={veh} city={city} mapBearing={bearing || 0} onClick={() => navigate(`?vehicle=${veh.type}/${veh.id}`)} />)}
             {vehicle && <MapVehicle city={city} vehicle={vehicle} mapBearing={bearing || 0} />}
             {stop && <MapStop city={city} stop={stop} vehicles={vehicles || []} />}
         </Suspense>
@@ -120,10 +120,12 @@ export default ({ city }: { city: City }) => {
         {state === "filter" && <Suspense><Filter city={city} filter={filter} setFilter={setFilter} onClose={() => {
             navigate(".", { state: "", replace: true });
             let filtered = vehicles?.filter(vehicle => (!filter.routes.length || filter.routes.includes(vehicle.route)) && (!filter.types.length || filter.types.includes(vehicle.type))) || [];
-            if (filterEnabled && filtered.length < 75) {
+            if (filterEnabled) {
                 if (filtered.length) {
-                    const [minLng, minLat, maxLng, maxLat] = bbox(featureCollection(filtered.map(veh => point(veh.location))));
-                    map?.fitBounds([[minLat, minLng], [maxLat, maxLng]], { duration: 0, padding: 30 });
+                    if (filtered.length <= 100) {
+                        let [minLng, minLat, maxLng, maxLat] = bbox(featureCollection(filtered.map(veh => point(veh.location))));
+                        map?.fitBounds([[minLat, minLng], [maxLat, maxLng]], { duration: 0, padding: 30 });
+                    }
                     toast.success(`Znaleziono ${filtered.length} pojazdów.`);
                 } else toast.error("Nie znaleziono żadnych pojazdów.");
             }

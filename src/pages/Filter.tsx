@@ -1,5 +1,5 @@
 import { ArrowDropDown, ArrowDropUp, Close, NoTransfer, RestartAlt, Search } from "@mui/icons-material";
-import { Badge, Box, IconButton, InputAdornment, List, ListItem, ListItemAvatar, ListItemText, Skeleton, TextField, ToggleButton, Typography } from "@mui/material";
+import { Badge, Box, Collapse, IconButton, InputAdornment, List, ListItem, ListItemAvatar, ListItemText, Skeleton, TextField, ToggleButton, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { BottomSheet } from "react-spring-bottom-sheet";
 import { Color, Name, Icon } from "../components/Icons";
@@ -14,7 +14,7 @@ export default ({ city, filter, setFilter, onClose }: { city: City, filter: Filt
     const searchResults = routes?.map(r => r.routes.map(route => ({ ...route, type: r.type }))).flat().filter(route => route.name.replace(/[^\w]/gi, "").toLowerCase().includes(search.replace(/[^\w]/gi, "").toLowerCase()));
 
     useEffect(() => {
-        setSearch(" ");
+        setSearch("");
         setSelectedType(undefined);
         getData("routes", city).then(setRoutes).catch(() => {
             toast.error("Nie mogliśmy pobrać linii...");
@@ -90,44 +90,48 @@ export default ({ city, filter, setFilter, onClose }: { city: City, filter: Filt
                 <NoTransfer color="primary" sx={{ width: 60, height: 60, marginTop: 1 }} /><br />
                 <b style={{ fontSize: 17 }}>Nie znaleziono żadnych wyników.</b>
             </div> : <List>
-                {routes.map(type => <ListItem
-                    key={type.type}
-                    secondaryAction={<IconButton edge="end" onClick={() => setSelectedType(selectedType === type.type ? undefined : type.type)}>
-                        <Badge variant="dot" color="primary" invisible={!routes.find(r => r.type === type.type)?.routes.find(r => filter.routes.includes(r.id))}>
-                            {selectedType === type.type ? <ArrowDropUp /> : <ArrowDropDown />}
-                        </Badge>
-                    </IconButton>}
-                >
-                    <ListItemAvatar>
-                        <ToggleButton
-                            size="small"
-                            selected={!filter.types?.length || filter.types.includes(type.type)}
-                            value={type.type}
-                            sx={{
-                                "&.Mui-selected": {
-                                    backgroundColor: Color(type.type, city),
-                                    color: "white"
-                                },
-                                "&.Mui-selected:hover": {
-                                    backgroundColor: Color(type.type, city),
-                                    color: "white"
-                                }
-                            }}
-                            onClick={() => setFilter(filter.types?.includes(type.type) ? {
-                                routes: [...new Set(filter.routes.filter(r => searchResults?.find(d => d.id === r)!.type !== type.type))],
-                                types: filter.types.filter(t => t !== type.type)
-                            } : {
-                                routes: [...new Set(filter.routes.filter(r => searchResults?.find(d => d.id === r)!.type !== type.type))],
-                                types: [...filter.types, type.type]
-                            })}
-                        ><Icon type={type.type} /></ToggleButton>
-                    </ListItemAvatar>
-                    <ListItemText
-                        primary={Name(type.type)}
-                        sx={{ cursor: "pointer" }}
-                        onClick={() => setSelectedType(selectedType === type.type ? undefined : type.type)}
-                    />
-                </ListItem>)}
+                {routes.map(type => <div key={type.type}>
+                    <ListItem
+                        secondaryAction={<IconButton edge="end" onClick={() => setSelectedType(selectedType === type.type ? undefined : type.type)}>
+                            <Badge variant="dot" color="primary" invisible={!routes.find(r => r.type === type.type)?.routes.find(r => filter.routes.includes(r.id))}>
+                                {selectedType === type.type ? <ArrowDropUp /> : <ArrowDropDown />}
+                            </Badge>
+                        </IconButton>}
+                    >
+                        <ListItemAvatar>
+                            <ToggleButton
+                                size="small"
+                                selected={!filter.types?.length || filter.types.includes(type.type)}
+                                value={type.type}
+                                sx={{
+                                    "&.Mui-selected": {
+                                        backgroundColor: Color(type.type, city),
+                                        color: "white"
+                                    },
+                                    "&.Mui-selected:hover": {
+                                        backgroundColor: Color(type.type, city),
+                                        color: "white"
+                                    }
+                                }}
+                                onClick={() => setFilter(filter.types?.includes(type.type) ? {
+                                    routes: [...new Set(filter.routes.filter(r => searchResults?.find(d => d.id === r)!.type !== type.type))],
+                                    types: filter.types.filter(t => t !== type.type)
+                                } : {
+                                    routes: [...new Set(filter.routes.filter(r => searchResults?.find(d => d.id === r)!.type !== type.type))],
+                                    types: [...filter.types, type.type]
+                                })}
+                            ><Icon type={type.type} /></ToggleButton>
+                        </ListItemAvatar>
+                        <ListItemText
+                            primary={Name(type.type)}
+                            sx={{ cursor: "pointer" }}
+                            onClick={() => setSelectedType(selectedType === type.type ? undefined : type.type)}
+                        />
+                    </ListItem>
+                    <Collapse in={selectedType === type.type}>
+                        <ListItem>Użyj wyszukiwarki.....</ListItem>
+                    </Collapse>
+                </div>)}
             </List>}
         </> : <>
             <Skeleton variant="rectangular" height={40} sx={{ width: "96%", mx: "2%", marginTop: 1.2, borderRadius: 1 }} />

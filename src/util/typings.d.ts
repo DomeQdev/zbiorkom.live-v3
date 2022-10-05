@@ -57,7 +57,6 @@ type StopDepartures = {
     name: string,
     code: string,
     type?: VehicleType[],
-    routes: [string, VehicleType][],
     alert?: {
         type: "error" | "warning" | "info" | "success",
         text: string,

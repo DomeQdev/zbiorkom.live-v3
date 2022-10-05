@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
-import { Alert, AppBar, Box, Button, IconButton, Menu, MenuItem, Skeleton, Toolbar, Typography } from "@mui/material";
+import { Alert, AppBar, IconButton, Menu, MenuItem, Skeleton, Toolbar, Typography } from "@mui/material";
 import { ArrowBack, Map, MoreVert, Star } from "@mui/icons-material";
 import { toast } from "react-hot-toast";
 import { getData } from "../util/api";
 import { City, StopDepartures } from "../util/typings";
-import { Color } from "../components/Icons";
 import Departures from "../components/Departures";
 
 export default ({ city }: { city: City }) => {
@@ -41,37 +40,6 @@ export default ({ city }: { city: City }) => {
                 <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>{stopDepartures ? `${stopDepartures.name} ${stopDepartures.code || ""}` : <Skeleton variant="text" width={150} />}</Typography>
                 <IconButton edge="end" onClick={({ currentTarget }: { currentTarget: HTMLElement }) => setAnchorEl(anchorEl ? undefined : currentTarget)}><MoreVert /></IconButton>
             </Toolbar>
-            {stopDepartures?.routes && <Box
-                sx={{
-                    display: "flex",
-                    width: "100%",
-                    overflowX: "auto",
-                    padding: "0px 0px 10px 20px",
-                    button: {
-                        flex: "none"
-                    }
-                }}
-            >
-                {stopDepartures.routes.map((route, i) => <Button
-                    variant="contained"
-                    key={i}
-                    sx={{
-                        backgroundColor: Color(route[1], city),
-                        color: "white",
-                        mx: 0.4,
-                        px: 1.5,
-                        py: 0,
-                        borderRadius: 2,
-                        minWidth: 0,
-                        "&:hover": {
-                            backgroundColor: Color(route[1], city),
-                            color: "white"
-                        }
-                    }}
-                >
-                    {route[0]}
-                </Button>)}
-            </Box>}
         </AppBar>
         <Menu
             anchorEl={anchorEl}
