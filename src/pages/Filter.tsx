@@ -1,5 +1,5 @@
-import { ArrowDropDown, ArrowDropUp, Close, NoTransfer, RestartAlt, Search } from "@mui/icons-material";
-import { Badge, Box, Collapse, IconButton, InputAdornment, List, ListItem, ListItemAvatar, ListItemText, Skeleton, TextField, ToggleButton, Typography } from "@mui/material";
+import { ArrowDropDown, ArrowDropUp, Close, NavigateNext, NoTransfer, RestartAlt, Search } from "@mui/icons-material";
+import { Badge, Box, Collapse, IconButton, InputAdornment, List, ListItem, ListItemAvatar, ListItemButton, ListItemText, Skeleton, TextField, ToggleButton, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { BottomSheet } from "react-spring-bottom-sheet";
 import { Color, Name, Icon } from "../components/Icons";
@@ -129,9 +129,51 @@ export default ({ city, filter, setFilter, onClose }: { city: City, filter: Filt
                         />
                     </ListItem>
                     <Collapse in={selectedType === type.type}>
-                        <ListItem>Użyj wyszukiwarki.....</ListItem>
+                        <ListItem>
+                            <Box sx={{ width: "96%", mx: "2%", textAlign: "center" }}>
+                                {type.routes.map(result => <ToggleButton
+                                    value={result.id}
+                                    key={result.id}
+                                    selected={!filter.routes.length || filter.routes.includes(result.id)}
+                                    onClick={() => setFilter({
+                                        routes: filter.routes.includes(result.id) ? filter.routes.filter(r => r !== result.id) : [...filter.routes, result.id],
+                                        types: filter.routes.includes(result.id) ? [...new Set(filter.routes.filter(r => r !== result.id).map(r => type.type))] : [...new Set([...filter.types, type.type])]
+                                    })}
+                                    sx={{
+                                        borderRadius: 15,
+                                        padding: "0 10px",
+                                        margin: 0.3,
+                                        color: Color(type.type, city),
+                                        border: `2px solid ${Color(type.type, city)}`,
+                                        fill: Color(type.type, city),
+                                        backgroundColor: "white",
+                                        ":hover": {
+                                            backgroundColor: "white",
+                                            color: Color(type.type, city),
+                                            fill: Color(type.type, city),
+                                        },
+                                        "&.Mui-selected": {
+                                            backgroundColor: Color(type.type, city),
+                                            color: "white",
+                                            fill: "white"
+                                        },
+                                        "&.Mui-selected:hover": {
+                                            backgroundColor: Color(type.type, city),
+                                            color: "white",
+                                            fill: "white"
+                                        }
+                                    }}
+                                >
+                                    <Icon type={type.type} />&nbsp;{result.name}
+                                </ToggleButton>)}
+                            </Box>
+                        </ListItem>
                     </Collapse>
                 </div>)}
+                <ListItemButton disabled>
+                    <ListItemText primary="Filtrowanie po modelu pojazdu" />
+                    <NavigateNext />
+                </ListItemButton>
             </List>}
         </> : <>
             <Skeleton variant="rectangular" height={40} sx={{ width: "96%", mx: "2%", marginTop: 1.2, borderRadius: 1 }} />
