@@ -57,11 +57,12 @@ export default () => {
     }
   });
 
+  if (darkMode) {
+    document.body.style.setProperty("--rsbs-bg", "#383838");
+    document.body.style.setProperty("--rsbs-handle-bg", "rgba(255,255,255,0.3)");
+  }
+
   useEffect(() => {
-    if (darkMode) {
-      document.body.style.setProperty("--rsbs-bg", "#383838");
-      document.body.style.setProperty("--rsbs-handle-bg", "rgba(255,255,255,0.3)");
-    }
     if (localStorage.getItem("ads") === "true") {
       const script = document.createElement('script');
       script.setAttribute("src", "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7576926722331812");

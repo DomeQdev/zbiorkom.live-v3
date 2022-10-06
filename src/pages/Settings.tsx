@@ -56,7 +56,7 @@ export default ({ city }: { city: City }) => {
                 disabled={!canBeEnabled}
                 onClick={() => {
                     setAdsEnabled(!adsEnabled);
-                    if (!adsEnabled) toast("Nasza strona używa plików cookies. Jeśli nie chcesz ich używać, wyłącz reklamy.", {
+                    if (!adsEnabled) toast("Nasza strona używa plików cookies firm trzecich. Jeśli nie chcesz ich używać, wyłącz reklamy.", {
                         icon: <Cookie color="warning" />,
                         duration: 7000
                     });

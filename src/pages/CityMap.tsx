@@ -124,7 +124,7 @@ export default ({ city }: { city: City }) => {
                 if (filtered.length) {
                     if (filtered.length <= 100) {
                         let [minLng, minLat, maxLng, maxLat] = bbox(featureCollection(filtered.map(veh => point(veh.location))));
-                        map?.fitBounds([[minLat, minLng], [maxLat, maxLng]], { duration: 0, padding: 30 });
+                        map?.fitBounds([[minLat, minLng], [maxLat, maxLng]], { duration: 0 });
                     }
                     toast.success(`Znaleziono ${filtered.length} pojazdów.`);
                 } else toast.error("Nie znaleziono żadnych pojazdów.");
