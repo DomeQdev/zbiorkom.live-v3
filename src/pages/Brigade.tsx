@@ -11,7 +11,7 @@ export default ({ city }: { city: City }) => {
     const [schedule, setSchedule] = useState<BrigadeSchedule[]>();
 
     useEffect(() => {
-        document.body.setAttribute("style", "overflow: auto;");
+        document.body.setAttribute("style", `${document.body.getAttribute("style")} overflow: auto;`);
         getData("brigade", city, {
             line,
             brigade

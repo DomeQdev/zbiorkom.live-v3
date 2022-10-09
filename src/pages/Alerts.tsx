@@ -16,9 +16,9 @@ export default ({ city }: { city: City }) => {
                 horizontal: 'left'
             }}>{alert.title}</Badge> : alert.title}</>}
             secondary={<>
-                {alert.routes && <>Dotyczy linii: {alert.routes?.join(", ")}<br /></>}
+                {!!alert.routes?.length && <>Dotyczy linii: {alert.routes?.join(", ")}<br /></>}
                 {alert.start && <>Od {new Date(alert.start).toLocaleString()}</>}
-                {alert.end && <> do {new Date(alert.end).toLocaleString()}<br /></>}
+                {alert.end && <> do {new Date(alert.end).toLocaleString()}</>}
             </>} />
         <NavigateNext />
     </ListItemButton>;

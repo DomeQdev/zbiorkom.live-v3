@@ -1,8 +1,8 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Alert, IconButton, Skeleton } from "@mui/material";
 import { Close, DirectionsTransit, MoreVert } from "@mui/icons-material";
-import { BottomSheet, BottomSheetRef } from "react-spring-bottom-sheet";
+import { BottomSheet } from "react-spring-bottom-sheet";
 import { useMap } from "react-map-gl";
 import { City, Stop, StopDepartures, Vehicle } from "../util/typings";
 import { getData } from "../util/api";
@@ -15,7 +15,6 @@ import toast from "react-hot-toast";
 export default ({ city, stop, vehicles }: { city: City, stop: Stop, vehicles: Vehicle[] }) => {
     const { current: map } = useMap();
     const navigate = useNavigate();
-    const sheetRef = useRef<BottomSheetRef>(null);
     const [stopDepartures, setStopDepartures] = useState<StopDepartures>();
     const [anchorEl, setAnchorEl] = useState<HTMLElement>();
 
@@ -49,12 +48,7 @@ export default ({ city, stop, vehicles }: { city: City, stop: Stop, vehicles: Ve
         {vehicles.filter(v => stopDepartures?.departures.some(d => d.trip && d.trip === v.trip)).map(v => <VehicleMarker key={v.trip} vehicle={v} city={city} mapBearing={map?.getBearing() || 0} onClick={() => navigate(`?vehicle=${v.type}/${v.id}`)} />)}
         <BottomSheet
             open
-            ref={sheetRef}
-            defaultSnap={({ maxHeight }) => maxHeight / 3.5}
-            snapPoints={({ maxHeight }) => [
-                maxHeight / 3,
-                maxHeight * 0.5
-            ]}
+            snapPoints={({ maxHeight }) => [maxHeight / 3]}
             onDismiss={() => navigate(".", { replace: true })}
             style={{ zIndex: 100, position: "absolute" }}
             blocking={false}
@@ -83,7 +77,6 @@ export default ({ city, stop, vehicles }: { city: City, stop: Stop, vehicles: Ve
                 map?.flyTo({
                     center: location ? [location[1], location[0]] : [stop.location[1], stop.location[0]],
                     zoom: 17,
-                    padding: { top: 0, bottom: sheetRef.current?.height!, left: 0, right: 0 },
                     duration: 0
                 });
             }} />

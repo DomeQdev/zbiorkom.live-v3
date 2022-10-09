@@ -2,10 +2,10 @@ import { Avatar, Divider, IconButton, List, ListItemAvatar, ListItemButton, List
 import { PanTool } from "@mui/icons-material";
 import { useMap } from "react-map-gl";
 import { RealTimeResponse } from "../util/realtime";
-import { City, Trip, VehicleType } from "../util/typings";
+import { City, VehicleType } from "../util/typings";
 import { Color, Icon } from "./Icons";
 
-export default ({ trip, realtime, type, city, scrolled, setScrolled, stopFollowing, height }: { trip: Trip, realtime: RealTimeResponse, type: VehicleType, city: City, scrolled: boolean, setScrolled: (scrolled: boolean) => void, stopFollowing: () => void, height: number }) => {
+export default ({ realtime, type, city, scrolled, setScrolled, stopFollowing }: { realtime: RealTimeResponse, type: VehicleType, city: City, scrolled: boolean, setScrolled: (scrolled: boolean) => void, stopFollowing: () => void }) => {
     const { current: map } = useMap();
     const color = Color(type, city);
 
@@ -17,7 +17,6 @@ export default ({ trip, realtime, type, city, scrolled, setScrolled, stopFollowi
                 map?.flyTo({
                     center: [stop.location[1], stop.location[0]],
                     zoom: 17,
-                    padding: { top: 0, bottom: height, left: 0, right: 0 },
                     duration: 0
                 });
             }}

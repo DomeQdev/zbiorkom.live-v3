@@ -1,6 +1,6 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { BottomSheet, BottomSheetRef } from "react-spring-bottom-sheet";
+import { BottomSheet } from "react-spring-bottom-sheet";
 import { toast } from "react-hot-toast";
 import { useMap } from "react-map-gl";
 import { Divider, IconButton, Dialog, DialogTitle, DialogContent, List, ListItem, ListItemAvatar, ListItemText, Menu, MenuItem, Skeleton } from "@mui/material";
@@ -26,7 +26,6 @@ export default ({ city, vehicle, mapBearing }: { city: City, vehicle: Vehicle, m
     const [trip, setTrip] = useState<Trip>();
     const [realTime, setRealTime] = useState<RealTimeResponse>();
     const [anchorEl, setAnchorEl] = useState<HTMLElement>();
-    const sheetRef = useRef<BottomSheetRef>(null);
     const darkMode = isDark();
 
     useEffect(() => {
@@ -38,8 +37,7 @@ export default ({ city, vehicle, mapBearing }: { city: City, vehicle: Vehicle, m
         setScrolled(false);
         map?.flyTo({
             center: [vehicle.location[1], vehicle.location[0]],
-            duration: 0,
-            padding: { top: 0, bottom: sheetRef.current?.height!, left: 0, right: 0 },
+            duration: 0
         });
     }, [vehicle.location, follow]);
 
@@ -72,12 +70,7 @@ export default ({ city, vehicle, mapBearing }: { city: City, vehicle: Vehicle, m
         {(trip && !trip.error) && <Shapes trip={trip} type={vehicle.type} city={city} realTime={realTime} />}
         <BottomSheet
             open
-            ref={sheetRef}
-            defaultSnap={({ maxHeight }) => maxHeight / 3.5}
-            snapPoints={({ maxHeight }) => [
-                maxHeight / 3.5,
-                maxHeight * 0.5
-            ]}
+            snapPoints={({ maxHeight }) => [maxHeight / 3]}
             onDismiss={() => navigate(".", { replace: true })}
             style={{ zIndex: 100, position: "absolute" }}
             blocking={false}
@@ -89,7 +82,6 @@ export default ({ city, vehicle, mapBearing }: { city: City, vehicle: Vehicle, m
                 <div style={{ cursor: "pointer" }} onClick={() => {
                     setFollow(true);
                     setScrolled(false);
-                    sheetRef.current?.snapTo(({ maxHeight }) => maxHeight / 3.5);
                 }}>
                     <VehicleHeadsign type={vehicle.type} city={city} line={vehicle.route} headsign={trip?.headsign || ""} />
 
@@ -107,7 +99,7 @@ export default ({ city, vehicle, mapBearing }: { city: City, vehicle: Vehicle, m
         >
             {vehicle.trip && !trip?.error
                 ? (realTime && trip)
-                    ? <VehicleStopList trip={trip} realtime={realTime} type={vehicle.type} city={city} scrolled={scrolled} setScrolled={setScrolled} stopFollowing={() => setFollow(false)} height={sheetRef.current?.height!} />
+                    ? <VehicleStopList realtime={realTime} type={vehicle.type} city={city} scrolled={scrolled} setScrolled={setScrolled} stopFollowing={() => setFollow(false)} />
                     : <List>
                         {new Array(10).fill(null).map<React.ReactNode>((_, i) => <ListItem key={i}>
                             <ListItemAvatar>
@@ -147,7 +139,7 @@ export default ({ city, vehicle, mapBearing }: { city: City, vehicle: Vehicle, m
                 setAnchorEl(undefined);
                 setFollow(false);
                 const [minLng, minLat, maxLng, maxLat] = bbox(lineString(trip.shapes));
-                map?.fitBounds([[minLat, minLng], [maxLat, maxLng]], { duration: 0, padding: { left: 0, top: 30, right: 0, bottom: sheetRef.current?.height! + 30 } });
+                map?.fitBounds([[minLat, minLng], [maxLat, maxLng]], { duration: 0 });
             }}><Route style={{ width: 20, height: 20 }} color="primary" />&nbsp;Pokaż trasę</MenuItem>}
             {vehicle.brigade && <MenuItem onClick={() => navigate(`/${city}/brigade/${vehicle.route}/${vehicle.brigade}`)}><Commit style={{ width: 20, height: 20 }} color="primary" />&nbsp;Rozkład brygady</MenuItem>}
             {vehicle.brigade && <MenuItem onClick={() => {

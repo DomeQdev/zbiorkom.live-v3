@@ -1,18 +1,17 @@
 import { Box, Button, List, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
 import { ArrowBack, LocationCity, NavigateNext } from "@mui/icons-material";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { City } from "../util/typings";
 import cities from "../util/cities.json";
+import toast from "react-hot-toast";
 
 export default () => {
-    const navigate = useNavigate();
-
     return <Box sx={{ textAlign: "center" }}>
         <h1 style={{ fontWeight: "normal" }}>Zmiana miasta</h1>
         <Button variant="outlined" startIcon={<ArrowBack />} component={Link} to="/" replace>Wróć</Button>
         <List sx={{ width: "90%", mx: "auto" }}>
-            {Object.keys(cities).map(city => <ListItemButton key={city} onClick={(e) => {
-                navigate(`/${city}`);
+            {Object.keys(cities).map(city => <ListItemButton key={city} component={Link} to={`/${city}`} onClick={(e) => {
+                toast.success(`Zmieniono miasto na ${cities[city as City].name}.`);
                 if (!e.shiftKey) localStorage.setItem("city", city)
             }}>
                 <ListItemIcon><LocationCity /></ListItemIcon>
