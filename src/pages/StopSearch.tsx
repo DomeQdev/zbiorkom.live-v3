@@ -8,7 +8,7 @@ import { Color, Icon } from "../components/Icons";
 import { getData } from "../util/api";
 import toast from "react-hot-toast";
 
-export default ({ city }: { city: City }) => {
+export default ({ city, location }: { city: City, location?: GeolocationPosition }) => {
     const navigate = useNavigate();
     const { state } = useLocation();
     const [input, setInput] = useState("");
@@ -16,17 +16,12 @@ export default ({ city }: { city: City }) => {
     const [nearestGroups, setNearestGroups] = useState<StopGroup[]>();
     const [search, setSearch] = useState<StopGroup[]>();
     const [groupStops, setGroupStops] = useState<StopInGroup[]>();
-    const [userLocation, setUserLocation] = useState<GeolocationPosition>();
 
     useEffect(() => {
-        let id = navigator.geolocation.watchPosition(setUserLocation, console.error, { timeout: 10000 });
-
         getData("stopGroups", city).then(setStopGroups).catch(() => {
             navigate("../", { replace: true });
             toast.error(`Nie mogliśmy załadować przystanków.`);
         });
-
-        return () => navigator.geolocation.clearWatch(id);
     }, []);
 
     useEffect(() => {
@@ -45,17 +40,17 @@ export default ({ city }: { city: City }) => {
     }, [state]);
 
     useEffect(() => {
-        if (!userLocation || !stopGroups?.length) return;
+        if (!location || !stopGroups?.length) return;
         let filtered = stopGroups.filter(group => !input || group.name.toLowerCase().replace(/[^\w]/gi, "").includes(input.toLowerCase().replace(/[^\w]/gi, "")));
         setNearestGroups(filtered.map(group => ({
             ...group,
             distance: Math.sqrt(
-                Math.pow(group.location[0] - userLocation.coords.latitude, 2) +
-                Math.pow(group.location[1] - userLocation.coords.longitude, 2)
+                Math.pow(group.location[0] - location.coords.latitude, 2) +
+                Math.pow(group.location[1] - location.coords.longitude, 2)
             ) * 111000,
-            bearing: calcBearing(group.location, [userLocation.coords.latitude, userLocation.coords.longitude])
+            bearing: calcBearing(group.location, [location.coords.latitude, location.coords.longitude])
         })).filter(x => x.distance < 2000).sort((a, b) => a.distance - b.distance));
-    }, [userLocation, input]);
+    }, [location, stopGroups, input]);
 
     useEffect(() => {
         if (!input || !stopGroups?.length) return setSearch(undefined);

@@ -1,4 +1,4 @@
-import { lazy, useEffect } from 'react';
+import { lazy, useEffect, useState } from 'react';
 import { Routes, Route, useNavigate, Link } from "react-router-dom";
 import { AppBar, Toolbar, IconButton, Typography, CssBaseline, Box, Dialog, DialogTitle, DialogActions, Button, DialogContent } from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
@@ -25,6 +25,7 @@ const StopSearch = lazy(() => import("./pages/StopSearch"));
 const Settings = lazy(() => import("./pages/Settings"));
 
 export default () => {
+  const [userLocation, setUserLocation] = useState<GeolocationPosition>();
   const darkMode = isDark();
 
   const theme = createTheme({
@@ -70,6 +71,9 @@ export default () => {
       script.onload = () => console.log("Ads loaded");
       document.head.appendChild(script);
     }
+
+    let id = navigator.geolocation.watchPosition(setUserLocation, console.error, { timeout: 10000 });
+    return () => navigator.geolocation.clearWatch(id);
   }, []);
 
   return <ThemeProvider theme={theme}>
@@ -84,6 +88,7 @@ export default () => {
         <Box></Box>
       </Toolbar>
     </AppBar>
+
     <Dialog open={!localStorage.getItem("seen_movement")}>
       <DialogTitle>Nowa wersja aplikacji.</DialogTitle>
       <DialogContent>Właśnie widzisz nową wersję aplikacji. Ta wersja ma większość funkcji starej wersji z wyjątkiem: dokładnych informacji o pojeździe, filtrowania po modelu pojazdu i zajezdni oraz oznaczeń specjalnych i ekologicznych pojazdów.<h3>Chcę używac:</h3></DialogContent>
@@ -95,6 +100,7 @@ export default () => {
         <Button href="https://old.transitapi.me" onClick={() => alert("Jeśli nadal chcesz używać starej wersji, pamiętaj, że adres został zmieniony. Nowy adres starej wersji to 🔗 https://old.transitapi.me. Zostaniesz do niej teraz przekierowany.")}>Starej wersji (Nowy adres: old.transitapi.me)</Button>
       </DialogActions>
     </Dialog>
+    
     <ErrorBoundary>
       <Routes>
         <Route index element={<CityPicker />} />
@@ -105,16 +111,16 @@ export default () => {
 
           return <Route path={city} key={city}>
             <Route index element={<Suspense><Index city={name} /></Suspense>} />
-            <Route path="map" element={<Suspense><Map city={name} style={{ position: "absolute" }}><CityMap city={name} /></Map></Suspense>} />
+            <Route path="map" element={<Suspense><Map city={name} userLocation={userLocation} style={{ position: "absolute" }}><CityMap city={name} /></Map></Suspense>} />
             {cityData.api.stops && <>
-              <Route path="stops" element={<Suspense><StopSearch city={name} /></Suspense>} />
+              <Route path="stops" element={<Suspense><StopSearch city={name} location={userLocation} /></Suspense>} />
               <Route path="stop/:stopId" element={<Suspense><StopDepartures city={name} /></Suspense>} />
             </>}
             {cityData.api.brigades && <>
               <Route path="brigades" element={<Suspense><Brigades city={name} /></Suspense>} />
               <Route path="brigade/:line/:brigade" element={<Suspense><Brigade city={name} /></Suspense>} />
             </>}
-            {cityData.api.bikes && <Route path="bikes" element={<Suspense><Bikes city={name} /></Suspense>} />}
+            {cityData.api.bikes && <Route path="bikes" element={<Suspense><Bikes city={name} location={userLocation} /></Suspense>} />}
             {cityData.api.parkings && <Route path="parkings" element={<></>} />}
             {cityData.api.alerts && <>
               <Route path="alerts" element={<Suspense><Alerts city={name} /></Suspense>} />

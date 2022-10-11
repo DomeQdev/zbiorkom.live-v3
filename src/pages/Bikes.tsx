@@ -7,7 +7,7 @@ import { BikeStation, City } from "../util/typings";
 import { getData } from "../util/api";
 import toast from "react-hot-toast";
 
-export default ({ city }: { city: City }) => {
+export default ({ city, location }: { city: City, location?: GeolocationPosition }) => {
     const navigate = useNavigate();
     const { state } = useLocation();
     const [input, setInput] = useState("");
@@ -21,23 +21,18 @@ export default ({ city }: { city: City }) => {
         bearing?: number
     }[]>();
     const [search, setSearch] = useState<BikeStation[]>();
-    const [userLocation, setUserLocation] = useState<GeolocationPosition>();
 
     const bikeStation = bikeStations?.find(x => x[0] === state);
 
     useEffect(() => {
-        let id = navigator.geolocation.watchPosition(setUserLocation, console.error, { timeout: 10000 });
-
         getData("bikes", city).then(setBikeStations).catch(() => {
             navigate("../", { replace: true });
             toast.error(`Nie mogliśmy załadować stacji rowerowych.`);
         });
-
-        return () => navigator.geolocation.clearWatch(id);
     }, []);
 
     useEffect(() => {
-        if (!userLocation || !bikeStations?.length) return;
+        if (!location || !bikeStations?.length) return;
         let filtered = bikeStations.filter(station => !input || station[1].toLowerCase().replace(/[^\w]/gi, "").includes(input.toLowerCase().replace(/[^\w]/gi, "")));
         setNearestStations(filtered.map(station => ({
             id: station[0],
@@ -45,12 +40,12 @@ export default ({ city }: { city: City }) => {
             location: station[2],
             racks: station[3],
             distance: Math.sqrt(
-                Math.pow(station[2][0] - userLocation.coords.latitude, 2) +
-                Math.pow(station[2][1] - userLocation.coords.longitude, 2)
+                Math.pow(station[2][0] - location.coords.latitude, 2) +
+                Math.pow(station[2][1] - location.coords.longitude, 2)
             ) * 111000,
-            bearing: calcBearing(station[2], [userLocation.coords.latitude, userLocation.coords.longitude])
+            bearing: calcBearing(station[2], [location.coords.latitude, location.coords.longitude])
         })).filter(x => x.distance < 2000).sort((a, b) => a.distance - b.distance) || []);
-    }, [userLocation, input]);
+    }, [location, bikeStations, input]);
 
     useEffect(() => {
         if (!input || !bikeStations?.length) return setSearch(undefined);
