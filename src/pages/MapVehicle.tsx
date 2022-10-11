@@ -83,7 +83,7 @@ export default ({ city, vehicle, mapBearing }: { city: City, vehicle: Vehicle, m
                     setFollow(true);
                     setScrolled(false);
                 }}>
-                    <VehicleHeadsign type={vehicle.type} city={city} line={vehicle.route} headsign={trip?.headsign || ""} />
+                    <VehicleHeadsign type={vehicle.type} city={city} route={vehicle.route} headsign={trip?.headsign || ""} />
 
                     {vehicle.trip && !trip?.error ? (realTime && trip) ? <span style={{ lineHeight: 1.4, fontSize: 15 }}><br />
                         {trip.stops[0].departure > Date.now()

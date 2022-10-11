@@ -58,6 +58,6 @@ export default ({ city }: { city: City }) => {
         </Menu>
 
         {stopDepartures?.alert && <Alert severity={stopDepartures.alert.type} sx={{ cursor: stopDepartures.alert.link ? "pointer" : "" }} onClick={() => stopDepartures.alert?.link ? window.open(stopDepartures.alert!.link, "_blank") : null}>{stopDepartures.alert.text}</Alert>}
-        <Departures departures={stopDepartures} city={city} />
+        <Departures departures={stopDepartures} city={city} onClick={(departure) => navigate(`../trip?trip=${departure.trip}`)} />
     </>;
 };

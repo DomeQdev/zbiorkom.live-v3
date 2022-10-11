@@ -20,9 +20,10 @@ const CitySelection = lazy(() => import("./pages/CitySelection"));
 const Error = lazy(() => import("./pages/Error"));
 const Index = lazy(() => import("./pages/Index"));
 const Map = lazy(() => import("./components/Map"));
+const Settings = lazy(() => import("./pages/Settings"));
 const StopDepartures = lazy(() => import("./pages/StopDepartures"));
 const StopSearch = lazy(() => import("./pages/StopSearch"));
-const Settings = lazy(() => import("./pages/Settings"));
+const Trip = lazy(() => import("./pages/Trip"));
 
 export default () => {
   const [userLocation, setUserLocation] = useState<GeolocationPosition>();
@@ -112,6 +113,7 @@ export default () => {
           return <Route path={city} key={city}>
             <Route index element={<Suspense><Index city={name} /></Suspense>} />
             <Route path="map" element={<Suspense><Map city={name} userLocation={userLocation} style={{ position: "absolute" }}><CityMap city={name} /></Map></Suspense>} />
+            {cityData.api.trip && <Route path="trip" element={<Suspense><Trip city={name} /></Suspense>} />}
             {cityData.api.stops && <>
               <Route path="stops" element={<Suspense><StopSearch city={name} location={userLocation} /></Suspense>} />
               <Route path="stop/:stopId" element={<Suspense><StopDepartures city={name} /></Suspense>} />

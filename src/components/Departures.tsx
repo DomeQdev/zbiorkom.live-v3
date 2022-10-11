@@ -11,7 +11,7 @@ export default ({ departures, city, onClick }: { departures?: StopDepartures, ci
     return departures ? departures.departures.length ? <List>
         {departures.departures.map<React.ReactNode>((departure, i) => <ListItemButton key={i} onClick={() => onClick?.(departure)}>
             <ListItemText
-                primary={<VehicleHeadsign type={departure.type} line={departure.route} headsign={departure.headsign} city={city} />}
+                primary={<VehicleHeadsign type={departure.type} route={departure.route} headsign={departure.headsign} city={city} />}
                 secondary={<span style={{ display: "inline-flex", alignItems: "center" }}>
                     {Math.floor(departure.delay / 60000)
                         ? <b style={{ color: darkMode ? "#F26663" : "red" }}>{Math.abs(Math.floor(departure.delay / 60000))} min {departure.delay > 0 ? "opóźnienia" : "przed czasem"}</b>

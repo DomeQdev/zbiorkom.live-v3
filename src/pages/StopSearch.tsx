@@ -172,5 +172,5 @@ export default ({ city, location }: { city: City, location?: GeolocationPosition
 const calcBearing = (point1: [number, number], point2: [number, number]) => {
     if (!point1 || !point2) return undefined;
     let deg = (Math.atan2(point2[1] - point1[1], point2[0] - point1[0]) * 180) / Math.PI;
-    return Math.floor(deg < 0 ? deg + 360 : deg);
+    return deg + 180;
 }

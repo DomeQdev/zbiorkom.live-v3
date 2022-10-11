@@ -20,6 +20,8 @@ type Vehicle = {
 type Trip = {
     error?: string,
     id: string,
+    type: VehicleType,
+    route: string,
     headsign: string,
     shortName?: string,
     shapes: [number, number][],
