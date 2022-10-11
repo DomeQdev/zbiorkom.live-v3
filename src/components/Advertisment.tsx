@@ -21,7 +21,7 @@ const ads = {
 };
 
 export default ({ style, before, after, type }: { style: React.CSSProperties, before?: React.ReactNode, after?: React.ReactNode, type: "display" | "in-feed" | "in-article" | "multiplex" }) => {
-    let adsEnabled = localStorage.getItem("ads") === "true";
+    const adsEnabled = localStorage.getItem("ads") === "true";
 
     return adsEnabled ? <>
         {before}

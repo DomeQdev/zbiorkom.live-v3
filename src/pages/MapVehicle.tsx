@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { BottomSheet } from "react-spring-bottom-sheet";
 import { toast } from "react-hot-toast";
 import { useMap } from "react-map-gl";
-import { Divider, IconButton, Dialog, DialogTitle, DialogContent, List, ListItem, ListItemAvatar, ListItemText, Menu, MenuItem, Skeleton } from "@mui/material";
+import { Divider, IconButton, Dialog, DialogTitle, DialogContent, List, ListItem, ListItemAvatar, ListItemText, Menu, MenuItem, Skeleton, Badge } from "@mui/material";
 import { Check, Close, Commit, DirectionsBus, GpsFixed, History, LocationDisabled, Logout, MoreVert, Route, WifiOff } from "@mui/icons-material";
 import { bbox, lineString } from "@turf/turf";
 import { RealTime, RealTimeResponse } from "../util/realtime";
@@ -94,7 +94,11 @@ export default ({ city, vehicle, mapBearing }: { city: City, vehicle: Vehicle, m
                     </span> : <Skeleton variant="text" style={{ width: 139, height: 21 }} /> : null}
                 </div>
 
-                {trip || !vehicle.trip ? <IconButton onClick={({ currentTarget }: { currentTarget: HTMLElement }) => setAnchorEl(anchorEl ? undefined : currentTarget)} style={{ height: 40 }}><MoreVert /></IconButton> : <Skeleton variant="circular" width={40} height={40} />}
+                {trip || !vehicle.trip ? <IconButton onClick={({ currentTarget }: { currentTarget: HTMLElement }) => setAnchorEl(anchorEl ? undefined : currentTarget)} style={{ height: 40 }}>
+                    <Badge color="error" variant="dot" invisible={Date.now() - vehicle.lastPing < 300000}>
+                        <MoreVert />
+                    </Badge>
+                </IconButton> : <Skeleton variant="circular" width={40} height={40} />}
             </div>}
         >
             {vehicle.trip && !trip?.error
@@ -134,7 +138,7 @@ export default ({ city, vehicle, mapBearing }: { city: City, vehicle: Vehicle, m
             onClose={() => setAnchorEl(undefined)}
             style={{ zIndex: 300000 }}
         >
-            <MenuItem sx={{ borderBottom: 1, borderColor: "divider", pointerEvents: "none" }}>{vehicle.isPredicted ? <LocationDisabled style={{ width: 20, height: 20 }} color="primary" /> : <GpsFixed style={{ width: 20, height: 20 }} color="primary" />}&nbsp;<b><Timer timestamp={vehicle.lastPing} /></b>&nbsp;temu</MenuItem>
+            <MenuItem sx={{ borderBottom: 1, borderColor: "divider", pointerEvents: "none" }}>{vehicle.isPredicted ? <LocationDisabled style={{ width: 20, height: 20 }} color="primary" /> : <GpsFixed style={{ width: 20, height: 20 }} color="primary" />}&nbsp;<b style={{ color: Date.now() - vehicle.lastPing > 300000 ? "red" : "" }}><Timer timestamp={vehicle.lastPing} /></b>&nbsp;temu</MenuItem>
             {trip?.shapes && <MenuItem onClick={() => {
                 setAnchorEl(undefined);
                 setFollow(false);
