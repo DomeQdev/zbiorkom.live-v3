@@ -40,6 +40,7 @@ export default ({ city }: { city: City }) => {
             <Box sx={{ display: "inline-flex", alignItems: "center", my: 2.6 }}>
                 <Skeleton variant="rectangular" width={84} height={38} style={{ borderRadius: 15 }} />&nbsp;<Skeleton variant="text" width={80} height={29} />
             </Box>
+            <br />
             <Box sx={{ display: "inline-flex", alignItems: "center" }}>
                 <Skeleton variant="rounded" width={97} height={36} />
                 <Skeleton variant="rounded" width={175} height={36} sx={{ marginLeft: 1 }} />
