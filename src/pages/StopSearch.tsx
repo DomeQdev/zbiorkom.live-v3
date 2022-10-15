@@ -1,5 +1,5 @@
 import { AppBar, IconButton, InputAdornment, List, ListItemButton, ListItemText, ListSubheader, Skeleton, TextField, Toolbar, Typography, Slide, Collapse, Dialog, ListItem, ListItemAvatar, Avatar } from "@mui/material";
-import { ArrowBack, ArrowUpward, HighlightOff } from "@mui/icons-material";
+import { ArrowUpward, HighlightOff, TravelExplore } from "@mui/icons-material";
 import { TransitionGroup } from "react-transition-group";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate, Link } from "react-router-dom";
@@ -68,6 +68,7 @@ export default ({ city, location }: { city: City, location?: GeolocationPosition
                     autoFocus
                     sx={{
                         my: 1,
+                        marginLeft: 6,
                         "& fieldset": {
                             borderRadius: "15px"
                         }
@@ -76,11 +77,6 @@ export default ({ city, location }: { city: City, location?: GeolocationPosition
                     onChange={e => setInput(e.target.value)}
                     autoComplete="off"
                     InputProps={{
-                        startAdornment: <InputAdornment position="start">
-                            <IconButton color="inherit" component={Link} to="../" replace>
-                                <ArrowBack />
-                            </IconButton>
-                        </InputAdornment>,
                         endAdornment: !!input.length && <InputAdornment position="end">
                             <IconButton color="inherit" onClick={() => setInput("")}>
                                 <HighlightOff />
@@ -90,6 +86,11 @@ export default ({ city, location }: { city: City, location?: GeolocationPosition
                 />
             </Toolbar>
         </AppBar>
+
+        {!search?.length && !nearestGroups?.length && <div style={{ textAlign: "center" }}>
+            <TravelExplore color="primary" sx={{ width: 60, height: 60, marginTop: 1 }} /><br />
+            <b style={{ fontSize: 17 }}>Czas żeby coś wyszukać...</b>
+        </div>}
 
         <Slide direction="down" in={!!nearestGroups?.length} mountOnEnter unmountOnExit>
             <List subheader={<ListSubheader disableSticky>Najbliższe przystanki</ListSubheader>}>
@@ -156,7 +157,8 @@ export default ({ city, location }: { city: City, location?: GeolocationPosition
             height={56}
             sx={{
                 my: 1,
-                mx: 3,
+                marginLeft: 8,
+                marginRight: 2,
                 borderRadius: "15px"
             }}
         />

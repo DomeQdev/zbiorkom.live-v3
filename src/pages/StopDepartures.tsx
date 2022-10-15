@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
-import { Alert, AppBar, IconButton, Menu, MenuItem, Skeleton, Toolbar, Typography } from "@mui/material";
-import { ArrowBack, Map, MoreVert, Star } from "@mui/icons-material";
+import { Alert, Box, Chip, Fab, Menu, MenuItem, Skeleton } from "@mui/material";
+import { Map, MoreVert, Star } from "@mui/icons-material";
 import { toast } from "react-hot-toast";
 import { getData } from "../util/api";
 import { City, StopDepartures } from "../util/typings";
@@ -34,13 +34,20 @@ export default ({ city }: { city: City }) => {
     }, [stopId]);
 
     return <>
-        <AppBar position="sticky">
-            <Toolbar>
-                <IconButton edge="start" component={Link} to="../stops" replace><ArrowBack /></IconButton>
-                <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>{stopDepartures ? `${stopDepartures.name} ${stopDepartures.code || ""}` : <Skeleton variant="text" width={150} />}</Typography>
-                <IconButton edge="end" onClick={({ currentTarget }: { currentTarget: HTMLElement }) => setAnchorEl(anchorEl ? undefined : currentTarget)}><MoreVert /></IconButton>
-            </Toolbar>
-        </AppBar>
+        <Chip
+            label={stopDepartures ? `${stopDepartures.name} ${stopDepartures.code || ""}` : <Skeleton variant="text" width={150} />}
+            color="primary"
+            sx={{ position: "fixed", top: 20, left: "50%", transform: "translate(-50%, 0)" }}
+        />
+
+        <Fab
+            size="small"
+            color="primary"
+            sx={{ position: "fixed", zIndex: 30000, top: 16, right: 16 }}
+            onClick={({ currentTarget }: { currentTarget: HTMLElement }) => setAnchorEl(anchorEl ? undefined : currentTarget)}
+        >
+            <MoreVert />
+        </Fab>
         <Menu
             anchorEl={anchorEl}
             open={!!anchorEl}
@@ -57,7 +64,9 @@ export default ({ city }: { city: City }) => {
             <MenuItem component={Link} to={`../map?stop=${stopId}`}><Map style={{ width: 20, height: 20 }} color="primary" />&nbsp;Pokaż na mapie</MenuItem>
         </Menu>
 
-        {stopDepartures?.alert && <Alert severity={stopDepartures.alert.type} sx={{ cursor: stopDepartures.alert.link ? "pointer" : "" }} onClick={() => stopDepartures.alert?.link ? window.open(stopDepartures.alert!.link, "_blank") : null}>{stopDepartures.alert.text}</Alert>}
-        <Departures departures={stopDepartures} city={city} onClick={(departure) => navigate(`../trip?trip=${departure.trip}`)} />
+        <Box sx={{ marginTop: 7 }}>
+            {stopDepartures?.alert && <Alert severity={stopDepartures.alert.type} sx={{ cursor: stopDepartures.alert.link ? "pointer" : "" }} onClick={() => stopDepartures.alert?.link ? window.open(stopDepartures.alert!.link, "_blank") : null}>{stopDepartures.alert.text}</Alert>}
+            <Departures departures={stopDepartures} city={city} onClick={(departure) => navigate(`../trip?trip=${departure.trip}`)} />
+        </Box>
     </>;
 };

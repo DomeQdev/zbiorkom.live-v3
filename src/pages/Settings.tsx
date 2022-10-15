@@ -1,5 +1,5 @@
 import { List, ListItemButton, ListItemIcon, ListItemText, Divider, Button, Box } from "@mui/material";
-import { AdUnits, ArrowBack, Celebration, Cookie, DarkMode, LightMode, LocationCity, Map, MoneyOff, NavigateNext, ThumbDownAlt, ThumbUpAlt } from "@mui/icons-material";
+import { AdUnits, Celebration, Cookie, DarkMode, LightMode, LocationCity, Map, MoneyOff, NavigateNext, ThumbDownAlt, ThumbUpAlt } from "@mui/icons-material";
 import { Link, Route, Routes, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { City } from "../util/typings";
@@ -33,7 +33,6 @@ export default ({ city }: { city: City }) => {
     return <Routes>
         <Route path="map" element={<Box sx={{ textAlign: "center" }}>
             <h1 style={{ fontWeight: "normal" }}>Zmiana stylu mapy</h1>
-            <Button variant="outlined" startIcon={<ArrowBack />} component={Link} to=".." replace>Wróć</Button>
             <List sx={{ width: "90%", mx: "auto" }}>
                 {Object.values(styles).map(style => <ListItemButton key={style.id} disabled={mapStyle === style.id} onClick={() => {
                     setMapStyle(style.id);
@@ -48,7 +47,6 @@ export default ({ city }: { city: City }) => {
         </Box>} />
         <Route path="ads" element={<Box sx={{ textAlign: "center" }}>
             <h1 style={{ fontWeight: "normal" }}>Reklamy</h1>
-            <Button variant="outlined" startIcon={<ArrowBack />} component={Link} to=".." replace>Wróć</Button><br /><br />
             <Button
                 variant="contained"
                 startIcon={adsEnabled ? <ThumbDownAlt /> : <ThumbUpAlt />}

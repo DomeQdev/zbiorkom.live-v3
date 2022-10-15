@@ -1,7 +1,7 @@
-import { Close, OpenInNew, Share } from "@mui/icons-material";
+import { OpenInNew, Share } from "@mui/icons-material";
 import { Box, Card, IconButton, Skeleton } from "@mui/material";
 import { useEffect, useState } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { getData } from "../util/api";
 import { Alert, City } from "../util/typings";
 import toast from "react-hot-toast";
@@ -21,7 +21,7 @@ export default ({ city }: { city: City }) => {
     return <Box sx={{ width: "90%", mx: "auto", marginTop: 5 }}>
         {alert ? <>
             <Card variant="outlined" sx={{ bgcolor: "transparent", px: 3 }}>
-                <h3 style={{ paddingBottom: 0, display: "flex", justifyContent: "space-between" }}>{alert.title}<IconButton component={Link} to="../alerts" sx={{ width: 40, height: 40 }}><Close /></IconButton></h3>
+                <h3 style={{ paddingBottom: 0 }}>{alert.title}</h3>
                 <p>
                     {!!alert.routes?.length && <><b>Dotyczy linii:</b> {alert.routes.join(", ")}<br /></>}
                     {alert.start && <><b>Od:</b> {new Date(alert.start).toLocaleString()}<br /></>}

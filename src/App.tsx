@@ -1,8 +1,8 @@
-import { lazy, useEffect, useState } from 'react';
-import { Routes, Route, useNavigate, Link } from "react-router-dom";
-import { AppBar, Toolbar, IconButton, Typography, CssBaseline, Box, Dialog, DialogTitle, DialogActions, Button, DialogContent } from '@mui/material';
+import { lazy, useEffect, useMemo, useState } from 'react';
+import { Routes, Route, useNavigate, Link, useLocation } from "react-router-dom";
+import { CssBaseline, Dialog, DialogTitle, DialogActions, Button, DialogContent, Fab, Slide } from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import { DirectionsBus } from "@mui/icons-material";
+import { ArrowBack } from "@mui/icons-material";
 import { Toaster } from 'react-hot-toast';
 import { Suspense } from './components/Suspense';
 import { City } from './util/typings';
@@ -27,6 +27,7 @@ const Trip = lazy(() => import("./pages/Trip"));
 
 export default () => {
   const [userLocation, setUserLocation] = useState<GeolocationPosition>();
+  const location = useLocation();
   const darkMode = isDark();
 
   const theme = createTheme({
@@ -77,18 +78,38 @@ export default () => {
     return () => navigator.geolocation.clearWatch(id);
   }, []);
 
+  const fab = useMemo(() => {
+    let phLength = location.pathname.split("/").filter(x => x).length;
+
+    return {
+      show: phLength > 1,
+      link: location.pathname.includes("stop") || location.pathname.includes("trip") || location.pathname.includes("brigade") || location.pathname.includes("alert") ? "back" : (location.search || location.state ? location.pathname : "../")
+    };
+  }, [location]);
+
   return <ThemeProvider theme={theme}>
     <CssBaseline />
-    <AppBar position="sticky" sx={{ bgcolor: "#5aa159", color: "white" }}>
-      <Toolbar>
-        <IconButton edge="start" sx={{ color: "white", pointerEvents: "none" }}><DirectionsBus /></IconButton>
-        <Routes>
-          {Object.keys(cities).map((city) => <Route key={city} path={`${city}/*`} element={<Typography variant="h6" noWrap sx={{ flexGrow: 1, textDecoration: "none", color: "white" }} component={Link} to={`/${city}`}>{cities[city as City].name}</Typography>} />)}
-          <Route path="*" element={<Typography variant="h6" noWrap sx={{ flexGrow: 1, textDecoration: "none", color: "white" }} component={Link} to="/">zbiorkom.live</Typography>} />
-        </Routes>
-        <Box></Box>
-      </Toolbar>
-    </AppBar>
+
+    <Slide in={fab.show}>
+      <Fab
+        size="small"
+        color="primary"
+        sx={{ position: "fixed", zIndex: 30000, top: 16, left: 16 }}
+        component={Link}
+        to={fab.link}
+        state=""
+        relative="path"
+        replace
+        onClick={(e) => {
+          if (fab.link === "back") {
+            e.preventDefault();
+            window.history.back();
+          }
+        }}
+      >
+        <ArrowBack />
+      </Fab>
+    </Slide>
 
     <Dialog open={!localStorage.getItem("seen_movement")}>
       <DialogTitle>Nowa wersja aplikacji.</DialogTitle>
@@ -101,7 +122,7 @@ export default () => {
         <Button href="https://old.transitapi.me" onClick={() => alert("Jeśli nadal chcesz używać starej wersji, pamiętaj, że adres został zmieniony. Nowy adres starej wersji to 🔗 https://old.transitapi.me. Zostaniesz do niej teraz przekierowany.")}>Starej wersji (Nowy adres: old.transitapi.me)</Button>
       </DialogActions>
     </Dialog>
-    
+
     <ErrorBoundary>
       <Routes>
         <Route index element={<CityPicker />} />
@@ -142,9 +163,6 @@ export default () => {
           background: "#363636",
           color: "#fff"
         } : {}
-      }}
-      containerStyle={{
-        top: window.innerWidth > 600 ? 10 : 5
       }}
     />
   </ThemeProvider>;

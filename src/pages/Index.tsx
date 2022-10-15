@@ -65,7 +65,7 @@ export default ({ city }: { city: City }) => {
                             <Error />
                         </Avatar>
                     </ListItemAvatar>
-                    <ListItemText primary="Utrudnienia" />
+                    <ListItemText primary="Komunikaty" />
                 </ListItemButton>
             </>}
             <Divider />
