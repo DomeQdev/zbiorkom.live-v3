@@ -45,7 +45,6 @@ export default ({ city, vehicle, mapBearing }: { city: City, vehicle: Vehicle, m
         if (!vehicle.trip) return setTrip(undefined);
 
         setScrolled(false);
-        window.navigator.vibrate?.(600);
         getData("trip", city, {
             trip: encodeURIComponent(vehicle.trip)
         }).then(setTrip).catch(() => toast.error("Nie mogliśmy pobrać trasy..."));

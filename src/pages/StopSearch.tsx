@@ -87,7 +87,7 @@ export default ({ city, location }: { city: City, location?: GeolocationPosition
             </Toolbar>
         </AppBar>
 
-        {!search?.length && !nearestGroups?.length && <div style={{ textAlign: "center" }}>
+        {!input && !nearestGroups?.length && <div style={{ textAlign: "center" }}>
             <TravelExplore color="primary" sx={{ width: 60, height: 60, marginTop: 1 }} /><br />
             <b style={{ fontSize: 17 }}>Czas żeby coś wyszukać...</b>
         </div>}
