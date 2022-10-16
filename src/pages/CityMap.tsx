@@ -114,7 +114,7 @@ export default ({ city }: { city: City }) => {
 
         if (b) {
             setBike(b);
-            map?.flyTo({ center: [b[2][1], b[2][0]], zoom: 17, duration: 0 });
+            map?.flyTo({ center: [b[2][1], b[2][0]], duration: 0 });
         } else {
             navigate(".", { replace: true });
             toast.error("Nie znaleziono stacji.");

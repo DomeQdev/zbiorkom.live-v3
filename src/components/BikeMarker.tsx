@@ -13,7 +13,7 @@ export default ({ station, onClick }: { station: BikeStation, onClick?: () => vo
         onClick={onClick}
     >
         <Badge color="primary" badgeContent={(station[3][0] || 0) + (station[3][1] || 0)} max={50} showZero anchorOrigin={{ vertical: "top", horizontal: "left" }}>
-            <DirectionsBike />
+            <DirectionsBike sx={{ color: "#673ab7" }} />
         </Badge>
         {station[3][1] != null && <Bolt sx={{ position: "absolute", marginLeft: 3, marginTop: 2 }} color="primary" />}
     </Marker>;

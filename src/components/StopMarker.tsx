@@ -3,6 +3,7 @@ import { Marker } from "react-map-gl";
 import { Color } from "./Icons";
 import { City, Stop } from "../util/typings";
 import styled from "@emotion/styled";
+import cities from "../util/cities.json";
 
 const StopMarker = styled.div((props: {
     colors: string[]
@@ -14,15 +15,16 @@ const StopMarker = styled.div((props: {
     borderRadius: 18,
 }));
 
-const Arrow = styled(ArrowDropUp)((props: { arrowcolor: string }) => ({
+const Arrow = styled(ArrowDropUp)((props) => ({
     width: 27,
     height: 27,
-    color: props.arrowcolor,
+    color: props.color,
     stroke: "white",
     transform: "translateY(-14px)"
 }));
 
 export default ({ stop, city, onClick }: { stop: Stop, city: City, onClick?: () => void }) => {
+    const { img }: { img: any } = cities[city];
     let colors = stop.type?.map(type => Color(type, city)) || [Color(3, city)];
 
     return <Marker
@@ -33,7 +35,7 @@ export default ({ stop, city, onClick }: { stop: Stop, city: City, onClick?: () 
         style={{ cursor: "pointer", display: "grid", placeItems: "center", zIndex: 5 }}
         onClick={onClick}
     >
-        {stop.bearing?.map((bearing, i) => <div style={{ transform: `rotate(${bearing}deg)`, display: "flex", position: "absolute" }} key={stop.id + i}><Arrow arrowcolor={colors[0]} /></div>)}
-        <StopMarker colors={colors} />
+        {!img[stop.type[0] as any] && stop.bearing?.map((bearing, i) => <div style={{ transform: `rotate(${bearing}deg)`, display: "flex", position: "absolute" }} key={stop.id + i}><Arrow color={colors[0]} /></div>)}
+        {img[stop.type[0] as any] ? <img src={img[stop.type[0] as any]} style={{ width: 35, height: 35 }} /> : <StopMarker colors={colors} />}
     </Marker>;
 };
