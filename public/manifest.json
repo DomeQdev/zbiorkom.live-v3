@@ -27,8 +27,9 @@
       "url": "/warsaw",
       "icons": [
         {
-          "src": "/img/wtp500.png",
-          "sizes": "500x500"
+          "src": "/img/logo192.png",
+          "sizes": "192x192",
+          "type": "image/png"
         }
       ]
     },
@@ -39,8 +40,9 @@
       "url": "/poznan",
       "icons": [
         {
-          "src": "/img/mpk394.png",
-          "sizes": "394x394"
+          "src": "/img/logo192.png",
+          "sizes": "192x192",
+          "type": "image/png"
         }
       ]
     },
@@ -51,15 +53,16 @@
       "url": "/trojmiasto",
       "icons": [
         {
-          "src": "/img/logo512.png",
-          "sizes": "512x512"
+          "src": "/img/logo192.png",
+          "sizes": "192x192",
+          "type": "image/png"
         }
       ]
     }
   ],
   "start_url": "/",
   "display": "standalone",
-  "theme_color": "#FFFFFF",
+  "theme_color": "#5aa159",
   "background_color": "#FFFFFF",
   "orientation": "portrait",
   "gcm_sender_id": "477862441151"

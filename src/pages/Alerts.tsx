@@ -45,14 +45,12 @@ export default ({ city }: { city: City }) => {
     return <Box sx={{ textAlign: "center" }}>
         <h1 style={{ fontWeight: "normal" }}>Komunikaty</h1>
         <List>
-            {alerts ? <List>
-                {alerts.length ? <>
-                    {alerts.sort((a, b) => (a.impediment === b.impediment) ? 0 : a.impediment ? -1 : 1).map<React.ReactNode>(alert => <AlertCard alert={alert} key={alert.id} />).reduce((prev, curr, i) => [prev, <Divider key={i} />, curr])}
-                </> : <>
-                    <TaskAlt color="primary" sx={{ width: 60, height: 60 }} /><br />
-                    <b style={{ fontSize: 17 }}>Brak komunikatów.</b>
-                </>}
-            </List> : <>
+            {alerts ? alerts.length ? <>
+                {alerts.sort((a, b) => (a.impediment === b.impediment) ? 0 : a.impediment ? -1 : 1).map<React.ReactNode>(alert => <AlertCard alert={alert} key={alert.id} />).reduce((prev, curr, i) => [prev, <Divider key={i} />, curr])}
+            </> : <>
+                <TaskAlt color="primary" sx={{ width: 60, height: 60 }} /><br />
+                <b style={{ fontSize: 17 }}>Brak komunikatów.</b>
+            </> : <>
                 <AlertCardSkeleton />
                 <Divider />
                 <AlertCardSkeleton />

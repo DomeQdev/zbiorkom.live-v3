@@ -1,6 +1,6 @@
 import { lazy, useEffect, useMemo, useState } from 'react';
 import { Routes, Route, useNavigate, Link, useLocation } from "react-router-dom";
-import { CssBaseline, Dialog, DialogTitle, DialogActions, Button, DialogContent, Fab, Slide } from '@mui/material';
+import { CssBaseline, Fab, Slide } from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { ArrowBack } from "@mui/icons-material";
 import { Toaster } from 'react-hot-toast';
@@ -9,6 +9,7 @@ import { City } from './util/typings';
 import cities from "./util/cities.json";
 import isDark from './util/isDark';
 import ErrorBoundary from './components/ErrorBoundary';
+import DocumentMeta from 'react-document-meta';
 
 const Alerts = lazy(() => import("./pages/Alerts"));
 const Alert = lazy(() => import("./pages/Alert"));
@@ -82,7 +83,7 @@ export default () => {
     let phLength = location.pathname.split("/").filter(x => x).length;
 
     return {
-      show: phLength > 1,
+      show: phLength > 1 || location.pathname.includes("blog"),
       link: location.pathname.includes("stop") || location.pathname.includes("trip") || location.pathname.includes("brigade") || location.pathname.includes("alert") ? "back" : (location.search || location.state ? location.pathname : "../")
     };
   }, [location]);
@@ -111,45 +112,33 @@ export default () => {
       </Fab>
     </Slide>
 
-    <Dialog open={!localStorage.getItem("seen_movement")}>
-      <DialogTitle>Nowa wersja aplikacji.</DialogTitle>
-      <DialogContent>Właśnie widzisz nową wersję aplikacji. Ta wersja ma większość funkcji starej wersji z wyjątkiem: dokładnych informacji o pojeździe, filtrowania po modelu pojazdu i zajezdni oraz oznaczeń specjalnych i ekologicznych pojazdów.<h3>Chcę używac:</h3></DialogContent>
-      <DialogActions>
-        <Button onClick={() => {
-          localStorage.setItem("seen_movement", "1");
-          window.location.reload();
-        }} variant="outlined">Nowej wersji (nie pokazuj ponownie)</Button>
-        <Button href="https://old.transitapi.me" onClick={() => alert("Jeśli nadal chcesz używać starej wersji, pamiętaj, że adres został zmieniony. Nowy adres starej wersji to 🔗 https://old.transitapi.me. Zostaniesz do niej teraz przekierowany.")}>Starej wersji (Nowy adres: old.transitapi.me)</Button>
-      </DialogActions>
-    </Dialog>
-
     <ErrorBoundary>
       <Routes>
         <Route index element={<CityPicker />} />
-        <Route path="city" element={<Suspense><CitySelection /></Suspense>} />
+        <Route path="city" element={<DocumentMeta title={`Wybór miasta - zbiorkom.live`}><Suspense><CitySelection /></Suspense></DocumentMeta>} />
         {Object.keys(cities).map((city) => {
           let name = city as City;
           let cityData = cities[name];
 
           return <Route path={city} key={city}>
-            <Route index element={<Suspense><Index city={name} /></Suspense>} />
-            <Route path="map" element={<Suspense><Map city={name} userLocation={userLocation} style={{ position: "absolute" }}><CityMap city={name} /></Map></Suspense>} />
+            <Route index element={<DocumentMeta title={`${cityData.name} - zbiorkom.live`} description={`Autobusy, tramwaje i pociągi na żywo w mieście ${cityData.name}. Komunikaty, utrudnienia i odjazdy z przystanków`}><Suspense><Index city={name} /></Suspense></DocumentMeta>} />
+            <Route path="map" element={<DocumentMeta title={`${cityData.name} Mapa - zbiorkom.live`} description={`Gdzie jest autobus, tramwaj, pociąg na żywo w mieście ${cityData.name}`}><Suspense><Map city={name} userLocation={userLocation} style={{ position: "absolute" }}><CityMap city={name} /></Map></Suspense></DocumentMeta>} />
             {cityData.api.trip && <Route path="trip" element={<Suspense><Trip city={name} /></Suspense>} />}
             {cityData.api.stops && <>
-              <Route path="stops" element={<Suspense><StopSearch city={name} location={userLocation} /></Suspense>} />
+              <Route path="stops" element={<DocumentMeta title={`${cityData.name} Lista przystanków - zbiorkom.live`} description={`Lista wszystkich przystanków w mieście ${cityData.name}`}><Suspense><StopSearch city={name} location={userLocation} /></Suspense></DocumentMeta>} />
               <Route path="stop/:stopId" element={<Suspense><StopDepartures city={name} /></Suspense>} />
             </>}
             {cityData.api.brigades && <>
-              <Route path="brigades" element={<Suspense><Brigades city={name} /></Suspense>} />
+              <Route path="brigades" element={<DocumentMeta title={`${cityData.name} Rozkład brygad - zbiorkom.live`} description={`Rozkład brygad w mieście ${cityData.name}`}><Suspense><Brigades city={name} /></Suspense></DocumentMeta>} />
               <Route path="brigade/:line/:brigade" element={<Suspense><Brigade city={name} /></Suspense>} />
             </>}
-            {cityData.api.bikes && <Route path="bikes" element={<Suspense><Bikes city={name} location={userLocation} /></Suspense>} />}
-            {cityData.api.parkings && <Route path="parkings" element={<></>} />}
+            {cityData.api.bikes && <Route path="bikes" element={<DocumentMeta title={`${cityData.name} Stacje rowerów miejskich - zbiorkom.live`} description={`Zobacz liczbę rowerów i wolnych stojaków na stacjach rowerowych w mieście ${cityData.name}!`}><Suspense><Bikes city={name} location={userLocation} /></Suspense></DocumentMeta>} />}
+            {cityData.api.parkings && <Route path="parkings" element={<DocumentMeta title={`${cityData.name} Parkingi - zbiorkom.live`} description={`Zobacz wolne miejsca parkingowe w mieście ${cityData.name}!`}></DocumentMeta>} />}
             {cityData.api.alerts && <>
-              <Route path="alerts" element={<Suspense><Alerts city={name} /></Suspense>} />
+              <Route path="alerts" element={<DocumentMeta title={`${cityData.name} Komunikaty - zbiorkom.live`} description={`Zobacz komunikaty i utrudnienia w komunikacji w mieście ${cityData.name}!`}><Suspense><Alerts city={name} /></Suspense></DocumentMeta>} />
               <Route path="alert" element={<Suspense><Alert city={name} /></Suspense>} />
             </>}
-            <Route path="settings/*" element={<Suspense><Settings city={name} /></Suspense>} />
+            <Route path="settings/*" element={<DocumentMeta title={`${cityData.name} Ustawienia`}><Suspense><Settings city={name} /></Suspense></DocumentMeta>} />
           </Route>;
         })}
         <Route path="*" element={<Suspense><Error text={"404"} message={"Nie znaleziono strony"} /></Suspense>} />
