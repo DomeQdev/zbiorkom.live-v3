@@ -1,0 +1,74 @@
+{
+    "pl": {
+        "info": {
+            "name": "Polski (Polish)",
+            "code": "pl",
+            "img": "https://cdn.countryflags.com/thumbs/poland/flag-square-250.png"
+        },
+        "translation": {
+            "Map": "Mapa",
+            "Stop schedule": "Rozkład przystanku",
+            "Brigade schedule": "Rozkład brygad",
+            "Cycles": "Rowery miejskie",
+            "Parkings": "Parkingi",
+            "Issues": "Komunikaty",
+            "Settings": "Ustawienia"
+        },
+        "settings": {
+            "Settings": "Ustawienia",
+            "Change theme to light": "Zmień motyw na jasny",
+            "Change theme to dark": "Zmień motyw na ciemny",
+            "Change city": "Zmiana miasta",
+            "Change map style": "Zmiana stylu mapy",
+            "Change language": "Zmiana języka (Change language)",
+            "Contribute lang": "Pomóż w tłumaczeniu",
+            "Customize vehicle markers": "Personalizacja znaczników pojazdów",
+            "Show brigade": "Pokazywanie brygady",
+            "Brigade explanation": "Brygada to przyporządkowanie pojazdu do kursu w rozkładzie.",
+            "Show vehicle number": "Pokazywanie numeru taborowego",
+            "Vehicle number explanation": "Numer taborowy to unikanlny numer widoczny na ścianach pojazdu czy też w środku pojazdu.",
+            "Ads settings": "Ustawienia reklam",
+            "Adblock alert": "Używasz wtyczki która blokuje reklamy.",
+            "Ads enabled": "Włączono reklamy! Dzięki :)",
+            "Ads disabled": "Wyłączono reklamy :(",
+            "Enable ads": "Włącz reklamy",
+            "Disable ads": "Wyłącz reklamy"
+        }
+    },
+    "en": {
+        "info": {
+            "name": "English",
+            "code": "en",
+            "img": "https://cdn.countryflags.com/thumbs/united-kingdom/flag-square-250.png"
+        },
+        "translation": {
+            "Map": "Map",
+            "Stop schedule": "Stop schedule",
+            "Brigade schedule": "Brigade schedule",
+            "Cycles": "Cycles",
+            "Parkings": "Parkings",
+            "Issues": "Issues",
+            "Settings": "Settings"
+        },
+        "settings": {
+            "Settings": "Settings",
+            "Change theme to light": "Change theme to light",
+            "Change theme to dark": "Change theme to dark",
+            "Change city": "Change city",
+            "Change map style": "Change map style",
+            "Change language": "Change language",
+            "Contribute lang": "Help to translate",
+            "Customize vehicle markers": "Customize vehicle markers",
+            "Show brigade": "Show brigade",
+            "Brigade explanation": "Brigade is a vehicle assignment to a course in the schedule.",
+            "Show vehicle number": "Show vehicle number",
+            "Vehicle number explanation": "Vehicle number is a unique number visible on the walls of the vehicle or inside the vehicle.",
+            "Ads settings": "Ads settings",
+            "Adblock alert": "You are using an extension that blocks ads.",
+            "Ads enabled": "Ads enabled! Thanks :)",
+            "Ads disabled": "Ads disabled :(",
+            "Enable ads": "Enable ads",
+            "Disable ads": "Disable ads"
+        }
+    }
+}

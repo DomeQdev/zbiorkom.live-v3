@@ -122,6 +122,12 @@ type FilterData = {
     types: VehicleType[],
 };
 
+type BlogPost = {
+    title: string,
+    published: number,
+    content_encoded: string
+};
+
 type BikeStation = [
     id: string,
     name: string,
@@ -154,6 +160,7 @@ export {
     Trip,
     Alert,
     FilterData,
+    BlogPost,
     BikeStation,
     Parking
 };

@@ -9,7 +9,7 @@ import { City } from './util/typings';
 import cities from "./util/cities.json";
 import isDark from './util/isDark';
 import ErrorBoundary from './components/ErrorBoundary';
-import DocumentMeta from 'react-document-meta';
+import DocumentMeta from './components/DocumentMeta';
 
 const Alerts = lazy(() => import("./pages/Alerts"));
 const Alert = lazy(() => import("./pages/Alert"));
@@ -83,7 +83,7 @@ export default () => {
     let phLength = location.pathname.split("/").filter(x => x).length;
 
     return {
-      show: phLength > 1 || location.pathname.includes("blog"),
+      show: phLength > 1,
       link: location.pathname.includes("stop") || location.pathname.includes("trip") || location.pathname.includes("brigade") || location.pathname.includes("alert") ? "back" : (location.search || location.state ? location.pathname : "../")
     };
   }, [location]);
@@ -138,7 +138,7 @@ export default () => {
               <Route path="alerts" element={<DocumentMeta title={`${cityData.name} Komunikaty - zbiorkom.live`} description={`Zobacz komunikaty i utrudnienia w komunikacji w mieście ${cityData.name}!`}><Suspense><Alerts city={name} /></Suspense></DocumentMeta>} />
               <Route path="alert" element={<Suspense><Alert city={name} /></Suspense>} />
             </>}
-            <Route path="settings/*" element={<DocumentMeta title={`${cityData.name} Ustawienia`}><Suspense><Settings city={name} /></Suspense></DocumentMeta>} />
+            <Route path="settings/*" element={<DocumentMeta title={`${cityData.name} Ustawienia - zbiorkom.live`}><Suspense><Settings city={name} /></Suspense></DocumentMeta>} />
           </Route>;
         })}
         <Route path="*" element={<Suspense><Error text={"404"} message={"Nie znaleziono strony"} /></Suspense>} />

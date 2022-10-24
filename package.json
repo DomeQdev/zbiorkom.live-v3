@@ -8,12 +8,12 @@
     "@mui/icons-material": "^5.10.6",
     "@mui/material": "^5.10.7",
     "@turf/turf": "^6.5.0",
-    "lodash": "^4.17.21",
+    "i18next": "^22.0.2",
     "mapbox-gl": "^2.10.0",
     "react": "^18.2.0",
-    "react-document-meta": "^3.0.0-beta.2",
     "react-dom": "^18.2.0",
     "react-hot-toast": "^2.4.0",
+    "react-i18next": "^12.0.0",
     "react-map-gl": "^7.0.19",
     "react-router-dom": "^6.4.1",
     "react-scripts": "^5.0.1",
@@ -50,8 +50,6 @@
     ]
   },
   "devDependencies": {
-    "@types/lodash": "^4.14.186",
-    "@types/react-document-meta": "^3.0.2",
     "@types/react-dom": "^18.0.6",
     "workbox-core": "^6.5.4"
   }

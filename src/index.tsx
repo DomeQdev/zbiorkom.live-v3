@@ -3,6 +3,7 @@ import { BrowserRouter } from "react-router-dom";
 import { register } from './util/registerSW';
 import App from "./App";
 
+import "./util/i18n";
 import "./index.css";
 import "react-spring-bottom-sheet/dist/style.css";
 
