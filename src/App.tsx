@@ -136,6 +136,14 @@ export default () => {
         })}
         <Route path="*" element={<Suspense><Error text={"404"} message={"Nie znaleziono strony"} /></Suspense>} />
       </Routes>
+      <ins
+        style={{ width: "100%", height: "50px", position: "absolute", bottom: 0 }}
+        className="adsbygoogle"
+        data-ad-client="ca-pub-7576926722331812"
+        data-ad-slot="2662354294"
+        data-ad-format="auto"
+        data-full-width-responsive="true"
+      />
     </ErrorBoundary>
     <Toaster
       position="top-center"
