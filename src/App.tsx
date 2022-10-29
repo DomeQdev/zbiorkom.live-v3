@@ -68,6 +68,9 @@ export default () => {
       document.body.style.setProperty("--rsbs-handle-bg", "rgba(255,255,255,0.3)");
     }
 
+    //@ts-ignore
+    (adsbygoogle = window.adsbygoogle || []).push({});
+
     let id = navigator.geolocation.watchPosition(setUserLocation, console.error, { timeout: 10000 });
     return () => navigator.geolocation.clearWatch(id);
   }, []);
@@ -141,8 +144,8 @@ export default () => {
         className="adsbygoogle"
         data-ad-client="ca-pub-7576926722331812"
         data-ad-slot="2662354294"
-        data-ad-format="auto"
-        data-full-width-responsive="true"
+        data-ad-format="horizontal"
+        data-full-width-responsive="false"
       />
     </ErrorBoundary>
     <Toaster
