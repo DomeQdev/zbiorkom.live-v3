@@ -23,9 +23,10 @@
   <script>
     if (localStorage.getItem("ads") === "true") {
       const script = document.createElement('script');
-      script.setAttribute("src", "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7576926722331812");
+      script.setAttribute('src', 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7576926722331812');
       script.setAttribute('async', '');
-      script.onload = () => console.log("Ads loaded");
+      script.setAttribute('defer', '')
+      script.onload = () => (adsbygoogle = window.adsbygoogle || []).push({});
       document.head.appendChild(script);
     }
   </script>
