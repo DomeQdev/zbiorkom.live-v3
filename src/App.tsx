@@ -144,8 +144,6 @@ export default () => {
         className="adsbygoogle"
         data-ad-client="ca-pub-7576926722331812"
         data-ad-slot="2662354294"
-        data-ad-format="horizontal"
-        data-full-width-responsive="false"
       />
     </ErrorBoundary>
     <Toaster
