@@ -26,7 +26,9 @@
       script.setAttribute('src', 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7576926722331812');
       script.setAttribute('async', '');
       script.setAttribute('defer', '')
-      script.onload = () => console.log("Ads loaded");
+      script.onload = () => {
+        (window.adsbygoogle = window.adsbygoogle || []).push({});
+      };
       document.head.appendChild(script);
     }
   </script>

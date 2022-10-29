@@ -22,7 +22,7 @@ export default ({ city, vehicle, mapBearing }: { city: City, vehicle: Vehicle, m
     const { state, search } = useLocation();
     const { current: map } = useMap();
     const [follow, setFollow] = useState<boolean>(true);
-    const [scrolled, setScrolled] = useState<boolean>(false);
+    const [scrolled, setScrolled] = useState<string | null>(null);
     const [trip, setTrip] = useState<Trip>();
     const [realTime, setRealTime] = useState<RealTimeResponse>();
     const [anchorEl, setAnchorEl] = useState<HTMLElement>();
@@ -34,7 +34,7 @@ export default ({ city, vehicle, mapBearing }: { city: City, vehicle: Vehicle, m
 
     useEffect(() => {
         if (!follow) return;
-        setScrolled(false);
+        setScrolled("");
         map?.flyTo({
             center: [vehicle.location[1], vehicle.location[0]],
             duration: 0
@@ -44,10 +44,12 @@ export default ({ city, vehicle, mapBearing }: { city: City, vehicle: Vehicle, m
     useEffect(() => {
         if (!vehicle.trip) return setTrip(undefined);
 
-        setScrolled(false);
         getData("trip", city, {
             trip: encodeURIComponent(vehicle.trip)
-        }).then(setTrip).catch(() => toast.error("Nie mogliśmy pobrać trasy..."));
+        }).then((_trip) => {
+            if (trip) setScrolled("top");
+            setTrip(_trip);
+        }).catch(() => toast.error("Nie mogliśmy pobrać trasy..."));
     }, [vehicle.trip]);
 
     useEffect(() => {
@@ -80,7 +82,7 @@ export default ({ city, vehicle, mapBearing }: { city: City, vehicle: Vehicle, m
 
                 <div style={{ cursor: "pointer" }} onClick={() => {
                     setFollow(true);
-                    setScrolled(false);
+                    setScrolled("");
                 }}>
                     <VehicleHeadsign type={vehicle.type} city={city} route={vehicle.route} headsign={trip?.headsign || ""} />
 

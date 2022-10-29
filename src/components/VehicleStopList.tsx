@@ -5,7 +5,7 @@ import { RealTimeResponse } from "../util/realtime";
 import { City, VehicleType } from "../util/typings";
 import { Color, Icon } from "./Icons";
 
-export default ({ realtime, type, city, scrolled, setScrolled, stopFollowing }: { realtime: RealTimeResponse, type: VehicleType, city: City, scrolled: boolean, setScrolled: (scrolled: boolean) => void, stopFollowing: () => void }) => {
+export default ({ realtime, type, city, scrolled, setScrolled, stopFollowing }: { realtime: RealTimeResponse, type: VehicleType, city: City, scrolled: string | null, setScrolled: (scrolled: string | null) => void, stopFollowing: () => void }) => {
     const { current: map } = useMap();
     const color = Color(type, city);
 
@@ -21,9 +21,9 @@ export default ({ realtime, type, city, scrolled, setScrolled, stopFollowing }: 
                 });
             }}
             ref={(r) => {
-                if (!scrolled && (i === realtime.servingIndex || (!realtime.servingIndex && i + 1 === realtime.nextStopIndex))) {
+                if (!scrolled && (scrolled === "top" ? i === 0 : (i === realtime.servingIndex || (!realtime.servingIndex && i + 1 === realtime.nextStopIndex)))) {
                     r?.scrollIntoView();
-                    setScrolled(true);
+                    setScrolled(null);
                 }
             }}
         >

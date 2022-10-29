@@ -68,9 +68,6 @@ export default () => {
       document.body.style.setProperty("--rsbs-handle-bg", "rgba(255,255,255,0.3)");
     }
 
-    //@ts-ignore
-    (adsbygoogle = window.adsbygoogle || []).push({});
-
     let id = navigator.geolocation.watchPosition(setUserLocation, console.error, { timeout: 10000 });
     return () => navigator.geolocation.clearWatch(id);
   }, []);
@@ -140,7 +137,7 @@ export default () => {
         <Route path="*" element={<Suspense><Error text={"404"} message={"Nie znaleziono strony"} /></Suspense>} />
       </Routes>
       <ins
-        style={{ width: "100%", height: "50px", position: "fixed", textAlign: "center", bottom: 0, zIndex: 15 }}
+        style={{ width: "100%", height: "100px", position: "fixed", textAlign: "center", bottom: 0, zIndex: 15 }}
         className="adsbygoogle"
         data-ad-client="ca-pub-7576926722331812"
         data-ad-slot="2662354294"
