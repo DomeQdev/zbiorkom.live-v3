@@ -91,5 +91,6 @@ export default ({ city }: { city: City }) => {
             data-ad-format="auto"
             data-full-width-responsive="true"
         />
+        <script>(window.adsbygoogle = window.adsbygoogle || []).push({});</script>
     </div>;
 };

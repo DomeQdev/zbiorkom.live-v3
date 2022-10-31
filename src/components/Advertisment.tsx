@@ -6,10 +6,11 @@ export default ({ width }: { width: string | number }) => {
             className="adsbygoogle"
             style={{ display: "block", width: width }}
             data-ad-format="fluid"
-            data-ad-layout-key="-ff+5q+5e-d4+4m"
+            data-ad-layout-key="-fv+64+31-d5+c4"
             data-ad-client="ca-pub-7576926722331812"
             data-ad-slot="6847252094"
         />
+        <script>(window.adsbygoogle = window.adsbygoogle || []).push({});</script>
         <Divider />
     </div> : <></>;
 };
