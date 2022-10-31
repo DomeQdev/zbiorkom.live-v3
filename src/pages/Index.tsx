@@ -72,7 +72,7 @@ export default ({ city }: { city: City }) => {
                 </ListItemButton>
             </>}
             <Divider />
-            <Advertisment width="100%" height={125} />
+            <Advertisment width="100%" height={125} place="index" after={<Divider />} />
             <ListItemButton component={Link} to="settings">
                 <ListItemAvatar>
                     <Avatar>

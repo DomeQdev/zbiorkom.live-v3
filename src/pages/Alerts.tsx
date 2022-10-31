@@ -5,6 +5,7 @@ import { NavigateNext, TaskAlt } from "@mui/icons-material";
 import { toast } from "react-hot-toast";
 import { Alert, City } from "../util/typings";
 import { getData } from "../util/api";
+import Advertisment from "../components/Advertisment";
 
 export default ({ city }: { city: City }) => {
     const [alerts, setAlerts] = useState<Alert[]>();
@@ -36,7 +37,7 @@ export default ({ city }: { city: City }) => {
     </ListItem>;
 
     useEffect(() => {
-        getData("alerts", city).then(setAlerts).catch(() => {
+        getData("alerts", city).then((alerts: Alert[]) => setAlerts(alerts.sort((a, b) => (a.impediment === b.impediment) ? 0 : a.impediment ? -1 : 1))).catch(() => {
             toast.error("Nie mogliśmy pobrać utrudnień...");
             setAlerts([]);
         });
@@ -46,7 +47,10 @@ export default ({ city }: { city: City }) => {
         <h1 style={{ fontWeight: "normal" }}>Komunikaty</h1>
         <List>
             {alerts ? alerts.length ? <>
-                {alerts.sort((a, b) => (a.impediment === b.impediment) ? 0 : a.impediment ? -1 : 1).map<React.ReactNode>(alert => <AlertCard alert={alert} key={alert.id} />).reduce((prev, curr, i) => [prev, <Divider key={i} />, curr])}
+                <AlertCard alert={alerts[0]} />
+                <Divider />
+                <Advertisment width="100%" height={140} place="alerts" after={<Divider />} />
+                {alerts.slice(1).map<React.ReactNode>(alert => <AlertCard alert={alert} key={alert.id} />).reduce((prev, curr, i) => [prev, <Divider key={i} />, curr])}
             </> : <>
                 <TaskAlt color="primary" sx={{ width: 60, height: 60 }} /><br />
                 <b style={{ fontSize: 17 }}>Brak komunikatów.</b>

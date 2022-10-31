@@ -1,4 +1,4 @@
-import { List, ListItemButton, ListItemIcon, ListItemText, Divider, Button, Box, ListItemAvatar, Avatar, FormGroup, FormControlLabel, Switch, FormHelperText } from "@mui/material";
+import { List, ListItemButton, ListItemIcon, ListItemText, Divider, Button, Box, ListItemAvatar, Avatar, FormGroup, FormControlLabel, Switch, FormHelperText, Checkbox, Collapse } from "@mui/material";
 import { AdUnits, Celebration, DarkMode, LightMode, LocationCity, Map, MinorCrash, MoneyOff, NavigateNext, ThumbDownAlt, ThumbUpAlt, Translate } from "@mui/icons-material";
 import { Link, Route, Routes, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -10,8 +10,9 @@ import styles from "../util/styles.json";
 import translations from "../util/translations.json";
 
 export default ({ city }: { city: City }) => {
-    const [mapStyle, setMapStyle] = useState(localStorage.getItem("mapStyle") || "ms");
-    const [adsEnabled, setAdsEnabled] = useState(localStorage.getItem("ads") === "true");
+    const [mapStyle, setMapStyle] = useState<string>(localStorage.getItem("mapStyle") || "ms");
+    const [adsEnabled, setAdsEnabled] = useState<boolean>(localStorage.getItem("ads") === "true");
+    const [adsPlaces, setAdsPlaces] = useState<string[]>(JSON.parse(localStorage.getItem("ads_places") || "[]"));
     const [canBeEnabled, setCanBeEnabled] = useState<boolean>();
     const { pathname } = useLocation();
     const { i18n, t } = useTranslation("settings");
@@ -94,6 +95,35 @@ export default ({ city }: { city: City }) => {
             >
                 {t(`${adsEnabled ? "Disable" : "Enable"} ads`) as string}
             </Button>
+
+            <p>
+                <b>Aż 3 zł dziennie za 3 kliknięcia! 🤑</b> Tyle możesz nam dać pieniędzy za kliknięcie w reklamę z rana 🌄, po południu 🌞 i wieczorem 🌝!<br />
+                Dzięki reklamom <b>wszystkie funkcje 🚀</b> są bezpłatne dla Ciebie i tysiąca innych osób. 👀
+            </p>
+
+            <Collapse in={adsEnabled}>
+                <List>
+                    <h2 style={{ fontWeight: "normal" }}>Miejsca wyświetlania reklam:</h2>
+                    {[["index", "Strona główna"], ["alerts", "Lista komunikatów"], ["alert", "Komunikaty"], ["stop", "Rozkład przystanku"]].map(place => <ListItemButton
+                        key={place[0]}
+                        onClick={() => {
+                            if (adsPlaces.includes(place[0])) {
+                                setAdsPlaces(adsPlaces.filter(p => p !== place[0]));
+                                localStorage.setItem("ads_places", JSON.stringify(adsPlaces.filter(p => p !== place[0])));
+                            } else {
+                                setAdsPlaces([...adsPlaces, place[0]]);
+                                localStorage.setItem("ads_places", JSON.stringify([...adsPlaces, place[0]]));
+                            }
+                        }}
+                    >
+                        <ListItemIcon>
+                            <Checkbox checked={!adsPlaces.length || adsPlaces.includes(place[0])} />
+                        </ListItemIcon>
+                        <ListItemText primary={place[1]} />
+                    </ListItemButton>)}
+                    <i>Nigdy nie wyświetlimy reklam na mapie.</i>
+                </List>
+            </Collapse>
         </Box>} />
 
         <Route path="*" element={<>
