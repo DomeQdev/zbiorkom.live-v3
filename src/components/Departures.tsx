@@ -1,7 +1,7 @@
 import { BusAlert, Logout } from "@mui/icons-material";
 import { Divider, List, ListItem, ListItemButton, ListItemText, Skeleton } from "@mui/material";
 import { City, Departure, StopDepartures } from "../util/typings";
-import { minutesUntil } from "./VehicleStopList";
+import { minutesUntil } from "../pages/MapVehicle";
 import VehicleHeadsign from "./VehicleHeadsign";
 import isDark from "../util/isDark";
 
@@ -24,7 +24,8 @@ export default ({ departures, city, onClick }: { departures?: StopDepartures, ci
             />
             <ListItemText
                 sx={{ textAlign: "right" }}
-                primary={<><b>{minutesUntil(departure.realTime)}</b> min</>}
+                primary={<b>{minutesUntil(departure.realTime)}</b>}
+                secondary="min"
             />
         </ListItemButton>).reduce((prev, curr, i) => [prev, <Divider key={`divi-${i}`} />, curr])}
     </List> : <div style={{ textAlign: "center" }}>

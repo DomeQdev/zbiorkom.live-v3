@@ -3,9 +3,9 @@ import { Chip, Tooltip } from "@mui/material";
 import { PanTool } from "@mui/icons-material";
 import { lineString } from "@turf/turf";
 import { useState } from "react";
-import { minutesUntil } from "./VehicleStopList";
 import { City, Trip, TripStop, VehicleType } from "../util/typings";
 import { RealTimeResponse } from "../util/realtime";
+import { minutesUntil } from "../pages/MapVehicle";
 import { Color } from "./Icons";
 import styled from "@emotion/styled";
 
