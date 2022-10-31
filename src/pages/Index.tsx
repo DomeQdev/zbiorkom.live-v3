@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { City } from "../util/typings";
 import cities from "../util/cities.json";
+import Advertisment from "../components/Advertisment";
 
 export default ({ city }: { city: City }) => {
     const { t } = useTranslation();
@@ -71,6 +72,7 @@ export default ({ city }: { city: City }) => {
                 </ListItemButton>
             </>}
             <Divider />
+            <Advertisment width={"100%"} />
             <ListItemButton component={Link} to="settings">
                 <ListItemAvatar>
                     <Avatar>
@@ -81,5 +83,13 @@ export default ({ city }: { city: City }) => {
             </ListItemButton>
         </List>
         <Button variant="text" href="https://discord.gg/QYRswCH6Gw" target="_blank">Discord</Button>
+        <ins
+            className="adsbygoogle"
+            style={{ display: "block" }}
+            data-ad-client="ca-pub-7576926722331812"
+            data-ad-slot="2662354294"
+            data-ad-format="auto"
+            data-full-width-responsive="true"
+        />
     </div>;
 };
