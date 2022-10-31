@@ -4,6 +4,12 @@ import cities from "../util/cities.json";
 type VehicleType = 0 | 1 | 2 | 3 | 4 | 11;
 type City = keyof typeof cities;
 
+declare global {
+    interface Window {
+        adsbygoogle: any
+    };
+};
+
 type Vehicle = {
     route: string,
     id: string,

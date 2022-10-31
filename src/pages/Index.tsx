@@ -2,6 +2,7 @@ import { List, ListItemAvatar, ListItemText, Avatar, ListItemButton, Divider, Bu
 import { Map, DepartureBoard, CalendarMonth, DirectionsBike, LocalParking, Error, Settings, DirectionsBus } from "@mui/icons-material";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
 import { City } from "../util/typings";
 import cities from "../util/cities.json";
 import Advertisment from "../components/Advertisment";
@@ -9,6 +10,10 @@ import Advertisment from "../components/Advertisment";
 export default ({ city }: { city: City }) => {
     const { t } = useTranslation();
     const cityData = cities[city];
+
+    useEffect(() => {
+        (window.adsbygoogle = window.adsbygoogle || []).push({});
+    }, []);
 
     return <div style={{ width: "100%", textAlign: "center" }}>
         <h1 style={{ display: "inline-flex", alignItems: "center" }}><DirectionsBus color="primary" fontSize="large" />&nbsp;{cityData.name}</h1>
@@ -72,7 +77,7 @@ export default ({ city }: { city: City }) => {
                 </ListItemButton>
             </>}
             <Divider />
-            <Advertisment width={"100%"} />
+            <Advertisment width="100%" height={125} />
             <ListItemButton component={Link} to="settings">
                 <ListItemAvatar>
                     <Avatar>
@@ -91,6 +96,5 @@ export default ({ city }: { city: City }) => {
             data-ad-format="auto"
             data-full-width-responsive="true"
         />
-        <script>(window.adsbygoogle = window.adsbygoogle || []).push({});</script>
     </div>;
 };
