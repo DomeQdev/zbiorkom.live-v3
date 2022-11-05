@@ -59,7 +59,7 @@ export default ({ city, vehicle, mapBearing }: { city: City, vehicle: Vehicle, m
             location: [vehicle.location[1], vehicle.location[0]],
             delay: vehicle.delay
         });
-        if (!realTime) setScrollTo(rt.nextStopIndex - 1);
+        if (!realTime) setScrollTo(rt.snIndex - 1);
         setRealTime(rt);
     }, [vehicle, trip]);
 
@@ -83,7 +83,7 @@ export default ({ city, vehicle, mapBearing }: { city: City, vehicle: Vehicle, m
 
                 <div style={{ cursor: "pointer" }} onClick={() => {
                     setFollow(true);
-                    if (realTime) setScrollTo(realTime.nextStopIndex - 1);
+                    if (realTime) setScrollTo(realTime.snIndex - 1);
                 }}>
                     <VehicleHeadsign type={vehicle.type} city={city} route={vehicle.route} headsign={trip?.headsign || ""} />
 
@@ -108,6 +108,7 @@ export default ({ city, vehicle, mapBearing }: { city: City, vehicle: Vehicle, m
                     {realTime.stops.map<React.ReactNode>((stop, i) => <ListItemButton
                         key={i}
                         onClick={() => {
+                            setFollow(false);
                             map?.flyTo({
                                 center: [stop.location[1], stop.location[0]],
                                 zoom: 17,

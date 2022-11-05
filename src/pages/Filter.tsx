@@ -1,6 +1,6 @@
 import { ArrowDropDown, ArrowDropUp, Close, NavigateNext, NoTransfer, RestartAlt, Search } from "@mui/icons-material";
 import { Badge, Box, Collapse, IconButton, InputAdornment, List, ListItem, ListItemAvatar, ListItemButton, ListItemText, Skeleton, TextField, ToggleButton, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { BottomSheet } from "react-spring-bottom-sheet";
 import { Color, Name, Icon } from "../components/Icons";
 import { City, FilterData, RouteType, VehicleType } from "../util/typings";
@@ -11,7 +11,7 @@ export default ({ city, filter, setFilter, onClose }: { city: City, filter: Filt
     const [routes, setRoutes] = useState<RouteType[]>();
     const [selectedType, setSelectedType] = useState<VehicleType>();
     const [search, setSearch] = useState<string>("");
-    const searchResults = routes?.map(r => r.routes.map(route => ({ ...route, type: r.type }))).flat().filter(route => route.name.replace(/[^\w]/gi, "").toLowerCase().includes(search.replace(/[^\w]/gi, "").toLowerCase()));
+    const searchResults = useMemo(() => routes?.map(r => r.routes.map(route => ({ ...route, type: r.type }))).flat().filter(route => route.name.replace(/[^\w]/gi, "").toLowerCase().includes(search.replace(/[^\w]/gi, "").toLowerCase())), [search]);
 
     useEffect(() => {
         setSearch("");

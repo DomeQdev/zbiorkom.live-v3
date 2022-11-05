@@ -11,7 +11,10 @@ export default () => {
     return <Box sx={{ textAlign: "center" }}>
         <h1 style={{ fontWeight: "normal" }}>{t("Change city") as string}</h1>
         <List sx={{ width: "90%", mx: "auto" }}>
-            {Object.keys(cities).map(city => <ListItemButton key={city} component={Link} to={`/${city}`} onClick={() => localStorage.setItem("city", city)}>
+            {Object.keys(cities).map(city => <ListItemButton key={city} component={Link} to={`/${city}`} onClick={() => {
+                localStorage.setItem("city", city);
+                window.location.href = `/${city}`;
+            }}>
                 <ListItemIcon><LocationCity /></ListItemIcon>
                 <ListItemText primary={cities[city as City].name} />
                 <NavigateNext />

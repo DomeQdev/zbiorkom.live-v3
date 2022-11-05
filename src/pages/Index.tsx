@@ -1,5 +1,5 @@
-import { List, ListItemAvatar, ListItemText, Avatar, ListItemButton, Divider, Button } from "@mui/material";
-import { Map, DepartureBoard, CalendarMonth, DirectionsBike, LocalParking, Error, Settings, DirectionsBus } from "@mui/icons-material";
+import { List, ListItemAvatar, ListItemText, Avatar, ListItemButton, Divider, Button, IconButton } from "@mui/material";
+import { Map, DepartureBoard, CalendarMonth, DirectionsBike, LocalParking, Error, Settings, DirectionsBus, ArrowDropDown } from "@mui/icons-material";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { City } from "../util/typings";
@@ -11,7 +11,7 @@ export default ({ city }: { city: City }) => {
     const cityData = cities[city];
 
     return <div style={{ width: "100%", textAlign: "center" }}>
-        <h1 style={{ display: "inline-flex", alignItems: "center" }}><DirectionsBus color="primary" fontSize="large" />&nbsp;{cityData.name}</h1>
+        <h1 style={{ display: "inline-flex", alignItems: "center" }}><DirectionsBus color="primary" fontSize="large" />&nbsp;{cityData.name}&nbsp;<IconButton component={Link} to="/city"><ArrowDropDown /></IconButton></h1>
         <List>
             <ListItemButton component={Link} to="map" >
                 <ListItemAvatar>

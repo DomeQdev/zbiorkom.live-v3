@@ -17,7 +17,7 @@ export default ({ width, height, place, before, after }: { width: string | numbe
     useEffect(() => {
         try {
             (window.adsbygoogle = window.adsbygoogle || []).push({});
-        } catch (e) { }
+        } catch (e) {}
     }, []);
 
     return localStorage.getItem("ads") === "true" && (!places.length || places.includes(place)) ? <div style={{ width }}>

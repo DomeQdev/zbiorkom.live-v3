@@ -23,7 +23,7 @@ export default ({ city, location, userLocation, style, children }: { city: City,
         initialViewState={{
             longitude: _loc[1],
             latitude: _loc[0],
-            zoom: 17
+            zoom: 15
         }}
         minZoom={2}
         maxPitch={0}
@@ -31,6 +31,7 @@ export default ({ city, location, userLocation, style, children }: { city: City,
         mapboxAccessToken="pk.eyJ1IjoiZG9tZXEiLCJhIjoiY2t6c2JnZnp5MDExMzJ4bWlpMjcwaDR0dCJ9.v2ONdyf7WN70xFwUOyUuXQ"
         attributionControl={false}
         style={style}
+        reuseMaps
     >
         <NavigationControl visualizePitch />
         <GeolocateControl

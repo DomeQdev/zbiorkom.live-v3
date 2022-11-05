@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
+import { Alert, Box, Chip, Fab, Menu, MenuItem, Skeleton, Typography } from "@mui/material";
 import { useNavigate, useParams, Link } from "react-router-dom";
-import { Alert, Box, Chip, Fab, Menu, MenuItem, Skeleton } from "@mui/material";
 import { Map, MoreVert, Star } from "@mui/icons-material";
+import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
-import { getData } from "../util/api";
 import { City, StopDepartures } from "../util/typings";
+import { getData } from "../util/api";
 import Departures from "../components/Departures";
 
 export default ({ city }: { city: City }) => {
@@ -35,7 +35,7 @@ export default ({ city }: { city: City }) => {
 
     return <>
         <Chip
-            label={stopDepartures ? `${stopDepartures.name} ${stopDepartures.code || ""}` : <Skeleton variant="text" width={150} />}
+            label={stopDepartures ? <Typography noWrap>{stopDepartures.name} {stopDepartures.code}</Typography> : <Skeleton variant="text" width={150} />}
             color="primary"
             sx={{ position: "fixed", top: 20, left: "50%", transform: "translate(-50%, 0)" }}
         />

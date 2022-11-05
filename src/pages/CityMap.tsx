@@ -135,8 +135,8 @@ export default ({ city }: { city: City }) => {
         </Suspense>
         <div className="mapboxgl-ctrl-top-right" style={{ top: 135 }}>
             <div className="mapboxgl-ctrl mapboxgl-ctrl-group">
-                <button onClick={() => filterEnabled ? setFilter({ routes: [], types: [] }) : navigate(".", { state: "filter" })} style={{ backgroundColor: filterEnabled ? "#5aa159" : "white" }}><FilterList sx={{ fontSize: 19, marginTop: "3px" }} /></button>
-                <button><Search sx={{ fontSize: 19, marginTop: "3px" }} /></button>
+                <button onClick={() => navigate(".", { state: "filter" })} style={{ backgroundColor: filterEnabled ? "#5aa159" : "white" }}><FilterList sx={{ fontSize: 19, marginTop: "3px" }} /></button>
+                <button disabled><Search sx={{ fontSize: 19, marginTop: "3px" }} /></button>
                 <button><Star sx={{ fontSize: 19, marginTop: "3px" }} /></button>
             </div>
         </div>

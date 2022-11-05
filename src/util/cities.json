@@ -24,8 +24,8 @@
             "stopGroup": "https://transitapi.me/warsaw/getStopGroup?name={{name}}",
             "stop": "https://transitapi.me/warsaw/stopDepartures?stop={{stop}}",
             "routes": "https://transitapi.me/warsaw/routes",
-            "brigades": "https://84a572bd-5b45-4285-899e-2e653a851bd4.transitapi.me/warsaw/brigade?line={{line}}",
-            "brigade": "https://84a572bd-5b45-4285-899e-2e653a851bd4.transitapi.me/warsaw/brigade?line={{line}}&brigade={{brigade}}",
+            "brigades": "https://transitapi.me/warsaw/brigades?route={{line}}",
+            "brigade": "https://transitapi.me/warsaw/brigade?route={{line}}&brigade={{brigade}}",
             "bikes": "/api/warsaw/bikes",
             "parkings": null,
             "alerts": "https://transitapi.me/warsaw/alerts",
@@ -37,9 +37,6 @@
             "2": "#008800",
             "3": "#88007c",
             "4": "#fff1ba"
-        },
-        "img": {
-            "1": "/img/warsaw_metro.png"
         }
     },
     "poznan": {
@@ -67,8 +64,8 @@
             "stopGroup": "https://transitapi.me/poznan/getStopGroup?name={{name}}",
             "stop": "https://transitapi.me/poznan/stopDepartures?stop={{stop}}",
             "routes": "https://transitapi.me/poznan/routes",
-            "brigades": "https://84a572bd-5b45-4285-899e-2e653a851bd4.transitapi.me/poznan/brigade?line={{line}}",
-            "brigade": "https://84a572bd-5b45-4285-899e-2e653a851bd4.transitapi.me/poznan/brigade?line={{line}}&brigade={{brigade}}",
+            "brigades": "https://transitapi.me/poznan/brigades?route={{line}}",
+            "brigade": "https://transitapi.me/poznan/brigade?route={{line}}&brigade={{brigade}}",
             "bikes": "/api/poznan/bikes",
             "parkings": "/api/poznan/parkings",
             "alerts": null,
@@ -77,8 +74,7 @@
         "colors": {
             "0": "#f1b434",
             "3": "#38913e"
-        },
-        "img": {}
+        }
     },
     "szczecin": {
         "name": "Szczecin",
@@ -105,8 +101,8 @@
             "stopGroup": "https://transitapi.me/szczecin/getStopGroup?name={{name}}",
             "stop": "https://transitapi.me/szczecin/stopDepartures?stop={{stop}}",
             "routes": "https://transitapi.me/szczecin/routes",
-            "brigades": null,
-            "brigade": null,
+            "brigades": "https://transitapi.me/szczecin/brigades?route={{line}}",
+            "brigade": "https://transitapi.me/szczecin/brigade?route={{line}}&brigade={{brigade}}",
             "bikes": null,
             "parkings": null,
             "alerts": null,
@@ -115,15 +111,14 @@
         "colors": {
             "0": "#f1b434",
             "3": "#38913e"
-        },
-        "img": {}
+        }
     },
     "trojmiasto": {
         "name": "Trójmiasto",
         "id": "trojmiasto",
         "location": [
-            54.34610966679864,
-            18.644629872390432
+            54.35547,
+            18.64560
         ],
         "bounds": [
             [
@@ -136,15 +131,15 @@
             ]
         ],
         "api": {
-            "trip": null,
-            "vehicle": "/api/trojmiasto/vehicle?tab={{tab}}&type={{type}}",
-            "stops": null,
-            "stopGroups": null,
-            "stopGroup": null,
-            "stop": null,
-            "routes": null,
-            "brigades": null,
-            "brigade": null,
+            "trip": "https://transitapi.me/trojmiasto/trip?trip={{trip}}",
+            "vehicle": null,
+            "stops": "https://transitapi.me/trojmiasto/stops",
+            "stopGroups": "https://transitapi.me/trojmiasto/stopGroups",
+            "stopGroup": "https://transitapi.me/trojmiasto/getStopGroup?name={{name}}",
+            "stop": "https://transitapi.me/trojmiasto/stopDepartures?stop={{stop}}",
+            "routes": "https://transitapi.me/trojmiasto/routes",
+            "brigades": "https://transitapi.me/trojmiasto/brigades?route={{line}}",
+            "brigade": "https://transitapi.me/trojmiasto/brigade?route={{line}}&brigade={{brigade}}",
             "bikes": null,
             "parkings": "/api/trojmiasto/parkings",
             "alerts": null,
@@ -154,8 +149,7 @@
             "0": "#dd4730",
             "3": "#185c9d",
             "11": "#53a548"
-        },
-        "img": {}
+        }
     },
     "adelaide": {
         "name": "Adelaide",
@@ -193,7 +187,43 @@
             "0": "#eb2127",
             "2": "#0082ca",
             "3": "#4c9c2e"
+        }
+    },
+    "washington": {
+        "name": "Washington DC",
+        "id": "washington",
+        "location": [
+            38.89872,
+            -77.03656
+        ],
+        "bounds": [
+            [
+                39.7156,
+                -78.0606
+            ],
+            [
+                37.766,
+                -75.410
+            ]
+        ],
+        "api": {
+            "trip": "https://transitapi.me/washington/trip?trip={{trip}}",
+            "vehicle": null,
+            "stops": "https://transitapi.me/washington/stops",
+            "stopGroups": "https://transitapi.me/washington/stopGroups",
+            "stopGroup": "https://transitapi.me/washington/getStopGroup?name={{name}}",
+            "stop": "https://transitapi.me/washington/stopDepartures?stop={{stop}}",
+            "routes": "https://transitapi.me/washington/routes",
+            "brigades": null,
+            "brigade": null,
+            "bikes": null,
+            "parkings": null,
+            "alerts": "https://transitapi.me/washington/alerts",
+            "alert": "https://transitapi.me/washington/alert?alert={{id}}"
         },
-        "img": {}
+        "colors": {
+            "1": "#DC4283",
+            "3": "#006b47"
+        }
     }
 }
