@@ -3,15 +3,15 @@ import { List, ListItemButton, ListItemIcon, ListItemText, Divider } from "@mui/
 import { Link, Route, Routes } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { lazy } from "react";
-import { City } from "../util/typings";
-import { Suspense } from "../components/Suspense";
-import isDark from "../util/isDark";
+import { City } from "../../util/typings";
+import { Suspense } from "../../components/Suspense";
+import isDark from "../../util/isDark";
 
-const AdsSettings = lazy(() => import("./Settings/AdsSettings"));
-const FavoriteSettings = lazy(() => import("./Settings/FavoriteSettings"));
-const LanguageSettings = lazy(() => import("./Settings/LanguageSettings"));
-const MapSettings = lazy(() => import("./Settings/MapSettings"));
-const MarkersSettings = lazy(() => import("./Settings/MarkersSettings"));
+const AdsSettings = lazy(() => import("./Ads"));
+const FavoriteSettings = lazy(() => import("./Favorite"));
+const LanguageSettings = lazy(() => import("./Language"));
+const MapSettings = lazy(() => import("./Map"));
+const MarkersSettings = lazy(() => import("./Markers"));
 
 export default ({ city }: { city: City }) => {
     const { t } = useTranslation("settings");

@@ -1,21 +1,21 @@
 import { Divider, IconButton, Dialog, DialogTitle, DialogContent, List, ListItem, ListItemAvatar, ListItemText, Menu, MenuItem, Skeleton, Badge, ListItemButton, Avatar, Paper, Typography } from "@mui/material";
 import { Check, Close, Commit, DirectionsBus, GpsFixed, History, LocationDisabled, Logout, MoreVert, Route, WifiOff } from "@mui/icons-material";
+import { RealTime, RealTimeResponse } from "../../util/realtime";
 import { useNavigate, useLocation } from "react-router-dom";
+import { Trip, City, Vehicle } from "../../util/typings";
 import { BottomSheet } from "react-spring-bottom-sheet";
+import { Color, Icon } from "../../components/Icons";
 import { bbox, lineString } from "@turf/turf";
 import { useEffect, useState } from "react";
+import { getData } from "../../util/api";
 import { toast } from "react-hot-toast";
 import { useMap } from "react-map-gl";
-import { RealTime, RealTimeResponse } from "../util/realtime";
-import { Trip, City, Vehicle } from "../util/typings";
-import { Color, Icon } from "../components/Icons";
-import { getData } from "../util/api";
-import VehicleHeadsign from "../components/VehicleHeadsign";
-import VehicleMarker from "../components/VehicleMarker";
-import Shapes from "../components/Shapes";
-import Timer from "../components/Timer";
+import VehicleHeadsign from "../../components/VehicleHeadsign";
+import VehicleMarker from "../../components/VehicleMarker";
+import Shapes from "../../components/Shapes";
+import Timer from "../../components/Timer";
+import isDark from "../../util/isDark";
 import styled from "@emotion/styled";
-import isDark from "../util/isDark";
 
 export default ({ city, vehicle, mapBearing }: { city: City, vehicle: Vehicle, mapBearing: number }) => {
     const navigate = useNavigate();
@@ -156,7 +156,7 @@ export default ({ city, vehicle, mapBearing }: { city: City, vehicle: Vehicle, m
                                     sx={{
                                         position: "absolute",
                                         zIndex: 101,
-                                        transition: "margin 300ms",
+                                        transition: "margin 1000ms",
                                         backgroundColor: "white",
                                         border: `1px solid ${color}`,
                                         opacity: 1,

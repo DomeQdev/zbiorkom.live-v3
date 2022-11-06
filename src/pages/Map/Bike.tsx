@@ -1,7 +1,7 @@
 import { Avatar, Dialog, DialogTitle, IconButton, List, ListItem, ListItemAvatar, ListItemText } from "@mui/material";
 import { Close, ElectricBike, LockOpen, PedalBike } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
-import { BikeStation } from "../util/typings";
+import { BikeStation } from "../../util/typings";
 
 export default ({ station }: { station: BikeStation }) => {
     const navigate = useNavigate();

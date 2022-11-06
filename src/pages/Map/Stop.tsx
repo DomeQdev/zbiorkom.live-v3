@@ -4,12 +4,12 @@ import { Alert, IconButton, Skeleton } from "@mui/material";
 import { Close, DirectionsTransit, MoreVert } from "@mui/icons-material";
 import { BottomSheet } from "react-spring-bottom-sheet";
 import { useMap } from "react-map-gl";
-import { City, Stop, StopDepartures, Vehicle } from "../util/typings";
-import { getData } from "../util/api";
-import { Color, Icon } from "../components/Icons";
-import StopMarker from "../components/StopMarker";
-import VehicleMarker from "../components/VehicleMarker";
-import Departures from "../components/Departures";
+import { City, Stop, StopDepartures, Vehicle } from "../../util/typings";
+import { getData } from "../../util/api";
+import { Color, Icon } from "../../components/Icons";
+import StopMarker from "../../components/StopMarker";
+import VehicleMarker from "../../components/VehicleMarker";
+import Departures from "../../components/Departures";
 import toast from "react-hot-toast";
 
 export default ({ city, stop, vehicles }: { city: City, stop: Stop, vehicles: Vehicle[] }) => {

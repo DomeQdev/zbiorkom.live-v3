@@ -1,10 +1,10 @@
-import { ArrowDropDown, ArrowDropUp, Close, NavigateNext, NoTransfer, RestartAlt, Search } from "@mui/icons-material";
 import { Badge, Box, Collapse, IconButton, InputAdornment, List, ListItem, ListItemAvatar, ListItemButton, ListItemText, Skeleton, TextField, ToggleButton, Typography } from "@mui/material";
-import { useEffect, useMemo, useState } from "react";
+import { ArrowDropDown, ArrowDropUp, Close, NavigateNext, NoTransfer, RestartAlt, Search } from "@mui/icons-material";
+import { City, FilterData, RouteType, VehicleType } from "../../util/typings";
+import { Color, Name, Icon } from "../../components/Icons";
 import { BottomSheet } from "react-spring-bottom-sheet";
-import { Color, Name, Icon } from "../components/Icons";
-import { City, FilterData, RouteType, VehicleType } from "../util/typings";
-import { getData } from "../util/api";
+import { useEffect, useMemo, useState } from "react";
+import { getData } from "../../util/api";
 import toast from "react-hot-toast";
 
 export default ({ city, filter, setFilter, onClose }: { city: City, filter: FilterData, setFilter: (filterData: FilterData) => void, onClose: () => void }) => {
@@ -47,7 +47,7 @@ export default ({ city, filter, setFilter, onClose }: { city: City, filter: Filt
                 onChange={e => setSearch(e.target.value)}
                 sx={{ marginTop: 1.2, width: "96%", mx: "2%" }}
                 InputProps={{
-                    startAdornment: <InputAdornment position="start"><Search /></InputAdornment>,
+                    startAdornment: <InputAdornment position="start"><Search /></InputAdornment>
                 }}
             />
             {search ? searchResults?.length ? <Box sx={{ marginTop: 1.2, width: "96%", mx: "2%", textAlign: "center" }}>

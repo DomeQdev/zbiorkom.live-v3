@@ -5,7 +5,7 @@ import { lineString } from "@turf/turf";
 import { useState } from "react";
 import { City, Trip, TripStop, VehicleType } from "../util/typings";
 import { RealTimeResponse } from "../util/realtime";
-import { minutesUntil } from "../pages/MapVehicle";
+import { minutesUntil } from "../pages/Map/Vehicle";
 import { Color } from "./Icons";
 import styled from "@emotion/styled";
 

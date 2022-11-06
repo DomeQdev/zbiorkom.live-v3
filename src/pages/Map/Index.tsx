@@ -6,18 +6,19 @@ import { io } from "socket.io-client";
 import { Button } from "@mui/material";
 import { FilterList, PortableWifiOff, Search, Star } from "@mui/icons-material";
 import { bbox, featureCollection, point } from "@turf/turf";
-import { BikeStation, City, FilterData, Stop, Vehicle } from "../util/typings";
-import { Backdrop, Suspense } from "../components/Suspense";
-import { getData } from "../util/api";
-import cities from "../util/cities.json";
+import { BikeStation, City, FilterData, Stop, Vehicle } from "../../util/typings";
+import { Backdrop, Suspense } from "../../components/Suspense";
+import { getData } from "../../util/api";
+import cities from "../../util/cities.json";
 
-const StopMarker = lazy(() => import("../components/StopMarker"));
-const VehicleMarker = lazy(() => import("../components/VehicleMarker"));
-const BikeMarker = lazy(() => import("../components/BikeMarker"));
-const MapStop = lazy(() => import("./MapStop"));
-const MapVehicle = lazy(() => import("./MapVehicle"));
-const MapBike = lazy(() => import("./MapBike"));
+const VehicleMarker = lazy(() => import("../../components/VehicleMarker"));
+const StopMarker = lazy(() => import("../../components/StopMarker"));
+const BikeMarker = lazy(() => import("../../components/BikeMarker"));
+const SearchVehicle = lazy(() => import("./Search"));
+const MapVehicle = lazy(() => import("./Vehicle"));
 const Filter = lazy(() => import("./Filter"));
+const MapStop = lazy(() => import("./Stop"));
+const MapBike = lazy(() => import("./Bike"));
 
 export default ({ city }: { city: City }) => {
     const [searchParams] = useSearchParams();
@@ -136,8 +137,8 @@ export default ({ city }: { city: City }) => {
         <div className="mapboxgl-ctrl-top-right" style={{ top: 135 }}>
             <div className="mapboxgl-ctrl mapboxgl-ctrl-group">
                 <button onClick={() => navigate(".", { state: "filter" })} style={{ backgroundColor: filterEnabled ? "#5aa159" : "white" }}><FilterList sx={{ fontSize: 19, marginTop: "3px" }} /></button>
-                <button disabled><Search sx={{ fontSize: 19, marginTop: "3px" }} /></button>
-                <button><Star sx={{ fontSize: 19, marginTop: "3px" }} /></button>
+                <button onClick={() => navigate(".", { state: "search" })}><Search sx={{ fontSize: 19, marginTop: "3px" }} /></button>
+                <button disabled><Star sx={{ fontSize: 19, marginTop: "3px" }} /></button>
             </div>
         </div>
         {state === "filter" && <Suspense>
@@ -155,5 +156,6 @@ export default ({ city }: { city: City }) => {
                 }
             }} />
         </Suspense>}
+        {state === "search" && <Suspense><SearchVehicle city={city} onClose={() => navigate(".", { state: "", replace: true })} /></Suspense>}
     </>;
 };

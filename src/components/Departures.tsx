@@ -1,7 +1,7 @@
 import { BusAlert, Logout } from "@mui/icons-material";
 import { Divider, List, ListItem, ListItemButton, ListItemText, Skeleton } from "@mui/material";
 import { City, Departure, StopDepartures } from "../util/typings";
-import { minutesUntil } from "../pages/MapVehicle";
+import { minutesUntil } from "../pages/Map/Vehicle";
 import Advertisment from "../components/Advertisment";
 import VehicleHeadsign from "./VehicleHeadsign";
 import isDark from "../util/isDark";

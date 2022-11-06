@@ -16,12 +16,12 @@ const Alert = lazy(() => import("./pages/Alert"));
 const Bikes = lazy(() => import("./pages/Bikes"));
 const Brigade = lazy(() => import("./pages/Brigade"));
 const Brigades = lazy(() => import("./pages/Brigades"));
-const CityMap = lazy(() => import("./pages/CityMap"));
+const CityMap = lazy(() => import("./pages/Map/Index"));
 const CitySelection = lazy(() => import("./pages/CitySelection"));
 const Error = lazy(() => import("./pages/Error"));
 const Index = lazy(() => import("./pages/Index"));
 const Map = lazy(() => import("./components/Map"));
-const Settings = lazy(() => import("./pages/Settings"));
+const Settings = lazy(() => import("./pages/Settings/Index"));
 const StopDepartures = lazy(() => import("./pages/StopDepartures"));
 const StopSearch = lazy(() => import("./pages/StopSearch"));
 const Trip = lazy(() => import("./pages/Trip"));
@@ -115,7 +115,7 @@ export default () => {
 
           return <Route path={city} key={city}>
             <Route index element={<DocumentMeta title={`${cityData.name} - zbiorkom.live`} description={`Autobusy, tramwaje i pociągi na żywo w mieście ${cityData.name}. Komunikaty, utrudnienia i odjazdy z przystanków`}><Suspense><Index city={name} /></Suspense></DocumentMeta>} />
-            <Route path="map" element={<DocumentMeta title={`${cityData.name} Mapa - zbiorkom.live`} description={`Gdzie jest autobus, tramwaj, pociąg na żywo w mieście ${cityData.name}`}><Suspense><Map city={name} userLocation={userLocation} style={{ position: "absolute" }}><CityMap city={name} /></Map></Suspense></DocumentMeta>} />
+            <Route path="map" element={<DocumentMeta title={`${cityData.name} Mapa - zbiorkom.live`} description={`Gdzie jest autobus, tramwaj, pociąg na żywo w mieście ${cityData.name}`}><Suspense><Map city={name} style={{ position: "absolute" }}><CityMap city={name} /></Map></Suspense></DocumentMeta>} />
             {cityData.api.trip && <Route path="trip" element={<Suspense><Trip city={name} /></Suspense>} />}
             {cityData.api.stops && <>
               <Route path="stops" element={<DocumentMeta title={`${cityData.name} Lista przystanków - zbiorkom.live`} description={`Lista wszystkich przystanków w mieście ${cityData.name}`}><Suspense><StopSearch city={name} location={userLocation} /></Suspense></DocumentMeta>} />

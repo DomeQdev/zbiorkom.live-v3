@@ -6,16 +6,6 @@
             52.22983098654226,
             21.011738084722143
         ],
-        "bounds": [
-            [
-                50.865,
-                19.979
-            ],
-            [
-                53.432,
-                21.929
-            ]
-        ],
         "api": {
             "trip": "https://transitapi.me/warsaw/trip?trip={{trip}}",
             "vehicle": "https://transitapi.me/warsaw/vehicle?vehicle={{type}}/{{tab}}",
@@ -29,7 +19,8 @@
             "bikes": "/api/warsaw/bikes",
             "parkings": null,
             "alerts": "https://transitapi.me/warsaw/alerts",
-            "alert": "https://transitapi.me/warsaw/alert?alert={{id}}"
+            "alert": "https://transitapi.me/warsaw/alert?alert={{id}}",
+            "search": "https://transitapi.me/warsaw/search?search={{search}}"
         },
         "colors": {
             "0": "#e90024",
@@ -46,16 +37,6 @@
             52.4027541284412,
             16.91244334781004
         ],
-        "bounds": [
-            [
-                52.2740,
-                16.6168
-            ],
-            [
-                52.5496,
-                17.1414
-            ]
-        ],
         "api": {
             "trip": "https://transitapi.me/poznan/trip?trip={{trip}}",
             "vehicle": "https://transitapi.me/poznan/vehicle?vehicle={{tab}}",
@@ -69,7 +50,8 @@
             "bikes": "/api/poznan/bikes",
             "parkings": "/api/poznan/parkings",
             "alerts": null,
-            "alert": null
+            "alert": null,
+            "search": "https://transitapi.me/poznan/search?search={{search}}"
         },
         "colors": {
             "0": "#f1b434",
@@ -82,16 +64,6 @@
         "location": [
             53.42500,
             14.55099
-        ],
-        "bounds": [
-            [
-                53.2562,
-                14.3330
-            ],
-            [
-                53.5966,
-                14.9153
-            ]
         ],
         "api": {
             "trip": "https://transitapi.me/szczecin/trip?trip={{trip}}",
@@ -106,7 +78,8 @@
             "bikes": null,
             "parkings": null,
             "alerts": null,
-            "alert": null
+            "alert": null,
+            "search": "https://transitapi.me/szczecin/search?search={{search}}"
         },
         "colors": {
             "0": "#f1b434",
@@ -119,16 +92,6 @@
         "location": [
             54.35547,
             18.64560
-        ],
-        "bounds": [
-            [
-                54.0287,
-                18.3636
-            ],
-            [
-                54.8766,
-                18.7701
-            ]
         ],
         "api": {
             "trip": "https://transitapi.me/trojmiasto/trip?trip={{trip}}",
@@ -143,7 +106,8 @@
             "bikes": null,
             "parkings": "/api/trojmiasto/parkings",
             "alerts": null,
-            "alert": null
+            "alert": null,
+            "search": "https://transitapi.me/trojmiasto/search?search={{search}}"
         },
         "colors": {
             "0": "#dd4730",
@@ -158,16 +122,6 @@
             -34.92158,
             138.59941
         ],
-        "bounds": [
-            [
-                -35.339223,
-                138.445316
-            ],
-            [
-                -34.571043,
-                139.036087
-            ]
-        ],
         "api": {
             "trip": "https://transitapi.me/adelaide/trip?trip={{trip}}",
             "vehicle": null,
@@ -181,7 +135,8 @@
             "bikes": null,
             "parkings": null,
             "alerts": "https://transitapi.me/adelaide/alerts",
-            "alert": "https://transitapi.me/adelaide/alert?alert={{id}}"
+            "alert": "https://transitapi.me/adelaide/alert?alert={{id}}",
+            "search": "https://transitapi.me/adelaide/search?search={{search}}"
         },
         "colors": {
             "0": "#eb2127",
@@ -196,16 +151,6 @@
             38.89872,
             -77.03656
         ],
-        "bounds": [
-            [
-                39.7156,
-                -78.0606
-            ],
-            [
-                37.766,
-                -75.410
-            ]
-        ],
         "api": {
             "trip": "https://transitapi.me/washington/trip?trip={{trip}}",
             "vehicle": null,
@@ -219,7 +164,8 @@
             "bikes": null,
             "parkings": null,
             "alerts": "https://transitapi.me/washington/alerts",
-            "alert": "https://transitapi.me/washington/alert?alert={{id}}"
+            "alert": "https://transitapi.me/washington/alert?alert={{id}}",
+            "search": "https://transitapi.me/washington/search?search={{search}}"
         },
         "colors": {
             "1": "#DC4283",
