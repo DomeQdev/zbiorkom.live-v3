@@ -26,7 +26,6 @@ export default ({ city, location }: { city: City, location?: GeolocationPosition
 
     useEffect(() => {
         getData("bikes", city).then(setBikeStations).catch(() => {
-            navigate("../", { replace: true });
             toast.error(`Nie mogliśmy załadować stacji rowerowych.`);
         });
     }, []);

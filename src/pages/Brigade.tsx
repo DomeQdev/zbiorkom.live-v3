@@ -16,7 +16,6 @@ export default ({ city }: { city: City }) => {
             brigade
         }).then(setSchedule).catch(() => {
             toast.error("Nie mogliśmy pobrać rozkładu brygad...");
-            window.history.back();
         });
     }, [line, brigade]);
 

@@ -61,7 +61,7 @@ export default ({ city }: { city: City }) => {
             }}
         >
             <MenuItem><Star style={{ width: 20, height: 20 }} color="primary" />&nbsp;Dodaj do ulubionych</MenuItem>
-            <MenuItem component={Link} to={`../map?stop=${stopId}`}><Map style={{ width: 20, height: 20 }} color="primary" />&nbsp;Pokaż na mapie</MenuItem>
+            <MenuItem component={Link} to={`..?stop=${stopId}`}><Map style={{ width: 20, height: 20 }} color="primary" />&nbsp;Pokaż na mapie</MenuItem>
         </Menu>
 
         <Box sx={{ marginTop: 7 }}>

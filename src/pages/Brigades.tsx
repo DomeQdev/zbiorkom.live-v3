@@ -16,12 +16,11 @@ export default ({ city }: { city: City }) => {
     useEffect(() => {
         getData("routes", city, "?brigade=1").then(setRoutes).catch(() => {
             toast.error("Nie mogliśmy pobrać linii...");
-            return navigate("../", { replace: true });
         });
     }, []);
 
     useEffect(() => {
-        setSelectedBrigades(null);
+        if (!state) return setSelectedBrigades(null);
         getData("brigades", city, {
             line: state
         }).then(setSelectedBrigades).catch(() => {

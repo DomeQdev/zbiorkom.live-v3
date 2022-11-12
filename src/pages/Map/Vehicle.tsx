@@ -83,7 +83,7 @@ export default ({ city, vehicle, mapBearing }: { city: City, vehicle: Vehicle, m
 
                 <div style={{ cursor: "pointer" }} onClick={() => {
                     setFollow(true);
-                    if (realTime) setScrollTo(realTime.snIndex - 1);
+                    if (realTime) setScrollTo(realTime.snIndex ? realTime.snIndex - 1 : 0);
                 }}>
                     <VehicleHeadsign type={vehicle.type} city={city} route={vehicle.route} headsign={trip?.headsign || ""} />
 

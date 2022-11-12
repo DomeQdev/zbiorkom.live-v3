@@ -25,7 +25,7 @@ export default ({ city, location }: { city: City, location?: GeolocationPosition
     }, []);
 
     useEffect(() => {
-        if (!state || !stopGroups?.length) return navigate("", { state: undefined, replace: true });
+        if (!state || !stopGroups?.length) return;
         getData("stopGroup", city, { name: state }).then(data => {
             if (!data.length) {
                 navigate(".", { state: undefined, replace: true });
