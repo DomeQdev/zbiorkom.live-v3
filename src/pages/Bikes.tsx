@@ -121,7 +121,7 @@ export default ({ city, location }: { city: City, location?: GeolocationPosition
             sx={{ maxHeight: "80%", my: "auto" }}
         >
             {bikeStation && <>
-                <DialogTitle sx={{ display: "flex", justifyContent: "space-between" }}>{bikeStation[1]}<IconButton component={Link} to={`../map?bike=${bikeStation[0]}`}><Map /></IconButton></DialogTitle>
+                <DialogTitle sx={{ display: "flex", justifyContent: "space-between" }}>{bikeStation[1]}<IconButton component={Link} to={`..?bike=${bikeStation[0]}`}><Map /></IconButton></DialogTitle>
                 <List>
                     {bikeStation[3][0] != null && <ListItem>
                         <ListItemAvatar><Avatar><PedalBike /></Avatar></ListItemAvatar>
