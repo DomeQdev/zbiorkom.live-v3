@@ -7,7 +7,6 @@ import { City } from "../../util/typings";
 import { Suspense } from "../../components/Suspense";
 import isDark from "../../util/isDark";
 
-const AdsSettings = lazy(() => import("./Ads"));
 const FavoriteSettings = lazy(() => import("./Favorite"));
 const LanguageSettings = lazy(() => import("./Language"));
 const MapSettings = lazy(() => import("./Map"));
@@ -21,7 +20,6 @@ export default ({ city }: { city: City }) => {
         <Route path="map" element={<Suspense><MapSettings /></Suspense>} />
         <Route path="language" element={<Suspense><LanguageSettings /></Suspense>} />
         <Route path="markers" element={<Suspense><MarkersSettings /></Suspense>} />
-        <Route path="ads" element={<Suspense><AdsSettings /></Suspense>} />
         <Route path="favorite" element={<Suspense><FavoriteSettings city={city} /></Suspense>} />
 
         <Route path="*" element={<>
@@ -51,12 +49,6 @@ export default ({ city }: { city: City }) => {
                 <ListItemButton component={Link} to="markers">
                     <ListItemIcon><MinorCrash /></ListItemIcon>
                     <ListItemText primary={t("Customize vehicle markers") as string} />
-                    <NavigateNext />
-                </ListItemButton>
-                <Divider />
-                <ListItemButton component={Link} to="ads">
-                    <ListItemIcon><AdUnits /></ListItemIcon>
-                    <ListItemText primary={t("Ads settings") as string} />
                     <NavigateNext />
                 </ListItemButton>
             </List>

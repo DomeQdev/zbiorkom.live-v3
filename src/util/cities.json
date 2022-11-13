@@ -171,5 +171,34 @@
             "1": "#DC4283",
             "3": "#006b47"
         }
+    },
+    "rome": {
+        "name": "Rome",
+        "id": "rome",
+        "location": [
+            41.89990,
+            12.50354
+        ],
+        "api": {
+            "trip": "https://transitapi.me/rome/trip?trip={{trip}}",
+            "vehicle": null,
+            "stops": "https://transitapi.me/rome/stops",
+            "stopGroups": "https://transitapi.me/rome/stopGroups",
+            "stopGroup": "https://transitapi.me/rome/getStopGroup?name={{name}}",
+            "stop": "https://transitapi.me/rome/stopDepartures?stop={{stop}}",
+            "routes": "https://transitapi.me/rome/routes",
+            "brigades": null,
+            "brigade": null,
+            "bikes": null,
+            "parkings": null,
+            "alerts": "https://transitapi.me/rome/alerts",
+            "alert": "https://transitapi.me/rome/alert?alert={{id}}",
+            "search": "https://transitapi.me/rome/search?search={{search}}"
+        },
+        "colors": {
+            "0": "#0067b3",
+            "1": "#f36e21",
+            "3": "#106f47"
+        }
     }
 }

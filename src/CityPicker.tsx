@@ -22,8 +22,7 @@ export default () => {
             navigate(`/${cityFromLocalStorage}`);
         } else {
             setCity("warsaw");
-            navigate("/warsaw");
-            localStorage.setItem("city", "warsaw");
+            navigate("/city");
         }
     }, []);
 

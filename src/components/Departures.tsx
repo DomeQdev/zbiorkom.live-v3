@@ -2,16 +2,14 @@ import { BusAlert, Logout } from "@mui/icons-material";
 import { Divider, List, ListItem, ListItemButton, ListItemText, Skeleton } from "@mui/material";
 import { City, Departure, StopDepartures } from "../util/typings";
 import { minutesUntil } from "../pages/Map/Vehicle";
-import Advertisment from "../components/Advertisment";
 import VehicleHeadsign from "./VehicleHeadsign";
 import isDark from "../util/isDark";
 
-export default ({ departures, city, onClick, ads }: { departures?: StopDepartures, city: City, onClick?: (departure: Departure) => void, ads?: boolean }) => {
+export default ({ departures, city, onClick }: { departures?: StopDepartures, city: City, onClick?: (departure: Departure) => void }) => {
     const darkMode = isDark();
 
     return departures ? departures.departures.length ? <List>
         {departures.departures.map<React.ReactNode>((departure, i) => <div key={i}>
-            {(i === 1 && ads) && <Advertisment width="100%" height={80} place="stop" after={<Divider />} />}
             <ListItemButton onClick={() => onClick?.(departure)}>
                 <ListItemText
                     primary={<VehicleHeadsign type={departure.type} route={departure.route} headsign={departure.headsign} city={city} />}

@@ -19,47 +19,6 @@
       "type": "image/png"
     }
   ],
-  "shortcuts": [
-    {
-      "name": "Warszawa",
-      "short_name": "Warszawa",
-      "description": "Pojazdy w Warszawie",
-      "url": "/warsaw",
-      "icons": [
-        {
-          "src": "/img/logo192.png",
-          "sizes": "192x192",
-          "type": "image/png"
-        }
-      ]
-    },
-    {
-      "name": "Poznań",
-      "short_name": "Poznań",
-      "description": "Pojazdy w Poznaniu",
-      "url": "/poznan",
-      "icons": [
-        {
-          "src": "/img/logo192.png",
-          "sizes": "192x192",
-          "type": "image/png"
-        }
-      ]
-    },
-    {
-      "name": "Trójmiasto",
-      "short_name": "Trójmiasto",
-      "description": "Pojazdy w Trójmieście",
-      "url": "/trojmiasto",
-      "icons": [
-        {
-          "src": "/img/logo192.png",
-          "sizes": "192x192",
-          "type": "image/png"
-        }
-      ]
-    }
-  ],
   "start_url": "/",
   "display": "standalone",
   "theme_color": "#5aa159",

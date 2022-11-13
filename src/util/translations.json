@@ -31,13 +31,7 @@
             "Show brigade": "Pokazywanie brygady",
             "Brigade explanation": "Brygada to przyporządkowanie pojazdu do kursu w rozkładzie.",
             "Show vehicle number": "Pokazywanie numeru taborowego",
-            "Vehicle number explanation": "Numer taborowy to unikanlny numer widoczny na ścianach pojazdu czy też w środku pojazdu.",
-            "Ads settings": "Ustawienia reklam",
-            "Adblock alert": "Używasz wtyczki która blokuje reklamy.",
-            "Ads enabled": "Włączono reklamy! Dzięki :)",
-            "Ads disabled": "Wyłączono reklamy :(",
-            "Enable ads": "Włącz reklamy",
-            "Disable ads": "Wyłącz reklamy"
+            "Vehicle number explanation": "Numer taborowy to unikanlny numer widoczny na ścianach pojazdu czy też w środku pojazdu."
         }
     },
     "en": {
@@ -72,13 +66,7 @@
             "Show brigade": "Show brigade",
             "Brigade explanation": "Brigade is a vehicle assignment to a course in the schedule.",
             "Show vehicle number": "Show vehicle number",
-            "Vehicle number explanation": "Vehicle number is a unique number visible on the walls of the vehicle or inside the vehicle.",
-            "Ads settings": "Ads settings",
-            "Adblock alert": "You are using an extension that blocks ads.",
-            "Ads enabled": "Ads enabled! Thanks :)",
-            "Ads disabled": "Ads disabled :(",
-            "Enable ads": "Enable ads",
-            "Disable ads": "Disable ads"
+            "Vehicle number explanation": "Vehicle number is a unique number visible on the walls of the vehicle or inside the vehicle."
         }
     }
 }

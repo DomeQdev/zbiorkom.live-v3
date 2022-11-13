@@ -5,7 +5,6 @@ import { useSearchParams } from "react-router-dom";
 import { getData } from "../util/api";
 import { Alert, City } from "../util/typings";
 import toast from "react-hot-toast";
-import Advertisment from "../components/Advertisment";
 
 export default ({ city }: { city: City }) => {
     const [alert, setAlert] = useState<Alert>();
@@ -32,7 +31,6 @@ export default ({ city }: { city: City }) => {
             </Card>
             <br />
             <div dangerouslySetInnerHTML={{ __html: alert.description! }} />
-            <Advertisment width="100%" height={300} place="alert" />
         </> : <>
             <Skeleton variant="rounded" height={150} />
             <br />
