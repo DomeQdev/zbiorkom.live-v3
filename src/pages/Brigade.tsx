@@ -6,8 +6,10 @@ import { BrigadeSchedule, City } from "../util/typings";
 import { getData } from "../util/api";
 
 export default ({ city }: { city: City }) => {
-    const { line, brigade } = useParams();
     const [schedule, setSchedule] = useState<BrigadeSchedule[]>();
+    const params = useParams();
+    const line = params.brigade?.split(".")[0];
+    const brigade = params.brigade?.split(".")[1];
 
     useEffect(() => {
         document.body.setAttribute("style", `${document.body.getAttribute("style")} overflow: auto;`);

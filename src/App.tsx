@@ -1,11 +1,11 @@
-import { Routes, Route, Link, useLocation } from "react-router-dom";
+import { Routes, Route, Link, useLocation, Navigate } from "react-router-dom";
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { lazy, useEffect, useMemo, useState } from 'react';
-import { CssBaseline, Fab, Fade, Grow, Zoom } from '@mui/material';
 import ErrorBoundary from './components/ErrorBoundary';
+import { CssBaseline, Fab, Zoom } from '@mui/material';
+import { ArrowBack, Menu } from "@mui/icons-material";
 import DocumentMeta from './components/DocumentMeta';
 import { Suspense } from './components/Suspense';
-import { ArrowBack, Menu } from "@mui/icons-material";
 import { Toaster } from 'react-hot-toast';
 import cities from "./util/cities.json";
 import SideMenu from "./pages/SideMenu";
@@ -105,22 +105,29 @@ export default ({ city }: { city: City }) => {
         state={undefined}
         relative="path"
         replace
+        onClick={(e) => {
+          if (location.search.includes("back=true")) {
+            e.preventDefault();
+            window.history.back();
+          }
+        }}
       ><ArrowBack /></Fab>
     </Zoom>
 
     <ErrorBoundary>
       <Routes>
+        <Route path="/" element={<Navigate replace to={`/${city}`} />} />
         <Route path="city" element={<DocumentMeta title={`Wybór miasta - zbiorkom.live`}><Suspense><CitySelection /></Suspense></DocumentMeta>} />
         <Route path={city} key={city}>
           <Route index element={<DocumentMeta title={`${cityData.name} Mapa - zbiorkom.live`} description={`Gdzie jest autobus, tramwaj, pociąg na żywo w mieście ${cityData.name}`}><Suspense><Map city={city} style={{ position: "absolute" }}><CityMap city={city} /></Map></Suspense></DocumentMeta>} />
           {cityData.api.trip && <Route path="trip" element={<Suspense><Trip city={city} /></Suspense>} />}
           {cityData.api.stops && <>
             <Route path="stops" element={<DocumentMeta title={`${cityData.name} Lista przystanków - zbiorkom.live`} description={`Lista wszystkich przystanków w mieście ${cityData.name}`}><Suspense><StopSearch city={city} location={userLocation} /></Suspense></DocumentMeta>} />
-            <Route path="stop/:stopId" element={<Suspense><StopDepartures city={city} /></Suspense>} />
+            <Route path="stops/:stopId" element={<Suspense><StopDepartures city={city} /></Suspense>} />
           </>}
           {cityData.api.brigades && <>
             <Route path="brigades" element={<DocumentMeta title={`${cityData.name} Rozkład brygad - zbiorkom.live`} description={`Rozkład brygad w mieście ${cityData.name}`}><Suspense><Brigades city={city} /></Suspense></DocumentMeta>} />
-            <Route path="brigade/:line/:brigade" element={<Suspense><Brigade city={city} /></Suspense>} />
+            <Route path="brigades/:brigade" element={<Suspense><Brigade city={city} /></Suspense>} />
           </>}
           {cityData.api.bikes && <Route path="bikes" element={<DocumentMeta title={`${cityData.name} Stacje rowerów miejskich - zbiorkom.live`} description={`Zobacz liczbę rowerów i wolnych stojaków na stacjach rowerowych w mieście ${cityData.name}!`}><Suspense><Bikes city={city} location={userLocation} /></Suspense></DocumentMeta>} />}
           {cityData.api.parkings && <Route path="parkings" element={<DocumentMeta title={`${cityData.name} Parkingi - zbiorkom.live`} description={`Zobacz wolne miejsca parkingowe w mieście ${cityData.name}!`}></DocumentMeta>} />}
@@ -129,7 +136,7 @@ export default ({ city }: { city: City }) => {
             <Route path="alert" element={<Suspense><Alert city={city} /></Suspense>} />
           </>}
           <Route path="settings/*" element={<DocumentMeta title={`${cityData.name} Ustawienia - zbiorkom.live`}><Suspense><Settings city={city} /></Suspense></DocumentMeta>} />
-        </Route>;
+        </Route>
         <Route path="*" element={<Suspense><Error text={"404"} message={"Nie znaleziono strony"} /></Suspense>} />
       </Routes>
     </ErrorBoundary>

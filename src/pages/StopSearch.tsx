@@ -31,7 +31,7 @@ export default ({ city, location }: { city: City, location?: GeolocationPosition
                 navigate(".", { state: undefined, replace: true });
                 return toast.error(`Nie mogliśmy załadować przystanków w tej grupie.`);
             };
-            if (data.length === 1) return navigate(`../stop/${data[0].id}`);
+            if (data.length === 1) return navigate(data[0].id);
             setGroupStops(data);
         }).catch(() => {
             navigate("", { state: undefined, replace: true });
@@ -130,7 +130,7 @@ export default ({ city, location }: { city: City, location?: GeolocationPosition
             sx={{ maxHeight: "80%", my: "auto" }}
         >
             {groupStops ? <List>
-                {groupStops.map(stop => <ListItemButton key={stop.id} component={Link} to={`../stop/${stop.id}`}>
+                {groupStops.map(stop => <ListItemButton key={stop.id} component={Link} to={stop.id}>
                     <ListItemAvatar>
                         <Avatar sx={{ bgcolor: Color(stop.type[0], city) }}>
                             <Icon type={stop.type[0]} />

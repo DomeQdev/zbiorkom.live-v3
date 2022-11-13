@@ -72,7 +72,7 @@ export default ({ city }: { city: City }) => {
                         key={brigade}
                         component={Link}
                         variant="outlined"
-                        to={`../brigade/${state}/${brigade}`}
+                        to={`${state}.${brigade}`}
                         sx={{ width: 70, height: 40, fontSize: 18, margin: 0.5 }}
                     >{brigade}</Button>) : <h4>Nie mogliśmy znaleźć rozkładu dla tej linii...</h4> : <Grid container justifyContent="center">{new Array(20).fill(null).map((_, i) => <Skeleton key={`1_${i}`} variant="rounded" width={70} height={40} sx={{ margin: 0.5 }} />)}</Grid>}
                 </Box>

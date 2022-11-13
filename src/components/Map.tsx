@@ -13,7 +13,7 @@ export default ({ city, location, style, children }: { city: City, location?: [n
         initialViewState={{
             longitude: _loc[1],
             latitude: _loc[0],
-            zoom: 15
+            zoom: 16
         }}
         minZoom={2}
         maxPitch={0}

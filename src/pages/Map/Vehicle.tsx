@@ -222,7 +222,7 @@ export default ({ city, vehicle, mapBearing }: { city: City, vehicle: Vehicle, m
                 const [minLng, minLat, maxLng, maxLat] = bbox(lineString(trip.shapes));
                 map?.fitBounds([[minLat, minLng], [maxLat, maxLng]], { duration: 0 });
             }}><Route style={{ width: 20, height: 20 }} color="primary" />&nbsp;Pokaż trasę</MenuItem>}
-            {vehicle.brigade && <MenuItem onClick={() => navigate(`/${city}/brigade/${vehicle.route}/${vehicle.brigade}`)}><Commit style={{ width: 20, height: 20 }} color="primary" />&nbsp;Rozkład brygady</MenuItem>}
+            {vehicle.brigade && <MenuItem onClick={() => navigate(`/${city}/brigade/${vehicle.route}/${vehicle.brigade}?back=true`)}><Commit style={{ width: 20, height: 20 }} color="primary" />&nbsp;Rozkład brygady</MenuItem>}
             {vehicle.brigade && <MenuItem onClick={() => {
                 setAnchorEl(undefined);
                 navigate(search, { state: "vehicle" });
