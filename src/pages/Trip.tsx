@@ -27,7 +27,7 @@ export default ({ city }: { city: City }) => {
             <h2><VehicleHeadsign type={tripData.type || 11} route={tripData.route || "🚎"} headsign={tripData.headsign} city={city} iconSize={25} /></h2>
             <Button variant="contained" endIcon={<Map />} sx={{ marginLeft: 1 }} disabled>Pokaż na mapie</Button>
             <List>
-                {tripData.stops.map<React.ReactNode>((stop, i) => <ListItemButton key={i} component={Link} to={`../stop/${stop.id}`}>
+                {tripData.stops.map<React.ReactNode>((stop, i) => <ListItemButton key={i} component={Link} to={`../stops/${stop.id}`}>
                     <ListItemText
                         primary={<Typography noWrap>{stop.on_request && <PanTool sx={{ width: 15, height: 15 }} />} {stop.name}</Typography>}
                         secondary={stop.platform && <>Peron <b>{stop.platform}</b></>}
