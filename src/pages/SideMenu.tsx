@@ -22,11 +22,11 @@ export default ({ city, open, setOpen }: { city: City, open: boolean, setOpen: (
         }}
     >
         <Box sx={{ textAlign: "center", my: 2 }} component={Link} to="/city" onClick={() => setOpen(false)}>
-            <Typography variant="h5" sx={{ display: "inline-flex", alignItems: "center" }}>
+            <Typography variant="h5" sx={{ display: "inline-flex", alignItems: "center" }} color="primary">
                 <DirectionsBus color="primary" fontSize="large" />&nbsp;zbiorkom.live
             </Typography>
             <br />
-            <Typography variant="subtitle2" color="primary">{cityData.name}</Typography>
+            <Typography variant="subtitle2">{cityData.name}</Typography>
         </Box>
         <Divider />
         <List>

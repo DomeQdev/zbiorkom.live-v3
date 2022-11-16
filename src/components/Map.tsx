@@ -1,4 +1,4 @@
-import Map, { GeolocateControl, NavigationControl } from 'react-map-gl';
+import Map from 'react-map-gl';
 import { Style } from 'mapbox-gl';
 import { City } from '../util/typings';
 import cities from "../util/cities.json";
@@ -10,6 +10,8 @@ export default ({ city, location, style, children }: { city: City, location?: [n
     const mapStyle = localStorage.getItem("mapStyle") as keyof typeof mapStyles || "ms";
 
     return <Map
+        mapboxAccessToken="pk.eyJ1IjoiZG9tZXEiLCJhIjoiY2t6c2JnZnp5MDExMzJ4bWlpMjcwaDR0dCJ9.v2ONdyf7WN70xFwUOyUuXQ"
+        mapStyle={mapStyles[mapStyle]?.style as string | Style || mapStyles["ms"].style}
         initialViewState={{
             longitude: _loc[1],
             latitude: _loc[0],
@@ -17,20 +19,12 @@ export default ({ city, location, style, children }: { city: City, location?: [n
         }}
         minZoom={2}
         maxPitch={0}
-        mapStyle={mapStyles[mapStyle]?.style as string | Style || mapStyles["ms"].style}
-        mapboxAccessToken="pk.eyJ1IjoiZG9tZXEiLCJhIjoiY2t6c2JnZnp5MDExMzJ4bWlpMjcwaDR0dCJ9.v2ONdyf7WN70xFwUOyUuXQ"
         attributionControl={false}
+        touchZoomRotate={false}
+        dragRotate={false}
+        reuseMaps={true}
         style={style}
-        reuseMaps
     >
-        <NavigationControl visualizePitch />
-        <GeolocateControl
-            trackUserLocation
-            showUserHeading
-            showUserLocation
-            positionOptions={{ enableHighAccuracy: true }}
-            fitBoundsOptions={{ animate: false, zoom: 15 }}
-        />
         {children}
     </Map>
 };

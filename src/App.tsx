@@ -1,8 +1,8 @@
-import { Routes, Route, Link, useLocation, Navigate } from "react-router-dom";
+import { Routes, Route, useLocation, Navigate, useNavigate } from "react-router-dom";
+import { AppBar, CssBaseline, IconButton, Toolbar, Typography } from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { lazy, useEffect, useMemo, useState } from 'react';
 import ErrorBoundary from './components/ErrorBoundary';
-import { CssBaseline, Fab, Zoom } from '@mui/material';
 import { ArrowBack, Menu } from "@mui/icons-material";
 import DocumentMeta from './components/DocumentMeta';
 import { Suspense } from './components/Suspense';
@@ -30,6 +30,7 @@ export default ({ city }: { city: City }) => {
   const [userLocation, setUserLocation] = useState<GeolocationPosition>();
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
   const location = useLocation();
+  const navigate = useNavigate();
   const darkMode = isDark();
   const cityData = cities[city];
 
@@ -60,6 +61,13 @@ export default ({ city }: { city: City }) => {
             color: darkMode ? "white" : "black"
           }
         }
+      },
+      MuiTypography: {
+        styleOverrides: {
+          root: {
+            color: darkMode ? "white" : "black"
+          }
+        }
       }
     }
   });
@@ -87,32 +95,29 @@ export default ({ city }: { city: City }) => {
 
     <SideMenu city={city} open={menuOpen} setOpen={setMenuOpen} />
 
-    <Zoom in={fab.menu}>
-      <Fab
-        size="small"
-        color="primary"
-        sx={{ position: "fixed", zIndex: 9998, top: 16, left: 16 }}
-        onClick={() => setMenuOpen(true)}
-      ><Menu /></Fab>
-    </Zoom>
-    <Zoom in={!fab.menu}>
-      <Fab
-        size="small"
-        color="primary"
-        sx={{ position: "fixed", zIndex: 9998, top: 16, left: 16 }}
-        component={Link}
-        to={location.state || location.search ? "." : "../"}
-        state={undefined}
-        relative="path"
-        replace
-        onClick={(e) => {
-          if (location.search.includes("back=true")) {
-            e.preventDefault();
-            window.history.back();
-          }
-        }}
-      ><ArrowBack /></Fab>
-    </Zoom>
+    <AppBar sx={{
+      transform: "translateX(-50%)",
+      backgroundColor: "#5aa159",
+      width: "calc(100% - 25px)",
+      borderRadius: 1,
+      left: "50%",
+      my: 1
+    }}>
+      <Toolbar>
+        <IconButton
+          size="large"
+          sx={{ color: "#fff", mr: 2 }}
+          onClick={() => {
+            if (location.search.includes("back=true")) window.history.back();
+            if (fab.menu) setMenuOpen(true);
+            else navigate(location.state || location.search ? "." : "../", { state: undefined, relative: "path", replace: true });
+          }}
+        >
+          {fab.menu ? <Menu /> : <ArrowBack />}
+        </IconButton>
+        <Typography variant="h6" sx={{ color: "#fff", flexGrow: 1, left: "50%", position: "absolute", transform: "translate(-50%, 0)" }}>zbiorkom.live</Typography>
+      </Toolbar>
+    </AppBar>
 
     <ErrorBoundary>
       <Routes>
