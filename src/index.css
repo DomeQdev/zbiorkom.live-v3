@@ -1,36 +1,36 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 
 :root {
-  --rsbs-max-w: 700px;
-  --rsbs-mr: auto;
-  --rsbs-ml: auto;
+    --rsbs-max-w: 700px;
+    --rsbs-mr: auto;
+    --rsbs-ml: auto;
 }
 
 body {
-  margin: 0;
+    margin: 0;
 }
 
 button {
-  color: black;
+    color: black;
 }
 
 a {
-  text-decoration: none;
-  color: white;
+    text-decoration: none;
+    color: white;
 }
 
 * {
-  font-family: Roboto, "Helvetica Neue", sans-serif!important;
+    font-family: Roboto, "Helvetica Neue", sans-serif !important;
 }
 
 [data-rsbs-header] {
-  box-shadow: 0 1px 0 rgba(78, 78, 78, 0.4)!important;
+    box-shadow: 0 1px 0 rgba(78, 78, 78, 0.4) !important;
 }
 
 .mapboxgl-ctrl-bottom-left {
-  display: none!important;
+    display: none !important;
 }
 
 .mapboxgl-ctrl-top-right {
-  z-index: 99!important;
+    z-index: 99 !important;
 }

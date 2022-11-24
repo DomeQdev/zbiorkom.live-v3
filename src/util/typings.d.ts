@@ -134,22 +134,6 @@ type BlogPost = {
     content_encoded: string
 };
 
-type BikeStation = [
-    id: string,
-    name: string,
-    location: [number, number],
-    racks: [number | null, number | null, number],
-    distance?: number,
-    bearing?: number
-];
-
-type Parking = [
-    id: string,
-    name: string,
-    location: [number, number],
-    spots: number
-];
-
 export {
     VehicleType,
     City,
@@ -166,7 +150,5 @@ export {
     Trip,
     Alert,
     FilterData,
-    BlogPost,
-    BikeStation,
-    Parking
+    BlogPost
 };

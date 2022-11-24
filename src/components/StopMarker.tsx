@@ -4,9 +4,7 @@ import { Color } from "./Icons";
 import { City, Stop } from "../util/typings";
 import styled from "@emotion/styled";
 
-const StopMarker = styled.div((props: {
-    colors: string[]
-}) => ({
+const StopMarker = styled.div((props: { colors: string[] }) => ({
     width: 18,
     height: 18,
     background: props.colors.length === 1 ? props.colors[0] : `linear-gradient(-45deg,${props.colors[0]} 50%,${props.colors[1]} 0)`,

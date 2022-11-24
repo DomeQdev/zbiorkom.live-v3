@@ -4,6 +4,7 @@ export default ({ timestamp }: { timestamp: number }) => {
     const [since, setSince] = useState<string>(timeSince(timestamp));
 
     useEffect(() => {
+        setSince(timeSince(timestamp));
         let interval = setInterval(() => setSince(timeSince(timestamp)), 1000);
 
         return () => clearInterval(interval);

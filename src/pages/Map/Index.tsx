@@ -3,29 +3,25 @@ import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import { useMap } from "react-map-gl";
 import { io } from "socket.io-client";
-import { Button } from "@mui/material";
+import { Button, Fab, Zoom } from "@mui/material";
 import { FilterList, PortableWifiOff, Search, Star } from "@mui/icons-material";
 import { bbox, featureCollection, point } from "@turf/turf";
-import { BikeStation, City, FilterData, Stop, Vehicle } from "../../util/typings";
+import { City, FilterData, Stop, Vehicle } from "../../util/typings";
 import { Backdrop, Suspense } from "../../components/Suspense";
 import { getData } from "../../util/api";
-import cities from "../../util/cities.json";
 
 const VehicleMarker = lazy(() => import("../../components/VehicleMarker"));
 const StopMarker = lazy(() => import("../../components/StopMarker"));
-const BikeMarker = lazy(() => import("../../components/BikeMarker"));
 const SearchVehicle = lazy(() => import("./Search"));
 const MapVehicle = lazy(() => import("./Vehicle"));
 const Filter = lazy(() => import("./Filter"));
 const MapStop = lazy(() => import("./Stop"));
-const MapBike = lazy(() => import("./Bike"));
 
-export default ({ city }: { city: City }) => {
+export default ({ city, setTitle, setIcon }: { city: City, setTitle: (children: React.ReactNode) => any, setIcon: (children: React.ReactNode) => any }) => {
     const [searchParams] = useSearchParams();
     const { state } = useLocation();
     const { current: map } = useMap();
     const navigate = useNavigate();
-    const cityData = cities[city];
 
     const [bounds, setBounds] = useState(map?.getBounds());
     const [zoom, setZoom] = useState(map?.getZoom() || 0);
@@ -35,8 +31,6 @@ export default ({ city }: { city: City }) => {
     const [stop, setStop] = useState<Stop>();
     const [vehicles, setVehicles] = useState<Vehicle[]>();
     const [vehicle, setVehicle] = useState<Vehicle>();
-    const [bikes, setBikes] = useState<BikeStation[]>([]);
-    const [bike, setBike] = useState<BikeStation>()
 
     const [filter, setFilter] = useState<FilterData>({ routes: [], types: [] });
     const filterEnabled = filter.routes.length || filter.types.length;
@@ -47,9 +41,7 @@ export default ({ city }: { city: City }) => {
             reconnection: true,
             reconnectionAttempts: 5,
             timeout: 15000,
-            query: {
-                city: city
-            }
+            query: { city }
         }).on("positions", setVehicles);
 
         let toastId: any;
@@ -71,8 +63,7 @@ export default ({ city }: { city: City }) => {
         </div>, { duration: Infinity, id: toastId }));
         socket.io.on("error", console.error);
 
-        if (cityData.api.stops) getData("stops", city).then(setStops).catch(() => toast.error("Nie udało się pobrać przystanków."));
-        if (cityData.api.bikes) getData("bikes", city).then(setBikes).catch(() => toast.error("Nie udało się pobrać stacji rowerowych."));
+        getData("stops", city).then(setStops).catch(() => toast.error("Nie udało się pobrać przystanków."));
 
         map?.on("moveend", () => setBounds(map.getBounds()));
         map?.on("zoomend", () => setZoom(map.getZoom()));
@@ -108,39 +99,38 @@ export default ({ city }: { city: City }) => {
         }
     }, [st, stops]);
 
-    const bik = searchParams.get("bike");
-    useEffect(() => {
-        if (!bik || !bikes.length) return setBike(undefined);
-        let b = bikes.find(x => x[0] === bik);
-
-        if (b) {
-            setBike(b);
-            map?.flyTo({ center: [b[2][1], b[2][0]], duration: 0 });
-        } else {
-            navigate(".", { replace: true });
-            toast.error("Nie znaleziono stacji.");
-        }
-    }, [bik, bikes]);
-    
     return <>
         {!vehicles && <Backdrop />}
         <Suspense>
             {(zoom >= 15 && !vehicle && !stop) && <>
                 {stops.filter(stop => !filter.types.length || filter.types.find(s => stop.type.includes(s)) != null).filter(stop => bounds?.contains({ lat: stop.location[0], lon: stop.location[1] })).map(stop => <StopMarker key={`stop-${stop.id}`} stop={stop} city={city} onClick={() => navigate(`?stop=${stop.id}`)} />)}
-                {bikes.filter(bike => bounds?.contains({ lat: bike[2][0], lon: bike[2][1] })).map(bike => <BikeMarker key={`bike-${bike[0]}`} station={bike} onClick={() => navigate(`?bike=${bike[0]}`)} />)}
             </>}
             {((zoom >= 14 || (filterEnabled && filteredVehicles.length <= 100)) && !vehicle && !stop) && filteredVehicles.map(veh => <VehicleMarker key={veh.type + veh.id} vehicle={veh} city={city} mapBearing={bearing || 0} onClick={() => navigate(`?vehicle=${veh.type}/${veh.id}`)} />)}
             {vehicle && <MapVehicle city={city} vehicle={vehicle} mapBearing={bearing || 0} />}
             {stop && <MapStop city={city} stop={stop} vehicles={vehicles || []} />}
-            {bike && <MapBike station={bike} />}
         </Suspense>
-        <div className="mapboxgl-ctrl-top-right" style={{ top: 135 }}>
-            <div className="mapboxgl-ctrl mapboxgl-ctrl-group">
-                <button onClick={() => navigate(".", { state: "filter" })} style={{ backgroundColor: filterEnabled ? "#5aa159" : "white" }}><FilterList sx={{ fontSize: 19, marginTop: "3px" }} /></button>
-                <button onClick={() => navigate(".", { state: "search" })}><Search sx={{ fontSize: 19, marginTop: "3px" }} /></button>
-                <button disabled><Star sx={{ fontSize: 19, marginTop: "3px" }} /></button>
-            </div>
-        </div>
+
+        <Zoom in={!vehicle && !stop}>
+            <Fab
+                size="small"
+                color="primary"
+                onClick={() => navigate(".", { state: "star" })}
+                sx={{ position: "absolute", bottom: 60, right: 13 }}
+            >
+                <Star />
+            </Fab>
+        </Zoom>
+        <Zoom in={!vehicle && !stop}>
+            <Fab
+                size="small"
+                color="primary"
+                onClick={() => navigate(".", { state: "filter" })}
+                sx={{ position: "absolute", bottom: 13, right: 13 }}
+            >
+                <FilterList />
+            </Fab>
+        </Zoom>
+        
         {state === "filter" && <Suspense>
             <Filter city={city} filter={filter} setFilter={setFilter} onClose={() => {
                 navigate(".", { state: "", replace: true });

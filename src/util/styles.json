@@ -2,42 +2,17 @@
     "ms": {
         "id": "ms",
         "name": "Mapbox Streets",
-        "style": "mapbox://styles/mapbox/streets-v11?optimize=true"
+        "style": "mapbox://styles/domeq/clavika9a00gm14o31qe4jhx2?optimize=true"
     },
     "mo": {
         "id": "mo",
         "name": "Mapbox Outdoors",
-        "style": "mapbox://styles/mapbox/outdoors-v11?optimize=true"
-    },
-    "ml": {
-        "id": "ml",
-        "name": "Mapbox Light",
-        "style": "mapbox://styles/mapbox/light-v10?optimize=true"
-    },
-    "md": {
-        "id": "md",
-        "name": "Mapbox Dark",
-        "style": "mapbox://styles/mapbox/dark-v10?optimize=true"
-    },
-    "msa": {
-        "id": "msa",
-        "name": "Mapbox Satellite",
-        "style": "mapbox://styles/mapbox/satellite-v9?optimize=true"
+        "style": "mapbox://styles/domeq/claviohw200c814ohxc40v2jb?optimize=true"
     },
     "mss": {
         "id": "mss",
-        "name": "Mapbox Satellite Streets",
-        "style": "mapbox://styles/mapbox/satellite-streets-v11?optimize=true"
-    },
-    "mnd": {
-        "id": "mnd",
-        "name": "Mapbox Navigation Day",
-        "style": "mapbox://styles/mapbox/navigation-day-v1?optimize=true"
-    },
-    "mnn": {
-        "id": "mnn",
-        "name": "Mapbox Navigation Night",
-        "style": "mapbox://styles/mapbox/navigation-night-v1?optimize=true"
+        "name": "Mapbox Satellite",
+        "style": "mapbox://styles/domeq/claviqhgr007z15o23qlr0qt1?optimize=true"
     },
     "osm": {
         "name": "OpenStreetMap (beta)",

@@ -34,7 +34,7 @@ export default ({ city }: { city: City }) => {
         <h1 style={{ fontWeight: "normal" }}>Rozkład brygady <b>{line}</b>/{brigade}</h1>
 
         {schedule ? (schedule.length ? <List>
-            {schedule.map<React.ReactNode>(sched => <ListItemButton key={sched.trip} component={Link} to={`../trip?trip=${sched.trip}`}>
+            {schedule.map<React.ReactNode>(sched => <ListItemButton key={sched.trip} component={Link} to={`../trip?trip=${sched.trip}&back=true`}>
                 <ListItemText primary={<Typography noWrap>{sched.headsign}</Typography>} secondary={<>z przystanku {sched.firstStop}</>} />
                 <span style={{ textAlign: "right" }}>
                     <ListItemText

@@ -50,25 +50,17 @@ export default ({ city, stop, vehicles }: { city: City, stop: Stop, vehicles: Ve
             open
             snapPoints={({ maxHeight }) => [maxHeight / 3]}
             onDismiss={() => navigate(".", { replace: true })}
-            style={{ zIndex: 100, position: "absolute" }}
+            style={{ zIndex: 500, position: "absolute" }}
             blocking={false}
             skipInitialTransition
-            header={<>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                    <IconButton onClick={() => navigate(".", { replace: true })} style={{ height: 40 }}><Close /></IconButton>
-
-                    <div style={{ display: "inline-flex", cursor: "pointer" }} onClick={() => {
-                        map?.flyTo({
-                            center: [stop.location[1], stop.location[0]],
-                            zoom: 17
-                        });
-                    }}>
-                        {stop.type ? stop.type.map(type => <Icon type={type} key={type} style={{ color: Color(type, city) }} />) : <DirectionsTransit sx={{ color: Color(3, city) }} />}&nbsp;{stopDepartures ? `${stopDepartures.name} ${stopDepartures.code || ""}` : <Skeleton variant="text" width={150} />}
-                    </div>
-
-                    <IconButton onClick={({ currentTarget }: { currentTarget: HTMLElement }) => setAnchorEl(anchorEl ? undefined : currentTarget)} style={{ height: 40 }}><MoreVert /></IconButton>
-                </div>
-            </>}
+            header={<div style={{ display: "inline-flex", cursor: "pointer" }} onClick={() => {
+                map?.flyTo({
+                    center: [stop.location[1], stop.location[0]],
+                    zoom: 17
+                });
+            }}>
+                {stop.type ? stop.type.map(type => <Icon type={type} key={type} style={{ color: Color(type, city) }} />) : <DirectionsTransit sx={{ color: Color(3, city) }} />}&nbsp;{stopDepartures ? `${stopDepartures.name} ${stopDepartures.code || ""}` : <Skeleton variant="text" width={150} />}
+            </div>}
         >
             {stopDepartures?.alert && <Alert severity={stopDepartures.alert.type} sx={{ cursor: stopDepartures.alert.link ? "pointer" : "" }} onClick={() => stopDepartures.alert?.link ? window.open(stopDepartures.alert!.link, "_blank") : null}>{stopDepartures.alert.text}</Alert>}
             <Departures departures={stopDepartures} city={city} onClick={(departure) => {

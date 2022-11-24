@@ -73,35 +73,26 @@ export default ({ city, vehicle, mapBearing }: { city: City, vehicle: Vehicle, m
         {(trip && !trip.error) && <Shapes trip={trip} type={vehicle.type} city={city} realTime={realTime} />}
         <BottomSheet
             open
-            snapPoints={({ maxHeight }) => [maxHeight / 3]}
+            snapPoints={({ maxHeight, headerHeight }) => [maxHeight / 3, maxHeight / 2, maxHeight - headerHeight]}
             onDismiss={() => navigate(".", { replace: true })}
-            style={{ zIndex: 100, position: "absolute" }}
+            style={{ zIndex: 500, position: "absolute" }}
             blocking={false}
             skipInitialTransition
-            header={<div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                <IconButton onClick={() => navigate(".", { replace: true })} style={{ height: 40 }}><Close /></IconButton>
+            header={<div style={{ cursor: "pointer" }} onClick={() => {
+                setFollow(true);
+                if (realTime) setScrollTo(realTime.snIndex ? realTime.snIndex - 1 : 0);
+            }}>
+                <VehicleHeadsign type={vehicle.type} city={city} route={vehicle.route} headsign={trip?.headsign || ""} />
 
-                <div style={{ cursor: "pointer" }} onClick={() => {
-                    setFollow(true);
-                    if (realTime) setScrollTo(realTime.snIndex ? realTime.snIndex - 1 : 0);
-                }}>
-                    <VehicleHeadsign type={vehicle.type} city={city} route={vehicle.route} headsign={trip?.headsign || ""} />
-
-                    {vehicle.trip && !trip?.error ? (realTime && trip) ? <span style={{ lineHeight: 1.4, fontSize: 15 }}><br />
-                        {trip.stops[0].departure > Date.now()
-                            ? <InlineB><Logout style={{ width: 18, height: 18 }} />&nbsp;Odjazd{!!Math.floor((trip.stops[0].departure - Date.now()) / 60000) && ` za ${Math.floor((trip.stops[0].departure - Date.now()) / 60000)} min`}</InlineB>
-                            : vehicle.isPredicted && vehicle.delay === undefined
-                                ? <InlineB><WifiOff style={{ width: 18, height: 18 }} />&nbsp;Brak informacji o opóźnieniu</InlineB>
-                                : Math.floor(realTime.delay / 60000) ? <InlineB style={{ color: realTime.delay > 0 ? darkMode ? "#F26663" : "red" : darkMode ? "#90EE90" : "green" }}><History style={{ width: 18, height: 18 }} />&nbsp;{Math.abs(Math.floor(realTime.delay / 60000))} min {realTime.delay > 0 ? "opóźnienia" : "przed czasem"}</InlineB> : <InlineB><Check style={{ width: 18, height: 18 }} />&nbsp;Planowo</InlineB>}
-                    </span> : <Skeleton variant="text" style={{ width: 139, height: 21 }} /> : null}
-                </div>
-
-                {trip || !vehicle.trip ? <IconButton onClick={({ currentTarget }: { currentTarget: HTMLElement }) => setAnchorEl(anchorEl ? undefined : currentTarget)} style={{ height: 40 }}>
-                    <Badge color="error" variant="dot" invisible={Date.now() - vehicle.lastPing < 300000}>
-                        <MoreVert />
-                    </Badge>
-                </IconButton> : <Skeleton variant="circular" width={40} height={40} />}
-            </div>}
+                {vehicle.trip && !trip?.error ? (realTime && trip) ? <span style={{ lineHeight: 1.4, fontSize: 15 }}><br />
+                    {trip.stops[0].departure > Date.now()
+                        ? <InlineB><Logout style={{ width: 18, height: 18 }} />&nbsp;Odjazd{!!Math.floor((trip.stops[0].departure - Date.now()) / 60000) && ` za ${Math.floor((trip.stops[0].departure - Date.now()) / 60000)} min`}</InlineB>
+                        : vehicle.isPredicted && vehicle.delay === undefined
+                            ? <InlineB><WifiOff style={{ width: 18, height: 18 }} />&nbsp;Brak informacji o opóźnieniu</InlineB>
+                            : Math.floor(realTime.delay / 60000) ? <InlineB style={{ color: realTime.delay > 0 ? darkMode ? "#F26663" : "red" : darkMode ? "#90EE90" : "green" }}><History style={{ width: 18, height: 18 }} />&nbsp;{Math.abs(Math.floor(realTime.delay / 60000))} min {realTime.delay > 0 ? "opóźnienia" : "przed czasem"}</InlineB> : <InlineB><Check style={{ width: 18, height: 18 }} />&nbsp;Planowo</InlineB>}
+                </span> : <Skeleton variant="text" style={{ width: 139, height: 21 }} /> : null}
+            </div>
+            }
         >
             {vehicle.trip && !trip?.error ? <>
                 {realTime && trip ? <List>
@@ -173,7 +164,13 @@ export default ({ city, vehicle, mapBearing }: { city: City, vehicle: Vehicle, m
                         <ListItemText
                             sx={{ opacity: realTime.snIndex > i ? 0.6 : 1 }}
                             primary={<Typography noWrap sx={{ fontWeight: i === 0 || i === trip.stops.length - 1 ? "bold" : "" }}>{stop.name}</Typography>}
-                            secondary={<><span style={{ textDecoration: Math.floor(realTime.delay / 60000) ? "line-through" : "" }}>{new Date(stop.departure).toLocaleTimeString("pl", { hour12: false, hour: "2-digit", minute: "2-digit" })}</span> {!!Math.floor(realTime.delay / 60000) && new Date(stop.departure + realTime.delay).toLocaleTimeString("pl", { hour12: false, hour: "2-digit", minute: "2-digit" })}{stop.platform && <> · Peron <b>{stop.platform}</b></>}</>}
+                            secondary={realTime.snIndex > i ? "Odjechał" : <>
+                                <span style={{ textDecoration: Math.floor(realTime.delay / 60000) ? "line-through" : "" }}>
+                                    {new Date(stop.departure).toLocaleTimeString("pl", { hour12: false, hour: "2-digit", minute: "2-digit" })}
+                                </span>
+                                {!!Math.floor(realTime.delay / 60000) && <>&nbsp;{new Date(stop.departure + realTime.delay).toLocaleTimeString("pl", { hour12: false, hour: "2-digit", minute: "2-digit" })}</>}
+                                {stop.platform && <> · Peron <b>{stop.platform}</b></>}
+                            </>}
                         />
                         {realTime.snIndex <= i && <ListItemText
                             sx={{ textAlign: "right" }}

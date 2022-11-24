@@ -1,8 +1,8 @@
-import { Suspense as SuSpense } from "react";
 import { Backdrop as BackDrop, CircularProgress } from "@mui/material";
+import { Suspense as SuSpense } from "react";
 const { version } = require("../../package.json");
 
-const Backdrop = () => <BackDrop sx={{ color: "#5aa159", zIndex: 100, flexDirection: "column" }} open>
+const Backdrop = () => <BackDrop sx={{ color: "#5aa159", zIndex: 10e10, flexDirection: "column" }} open>
   <CircularProgress color="inherit" />
   <h2 style={{ bottom: 25, position: "absolute" }}>{version}</h2>
 </BackDrop>;

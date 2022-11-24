@@ -29,7 +29,7 @@ export default ({ city, onClose }: { city: City, onClose: () => void }) => {
     return <BottomSheet
         open
         onDismiss={onClose}
-        style={{ zIndex: 1200, position: "absolute" }}
+        style={{ zIndex: 500, position: "absolute" }}
         skipInitialTransition
         snapPoints={({ maxHeight }) => [maxHeight / 2.2]}
         header={<div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
