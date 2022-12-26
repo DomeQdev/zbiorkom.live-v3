@@ -16,7 +16,7 @@
             "routes": "https://transitapi.me/warsaw/routes",
             "brigades": "https://transitapi.me/warsaw/brigades?route={{line}}",
             "brigade": "https://transitapi.me/warsaw/brigade?route={{line}}&brigade={{brigade}}",
-            "bikes": "/api/warsaw/bikes",
+            "bikes": null,
             "parkings": null,
             "alerts": "https://transitapi.me/warsaw/alerts",
             "alert": "https://transitapi.me/warsaw/alert?alert={{id}}",
@@ -47,8 +47,8 @@
             "routes": "https://transitapi.me/poznan/routes",
             "brigades": "https://transitapi.me/poznan/brigades?route={{line}}",
             "brigade": "https://transitapi.me/poznan/brigade?route={{line}}&brigade={{brigade}}",
-            "bikes": "/api/poznan/bikes",
-            "parkings": "/api/poznan/parkings",
+            "bikes": null,
+            "parkings": null,
             "alerts": null,
             "alert": null,
             "search": "https://transitapi.me/poznan/search?search={{search}}"
@@ -104,7 +104,7 @@
             "brigades": "https://transitapi.me/trojmiasto/brigades?route={{line}}",
             "brigade": "https://transitapi.me/trojmiasto/brigade?route={{line}}&brigade={{brigade}}",
             "bikes": null,
-            "parkings": "/api/trojmiasto/parkings",
+            "parkings": null,
             "alerts": null,
             "alert": null,
             "search": "https://transitapi.me/trojmiasto/search?search={{search}}"
@@ -194,6 +194,35 @@
             "alerts": "https://transitapi.me/rome/alerts",
             "alert": "https://transitapi.me/rome/alert?alert={{id}}",
             "search": "https://transitapi.me/rome/search?search={{search}}"
+        },
+        "colors": {
+            "0": "#0067b3",
+            "1": "#f36e21",
+            "3": "#106f47"
+        }
+    },
+    "wroclaw": {
+        "name": "Wrocław",
+        "id": "wroclaw",
+        "location": [
+            51.10718,
+            17.03341
+        ],
+        "api": {
+            "trip": "https://transitapi.me/wroclaw/trip?trip={{trip}}",
+            "vehicle": null,
+            "stops": "https://transitapi.me/wroclaw/stops",
+            "stopGroups": "https://transitapi.me/wroclaw/stopGroups",
+            "stopGroup": "https://transitapi.me/wroclaw/getStopGroup?name={{name}}",
+            "stop": "https://transitapi.me/wroclaw/stopDepartures?stop={{stop}}",
+            "routes": "https://transitapi.me/wroclaw/routes",
+            "brigades": "https://transitapi.me/wroclaw/brigades?route={{line}}",
+            "brigade": "https://transitapi.me/wroclaw/brigade?route={{line}}&brigade={{brigade}}",
+            "bikes": null,
+            "parkings": null,
+            "alerts": null,
+            "alert": null,
+            "search": "https://transitapi.me/wroclaw/search?search={{search}}"
         },
         "colors": {
             "0": "#0067b3",
