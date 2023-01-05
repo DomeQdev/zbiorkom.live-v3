@@ -229,5 +229,33 @@
             "1": "#f36e21",
             "3": "#106f47"
         }
+    },
+    "phoenix": {
+        "name": "Phoenix",
+        "id": "phoenix",
+        "location": [
+            33.44888,
+            -112.07393
+        ],
+        "api": {
+            "trip": "https://transitapi.me/phoenix/trip?trip={{trip}}",
+            "vehicle": null,
+            "stops": "https://transitapi.me/phoenix/stops",
+            "stopGroups": "https://transitapi.me/phoenix/stopGroups",
+            "stopGroup": "https://transitapi.me/phoenix/getStopGroup?name={{name}}",
+            "stop": "https://transitapi.me/phoenix/stopDepartures?stop={{stop}}",
+            "routes": "https://transitapi.me/phoenix/routes",
+            "brigades": null,
+            "brigade": null,
+            "bikes": null,
+            "parkings": null,
+            "alerts": "https://transitapi.me/phoenix/alerts",
+            "alert": "https://transitapi.me/phoenix/alert?alert={{id}}",
+            "search": "https://transitapi.me/phoenix/search?search={{search}}"
+        },
+        "colors": {
+            "0": "#eb2127",
+            "3": "#4c9c2e"
+        }
     }
 }
