@@ -34,3 +34,21 @@ a {
 .mapboxgl-ctrl-top-right {
   z-index: 99!important;
 }
+
+.slay {
+  background: linear-gradient(90deg, #2349f7, #ac3c9f);
+  background-size: 400% 400%;
+  animation: gradient 4s ease infinite;
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}

@@ -92,7 +92,13 @@ export default ({ city }: { city: City }) => {
         if (v) setVehicle(v);
         else {
             navigate(".", { replace: true });
-            toast.error(vehicle ? "Stracono połączenie z pojazdem." : "Nie znaleziono pojazdu.");
+            if (id === "chippendales") toast(<div style={{ textAlign: "center" }}>
+                <b>PartyBUS jeszcze nie kursuje!</b>
+                <p>Specjalny autobus kursuje tylko w godzinach <b>16:00 - 23:00</b>.</p>
+                <br />
+                <a target='_blank' style={{ color: "#5aa159", textDecoration: "underline" }} href="https://warszawawpigulce.pl/autobus-witamy-w-chippendales-juz-w-warszawie-nie-mozesz-tego-przegapic/">Przeczytaj więcej...</a>
+            </div>);
+            else toast.error(vehicle ? "Stracono połączenie z pojazdem." : "Nie znaleziono pojazdu.");
         }
     }, [veh, vehicles]);
 

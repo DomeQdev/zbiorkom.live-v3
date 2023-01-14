@@ -1,9 +1,10 @@
-import { ArrowUpward } from "@mui/icons-material";
+import { ArrowUpward, Celebration } from "@mui/icons-material";
 import { Marker } from "react-map-gl";
 import { Color, Icon } from "./Icons";
 import { Vehicle, City } from "../util/typings";
 import isDark from "../util/isDark";
 import styled from "@emotion/styled";
+import { Box } from "@mui/material";
 
 const darkMode = isDark();
 const VehicleMarker = styled.span((props: {
@@ -33,8 +34,22 @@ export default ({ vehicle, city, mapBearing, onClick }: { vehicle: Vehicle, city
         style={{ cursor: "pointer", display: "block", zIndex: 10 }}
         onClick={onClick}
     >
-        <VehicleMarker color={darkMode ? "white" : Color(vehicle.type, city)} backgroundColor={darkMode ? Color(vehicle.type, city) : "#fff"} opacity={vehicle.isPredicted ? 0.8 : 1}>
+        {vehicle.route === "chippendales" ? <Box className="slay" sx={{
+            boxShadow: "1px 2px 7px #8a8a8a",
+            position: "relative",
+            borderRadius: 15,
+            display: "flex",
+            outline: "none",
+            alignItems: "center",
+            padding: "0 6px",
+            color: "white",
+            fill: "#2349f7",
+            px: 1,
+            py: 0.4
+        }}>
+            {!!vehicle.bearing && <ArrowUpward style={{ width: 16, height: 16, transform: `rotate(${vehicle.bearing - mapBearing}deg)` }} />}<Celebration style={{ width: 17, height: 17 }} />&nbsp;<b style={{ fontWeight: 700, fontSize: 14 }}>Chippendales</b>
+        </Box> : <VehicleMarker color={darkMode ? "white" : Color(vehicle.type, city)} backgroundColor={darkMode ? Color(vehicle.type, city) : "#fff"} opacity={vehicle.isPredicted ? 0.8 : 1}>
             {!!vehicle.bearing && <ArrowUpward style={{ width: 14, height: 14, transform: `rotate(${vehicle.bearing - mapBearing}deg)` }} />}<Icon type={vehicle.type} style={{ width: 17, height: 17 }} />&nbsp;<b style={{ fontWeight: 700, fontSize: 14 }}>{vehicle.route}</b>{vehicle.brigade && <small>/{vehicle.brigade}</small>}
-        </VehicleMarker>
+        </VehicleMarker>}
     </Marker>;
 };

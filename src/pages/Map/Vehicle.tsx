@@ -1,5 +1,5 @@
 import { Divider, IconButton, Dialog, DialogTitle, DialogContent, List, ListItem, ListItemAvatar, ListItemText, Menu, MenuItem, Skeleton, Badge, ListItemButton, Avatar, Paper, Typography } from "@mui/material";
-import { Check, Close, Commit, DirectionsBus, GpsFixed, History, LocationDisabled, Logout, MoreVert, Route, WifiOff } from "@mui/icons-material";
+import { Celebration, Check, Close, Commit, DirectionsBus, GpsFixed, History, LocationDisabled, Logout, MoreVert, Route, WifiOff } from "@mui/icons-material";
 import { RealTime, RealTimeResponse } from "../../util/realtime";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Trip, City, Vehicle } from "../../util/typings";
@@ -88,11 +88,11 @@ export default ({ city, vehicle, mapBearing }: { city: City, vehicle: Vehicle, m
                     <VehicleHeadsign type={vehicle.type} city={city} route={vehicle.route} headsign={trip?.headsign || ""} />
 
                     {vehicle.trip && !trip?.error ? (realTime && trip) ? <span style={{ lineHeight: 1.4, fontSize: 15 }}><br />
-                        {trip.stops[0].departure > Date.now()
+                        {vehicle.route === "chippendales" ? <InlineB><Celebration style={{ width: 18, height: 18 }} />&nbsp;WITAMY W CHIPPENDALES!&nbsp;<a target='_blank' style={{ color: "#5aa159", textDecoration: "underline" }} href="https://warszawawpigulce.pl/autobus-witamy-w-chippendales-juz-w-warszawie-nie-mozesz-tego-przegapic/">Więcej...</a></InlineB> : <>{trip.stops[0].departure > Date.now()
                             ? <InlineB><Logout style={{ width: 18, height: 18 }} />&nbsp;Odjazd{!!Math.floor((trip.stops[0].departure - Date.now()) / 60000) && ` za ${Math.floor((trip.stops[0].departure - Date.now()) / 60000)} min`}</InlineB>
                             : vehicle.isPredicted && vehicle.delay === undefined
                                 ? <InlineB><WifiOff style={{ width: 18, height: 18 }} />&nbsp;Brak informacji o opóźnieniu</InlineB>
-                                : Math.floor(realTime.delay / 60000) ? <InlineB style={{ color: realTime.delay > 0 ? darkMode ? "#F26663" : "red" : darkMode ? "#90EE90" : "green" }}><History style={{ width: 18, height: 18 }} />&nbsp;{Math.abs(Math.floor(realTime.delay / 60000))} min {realTime.delay > 0 ? "opóźnienia" : "przed czasem"}</InlineB> : <InlineB><Check style={{ width: 18, height: 18 }} />&nbsp;Planowo</InlineB>}
+                                : Math.floor(realTime.delay / 60000) ? <InlineB style={{ color: realTime.delay > 0 ? darkMode ? "#F26663" : "red" : darkMode ? "#90EE90" : "green" }}><History style={{ width: 18, height: 18 }} />&nbsp;{Math.abs(Math.floor(realTime.delay / 60000))} min {realTime.delay > 0 ? "opóźnienia" : "przed czasem"}</InlineB> : <InlineB><Check style={{ width: 18, height: 18 }} />&nbsp;Planowo</InlineB>}</>}
                     </span> : <Skeleton variant="text" style={{ width: 139, height: 21 }} /> : null}
                 </div>
 
