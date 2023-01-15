@@ -128,7 +128,7 @@ export default ({ city }: { city: City }) => {
             component={Link}
             to={`?vehicle=3/chippendales`}
         >
-            Autobus CHIPPENDALES
+            Chippendales Bus
         </Button>}
 
         <ErrorBoundary>
