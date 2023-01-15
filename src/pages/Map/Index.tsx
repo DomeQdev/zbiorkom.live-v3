@@ -93,8 +93,8 @@ export default ({ city }: { city: City }) => {
         else {
             navigate(".", { replace: true });
             if (id === "chippendales") toast(<div style={{ textAlign: "center" }}>
-                <b>PartyBUS jeszcze nie kursuje!</b>
-                <p>Specjalny autobus kursuje tylko w godzinach <b>16:00 - 23:00</b>.</p>
+                <b>{new Date().getHours() < 16 && new Date().getHours() > 23 ? "PartyBUS jeszcze nie kursuje!" : "PartyBUS za chwilę wyjedzie na trasę..."}</b>
+                <p>{new Date().getHours() < 16 && new Date().getHours() > 23 ? <>Specjalny autobus kursuje tylko w godzinach <b>16:00 - 23:00</b></> : <>Autobus nie odjechał jeszcze z pierwszego przystanku.</>}</p>
                 <br />
                 <a target='_blank' style={{ color: "#5aa159", textDecoration: "underline" }} href="https://warszawawpigulce.pl/autobus-witamy-w-chippendales-juz-w-warszawie-nie-mozesz-tego-przegapic/">Przeczytaj więcej...</a>
             </div>);
