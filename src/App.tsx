@@ -114,23 +114,6 @@ export default ({ city }: { city: City }) => {
             ><ArrowBack /></Fab>
         </Zoom>
 
-        {(city === "warsaw" && fab.menu) && <Button
-            sx={{
-                position: "fixed",
-                zIndex: 9999,
-                top: 16,
-                left: "50%",
-                transform: "translateX(-50%)"
-            }}
-            className="slay"
-            variant="contained"
-            startIcon={<Celebration />}
-            component={Link}
-            to={`?vehicle=3/chippendales`}
-        >
-            Chippendales Bus
-        </Button>}
-
         <ErrorBoundary>
             <Routes>
                 <Route path="/" element={<Navigate replace to={`/${city}`} />} />
