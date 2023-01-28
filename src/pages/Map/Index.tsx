@@ -4,7 +4,7 @@ import { toast } from "react-hot-toast";
 import { useMap } from "react-map-gl";
 import { io } from "socket.io-client";
 import { Button } from "@mui/material";
-import { FilterList, PortableWifiOff, Search, Star } from "@mui/icons-material";
+import { Favorite, FilterList, PortableWifiOff, Search, Star } from "@mui/icons-material";
 import { bbox, featureCollection, point } from "@turf/turf";
 import { BikeStation, City, FilterData, Stop, Vehicle } from "../../util/typings";
 import { Backdrop, Suspense } from "../../components/Suspense";
@@ -127,8 +127,39 @@ export default ({ city }: { city: City }) => {
             toast.error("Nie znaleziono stacji.");
         }
     }, [bik, bikes]);
-    
+
     return <>
+        {city === "warsaw" && <Button
+            sx={{
+                position: "fixed",
+                zIndex: 9999,
+                top: 16,
+                left: "50%",
+                transform: "translateX(-50%)",
+                backgroundColor: "#df1811",
+                color: "white",
+                "&:hover": {
+                    backgroundColor: "#df1811",
+                }
+            }}
+            variant="contained"
+            startIcon={<Favorite />}
+            onClick={() => {
+                let routes = ["31A", "31B", "31T"];
+                let filtered = vehicles?.filter(vehicle => routes.includes(vehicle.route)) || [];
+                if (filtered.length) {
+                    let [minLng, minLat, maxLng, maxLat] = bbox(featureCollection(filtered.map(veh => point(veh.location))));
+                    map?.fitBounds([[minLat, minLng], [maxLat, maxLng]], { duration: 0 });
+                    setFilter({
+                        routes,
+                        types: [0, 3]
+                    });
+                    toast.success(`Znaleziono ${filtered.length} pojazdów.`);
+                } else toast.error("Nie mogłem znaleźć żadnych pojazdów dla WOŚP na mapie. Spróbuj ponownie później.");
+            }}
+        >
+            dla WOŚP
+        </Button>}
         {!vehicles && <Backdrop />}
         <Suspense>
             {(zoom >= 15 && !vehicle && !stop) && <>
