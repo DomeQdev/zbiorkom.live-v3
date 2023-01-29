@@ -129,7 +129,7 @@ export default ({ city }: { city: City }) => {
     }, [bik, bikes]);
 
     return <>
-        {city === "warsaw" && <Button
+        {/* {city === "warsaw" && <Button
             sx={{
                 position: "fixed",
                 zIndex: 9999,
@@ -159,7 +159,7 @@ export default ({ city }: { city: City }) => {
             }}
         >
             dla WOŚP
-        </Button>}
+        </Button>} */}
         {!vehicles && <Backdrop />}
         <Suspense>
             {(zoom >= 15 && !vehicle && !stop) && <>
