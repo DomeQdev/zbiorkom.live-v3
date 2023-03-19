@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Alert, IconButton, Skeleton } from "@mui/material";
-import { Close, DirectionsTransit, MoreVert } from "@mui/icons-material";
+import { Close, DirectionsTransit } from "@mui/icons-material";
 import { BottomSheet } from "react-spring-bottom-sheet";
 import { useMap } from "react-map-gl";
 import { City, Stop, StopDepartures, Vehicle } from "../../util/typings";
@@ -16,7 +16,6 @@ export default ({ city, stop, vehicles }: { city: City, stop: Stop, vehicles: Ve
     const { current: map } = useMap();
     const navigate = useNavigate();
     const [stopDepartures, setStopDepartures] = useState<StopDepartures>();
-    const [anchorEl, setAnchorEl] = useState<HTMLElement>();
 
     useEffect(() => {
         map?.flyTo({
@@ -66,7 +65,7 @@ export default ({ city, stop, vehicles }: { city: City, stop: Stop, vehicles: Ve
                         {stop.type ? stop.type.map(type => <Icon type={type} key={type} style={{ color: Color(type, city) }} />) : <DirectionsTransit sx={{ color: Color(3, city) }} />}&nbsp;{stopDepartures ? `${stopDepartures.name} ${stopDepartures.code || ""}` : <Skeleton variant="text" width={150} />}
                     </div>
 
-                    <IconButton onClick={({ currentTarget }: { currentTarget: HTMLElement }) => setAnchorEl(anchorEl ? undefined : currentTarget)} style={{ height: 40 }}><MoreVert /></IconButton>
+                    <IconButton style={{ height: 40, visibility: "hidden" }}><Close /></IconButton>
                 </div>
             </>}
         >

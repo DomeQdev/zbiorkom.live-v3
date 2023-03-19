@@ -45,12 +45,12 @@ export default ({ city }: { city: City }) => {
                     <ListItemText primary={t("Change language") as string} />
                     <NavigateNext />
                 </ListItemButton>
-                <Divider />
+                {/* <Divider />
                 <ListItemButton component={Link} to="markers">
                     <ListItemIcon><MinorCrash /></ListItemIcon>
                     <ListItemText primary={t("Customize vehicle markers") as string} />
                     <NavigateNext />
-                </ListItemButton>
+                </ListItemButton> */}
             </List>
             <h2 style={{ fontWeight: "normal", textAlign: "center" }}>{t("City settings") as string}</h2>
             <List sx={{ width: "90%", mx: "auto" }}>
@@ -59,12 +59,12 @@ export default ({ city }: { city: City }) => {
                     <ListItemText primary={t("Change city") as string} />
                     <NavigateNext />
                 </ListItemButton>
-                <Divider />
+                {/* <Divider />
                 <ListItemButton component={Link} to="favorite">
                     <ListItemIcon><Star /></ListItemIcon>
                     <ListItemText primary={t("Favorite routes") as string} />
                     <NavigateNext />
-                </ListItemButton>
+                </ListItemButton> */}
             </List>
         </>} />
     </Routes>;

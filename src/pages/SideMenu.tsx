@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import cities from "../util/cities.json";
 import { Link } from "react-router-dom";
 import { City } from "../util/typings";
+import isDark from "../util/isDark";
 
 export default ({ city, open, setOpen }: { city: City, open: boolean, setOpen: (open: boolean) => void }) => {
     const { t } = useTranslation();
@@ -22,7 +23,7 @@ export default ({ city, open, setOpen }: { city: City, open: boolean, setOpen: (
         }}
     >
         <Box sx={{ textAlign: "center", my: 2 }} component={Link} to="/city" onClick={() => setOpen(false)}>
-            <Typography variant="h5" sx={{ display: "inline-flex", alignItems: "center" }}>
+            <Typography variant="h5" sx={{ display: "inline-flex", alignItems: "center", color: isDark() ? "white" : "black" }}>
                 <DirectionsBus color="primary" fontSize="large" />&nbsp;zbiorkom.live
             </Typography>
             <br />
@@ -57,7 +58,7 @@ export default ({ city, open, setOpen }: { city: City, open: boolean, setOpen: (
                     <ListItemText primary={t("Brigade schedule") as string} />
                 </ListItemButton>
             </>}
-            {cityData?.api.bikes && <><Divider />
+            {/* {cityData?.api.bikes && <><Divider />
                 <ListItemButton component={Link} to={`/${city}/bikes`} onClick={() => setOpen(false)}>
                     <ListItemAvatar>
                         <Avatar>
@@ -86,7 +87,7 @@ export default ({ city, open, setOpen }: { city: City, open: boolean, setOpen: (
                     </ListItemAvatar>
                     <ListItemText primary={t("Issues") as string} />
                 </ListItemButton>
-            </>}
+            </>} */}
             <Divider />
             <ListItemButton component={Link} to={`/${city}/settings`} onClick={() => setOpen(false)}>
                 <ListItemAvatar>
@@ -98,7 +99,7 @@ export default ({ city, open, setOpen }: { city: City, open: boolean, setOpen: (
             </ListItemButton>
             <ListItem>
                 <ListItemText
-                    secondary={<>Made with ❤️ by DomeQ<br />&copy; zbiorkom.live 2020 - 2022</>}
+                    secondary={<>Kontakt: admin@zbiorkom.live<br /><a href="https://discord.gg/QYRswCH6Gw" target="_blank">Dołącz do serwera Discord</a></>}
                 />
             </ListItem>
         </List>

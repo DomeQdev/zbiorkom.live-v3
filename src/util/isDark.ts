@@ -1,1 +1,2 @@
-export default () => localStorage.getItem("theme") ? localStorage.getItem("theme") === "dark" : window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+// export default () => localStorage.getItem("theme") ? localStorage.getItem("theme") === "dark" : window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+export default () => true;

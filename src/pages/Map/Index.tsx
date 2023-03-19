@@ -175,7 +175,7 @@ export default ({ city }: { city: City }) => {
             <div className="mapboxgl-ctrl mapboxgl-ctrl-group">
                 <button onClick={() => navigate(".", { state: "filter" })} style={{ backgroundColor: filterEnabled ? "#5aa159" : "white" }}><FilterList sx={{ fontSize: 19, marginTop: "3px" }} /></button>
                 <button onClick={() => navigate(".", { state: "search" })}><Search sx={{ fontSize: 19, marginTop: "3px" }} /></button>
-                <button disabled><Star sx={{ fontSize: 19, marginTop: "3px" }} /></button>
+                {/* <button disabled><Star sx={{ fontSize: 19, marginTop: "3px" }} /></button> */}
             </div>
         </div>
         {state === "filter" && <Suspense>

@@ -54,10 +54,10 @@ export default ({ city, filter, setFilter, onClose }: { city: City, filter: Filt
                 {searchResults.map(result => <ToggleButton
                     value={result.id}
                     key={result.id}
-                    selected={!filter.routes.length || filter.routes.includes(result.id)}
+                    selected={!filter.routes.length || filter.routes.includes(result.name)}
                     onClick={() => setFilter({
-                        routes: filter.routes.includes(result.id) ? filter.routes.filter(r => r !== result.id) : [...filter.routes, result.id],
-                        types: filter.routes.includes(result.id) ? [...new Set(filter.routes.filter(r => r !== result.id).map(r => searchResults.find(d => d.id === r)!.type))] : [...new Set([...filter.types, result.type])]
+                        routes: filter.routes.includes(result.name) ? filter.routes.filter(r => r !== result.name) : [...filter.routes, result.name],
+                        types: filter.routes.includes(result.name) ? [...new Set(filter.routes.filter(r => r !== result.name).map(r => searchResults.find(d => d.name === r)!.type))] : [...new Set([...filter.types, result.type])]
                     })}
                     sx={{
                         borderRadius: 15,
@@ -93,7 +93,7 @@ export default ({ city, filter, setFilter, onClose }: { city: City, filter: Filt
                 {routes.map(type => <div key={type.type}>
                     <ListItem
                         secondaryAction={<IconButton edge="end" onClick={() => setSelectedType(selectedType === type.type ? undefined : type.type)}>
-                            <Badge variant="dot" color="primary" invisible={!routes.find(r => r.type === type.type)?.routes.find(r => filter.routes.includes(r.id))}>
+                            <Badge variant="dot" color="primary" invisible={!routes.find(r => r.type === type.type)?.routes.find(r => filter.routes.includes(r.name))}>
                                 {selectedType === type.type ? <ArrowDropUp /> : <ArrowDropDown />}
                             </Badge>
                         </IconButton>}
@@ -114,10 +114,10 @@ export default ({ city, filter, setFilter, onClose }: { city: City, filter: Filt
                                     }
                                 }}
                                 onClick={() => setFilter(filter.types?.includes(type.type) ? {
-                                    routes: [...new Set(filter.routes.filter(r => searchResults?.find(d => d.id === r)!.type !== type.type))],
+                                    routes: [...new Set(filter.routes.filter(r => searchResults?.find(d => d.name === r)!.type !== type.type))],
                                     types: filter.types.filter(t => t !== type.type)
                                 } : {
-                                    routes: [...new Set(filter.routes.filter(r => searchResults?.find(d => d.id === r)!.type !== type.type))],
+                                    routes: [...new Set(filter.routes.filter(r => searchResults?.find(d => d.name === r)!.type !== type.type))],
                                     types: [...filter.types, type.type]
                                 })}
                             ><Icon type={type.type} /></ToggleButton>
@@ -134,10 +134,10 @@ export default ({ city, filter, setFilter, onClose }: { city: City, filter: Filt
                                 {type.routes.map(result => <ToggleButton
                                     value={result.id}
                                     key={result.id}
-                                    selected={!filter.routes.length || filter.routes.includes(result.id)}
+                                    selected={!filter.routes.length || filter.routes.includes(result.name)}
                                     onClick={() => setFilter({
-                                        routes: filter.routes.includes(result.id) ? filter.routes.filter(r => r !== result.id) : [...filter.routes, result.id],
-                                        types: filter.routes.includes(result.id) ? [...new Set(filter.routes.filter(r => r !== result.id).map(r => type.type))] : [...new Set([...filter.types, type.type])]
+                                        routes: filter.routes.includes(result.name) ? filter.routes.filter(r => r !== result.name) : [...filter.routes, result.name],
+                                        types: filter.routes.includes(result.name) ? [...new Set(filter.routes.filter(r => r !== result.name).map(r => type.type))] : [...new Set([...filter.types, type.type])]
                                     })}
                                     sx={{
                                         borderRadius: 15,
@@ -170,10 +170,10 @@ export default ({ city, filter, setFilter, onClose }: { city: City, filter: Filt
                         </ListItem>
                     </Collapse>
                 </div>)}
-                <ListItemButton disabled>
+                {/* <ListItemButton disabled>
                     <ListItemText primary="Filtrowanie po modelu pojazdu" />
                     <NavigateNext />
-                </ListItemButton>
+                </ListItemButton> */}
             </List>}
         </> : <>
             <Skeleton variant="rectangular" height={40} sx={{ width: "96%", mx: "2%", marginTop: 1.2, borderRadius: 1 }} />

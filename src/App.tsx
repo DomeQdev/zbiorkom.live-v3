@@ -131,10 +131,10 @@ export default ({ city }: { city: City }) => {
                     </>}
                     {cityData.api.bikes && <Route path="bikes" element={<DocumentMeta title={`${cityData.name} Stacje rowerów miejskich - zbiorkom.live`} description={`Zobacz liczbę rowerów i wolnych stojaków na stacjach rowerowych w mieście ${cityData.name}!`}><Suspense><Bikes city={city} location={userLocation} /></Suspense></DocumentMeta>} />}
                     {cityData.api.parkings && <Route path="parkings" element={<DocumentMeta title={`${cityData.name} Parkingi - zbiorkom.live`} description={`Zobacz wolne miejsca parkingowe w mieście ${cityData.name}!`}></DocumentMeta>} />}
-                    {cityData.api.alerts && <>
+                    {/* {cityData.api.alerts && <>
                         <Route path="alerts" element={<DocumentMeta title={`${cityData.name} Komunikaty - zbiorkom.live`} description={`Zobacz komunikaty i utrudnienia w komunikacji w mieście ${cityData.name}!`}><Suspense><Alerts city={city} /></Suspense></DocumentMeta>} />
                         <Route path="alert" element={<Suspense><Alert city={city} /></Suspense>} />
-                    </>}
+                    </>} */}
                     <Route path="settings/*" element={<DocumentMeta title={`${cityData.name} Ustawienia - zbiorkom.live`}><Suspense><Settings city={city} /></Suspense></DocumentMeta>} />
                 </Route>
                 <Route path="*" element={<Suspense><Error text={"404"} message={"Nie znaleziono strony"} /></Suspense>} />

@@ -15,7 +15,7 @@ export default ({ departures, city, onClick }: { departures?: StopDepartures, ci
                     primary={<VehicleHeadsign type={departure.type} route={departure.route} headsign={departure.headsign} city={city} />}
                     secondary={<span style={{ display: "inline-flex", alignItems: "center" }}>
                         {Math.floor(departure.delay / 60000)
-                            ? <b style={{ color: darkMode ? "#F26663" : "red" }}>{Math.abs(Math.floor(departure.delay / 60000))} min {departure.delay > 0 ? "opóźnienia" : "przed czasem"}</b>
+                            ? <b style={{ color: departure.delay > 0 ? darkMode ? "#F26663" : "red" : darkMode ? "orange" : "#b06000" }}>{Math.abs(Math.floor(departure.delay / 60000))} min {departure.delay > 0 ? "opóźnienia" : "przed czasem"}</b>
                             : <b style={{ color: departure.status === "REALTIME" ? darkMode ? "#90EE90" : "green" : "" }}>{departure.status === "REALTIME" ? "Planowo" : "Według rozkładu"}</b>
                         }
                         &nbsp;·&nbsp;

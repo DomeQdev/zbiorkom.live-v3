@@ -57,7 +57,7 @@ export default ({ city, onClose }: { city: City, onClose: () => void }) => {
         />
         {search.trim().length >= 3 ? <>
             {searchResults ? <List sx={{ my: 0.5 }}>
-                {searchResults.length ? searchResults.map<React.ReactNode>(result => <ListItemButton key={result.id || result.name} component={Link} to={result.type === "stop" ? "#" : `?vehicle=${result.type}/${result.id}`} state={undefined}>
+                {searchResults.length ? searchResults.map<React.ReactNode>(result => <ListItemButton key={result.id || result.name} component={Link} to={result.type === "stop" ? `?stop=${result.id}` : `?vehicle=${result.type}/${result.id}`} state={undefined}>
                     <ListItemAvatar>
                         <Avatar sx={{ bgcolor: result.type === "stop" ? "primary" : Color(result.type, city) }}>
                             {result.type === "stop" ? <Hail /> : <Icon type={result.type} />}

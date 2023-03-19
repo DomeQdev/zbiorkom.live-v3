@@ -26,6 +26,7 @@ export default ({ city, vehicle, mapBearing }: { city: City, vehicle: Vehicle, m
     const [anchorEl, setAnchorEl] = useState<HTMLElement>();
     const [realTime, setRealTime] = useState<RealTimeResponse>();
     const [scrollTo, setScrollTo] = useState<number | null>(null);
+    const [vehicleData, setVehicleData] = useState<any>(); // slay types
     const color = Color(vehicle.type, city);
     const darkMode = isDark();
 
@@ -92,7 +93,7 @@ export default ({ city, vehicle, mapBearing }: { city: City, vehicle: Vehicle, m
                             ? <InlineB><Logout style={{ width: 18, height: 18 }} />&nbsp;Odjazd{!!Math.floor((trip.stops[0].departure - Date.now()) / 60000) && ` za ${Math.floor((trip.stops[0].departure - Date.now()) / 60000)} min`}</InlineB>
                             : vehicle.isPredicted && vehicle.delay === undefined
                                 ? <InlineB><WifiOff style={{ width: 18, height: 18 }} />&nbsp;Brak informacji o opóźnieniu</InlineB>
-                                : Math.floor(realTime.delay / 60000) ? <InlineB style={{ color: realTime.delay > 0 ? darkMode ? "#F26663" : "red" : darkMode ? "#90EE90" : "green" }}><History style={{ width: 18, height: 18 }} />&nbsp;{Math.abs(Math.floor(realTime.delay / 60000))} min {realTime.delay > 0 ? "opóźnienia" : "przed czasem"}</InlineB> : <InlineB><Check style={{ width: 18, height: 18 }} />&nbsp;Planowo</InlineB>}</>}
+                                : Math.floor(realTime.delay / 60000) ? <InlineB style={{ color: realTime.delay > 0 ? darkMode ? "#F26663" : "red" : darkMode ? "orange" : "#b06000" }}><History style={{ width: 18, height: 18 }} />&nbsp;{Math.abs(Math.floor(realTime.delay / 60000))} min {realTime.delay > 0 ? "opóźnienia" : "przed czasem"}</InlineB> : <InlineB style={{ color: darkMode ? "#90EE90" : "green" }}><Check style={{ width: 18, height: 18 }} />&nbsp;Planowo</InlineB>}</>}
                     </span> : <Skeleton variant="text" style={{ width: 139, height: 21 }} /> : null}
                 </div>
 
@@ -173,7 +174,7 @@ export default ({ city, vehicle, mapBearing }: { city: City, vehicle: Vehicle, m
                         <ListItemText
                             sx={{ opacity: realTime.snIndex > i ? 0.6 : 1 }}
                             primary={<Typography noWrap sx={{ fontWeight: i === 0 || i === trip.stops.length - 1 ? "bold" : "" }}>{stop.name}</Typography>}
-                            secondary={<><span style={{ textDecoration: Math.floor(realTime.delay / 60000) ? "line-through" : "" }}>{new Date(stop.departure).toLocaleTimeString("pl", { hour12: false, hour: "2-digit", minute: "2-digit" })}</span> {!!Math.floor(realTime.delay / 60000) && new Date(stop.departure + realTime.delay).toLocaleTimeString("pl", { hour12: false, hour: "2-digit", minute: "2-digit" })}{stop.platform && <> · Peron <b>{stop.platform}</b></>}</>}
+                            secondary={realTime.snIndex > i ? "Odjechał" : <><span style={{ textDecoration: Math.floor(realTime.delay / 60000) ? "line-through" : "" }}>{new Date(stop.departure).toLocaleTimeString("pl", { hour12: false, hour: "2-digit", minute: "2-digit" })}</span> {!!Math.floor(realTime.delay / 60000) && new Date(stop.departure + realTime.delay).toLocaleTimeString("pl", { hour12: false, hour: "2-digit", minute: "2-digit" })}{stop.platform && <> · Peron <b>{stop.platform}</b></>}</>}
                         />
                         {realTime.snIndex <= i && <ListItemText
                             sx={{ textAlign: "right" }}
@@ -203,10 +204,14 @@ export default ({ city, vehicle, mapBearing }: { city: City, vehicle: Vehicle, m
             fullWidth
             scroll="paper"
         >
-            <DialogTitle style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}><span>Informacje o pojeździe</span><IconButton onClick={() => navigate(search, { state: "", replace: true })}><Close /></IconButton></DialogTitle>
+            <DialogTitle style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}><span>{vehicleData?.model || "Informacje o pojeździe"}</span><IconButton onClick={() => navigate(search, { state: "", replace: true })}><Close /></IconButton></DialogTitle>
             <DialogContent dividers>
-                Numer pojazdu: {vehicle.id}
-
+                Numer taborowy: <b>{vehicle.id}</b><br />
+                {vehicleData?.prodYear && <>Rok produkcji: <b>{vehicleData.prodYear}</b><br /></>}
+                {vehicleData?.carrier && <>Przewoźnik: <b>{vehicleData.carrier}</b><br /></>}
+                {vehicleData?.depot && <>Zajezdnia: <b>{vehicleData.depot}</b><br /></>}
+                {vehicleData?.registration && <>Rejestracja: <b>{vehicleData.registration}</b><br /></>}
+                {vehicleData?.features?.length && <>{vehicleData.features.join(", ")}</>}
             </DialogContent>
         </Dialog>
         <Menu
@@ -226,6 +231,7 @@ export default ({ city, vehicle, mapBearing }: { city: City, vehicle: Vehicle, m
             {vehicle.brigade && <MenuItem onClick={() => {
                 setAnchorEl(undefined);
                 navigate(search, { state: "vehicle" });
+                if (!vehicleData) getData("vehicle", city, { type: vehicle.type, tab: vehicle.id }).then(setVehicleData).catch(() => null);
             }}><DirectionsBus style={{ width: 20, height: 20 }} color="primary" />&nbsp;Informacje o pojeździe</MenuItem>}
         </Menu>
     </>;
