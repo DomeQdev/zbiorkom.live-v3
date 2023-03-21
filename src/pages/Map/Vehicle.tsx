@@ -129,11 +129,9 @@ export default ({ city, vehicle, mapBearing }: { city: City, vehicle: Vehicle, m
                                     sx={{
                                         color: stop.on_request ? "white" : color,
                                         bgcolor: stop.on_request ? "white" : color,
-                                        outline: `1px solid ${color}`,
                                         width: i === 0 || i === trip.stops.length - 1 ? 20 : 13,
                                         height: i === 0 || i === trip.stops.length - 1 ? 20 : 13,
                                         border: `2.5px solid white`,
-                                        borderRadius: "50%",
                                         marginLeft: i === 0 || i === trip.stops.length - 1 ? 2.24 : 2.7,
                                         marginRight: "auto",
                                         zIndex: 100,
