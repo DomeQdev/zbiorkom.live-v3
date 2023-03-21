@@ -39,7 +39,7 @@
         ],
         "api": {
             "trip": "https://transitapi.me/poznan/trip?trip={{trip}}",
-            "vehicle": "https://transitapi.me/poznan/vehicle?vehicle={{tab}}",
+            "vehicle": "https://transitapi.me/poznan/vehicle?vehicle={{type}}/{{tab}}",
             "stops": "https://transitapi.me/poznan/stops",
             "stopGroups": "https://transitapi.me/poznan/stopGroups",
             "stopGroup": "https://transitapi.me/poznan/getStopGroup?name={{name}}",
@@ -67,7 +67,7 @@
         ],
         "api": {
             "trip": "https://transitapi.me/szczecin/trip?trip={{trip}}",
-            "vehicle": null,
+            "vehicle": "https://transitapi.me/szczecin/vehicle?vehicle={{type}}/{{tab}}",
             "stops": "https://transitapi.me/szczecin/stops",
             "stopGroups": "https://transitapi.me/szczecin/stopGroups",
             "stopGroup": "https://transitapi.me/szczecin/getStopGroup?name={{name}}",
@@ -95,7 +95,7 @@
         ],
         "api": {
             "trip": "https://transitapi.me/trojmiasto/trip?trip={{trip}}",
-            "vehicle": null,
+            "vehicle": "https://transitapi.me/trojmiasto/vehicle?vehicle={{type}}/{{tab}}",
             "stops": "https://transitapi.me/trojmiasto/stops",
             "stopGroups": "https://transitapi.me/trojmiasto/stopGroups",
             "stopGroup": "https://transitapi.me/trojmiasto/getStopGroup?name={{name}}",
@@ -210,7 +210,7 @@
         ],
         "api": {
             "trip": "https://transitapi.me/wroclaw/trip?trip={{trip}}",
-            "vehicle": null,
+            "vehicle": "https://transitapi.me/wroclaw/vehicle?vehicle={{type}}/{{tab}}",
             "stops": "https://transitapi.me/wroclaw/stops",
             "stopGroups": "https://transitapi.me/wroclaw/stopGroups",
             "stopGroup": "https://transitapi.me/wroclaw/getStopGroup?name={{name}}",

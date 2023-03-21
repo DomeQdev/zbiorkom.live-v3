@@ -201,18 +201,18 @@ export default ({ city, vehicle, mapBearing }: { city: City, vehicle: Vehicle, m
         </BottomSheet>
         <Dialog
             open={state === "vehicle"}
-            onClose={() => navigate(search, { state: "", replace: true })}
+            onClose={() => window.history.back()}
             fullWidth
             scroll="paper"
         >
-            <DialogTitle style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}><span>{vehicleData?.model || "Informacje o pojeździe"}</span><IconButton onClick={() => navigate(search, { state: "", replace: true })}><Close /></IconButton></DialogTitle>
+            <DialogTitle style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}><span>{vehicleData?.model || "Informacje o pojeździe"}</span><IconButton onClick={() => window.history.back()}><Close /></IconButton></DialogTitle>
             <DialogContent dividers>
                 Numer taborowy: <b>{vehicle.id}</b><br />
                 {vehicleData?.prodYear && <>Rok produkcji: <b>{vehicleData.prodYear}</b><br /></>}
                 {vehicleData?.carrier && <>Przewoźnik: <b>{vehicleData.carrier}</b><br /></>}
                 {vehicleData?.depot && <>Zajezdnia: <b>{vehicleData.depot}</b><br /></>}
                 {vehicleData?.registration && <>Rejestracja: <b>{vehicleData.registration}</b><br /></>}
-                {vehicleData?.features?.length && <>{vehicleData.features.join(", ")}</>}
+                {!!vehicleData?.features?.length && <>{vehicleData.features.join(", ")}</>}
             </DialogContent>
         </Dialog>
         <Menu
