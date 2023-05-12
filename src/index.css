@@ -1,54 +1,56 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 
 :root {
-  --rsbs-max-w: 700px;
-  --rsbs-mr: auto;
-  --rsbs-ml: auto;
+    --rsbs-max-w: 700px;
+    --rsbs-mr: auto;
+    --rsbs-ml: auto;
 }
 
 body {
-  margin: 0;
+    margin: 0;
 }
 
 button {
-  color: black;
+    color: black;
 }
 
 a {
-  text-decoration: none;
-  color: white;
+    text-decoration: none;
+    color: white;
 }
 
 * {
-  font-family: Roboto, "Helvetica Neue", sans-serif!important;
+    font-family: Roboto, "Helvetica Neue", sans-serif !important;
 }
 
 [data-rsbs-header] {
-  box-shadow: 0 1px 0 rgba(78, 78, 78, 0.4)!important;
+    box-shadow: 0 1px 0 rgba(78, 78, 78, 0.4) !important;
 }
 
 .mapboxgl-ctrl-bottom-left {
-  display: none!important;
+    display: none !important;
 }
 
 .mapboxgl-ctrl-top-right {
-  z-index: 99!important;
+    z-index: 99 !important;
 }
 
 .slay {
-  background: linear-gradient(90deg, #2349f7, #ac3c9f);
-  background-size: 400% 400%;
-  animation: gradient 4s ease infinite;
+    background: linear-gradient(90deg, #000a3b, #3A4A98);
+    background-size: 400% 400%;
+    animation: gradient 3s ease infinite;
 }
 
 @keyframes gradient {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
 }

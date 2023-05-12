@@ -20,7 +20,7 @@ const LineNumber = styled.b((props: {
 export default ({ type, route, headsign, city, iconSize, skeletonWidth }: { type?: VehicleType, route?: string, headsign?: string, city?: City, iconSize?: number, skeletonWidth?: number }) => {
     return <div style={{ display: "inline-flex", alignItems: "center" }}>
         {(type != null && route != null && headsign != null && city != null) ? <>
-            <LineNumber className={route === "chippendales" ? "slay" : ""} backgroundColor={Color(type, city)}>{route === "chippendales" ? <Celebration style={{ width: 18, height: 18 }} /> : <Icon type={type} style={{ width: iconSize || 18, height: iconSize || 18 }} />}&nbsp;{route === "chippendales" ? "Chippendales" : route}</LineNumber>{headsign && <>&nbsp;{headsign}</>}
+            <LineNumber className={["A", "R", "N", "M"].includes(route) ? "slay" : ""} backgroundColor={Color(type, city)}>{route === "chippendales" ? <Celebration style={{ width: 18, height: 18 }} /> : <Icon type={type} style={{ width: iconSize || 18, height: iconSize || 18 }} />}&nbsp;{route === "chippendales" ? "Chippendales" : route}</LineNumber>{headsign && <>&nbsp;{headsign}</>}
         </> : <>
             <Skeleton variant="rectangular" width={55} height={29} style={{ borderRadius: 15 }} />&nbsp;<Skeleton variant="text" width={skeletonWidth || 80} height={19} />
         </>}
