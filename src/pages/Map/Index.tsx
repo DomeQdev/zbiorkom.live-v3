@@ -43,7 +43,7 @@ export default ({ city }: { city: City }) => {
     const filteredVehicles = !vehicle && !stop && vehicles ? vehicles.filter(vehicle => (!filter.routes.length || filter.routes.includes(vehicle.route)) && (!filter.types.length || filter.types.includes(vehicle.type))).filter(veh => bounds?.contains({ lat: veh.location[0], lon: veh.location[1] })) : [];
 
     useEffect(() => {
-        const socket = io("https://transitapi.me/", {
+        const socket = io("https://v4-backend.zbiorkom.live/", {
             reconnection: true,
             reconnectionAttempts: 5,
             timeout: 15000,
@@ -72,7 +72,7 @@ export default ({ city }: { city: City }) => {
         socket.io.on("error", console.error);
 
         if (cityData.api.stops) getData("stops", city).then(setStops).catch(() => toast.error("Nie udało się pobrać przystanków."));
-        if (cityData.api.bikes) getData("bikes", city).then(setBikes).catch(() => toast.error("Nie udało się pobrać stacji rowerowych."));
+        // if (cityData.api.bikes) getData("bikes", city).then(setBikes).catch(() => toast.error("Nie udało się pobrać stacji rowerowych."));
 
         map?.on("moveend", () => setBounds(map.getBounds()));
         map?.on("zoomend", () => setZoom(map.getZoom()));
@@ -92,13 +92,14 @@ export default ({ city }: { city: City }) => {
         if (v) setVehicle(v);
         else {
             navigate(".", { replace: true });
-            if (id === "chippendales") toast(<div style={{ textAlign: "center" }}>
-                <b>{new Date().getHours() < 16 && new Date().getHours() > 23 ? "PartyBUS jeszcze nie kursuje!" : "PartyBUS za chwilę wyjedzie na trasę..."}</b>
-                <p>{new Date().getHours() < 16 && new Date().getHours() > 23 ? <>Specjalny autobus kursuje tylko w godzinach <b>16:00 - 23:00</b></> : <>Autobus nie odjechał jeszcze z pierwszego przystanku.</>}</p>
-                <br />
-                <a target='_blank' style={{ color: "#5aa159", textDecoration: "underline" }} href="https://warszawawpigulce.pl/autobus-witamy-w-chippendales-juz-w-warszawie-nie-mozesz-tego-przegapic/">Przeczytaj więcej...</a>
-            </div>);
-            else toast.error(vehicle ? "Stracono połączenie z pojazdem." : "Nie znaleziono pojazdu.");
+            // if (id === "chippendales") toast(<div style={{ textAlign: "center" }}>
+            //     <b>{new Date().getHours() < 16 && new Date().getHours() > 23 ? "PartyBUS jeszcze nie kursuje!" : "PartyBUS za chwilę wyjedzie na trasę..."}</b>
+            //     <p>{new Date().getHours() < 16 && new Date().getHours() > 23 ? <>Specjalny autobus kursuje tylko w godzinach <b>16:00 - 23:00</b></> : <>Autobus nie odjechał jeszcze z pierwszego przystanku.</>}</p>
+            //     <br />
+            //     <a target='_blank' style={{ color: "#5aa159", textDecoration: "underline" }} href="https://warszawawpigulce.pl/autobus-witamy-w-chippendales-juz-w-warszawie-nie-mozesz-tego-przegapic/">Przeczytaj więcej...</a>
+            // </div>);
+            // else 
+            toast.error(vehicle ? "Stracono połączenie z pojazdem." : "Nie znaleziono pojazdu.");
         }
     }, [veh, vehicles]);
 
@@ -114,22 +115,22 @@ export default ({ city }: { city: City }) => {
         }
     }, [st, stops]);
 
-    const bik = searchParams.get("bike");
-    useEffect(() => {
-        if (!bik || !bikes.length) return setBike(undefined);
-        let b = bikes.find(x => x[0] === bik);
+    // const bik = searchParams.get("bike");
+    // useEffect(() => {
+    //     if (!bik || !bikes.length) return setBike(undefined);
+    //     let b = bikes.find(x => x[0] === bik);
 
-        if (b) {
-            setBike(b);
-            map?.flyTo({ center: [b[2][1], b[2][0]], duration: 0 });
-        } else {
-            navigate(".", { replace: true });
-            toast.error("Nie znaleziono stacji.");
-        }
-    }, [bik, bikes]);
+    //     if (b) {
+    //         setBike(b);
+    //         map?.flyTo({ center: [b[2][1], b[2][0]], duration: 0 });
+    //     } else {
+    //         navigate(".", { replace: true });
+    //         toast.error("Nie znaleziono stacji.");
+    //     }
+    // }, [bik, bikes]);
 
     return <>
-        {(city === "warsaw" && ((new Date().getDate() === 13 && new Date().getHours() > 15) || (new Date().getDate() === 14 && new Date().getHours() < 5))) && <Button
+        {/* {(city === "warsaw" && ((new Date().getDate() === 13 && new Date().getHours() > 15) || (new Date().getDate() === 14 && new Date().getHours() < 5))) && <Button
             sx={{
                 position: "fixed",
                 zIndex: 9999,
@@ -155,7 +156,7 @@ export default ({ city }: { city: City }) => {
             }}
         >
             Noc Muzeów
-        </Button>}
+        </Button>} */}
         {!vehicles && <Backdrop />}
         <Suspense>
             {(zoom >= 15 && !vehicle && !stop) && <>

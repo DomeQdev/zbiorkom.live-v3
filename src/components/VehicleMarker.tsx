@@ -34,7 +34,7 @@ export default ({ vehicle, city, mapBearing, onClick }: { vehicle: Vehicle, city
         style={{ cursor: "pointer", display: "block", zIndex: 10 }}
         onClick={onClick}
     >
-        {["A", "R", "N", "M"].includes(vehicle.route) ? <Box className="slay" sx={{
+        {/* {["A", "R", "N", "M"].includes(vehicle.route) ? <Box className="slay" sx={{
             position: "relative",
             borderRadius: 15,
             display: "flex",
@@ -46,8 +46,9 @@ export default ({ vehicle, city, mapBearing, onClick }: { vehicle: Vehicle, city
             py: 0.4
         }}>
             {!!vehicle.bearing && <ArrowUpward style={{ width: 16, height: 16, transform: `rotate(${vehicle.bearing - mapBearing}deg)` }} />}<Icon type={vehicle.type} style={{ width: 17, height: 17 }} />&nbsp;<b style={{ fontWeight: 700, fontSize: 14 }}>{vehicle.route}</b>{vehicle.brigade && <small>/{vehicle.brigade}</small>}
-        </Box> : <VehicleMarker color={darkMode ? "white" : Color(vehicle.type, city)} backgroundColor={darkMode ? Color(vehicle.type, city) : "#fff"} opacity={vehicle.isPredicted ? 0.8 : 1}>
+        </Box> :  */}
+        <VehicleMarker color={darkMode ? "white" : Color(vehicle.type, city)} backgroundColor={darkMode ? Color(vehicle.type, city) : "#fff"} opacity={vehicle.isPredicted ? 0.8 : 1}>
             {!!vehicle.bearing && <ArrowUpward style={{ width: 14, height: 14, transform: `rotate(${vehicle.bearing - mapBearing}deg)` }} />}<Icon type={vehicle.type} style={{ width: 17, height: 17 }} />&nbsp;<b style={{ fontWeight: 700, fontSize: 14 }}>{vehicle.route}</b>{vehicle.brigade && <small>/{vehicle.brigade}</small>}
-        </VehicleMarker>}
+        </VehicleMarker>
     </Marker>;
 };
