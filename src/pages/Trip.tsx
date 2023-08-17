@@ -24,8 +24,7 @@ export default ({ city }: { city: City }) => {
 
     return <Box sx={{ width: "90%", mx: "auto", textAlign: "center" }}>
         {tripData ? <>
-            <h2><VehicleHeadsign type={tripData.type || 11} route={tripData.route || "🚎"} headsign={tripData.headsign} city={city} iconSize={25} /></h2>
-            <Button variant="contained" endIcon={<Map />} sx={{ marginLeft: 1 }} disabled>Pokaż na mapie</Button>
+            <h2><VehicleHeadsign type={tripData.type ?? 11} route={tripData.route || "🚎"} headsign={tripData.headsign} city={city} iconSize={25} /></h2>
             <List>
                 {tripData.stops.map<React.ReactNode>((stop, i) => <ListItemButton key={i} component={Link} to={`../stops/${stop.id}`}>
                     <ListItemText
