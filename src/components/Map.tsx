@@ -18,7 +18,8 @@ export default ({ city, location, style, children }: { city: City, location?: [n
             }}
             minZoom={2}
             maxPitch={0}
-            mapStyle={mapStyles[mapStyle]?.style as string | Style || mapStyles["ms"].style}
+            //@ts-ignore
+            mapStyle={mapStyles[mapStyle]?.style || mapStyles["ms"].style}
             mapboxAccessToken="pk.eyJ1IjoiZG9tZXEiLCJhIjoiY2t6c2JnZnp5MDExMzJ4bWlpMjcwaDR0dCJ9.v2ONdyf7WN70xFwUOyUuXQ"
             style={style}
             reuseMaps
