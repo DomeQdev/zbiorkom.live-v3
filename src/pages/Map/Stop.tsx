@@ -47,7 +47,7 @@ export default ({ city, stop, vehicles }: { city: City, stop: Stop, vehicles: Ve
         {vehicles.filter(v => stopDepartures?.departures.some(d => d.trip && d.trip === v.trip)).map(v => <VehicleMarker key={v.trip} vehicle={v} city={city} mapBearing={map?.getBearing() || 0} onClick={() => navigate(`?vehicle=${v.type}/${v.id}`)} />)}
         <BottomSheet
             open
-            snapPoints={({ maxHeight }) => [maxHeight / 3]}
+            snapPoints={({ maxHeight }) => [maxHeight / 3, maxHeight / 2]}
             onDismiss={() => navigate(".", { replace: true })}
             style={{ zIndex: 100, position: "absolute" }}
             blocking={false}
