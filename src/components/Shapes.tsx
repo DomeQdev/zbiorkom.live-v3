@@ -63,7 +63,6 @@ export default ({ trip, type, city, realTime }: { trip: Trip, type: VehicleType,
             latitude={stopPopup.location[0]}
             longitude={stopPopup.location[1]}
             onClose={() => setStopPopup(undefined)}
-            offset={[1, 8]}
             style={{ textAlign: "center", color: "black", zIndex: 10 }}
             closeButton={false}
         >
