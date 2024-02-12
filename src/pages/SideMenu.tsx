@@ -58,7 +58,7 @@ export default ({ city, open, setOpen }: { city: City, open: boolean, setOpen: (
                     <ListItemText primary={t("Brigade schedule") as string} />
                 </ListItemButton>
             </>}
-            {/* {cityData?.api.bikes && <><Divider />
+            {cityData?.api.bikes && <><Divider />
                 <ListItemButton component={Link} to={`/${city}/bikes`} onClick={() => setOpen(false)}>
                     <ListItemAvatar>
                         <Avatar>
@@ -87,7 +87,7 @@ export default ({ city, open, setOpen }: { city: City, open: boolean, setOpen: (
                     </ListItemAvatar>
                     <ListItemText primary={t("Issues") as string} />
                 </ListItemButton>
-            </>} */}
+            </>}
             <Divider />
             <ListItemButton component={Link} to={`/${city}/settings`} onClick={() => setOpen(false)}>
                 <ListItemAvatar>
