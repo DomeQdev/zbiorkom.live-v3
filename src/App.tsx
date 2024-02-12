@@ -256,10 +256,10 @@ export default ({ city }: { city: City }) => {
                                 }
                             />
                         )}
-                        {/* {cityData.api.alerts && <>
+                        {cityData.api.alerts && <>
                         <Route path="alerts" element={<DocumentMeta title={`${cityData.name} Komunikaty - zbiorkom.live`} description={`Zobacz komunikaty i utrudnienia w komunikacji w mieście ${cityData.name}!`}><Suspense><Alerts city={city} /></Suspense></DocumentMeta>} />
                         <Route path="alert" element={<Suspense><Alert city={city} /></Suspense>} />
-                    </>} */}
+                    </>}
                         <Route
                             path="settings/*"
                             element={
